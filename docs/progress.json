@@ -3,7 +3,7 @@
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
   "current_phase": "02",
-  "next_task": "P02-T01",
+  "next_task": "P02-checkpoint",
   "application_started": true,
   "phases": [
     {
@@ -99,43 +99,51 @@
     {
       "id": "02",
       "name": "Exact financial domain and golden cases",
-      "status": "not_started",
+      "status": "in_progress",
       "depends_on": [
         "01"
       ],
       "tasks": [
         {
           "id": "P02-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-02/P02-T01-money-domain.json"
+          ],
+          "notes": "Money primitive with integer paisa and strict BDT currency validation."
         },
         {
           "id": "P02-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-02/P02-T02-ledger-posting.json"
+          ],
+          "notes": "Posting engine, balanced journal entries, capacity allocation, stale version checks."
         },
         {
           "id": "P02-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-02/P02-T03-reconciliation-services.json"
+          ],
+          "notes": "Pure deterministic reconciliation engine covering 4 hypotheses and credit reuse prevention."
         },
         {
           "id": "P02-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-02/P02-T04-golden-cases.json"
+          ],
+          "notes": "All 34 golden contract tests and invariants passing under pnpm test:domain."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
-        "receipt_path": null
+        "receipt_path": "docs/evidence/phase-02/git-checkpoint.json"
       }
     },
     {

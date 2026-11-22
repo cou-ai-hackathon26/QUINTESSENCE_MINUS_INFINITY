@@ -1,0 +1,20 @@
+{
+  "phase_id": "02",
+  "check_id": "phase-02-offline-verification",
+  "status": "passed",
+  "command": "pnpm verify:offline",
+  "working_directory": "E:/mu idea/Shongoti",
+  "ran_at_utc": "2026-11-22T18:50:00Z",
+  "code_revision": "1059d2255a0acb71bcb28adee4a943769d213507",
+  "working_tree_description": "Phase 02 domain implementation complete",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "All Phase 02 acceptance criteria met: exact money, balanced postings, 4 reconciliation hypotheses, liquidity channels, 7-day scenarios, and invariant rejection verified.",
+  "evidence_paths": [
+    "docs/evidence/phase-02/P02-T01-money-domain.json",
+    "docs/evidence/phase-02/P02-T02-ledger-posting.json",
+    "docs/evidence/phase-02/P02-T03-reconciliation-services.json",
+    "docs/evidence/phase-02/P02-T04-golden-cases.json"
+  ],
+  "blocked_reason": null
+}
