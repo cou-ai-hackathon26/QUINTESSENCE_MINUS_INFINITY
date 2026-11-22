@@ -14,7 +14,7 @@ Current state: **Phase 00, 01, 02, 03, 06, 07, 08, 09, 10 complete and verified.
 | 07 | Liquidity outlook and spending-impact scenarios | complete | Work verified; milestone `e4265e9`; see `evidence/phase-07/git-checkpoint.json` |
 | 08 | Action center, customer portal and one real connector | complete | Work verified; milestone `ba38e5f`; see `evidence/phase-08/git-checkpoint.json` |
 | 09 | Stock, supported forecasts and operating reports | complete | Work verified; milestone `332851e`; see `evidence/phase-09/git-checkpoint.json` |
-| 10 | Product UI, responsive/accessibility and failure states | complete | Work verified; milestone pending publication; see `evidence/phase-10/git-checkpoint.json` |
+| 10 | Product UI, responsive/accessibility and failure states | complete | Work verified; milestone `0548800`; see `evidence/phase-10/git-checkpoint.json` |
 | 11 | Evaluation, security and complete validation | not_started | Relevant earlier phases complete or explicitly blocked |
 | 12 | Deployment, release documentation and handover | not_started | Requires 11; actual hosting/access gates |
 
