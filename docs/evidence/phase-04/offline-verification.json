@@ -1,0 +1,20 @@
+{
+  "phase_id": "04",
+  "check_id": "phase-04-offline-verification",
+  "status": "passed",
+  "command": "pnpm verify:offline",
+  "working_directory": "E:/mu idea/Shongoti",
+  "ran_at_utc": "2026-11-22T19:26:00Z",
+  "code_revision": "f38612ed0bddb393e4c615a432275d904f79ba92",
+  "working_tree_description": "Phase 04 ingestion and review implementation",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Local intake/review, storage isolation, and claim corrections verified. Real AI inference task P04-T04 blocked on missing key.",
+  "evidence_paths": [
+    "docs/evidence/phase-04/P04-T01-storage-intake.json",
+    "docs/evidence/phase-04/P04-T02-claim-schemas.json",
+    "docs/evidence/phase-04/P04-T03-human-review-corrections.json",
+    "docs/evidence/phase-04/P04-T04-live-ai-boundary.json"
+  ],
+  "blocked_reason": "P04-T04 requires GEMINI_API_KEY per docs/INTEGRATIONS.md."
+}

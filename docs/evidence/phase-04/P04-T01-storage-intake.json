@@ -1,0 +1,18 @@
+{
+  "task_id": "P04-T01",
+  "check_id": "evidence-storage-and-intake",
+  "status": "passed",
+  "command": "node scripts/run-python.js -m pytest apps/api/tests/test_evidence_ingestion.py -k \"test_evidence_upload or test_evidence_file_size or test_path_traversal\" -v",
+  "working_directory": "E:/mu idea/Shongoti",
+  "ran_at_utc": "2026-11-22T19:26:00Z",
+  "code_revision": "f38612ed0bddb393e4c615a432275d904f79ba92",
+  "working_tree_description": "Tenant-isolated storage with SHA-256 calculation and 10MB limits",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Storage isolates files by tenant ID, validates size limits, calculates SHA-256, and extracts native PDF/text.",
+  "evidence_paths": [
+    "apps/api/app/ingestion/storage.py",
+    "apps/api/app/api/v1/evidence.py"
+  ],
+  "blocked_reason": null
+}

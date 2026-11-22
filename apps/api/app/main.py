@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse
 from app.core.config import settings
 from app.core.database import check_db_connection
 from app.api.v1.router import api_router
+from app.api.v1.evidence import evidence_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -25,6 +26,7 @@ app.add_middleware(
 )
 
 app.include_router(api_router)
+app.include_router(evidence_router)
 
 
 @app.get("/health", status_code=status.HTTP_200_OK, tags=["System"])

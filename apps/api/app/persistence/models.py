@@ -154,3 +154,41 @@ class AuditLogModel(Base):
     action = Column(String(64), nullable=False)
     details = Column(Text, nullable=False)
     created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
+class EvidenceModel(Base):
+    __tablename__ = "evidence"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    filename = Column(String(255), nullable=False)
+    mime_type = Column(String(128), nullable=False)
+    file_size_bytes = Column(Integer, nullable=False)
+    content_sha256 = Column(String(64), nullable=False)
+    storage_path = Column(String(512), nullable=False)
+    source_type = Column(String(32), nullable=False)  # "pdf", "image", "audio", "text"
+    status = Column(String(32), nullable=False, default="uploaded")  # "uploaded", "processing", "extracted", "failed", "reviewed"
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+    claims = relationship("ExtractedClaimModel", back_populates="evidence", cascade="all, delete-orphan")
+
+
+class ExtractedClaimModel(Base):
+    __tablename__ = "extracted_claims"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    evidence_id = Column(String(36), ForeignKey("evidence.id", ondelete="CASCADE"), nullable=False)
+    party_name = Column(String(255), nullable=True)
+    invoice_ref = Column(String(64), nullable=True)
+    amount_paisa = Column(Integer, nullable=True)
+    claim_date = Column(String(32), nullable=True)
+    payment_method = Column(String(64), nullable=True)
+    status = Column(String(32), nullable=False, default="proposed")  # "proposed", "corrected", "confirmed", "rejected"
+    raw_model_response = Column(Text, nullable=True)
+    is_reviewed = Column(Boolean, nullable=False, default=False)
+    corrected_amount_paisa = Column(Integer, nullable=True)
+    corrected_party_name = Column(String(255), nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+    evidence = relationship("EvidenceModel", back_populates="claims")

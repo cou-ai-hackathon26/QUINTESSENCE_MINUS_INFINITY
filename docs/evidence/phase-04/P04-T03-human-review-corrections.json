@@ -1,0 +1,17 @@
+{
+  "task_id": "P04-T03",
+  "check_id": "human-review-and-corrections",
+  "status": "passed",
+  "command": "node scripts/run-python.js -m pytest apps/api/tests/test_evidence_ingestion.py -k test_human_correction_and_review -v",
+  "working_directory": "E:/mu idea/Shongoti",
+  "ran_at_utc": "2026-11-22T19:26:00Z",
+  "code_revision": "f38612ed0bddb393e4c615a432275d904f79ba92",
+  "working_tree_description": "Evidence inspection and claim correction endpoints",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Evidence inspection and claim correction endpoints tested. Corrections persist and update claim to reviewed/corrected status.",
+  "evidence_paths": [
+    "apps/api/app/api/v1/evidence.py"
+  ],
+  "blocked_reason": null
+}

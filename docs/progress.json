@@ -2,8 +2,8 @@
   "schema_version": 2,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "04",
-  "next_task": "P04-T01",
+  "current_phase": "06",
+  "next_task": "P06-T01",
   "application_started": true,
   "phases": [
     {
@@ -200,43 +200,51 @@
     {
       "id": "04",
       "name": "Evidence ingestion and real AI boundary",
-      "status": "not_started",
+      "status": "blocked",
       "depends_on": [
         "03"
       ],
       "tasks": [
         {
           "id": "P04-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-04/P04-T01-storage-intake.json"
+          ],
+          "notes": "Tenant-isolated storage, SHA-256 calculation, and native PDF text extraction implemented."
         },
         {
           "id": "P04-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-04/P04-T02-claim-schemas.json"
+          ],
+          "notes": "Structured claim extraction schemas with explicit nulls for unknowns."
         },
         {
           "id": "P04-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-04/P04-T03-human-review-corrections.json"
+          ],
+          "notes": "Inspection and correction endpoints allow human edits to persist safely."
         },
         {
           "id": "P04-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "blocked",
+          "evidence": [
+            "docs/evidence/phase-04/P04-T04-live-ai-boundary.json"
+          ],
+          "notes": "Blocked: GEMINI_API_KEY environment variable required for real provider inference."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
-        "receipt_path": null
+        "receipt_path": "docs/evidence/phase-04/git-checkpoint.json"
       }
     },
     {
