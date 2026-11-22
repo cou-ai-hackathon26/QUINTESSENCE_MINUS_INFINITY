@@ -5,7 +5,7 @@
   "live_ai_verified": false,
   "real_integrations_verified": false,
   "browser_layout_verified": false,
-  "ran_at_utc": "2026-11-22T18:05:03.474976+00:00",
+  "ran_at_utc": "2026-11-22T18:06:07.729635+00:00",
   "command": "python tools/verify_handoff.py --write-report",
   "working_directory": "repository root",
   "mode": "offline",
@@ -173,6 +173,31 @@
       "check": "completed-task-evidence:P00-T03",
       "status": "passed",
       "detail": "docs/evidence/handoff-validation.json"
+    },
+    {
+      "check": "complete-phase-has-complete-tasks:00",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "complete-phase-published-checkpoint:00",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "complete-phase-checkpoint-receipt:00",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "receipt-matches-phase:00",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-is-local-ancestor:00",
+      "status": "passed",
+      "detail": ""
     },
     {
       "check": "phase-state:01",
@@ -705,6 +730,11 @@
       "detail": "docs/PROGRESS.md"
     },
     {
+      "check": "local-link:README.md",
+      "status": "passed",
+      "detail": "docs/GIT_CHECKPOINTS.md"
+    },
+    {
       "check": "markdown-code-fences:plan.md",
       "status": "passed",
       "detail": ""
@@ -1070,6 +1100,11 @@
       "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
     },
     {
+      "check": "credential-pattern-scan:docs/evidence/phase-00/git-checkpoint.json",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
       "check": "credential-pattern-scan:docs/evidence/README.md",
       "status": "passed",
       "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
@@ -1227,6 +1262,11 @@
       "sha256": "b18ebd2896591388222ea27631703c0ea708625c7045b14ca26b1267d8a81353"
     },
     {
+      "path": "docs/evidence/phase-00/git-checkpoint.json",
+      "bytes": 615,
+      "sha256": "774e625c23930431bb3f8bea60baa29e05e461cafbfeb591c37494799cba990a"
+    },
+    {
       "path": "docs/evidence/README.md",
       "bytes": 699,
       "sha256": "f9087062129f2e76e472f4f22859317381964512df1996e71c5800ef572700a9"
@@ -1248,13 +1288,13 @@
     },
     {
       "path": "docs/progress.json",
-      "bytes": 12993,
-      "sha256": "510e2ed85838d1c8e70508c6340a26556db7fa42cdc525f6fe989dafaba035be"
+      "bytes": 13049,
+      "sha256": "4d09f3b4e9ad46a2e612e9683caf284fc9e7535cd0b91e7aad9d185184ff4034"
     },
     {
       "path": "docs/PROGRESS.md",
-      "bytes": 3081,
-      "sha256": "3ee60140c92c77a420447e09d2a3aa1db2d30c6a5dc5d0710a602dbd6bd1ab40"
+      "bytes": 3403,
+      "sha256": "534067f536b24f63000ebdbf8215c4b688a0c8902bb3cb44773192dcb5d07311"
     },
     {
       "path": "docs/reference-ui/shongoti-product-preview.html",
@@ -1273,8 +1313,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 1142,
-      "sha256": "ea163cbfb334107fa386e7ef17d36edc779b3d799e4cc8fa7014f430730e6ff3"
+      "bytes": 1423,
+      "sha256": "9729b65af8272f2960d99bfae5f9e7f999f4c2327292ca3a3e7394a42d399f53"
     },
     {
       "path": "START_HERE.md",
@@ -1308,8 +1348,8 @@
     },
     {
       "path": "tools/verify_handoff.py",
-      "bytes": 12554,
-      "sha256": "dbbe89eae9be9cc37cc6ba53f31fbf002d4cfd4657f848c3731fd718bc68ed7a"
+      "bytes": 12568,
+      "sha256": "5a2ed0e560020110be3267c164797545f33855dd9a0a496e97eba6fe4aa9e739"
     }
   ]
 }

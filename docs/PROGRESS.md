@@ -1,10 +1,10 @@
 **Shongoti progress — evidence controls completion**
 
-Current state: **Phase 00 work is verified; its newly mandatory GitHub checkpoint is pending. Application implementation has not started.**
+Current state: **Phase 00 work and milestone publication are verified. Phase 01 is next; application implementation has not started.**
 
 | Phase | Name | State | Evidence / dependency |
 |---|---|---|---|
-| 00 | Repository and verified handoff | in_progress | Work verified; milestone and receipt publication pending |
+| 00 | Repository and verified handoff | complete | Work verified; milestone `6c6d389`; see `evidence/phase-00/git-checkpoint.json` |
 | 01 | Environment, contracts and executable skeleton | not_started | Inspect environment, choose maintained versions, establish commands |
 | 02 | Exact financial domain and golden cases | not_started | Requires 01 |
 | 03 | Database, authentication and tenant isolation | not_started | Requires 01 and 02 |
@@ -18,7 +18,7 @@ Current state: **Phase 00 work is verified; its newly mandatory GitHub checkpoin
 | 11 | Evaluation, security and complete validation | not_started | Relevant earlier phases complete or explicitly blocked |
 | 12 | Deployment, release documentation and handover | not_started | Requires 11; actual hosting/access gates |
 
-**Next action:** publish and verify the Phase 00 checkpoint under `GIT_CHECKPOINTS.md`. Then continue the next implementation task.
+**Next action:** audit the current repository and verify checkpoint receipt publication from Git, then continue P01-T01. Do not assume this snapshot remains current after development starts.
 
 **Next implementation task:** P01-T01 — inspect tools and repository; record versions and runtime constraints; create the application command/dependency contracts before feature implementation.
 
@@ -31,3 +31,5 @@ Current state: **Phase 00 work is verified; its newly mandatory GitHub checkpoin
 At each session end add: phase/task IDs, changed files, actual checks/evidence, unresolved blockers and the next exact task. Update `progress.json` at the same time. Completion must be tied to acceptance criteria, not hours spent or number of files.
 
 **Mandatory phase publication:** each phase requires verified work, a milestone commit pushed to origin, and a published checkpoint receipt. Routine phase pushes to this repository already have user authorization. On every start, audit source/tests/evidence and actual Git state before trusting this tracker.
+
+- Phase checkpoint policy update: mandatory tested commit/push and remote verification established. Phase 00 milestone `6c6d389` was pushed and its remote SHA was observed. Receipt publication is verified from actual branch state before handover.

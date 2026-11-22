@@ -2,7 +2,7 @@
 
 A Bangla-first merchant financial workspace: capture evidence, verify supplier obligations, manage daily money, test future spending consequences and complete reviewed actions.
 
-**Status:** project handoff prepared; application implementation has not started in this repository.
+**Status:** Phase 00 handoff verified and published; application implementation has not started. On resume, audit actual source/tests/Git and the progress tracker rather than assuming this status remains current.
 
 Start with [START_HERE.md](START_HERE.md), follow [AGENTS.md](AGENTS.md), and build from [plan.md](plan.md). Current progress is recorded in [docs/PROGRESS.md](docs/PROGRESS.md).
 
@@ -11,3 +11,5 @@ The reference UI uses synthetic data and local calculations. It does not provide
 Team: Quintessence Minus Infinity — Sakibul Hassan Shovon, Sabbir Ahmed, Sanjid Talukder.
 
 Remote: https://github.com/sakibul-shovon/Shongoti.git . The repository was observed private and empty when cloned on 22 November 2026. Public release, deploy links, setup commands, implemented features, exact models/providers, tool/asset credits and real test results must be documented as they are actually established.
+
+Each verified phase must be committed and pushed to GitHub under [docs/GIT_CHECKPOINTS.md](docs/GIT_CHECKPOINTS.md). The user has authorized these routine checkpoints.

@@ -1,0 +1,12 @@
+{
+  "phase_id": "00",
+  "status": "published",
+  "remote": "origin",
+  "remote_url": "https://github.com/sakibul-shovon/Shongoti.git",
+  "branch": "main",
+  "milestone_sha": "6c6d389d1f42641ce48ddc441a4c9a1c4e5ba2c3",
+  "verified_remote_tip_at_milestone": "6c6d389d1f42641ce48ddc441a4c9a1c4e5ba2c3",
+  "verified_at_utc": "2026-11-22T18:06:06.342738+00:00",
+  "verification_summary": "git push -u origin main succeeded; git ls-remote origin refs/heads/main returned the exact milestone SHA. The receipt commit publication is verified from final Git state after it is pushed.",
+  "application_tests_claimed": false
+}

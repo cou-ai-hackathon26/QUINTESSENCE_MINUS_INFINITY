@@ -173,7 +173,7 @@ passed = all(c["status"] == "passed" for c in checks)
 report = {"status": "passed" if passed else "failed", "scope": "handoff consistency and synthetic contract arithmetic only", "application_tests_run": False, "live_ai_verified": False, "real_integrations_verified": False, "browser_layout_verified": False, "ran_at_utc": datetime.now(timezone.utc).isoformat(), "command": "python tools/verify_handoff.py" + (" --write-report" if args.write_report else ""), "working_directory": "repository root", "mode": "offline", "exit_code": 0 if passed else 1, "phase_count": len(tracker["phases"]), "task_count": len(tracked), "synthetic_case_count": len(all_case_ids), "checks": checks, "files": source_hashes}
 if args.write_report:
     REPORT.parent.mkdir(parents=True, exist_ok=True)
-    REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
 print(json.dumps({k: v for k, v in report.items() if k not in {"checks", "files"}}, ensure_ascii=False))
 for failure in (c for c in checks if c["status"] != "passed"):
     print(json.dumps(failure, ensure_ascii=False))
