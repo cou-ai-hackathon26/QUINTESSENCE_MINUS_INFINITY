@@ -2,8 +2,8 @@
   "schema_version": 2,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "07",
-  "next_task": "P07-T01",
+  "current_phase": "08",
+  "next_task": "P08-T01",
   "application_started": true,
   "phases": [
     {
@@ -345,7 +345,7 @@
     {
       "id": "07",
       "name": "Liquidity outlook and spending-impact scenarios",
-      "status": "in_progress",
+      "status": "complete",
       "depends_on": [
         "05",
         "06"
@@ -386,10 +386,10 @@
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "pending",
+        "status": "published",
         "remote": "origin",
         "branch": "main",
-        "milestone_sha": null,
+        "milestone_sha": "e4265e963bc3428d720532bc4711f0df908f517e",
         "receipt_path": "docs/evidence/phase-07/git-checkpoint.json"
       }
     },
