@@ -27,6 +27,7 @@ api_router = APIRouter(prefix="/api/v1")
 class LoginRequest(BaseModel):
     phone: str
     otp: str
+    role: Optional[str] = "owner"
 
 
 class AuthResponse(BaseModel):
@@ -63,11 +64,11 @@ def login(req: LoginRequest, db: Session = Depends(get_db)):
 
     user = db.query(UserModel).filter(UserModel.phone == req.phone).first()
     if not user:
-        # Create initial live tenant and owner
+        # Create initial live tenant and owner/user
         tenant = TenantModel(name=f"Shop {req.phone[-4:]}", currency="BDT", is_demo=False)
         db.add(tenant)
         db.flush()
-        user = UserModel(tenant_id=tenant.id, phone=req.phone, role="owner", is_active=True)
+        user = UserModel(tenant_id=tenant.id, phone=req.phone, role=req.role or "owner", is_active=True)
         db.add(user)
         db.commit()
     else:

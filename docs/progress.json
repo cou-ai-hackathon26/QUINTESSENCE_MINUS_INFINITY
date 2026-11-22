@@ -294,7 +294,7 @@
     {
       "id": "06",
       "name": "Connected daily merchant workflow",
-      "status": "not_started",
+      "status": "in_progress",
       "depends_on": [
         "02",
         "03"
@@ -302,36 +302,44 @@
       "tasks": [
         {
           "id": "P06-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-06/P06-T01-cash-close-snapshots.json"
+          ],
+          "notes": "Daily opening snapshots, cash close discrepancy, wallet transfer fees, operating expenses, owner equity withdrawals (with RBAC), and supplier payments."
         },
         {
           "id": "P06-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-06/P06-T02-sales-and-dues.json"
+          ],
+          "notes": "Cash, credit, and split sales atomically updating ledger and party due balances; old-debt collection without inflating sales revenue."
         },
         {
           "id": "P06-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-06/P06-T03-inventory-movements.json"
+          ],
+          "notes": "Product catalogue, stock movement recording on sales, and accepted D011 Weighted Average Costing (WAC)."
         },
         {
           "id": "P06-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-06/P06-T04-today-screen-integration.json"
+          ],
+          "notes": "Connected TodayDashboard to /api/v1/merchant/today ledger derivation with live BDT balance formatting, loading states, and fallback."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
-        "receipt_path": null
+        "receipt_path": "docs/evidence/phase-06/git-checkpoint.json"
       }
     },
     {

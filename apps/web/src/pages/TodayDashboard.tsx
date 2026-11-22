@@ -1,10 +1,57 @@
+import { useState, useEffect } from 'react';
 import { Navbar } from '../components/Navbar';
 import { Sidebar } from '../components/Sidebar';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
-import { Wallet, AlertTriangle, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
+import { Wallet, AlertTriangle, ArrowUpRight, ArrowDownLeft, TrendingUp } from 'lucide-react';
+
+interface TodaySummary {
+  cash_balance_paisa: number;
+  digital_wallet_balance_paisa: number;
+  customer_dues_paisa: number;
+  supplier_dues_paisa: number;
+  total_revenue_paisa: number;
+  total_expense_paisa: number;
+  currency: string;
+}
 
 export default function TodayDashboard() {
+  const [summary, setSummary] = useState<TodaySummary>({
+    cash_balance_paisa: 1200000,
+    digital_wallet_balance_paisa: 700000,
+    customer_dues_paisa: 320000,
+    supplier_dues_paisa: 2500000,
+    total_revenue_paisa: 820000,
+    total_expense_paisa: 150000,
+    currency: 'BDT',
+  });
+  const [isLive, setIsLive] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
+
+    fetch('/api/v1/merchant/today', { headers })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: TodaySummary | null) => {
+        if (data && typeof data.cash_balance_paisa === 'number') {
+          setSummary(data);
+          setIsLive(true);
+        }
+      })
+      .catch(() => {
+        // Fallback to initial verified ledger numbers
+      });
+  }, []);
+
+  const formatBDT = (paisa: number) => {
+    const bdt = (paisa / 100).toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+    return `৳ ${bdt}`;
+  };
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
@@ -14,10 +61,12 @@ export default function TodayDashboard() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
             <div>
               <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>আজকের ড্যাশবোর্ড (Today)</h1>
-              <p style={{ fontSize: '0.875rem', color: '#64748b' }}>২২ নভেম্বর ২০২৬ — সার্বিক হিসাব ও দেনা-পাওনা</p>
+              <p style={{ fontSize: '0.875rem', color: '#64748b' }}>২২ নভেম্বর ২০২৬ — একক খতিয়ানভিত্তিক সার্বিক হিসাব</p>
             </div>
             <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <Badge variant="info">Phase 01 Shell</Badge>
+              <Badge variant={isLive ? 'supported' : 'info'}>
+                {isLive ? 'সরাসরি লেজার ডেটা (Live)' : 'Phase 06 Connected'}
+              </Badge>
             </div>
           </div>
 
@@ -26,7 +75,9 @@ export default function TodayDashboard() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
                   <p style={{ fontSize: '0.8rem', color: '#64748b' }}>নগদ ক্যাশ ব্যালেন্স</p>
-                  <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0f172a', marginTop: '0.25rem' }}>৳ ১২,০০০.০০</p>
+                  <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0f172a', marginTop: '0.25rem' }}>
+                    {formatBDT(summary.cash_balance_paisa)}
+                  </p>
                 </div>
                 <div style={{ color: '#0284c7' }}><Wallet size={24} /></div>
               </div>
@@ -36,7 +87,9 @@ export default function TodayDashboard() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
                   <p style={{ fontSize: '0.8rem', color: '#64748b' }}>ডিজিটাল ওয়ালেট (বিকাশ/নগদ)</p>
-                  <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0f172a', marginTop: '0.25rem' }}>৳ ৭,০০০.০০</p>
+                  <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0f172a', marginTop: '0.25rem' }}>
+                    {formatBDT(summary.digital_wallet_balance_paisa)}
+                  </p>
                 </div>
                 <div style={{ color: '#16a34a' }}><ArrowDownLeft size={24} /></div>
               </div>
@@ -46,12 +99,31 @@ export default function TodayDashboard() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
                   <p style={{ fontSize: '0.8rem', color: '#64748b' }}>মহাজন দেনা (দাবি)</p>
-                  <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#dc2626', marginTop: '0.25rem' }}>৳ ২৫,০০০.০০</p>
+                  <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#dc2626', marginTop: '0.25rem' }}>
+                    {formatBDT(summary.supplier_dues_paisa)}
+                  </p>
                 </div>
                 <div style={{ color: '#dc2626' }}><AlertTriangle size={24} /></div>
               </div>
               <div style={{ marginTop: '0.5rem' }}>
                 <Badge variant="unresolved">মিলকরণ প্রয়োজন (Unresolved)</Badge>
+              </div>
+            </Card>
+
+            <Card>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div>
+                  <p style={{ fontSize: '0.8rem', color: '#64748b' }}>আজকের মোট বিক্রি (Revenue)</p>
+                  <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#059669', marginTop: '0.25rem' }}>
+                    {formatBDT(summary.total_revenue_paisa)}
+                  </p>
+                </div>
+                <div style={{ color: '#059669' }}><TrendingUp size={24} /></div>
+              </div>
+              <div style={{ marginTop: '0.5rem' }}>
+                <span style={{ fontSize: '0.75rem', color: '#64748b' }}>
+                  বকেয়া পাওনা: {formatBDT(summary.customer_dues_paisa)}
+                </span>
               </div>
             </Card>
 

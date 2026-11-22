@@ -14,7 +14,7 @@ Use `open`, `accepted`, `proposed`, `superseded` or `rejected`; include date, re
 | D008 | proposed | SSLCOMMERZ sandbox is the first real connector candidate; actual account/credentials not yet available. |
 | D009 | accepted | Do not build unrestricted WhatsApp debt-collection automation; provider eligibility governs communications. |
 | D010 | accepted | Session JWT with HMAC-SHA256, RBAC (Owner/Cashier/Accountant). Mock OTP fallback in local dev without configured sender; demo tenancy strictly isolated with is_demo flag. |
-| D011 | open | Initial inventory costing method and scope, to be explicit before publishing profit reports. |
+| D011 | accepted | Weighted Average Costing (WAC) from recorded purchase invoices. If purchase cost is missing, profit reports flag cost data as incomplete rather than assuming 0 cost. |
 | D012 | open | Hosting/storage choice, background job runtime and deployment secret management. |
 | D013 | open | Model/version, quotas, data treatment, per-case cost ceiling and task-quality gates after the first benchmark. |
 | D014 | open | Public repository/release timing: remote currently private; do not change visibility automatically. |

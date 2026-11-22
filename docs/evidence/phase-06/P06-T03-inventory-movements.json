@@ -1,0 +1,19 @@
+{
+  "task_id": "P06-T03",
+  "check_id": "stock-movements-and-wac",
+  "status": "passed",
+  "command": "node scripts/run-python.js -m pytest apps/api/tests/test_merchant_workflow.py -k \"test_product_stock_deduction_on_sale\" -v",
+  "working_directory": "E:\\mu idea\\Shongoti",
+  "ran_at_utc": "2026-11-22T19:57:46Z",
+  "code_revision": "aae4a3bbb7bcfc5a07dad23d785787ab54e9a511",
+  "working_tree_description": "Products catalog, stock movement recording, and D011 WAC decision.",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Verified product stock deduction upon sales transactions, stock movement journal tracking, and D011 acceptance in DECISIONS.md.",
+  "evidence_paths": [
+    "apps/api/app/domain/merchant.py",
+    "apps/api/app/persistence/models.py",
+    "docs/DECISIONS.md"
+  ],
+  "blocked_reason": null
+}

@@ -1,0 +1,37 @@
+{
+  "gate": "Phase 06 Offline Verification Gate",
+  "status": "passed",
+  "ran_at_utc": "2026-11-22T19:57:46Z",
+  "code_revision": "aae4a3bbb7bcfc5a07dad23d785787ab54e9a511",
+  "working_directory": "E:\\mu idea\\Shongoti",
+  "results": {
+    "typecheck": {
+      "command": "pnpm --filter @shongoti/web typecheck",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    "test:domain": {
+      "command": "node scripts/run-python.js -m pytest apps/api/tests/test_domain_contracts.py apps/api/tests/test_domain_golden.py -v",
+      "exit_code": 0,
+      "passed_count": 34,
+      "status": "passed"
+    },
+    "test:api": {
+      "command": "node scripts/run-python.js -m pytest apps/api/tests/test_health.py apps/api/tests/test_persistence_and_auth.py apps/api/tests/test_evidence_ingestion.py apps/api/tests/test_merchant_workflow.py -v",
+      "exit_code": 0,
+      "passed_count": 24,
+      "status": "passed"
+    },
+    "test:web": {
+      "command": "pnpm --filter @shongoti/web test",
+      "exit_code": 0,
+      "passed_count": 1,
+      "status": "passed"
+    },
+    "build": {
+      "command": "pnpm --filter @shongoti/web build",
+      "exit_code": 0,
+      "status": "passed"
+    }
+  }
+}

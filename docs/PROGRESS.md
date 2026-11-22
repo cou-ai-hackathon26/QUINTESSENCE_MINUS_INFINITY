@@ -1,6 +1,6 @@
 **Shongoti progress — evidence controls completion**
 
-Current state: **Phase 00, 01, 02, 03 complete and verified. Phase 04 partially implemented and blocked on live AI key. Phase 06 unblocked.**
+Current state: **Phase 00, 01, 02, 03 complete and verified. Phase 04 partially implemented and blocked on live AI key. Phase 06 verified; checkpoint pending.**
 
 | Phase | Name | State | Evidence / dependency |
 |---|---|---|---|
@@ -10,7 +10,7 @@ Current state: **Phase 00, 01, 02, 03 complete and verified. Phase 04 partially 
 | 03 | Database, authentication and tenant isolation | complete | Work verified; milestone `0c9cada`; see `evidence/phase-03/git-checkpoint.json` |
 | 04 | Evidence ingestion and real AI boundary | blocked | P04-T01..T03 verified; milestone `8e15789`; P04-T04 blocked pending GEMINI_API_KEY |
 | 05 | Supplier reconciliation and clarification | blocked | Blocked on Phase 04 completion (live AI provider gate) |
-| 06 | Connected daily merchant workflow | in_progress | Unblocked (depends on 02, 03) |
+| 06 | Connected daily merchant workflow | in_progress | All 4 tasks verified offline; checkpoint publication pending |
 | 07 | Liquidity outlook and spending-impact scenarios | not_started | Requires 05 and 06 for integrated acceptance |
 | 08 | Action center, customer portal and one real connector | not_started | Requires 03, 05, 06 and 07; provider access gate |
 | 09 | Stock, supported forecasts and operating reports | not_started | Requires 06 and 07; statistical claims need evaluated history |
@@ -18,9 +18,9 @@ Current state: **Phase 00, 01, 02, 03 complete and verified. Phase 04 partially 
 | 11 | Evaluation, security and complete validation | not_started | Relevant earlier phases complete or explicitly blocked |
 | 12 | Deployment, release documentation and handover | not_started | Requires 11; actual hosting/access gates |
 
-**Next action:** publish Phase 04 checkpoint receipt documenting blocked live AI gate, then advance unblocked Phase 06 with P06-T01.
+**Next action:** publish Phase 06 milestone and checkpoint receipt, then proceed with Phase 07.
 
-**Next implementation task:** P06-T01 — implement daily opening snapshots, cash close, receipts, payments, transfers/fees, and merchant cash flows.
+**Next implementation task:** Phase 07 — Liquidity outlook and spending-impact scenarios.
 
 **External unknowns:** model credentials/quota; payment sandbox/merchant access; hosting; optional OAuth/sender setup; repository public-release decision. See `INTEGRATIONS.md`. None are verified live.
 
@@ -31,6 +31,7 @@ Current state: **Phase 00, 01, 02, 03 complete and verified. Phase 04 partially 
 - 23 November 2026: Phase 02 completed and verified. Exact financial domain: Money integer paisa primitive, balanced journal entries, capacity allocation, 4 supplier reconciliation hypotheses, liquidity channels, 7-day spending impact scenarios, and all 34 golden contract tests passing. Milestone `8b34a32` pushed to origin.
 - 23 November 2026: Phase 03 completed and verified. Database schema, Alembic migration 001_initial_schema, live PostgreSQL 16 verification, JWT authentication with HMAC-SHA256, demo tenancy isolation, and role-based permissions enforced. Milestone `0c9cada` pushed to origin.
 - 23 November 2026: Phase 04 partially implemented and verified. Tenant-isolated evidence storage, SHA-256 validation, native PDF extraction, structured claim schemas, human review/correction endpoints, and migration 002_evidence_schema completed. Task P04-T04 recorded as blocked pending live GEMINI_API_KEY.
+- 23 November 2026: Phase 06 completed and verified. Connected daily merchant workflow: DailySnapshotModel, PartyModel, ProductItemModel, StockMovementModel, migration 003_merchant_workflow, cash/credit/split sales, debt collection (zero revenue inflation), wallet transfers with fees, stock deductions, cash close discrepancies, operating expenses, owner withdrawals with RBAC, supplier payments, and live TodayDashboard connected to /api/v1/merchant/today. All 24 API tests and offline gates passed.
 
 At each session end add: phase/task IDs, changed files, actual checks/evidence, unresolved blockers and the next exact task. Update `progress.json` at the same time. Completion must be tied to acceptance criteria, not hours spent or number of files.
 

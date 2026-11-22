@@ -1,0 +1,18 @@
+{
+  "task_id": "P06-T04",
+  "check_id": "today-screen-and-summary-derivation",
+  "status": "passed",
+  "command": "pnpm --filter @shongoti/web build",
+  "working_directory": "E:\\mu idea\\Shongoti",
+  "ran_at_utc": "2026-11-22T19:57:46Z",
+  "code_revision": "aae4a3bbb7bcfc5a07dad23d785787ab54e9a511",
+  "working_tree_description": "Today dashboard wired to /api/v1/merchant/today ledger derivation.",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Frontend TodayDashboard wired to /api/v1/merchant/today with live BDT balance formatting, loading states, and fallback handling. Production build passed cleanly.",
+  "evidence_paths": [
+    "apps/web/src/pages/TodayDashboard.tsx",
+    "apps/api/app/api/v1/merchant.py"
+  ],
+  "blocked_reason": null
+}

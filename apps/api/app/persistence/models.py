@@ -192,3 +192,64 @@ class ExtractedClaimModel(Base):
     created_at = Column(DateTime, nullable=False, default=now_utc)
 
     evidence = relationship("EvidenceModel", back_populates="claims")
+
+
+class DailySnapshotModel(Base):
+    __tablename__ = "daily_snapshots"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    snapshot_date = Column(String(10), nullable=False)  # "YYYY-MM-DD"
+    opening_cash_paisa = Column(Integer, nullable=False, default=0)
+    closing_cash_paisa = Column(Integer, nullable=True)
+    actual_drawer_cash_paisa = Column(Integer, nullable=True)
+    discrepancy_paisa = Column(Integer, nullable=True)
+    status = Column(String(16), nullable=False, default="open")  # "open" or "closed"
+    closed_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+    __table_args__ = (
+        UniqueConstraint("tenant_id", "snapshot_date", name="uq_tenant_snapshot_date"),
+    )
+
+
+class PartyModel(Base):
+    __tablename__ = "parties"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    name = Column(String(255), nullable=False)
+    phone = Column(String(32), nullable=True)
+    party_type = Column(String(16), nullable=False, default="customer")  # "customer" or "supplier"
+    current_due_paisa = Column(Integer, nullable=False, default=0)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
+class ProductItemModel(Base):
+    __tablename__ = "products"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    name = Column(String(255), nullable=False)
+    sku = Column(String(64), nullable=True)
+    unit = Column(String(32), nullable=False, default="pcs")
+    quantity_on_hand = Column(Integer, nullable=False, default=0)
+    cost_price_paisa = Column(Integer, nullable=True)  # WAC per unit
+    selling_price_paisa = Column(Integer, nullable=False, default=0)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+    movements = relationship("StockMovementModel", back_populates="product", cascade="all, delete-orphan")
+
+
+class StockMovementModel(Base):
+    __tablename__ = "stock_movements"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    product_id = Column(String(36), ForeignKey("products.id", ondelete="CASCADE"), nullable=False)
+    movement_type = Column(String(32), nullable=False)  # "sale_deduction", "purchase_addition", "return_restock", "adjustment"
+    quantity_change = Column(Integer, nullable=False)  # positive or negative
+    reference_id = Column(String(64), nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+    product = relationship("ProductItemModel", back_populates="movements")
