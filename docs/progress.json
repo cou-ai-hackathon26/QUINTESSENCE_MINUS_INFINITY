@@ -2,8 +2,8 @@
   "schema_version": 2,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "01",
-  "next_task": "P01-checkpoint",
+  "current_phase": "02",
+  "next_task": "P02-T01",
   "application_started": true,
   "phases": [
     {
@@ -49,7 +49,7 @@
     {
       "id": "01",
       "name": "Environment, contracts and executable skeleton",
-      "status": "in_progress",
+      "status": "complete",
       "depends_on": [
         "00"
       ],
@@ -89,10 +89,10 @@
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "pending",
+        "status": "published",
         "remote": "origin",
         "branch": "main",
-        "milestone_sha": null,
+        "milestone_sha": "3808c0ec31c34f56d5497b1eb207fe6d6973cf3b",
         "receipt_path": "docs/evidence/phase-01/git-checkpoint.json"
       }
     },
