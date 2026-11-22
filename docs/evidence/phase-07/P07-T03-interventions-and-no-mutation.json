@@ -1,0 +1,18 @@
+{
+  "task_id": "P07-T03",
+  "check_id": "interventions-and-no-ledger-mutation",
+  "status": "passed",
+  "command": "node scripts/run-python.js -m pytest apps/api/tests/test_scenarios_workflow.py -k \"test_simulation_does_not_mutate_actual_ledger or test_simulate_7_day_extra_expense_breach_and_shortfall\" -v",
+  "working_directory": "E:\\mu idea\\Shongoti",
+  "ran_at_utc": "2026-11-22T20:24:11Z",
+  "code_revision": "7a83ed511b939c33a0815bebb176c213e862a63c",
+  "working_tree_description": "Simulation interventions (expenses, promises) strictly without mutating actual ledger accounts.",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Verified that running heavy deficit simulation produces exact reserve breach (Day 3) and funding shortfall (Day 5) while leaving actual ledger accounts and revenue completely unchanged.",
+  "evidence_paths": [
+    "apps/api/app/api/v1/scenarios.py",
+    "apps/api/tests/test_scenarios_workflow.py"
+  ],
+  "blocked_reason": null
+}

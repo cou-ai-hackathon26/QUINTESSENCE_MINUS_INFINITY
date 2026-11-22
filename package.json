@@ -7,7 +7,7 @@
     "dev": "concurrently -n \"web,api\" -c \"cyan,magenta\" \"pnpm --filter @shongoti/web dev\" \"node scripts/run-python.js -m uvicorn app.main:app --app-dir apps/api --reload --port 8000\"",
     "typecheck": "pnpm --filter @shongoti/web typecheck",
     "test:domain": "node scripts/run-python.js -m pytest apps/api/tests/test_domain_contracts.py apps/api/tests/test_domain_golden.py -v",
-    "test:api": "node scripts/run-python.js -m pytest apps/api/tests/test_health.py apps/api/tests/test_persistence_and_auth.py apps/api/tests/test_evidence_ingestion.py apps/api/tests/test_merchant_workflow.py -v",
+    "test:api": "node scripts/run-python.js -m pytest apps/api/tests/test_health.py apps/api/tests/test_persistence_and_auth.py apps/api/tests/test_evidence_ingestion.py apps/api/tests/test_merchant_workflow.py apps/api/tests/test_scenarios_workflow.py -v",
     "test:web": "pnpm --filter @shongoti/web test",
     "test:e2e": "node scripts/test-e2e.js",
     "db:migrate": "node scripts/run-python.js -m alembic -c apps/api/alembic.ini upgrade head",

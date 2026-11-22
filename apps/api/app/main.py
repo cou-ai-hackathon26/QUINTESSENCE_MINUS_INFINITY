@@ -10,6 +10,7 @@ from app.core.database import check_db_connection
 from app.api.v1.router import api_router
 from app.api.v1.evidence import evidence_router
 from app.api.v1.merchant import merchant_router
+from app.api.v1.scenarios import scenarios_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -29,6 +30,7 @@ app.add_middleware(
 app.include_router(api_router)
 app.include_router(evidence_router)
 app.include_router(merchant_router)
+app.include_router(scenarios_router)
 
 
 @app.get("/health", status_code=status.HTTP_200_OK, tags=["System"])

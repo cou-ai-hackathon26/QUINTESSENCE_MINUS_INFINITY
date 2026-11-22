@@ -1,0 +1,19 @@
+{
+  "task_id": "P07-T04",
+  "check_id": "golden-seven-day-and-ui-planner",
+  "status": "passed",
+  "command": "pnpm --filter @shongoti/web build",
+  "working_directory": "E:\\mu idea\\Shongoti",
+  "ran_at_utc": "2026-11-22T20:24:11Z",
+  "code_revision": "7a83ed511b939c33a0815bebb176c213e862a63c",
+  "working_tree_description": "FuturePlannerPage decision lab wired to /api/v1/scenarios with bilingual support and production build.",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Verified golden 7-day cash series matching exact contract [11000, 12000, 7000, 8000, 5000, 6000, 4000] BDT baseline and [5000, 6000, 1000, 2000, -1000, 0, -2000] BDT with Day 1 extra expense. Web production build passed cleanly.",
+  "evidence_paths": [
+    "apps/web/src/pages/FuturePlannerPage.tsx",
+    "apps/web/src/App.tsx",
+    "apps/api/app/api/v1/scenarios.py"
+  ],
+  "blocked_reason": null
+}

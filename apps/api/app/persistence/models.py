@@ -253,3 +253,25 @@ class StockMovementModel(Base):
     created_at = Column(DateTime, nullable=False, default=now_utc)
 
     product = relationship("ProductItemModel", back_populates="movements")
+
+
+class ScenarioModel(Base):
+    __tablename__ = "scenarios"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    name = Column(String(255), nullable=False)
+    version = Column(Integer, nullable=False, default=1)
+    horizon_days = Column(Integer, nullable=False, default=7)
+    opening_cash_paisa = Column(Integer, nullable=False)
+    assumed_daily_receipt_paisa = Column(Integer, nullable=False)
+    planned_outflows_json = Column(Text, nullable=False)  # JSON list of paisa amounts
+    reserve_target_paisa = Column(Integer, nullable=False)
+    extra_expense_paisa = Column(Integer, nullable=False, default=0)
+    extra_expense_day = Column(Integer, nullable=False, default=0)
+    conditional_promise_paisa = Column(Integer, nullable=False, default=0)
+    conditional_promise_date = Column(String(10), nullable=True)
+    first_reserve_breach_date = Column(String(10), nullable=True)
+    first_funding_shortfall_date = Column(String(10), nullable=True)
+    closing_series_json = Column(Text, nullable=False)  # JSON list of closing balances
+    created_at = Column(DateTime, nullable=False, default=now_utc)

@@ -1,0 +1,20 @@
+{
+  "task_id": "P07-T01",
+  "check_id": "planning-snapshots-and-persistence",
+  "status": "passed",
+  "command": "node scripts/run-python.js -m pytest apps/api/tests/test_scenarios_workflow.py -k \"test_save_scenario_and_list or test_tenant_baseline_endpoint\" -v",
+  "working_directory": "E:\\mu idea\\Shongoti",
+  "ran_at_utc": "2026-11-22T20:24:11Z",
+  "code_revision": "7a83ed511b939c33a0815bebb176c213e862a63c",
+  "working_tree_description": "Phase 07 versioned scenario model and tenant baseline derivation from live ledger cash drawer balance.",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Passed tests verifying ScenarioModel database persistence, tenant baseline derivation from live cash accounts, and versioned scenario listing with tenant isolation.",
+  "evidence_paths": [
+    "apps/api/app/persistence/models.py",
+    "apps/api/alembic/versions/004_scenarios_schema.py",
+    "apps/api/app/api/v1/scenarios.py",
+    "apps/api/tests/test_scenarios_workflow.py"
+  ],
+  "blocked_reason": null
+}

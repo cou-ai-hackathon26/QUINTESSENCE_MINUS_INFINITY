@@ -345,7 +345,7 @@
     {
       "id": "07",
       "name": "Liquidity outlook and spending-impact scenarios",
-      "status": "not_started",
+      "status": "in_progress",
       "depends_on": [
         "05",
         "06"
@@ -353,36 +353,46 @@
       "tasks": [
         {
           "id": "P07-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-07/P07-T01-planning-snapshots.json"
+          ],
+          "notes": "ScenarioModel persistence with migration 004_scenarios_schema and tenant baseline derivation from live ledger cash balance."
         },
         {
           "id": "P07-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-07/P07-T02-reserve-and-channel-constraints.json"
+          ],
+          "notes": "Time, channel, fee constraints, and reserve threshold shortfall calculation verified against golden contracts without external solver."
         },
         {
           "id": "P07-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-07/P07-T03-interventions-and-no-mutation.json"
+          ],
+          "notes": "Interventions for Day 1 extra expenses and conditional promises verified to identify exact breach (Day 3) and shortfall (Day 5) without mutating actual ledger books."
         },
         {
           "id": "P07-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-07/P07-T04-golden-seven-day-and-ui.json"
+          ],
+          "notes": "Golden 7-day contract verified in API and FuturePlannerPage bilingual UI decision lab with production build passing cleanly."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
-        "receipt_path": null
+        "receipt_path": "docs/evidence/phase-07/git-checkpoint.json"
+      }
+    },
       }
     },
     {
