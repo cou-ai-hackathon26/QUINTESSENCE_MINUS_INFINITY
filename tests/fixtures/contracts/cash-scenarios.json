@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "currency": "BDT",
+  "money_unit": "paisa",
+  "timezone": "Asia/Dhaka",
+  "dates": ["2026-11-22", "2026-11-23", "2026-11-24", "2026-11-25", "2026-11-26", "2026-11-27", "2026-11-28"],
+  "opening_cash": 1200000,
+  "assumed_daily_cash_receipt": 100000,
+  "planned_outflows": [200000, 0, 600000, 0, 400000, 0, 300000],
+  "reserve_target": 300000,
+  "cases": [
+    {"id": "SCN-001", "extra_expense_day_1": 0, "conditional_promise": null, "expected_closing_cash": [1100000, 1200000, 700000, 800000, 500000, 600000, 400000], "expected_first_reserve_breach": null, "expected_first_funding_shortfall": null},
+    {"id": "SCN-002", "extra_expense_day_1": 600000, "conditional_promise": null, "expected_closing_cash": [500000, 600000, 100000, 200000, -100000, 0, -200000], "expected_first_reserve_breach": "2026-11-24", "expected_first_funding_shortfall": "2026-11-26"},
+    {"id": "SCN-003", "extra_expense_day_1": 100000, "conditional_promise": null, "expected_closing_cash": [1000000, 1100000, 600000, 700000, 400000, 500000, 300000], "expected_first_reserve_breach": null, "expected_first_funding_shortfall": null},
+    {"id": "SCN-004", "extra_expense_day_1": 600000, "conditional_promise": {"date": "2026-11-23", "amount": 300000, "status": "promised_not_actual"}, "expected_closing_cash": [500000, 900000, 400000, 500000, 200000, 300000, 100000], "expected_first_reserve_breach": "2026-11-26", "expected_first_funding_shortfall": null}
+  ],
+  "global_invariants": ["assumed sales are not actual receipt postings", "scenario changes never mutate the actual ledger", "promise affects its conditional scenario only from its date", "results do not guarantee feasibility beyond the specified horizon"]
+}

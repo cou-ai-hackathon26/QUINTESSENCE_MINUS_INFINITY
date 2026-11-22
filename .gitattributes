@@ -1,0 +1,4 @@
+* text=auto eol=lf
+*.pdf binary
+# Two trailing spaces are valid Markdown hard line breaks in reference notes.
+*.md whitespace=-blank-at-eol

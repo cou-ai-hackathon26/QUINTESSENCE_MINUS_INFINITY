@@ -1,0 +1,1315 @@
+{
+  "status": "passed",
+  "scope": "handoff consistency and synthetic contract arithmetic only",
+  "application_tests_run": false,
+  "live_ai_verified": false,
+  "real_integrations_verified": false,
+  "browser_layout_verified": false,
+  "ran_at_utc": "2026-11-22T18:05:03.474976+00:00",
+  "command": "python tools/verify_handoff.py --write-report",
+  "working_directory": "repository root",
+  "mode": "offline",
+  "exit_code": 0,
+  "phase_count": 13,
+  "task_count": 51,
+  "synthetic_case_count": 26,
+  "checks": [
+    {
+      "check": "required-file:AGENTS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required-file:START_HERE.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required-file:README.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required-file:plan.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required-file:.gitignore",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required-file:docs/PROGRESS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required-file:docs/progress.json",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required-file:docs/GIT_CHECKPOINTS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required-file:docs/VALIDATION.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required-file:docs/DECISIONS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required-file:docs/INTEGRATIONS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required-file:docs/KNOWN_ISSUES.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required-file:docs/context/README.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required-file:tests/fixtures/contracts/README.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "unique-plan-task-ids",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "tracker-matches-plan-tasks",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "unique-tracker-task-ids",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "mandatory-phase-commit-and-push",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-authorization-scope",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-state:00",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-dependencies:00",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "human-machine-phase-state:00",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-required:00",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P00-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "completed-task-evidence-list:P00-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "completed-task-evidence:P00-T01",
+      "status": "passed",
+      "detail": "docs/evidence/handoff-validation.json"
+    },
+    {
+      "check": "task-state:P00-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "completed-task-evidence-list:P00-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "completed-task-evidence:P00-T02",
+      "status": "passed",
+      "detail": "docs/evidence/handoff-validation.json"
+    },
+    {
+      "check": "task-state:P00-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "completed-task-evidence-list:P00-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "completed-task-evidence:P00-T03",
+      "status": "passed",
+      "detail": "docs/evidence/handoff-validation.json"
+    },
+    {
+      "check": "phase-state:01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-dependencies:01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "human-machine-phase-state:01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-required:01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P01-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P01-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P01-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P01-T04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-state:02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-dependencies:02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "human-machine-phase-state:02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-required:02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P02-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P02-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P02-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P02-T04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-state:03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-dependencies:03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "human-machine-phase-state:03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-required:03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P03-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P03-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P03-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P03-T04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-state:04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-dependencies:04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "human-machine-phase-state:04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-required:04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P04-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P04-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P04-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P04-T04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-state:05",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-dependencies:05",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "human-machine-phase-state:05",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-required:05",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P05-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P05-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P05-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P05-T04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-state:06",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-dependencies:06",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "human-machine-phase-state:06",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-required:06",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P06-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P06-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P06-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P06-T04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-state:07",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-dependencies:07",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "human-machine-phase-state:07",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-required:07",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P07-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P07-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P07-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P07-T04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-state:08",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-dependencies:08",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "human-machine-phase-state:08",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-required:08",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P08-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P08-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P08-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P08-T04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-state:09",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-dependencies:09",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "human-machine-phase-state:09",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-required:09",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P09-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P09-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P09-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P09-T04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-state:10",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-dependencies:10",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "human-machine-phase-state:10",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-required:10",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P10-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P10-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P10-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P10-T04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-state:11",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-dependencies:11",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "human-machine-phase-state:11",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-required:11",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P11-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P11-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P11-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P11-T04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-state:12",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "phase-dependencies:12",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "human-machine-phase-state:12",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "checkpoint-required:12",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P12-T01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P12-T02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P12-T03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "task-state:P12-T04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "markdown-code-fences:AGENTS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "utf8-no-replacement:AGENTS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "markdown-code-fences:START_HERE.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "utf8-no-replacement:START_HERE.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "markdown-code-fences:README.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "utf8-no-replacement:README.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "local-link:README.md",
+      "status": "passed",
+      "detail": "START_HERE.md"
+    },
+    {
+      "check": "local-link:README.md",
+      "status": "passed",
+      "detail": "AGENTS.md"
+    },
+    {
+      "check": "local-link:README.md",
+      "status": "passed",
+      "detail": "plan.md"
+    },
+    {
+      "check": "local-link:README.md",
+      "status": "passed",
+      "detail": "docs/PROGRESS.md"
+    },
+    {
+      "check": "markdown-code-fences:plan.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "utf8-no-replacement:plan.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "markdown-code-fences:docs/PROGRESS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "utf8-no-replacement:docs/PROGRESS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "markdown-code-fences:docs/GIT_CHECKPOINTS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "utf8-no-replacement:docs/GIT_CHECKPOINTS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "markdown-code-fences:docs/VALIDATION.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "utf8-no-replacement:docs/VALIDATION.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "markdown-code-fences:docs/DECISIONS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "utf8-no-replacement:docs/DECISIONS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "markdown-code-fences:docs/INTEGRATIONS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "utf8-no-replacement:docs/INTEGRATIONS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "markdown-code-fences:docs/KNOWN_ISSUES.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "utf8-no-replacement:docs/KNOWN_ISSUES.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "markdown-code-fences:docs/context/README.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "utf8-no-replacement:docs/context/README.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "markdown-code-fences:tests/fixtures/contracts/README.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "utf8-no-replacement:tests/fixtures/contracts/README.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-reconciliation:REC-001",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-reconciliation:REC-002",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-reconciliation:REC-003",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-reconciliation:REC-004",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-reconciliation:REC-005",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-reconciliation:REC-006",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-reconciliation:REC-007",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-reconciliation:REC-008",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "other-receipt-capacity-zero",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-scenario:SCN-001",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-scenario:SCN-002",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-scenario:SCN-003",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-scenario:SCN-004",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-current-liquidity:LIQ-001",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-shortfall:LIQ-001",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-current-liquidity:LIQ-002",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-shortfall:LIQ-002",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-current-liquidity:LIQ-003",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-postpayment-cash:LIQ-003",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-shortfall:LIQ-003",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-current-liquidity:LIQ-004",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-postpayment-cash:LIQ-004",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-reserve-shortfall:LIQ-004",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-cashout:LIQ-005",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-current-liquidity:LIQ-006",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-shortfall:LIQ-006",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-split-sale",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "golden-case-ids-unique",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "explicit-synthetic-money-units:cash-scenarios.json",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "explicit-synthetic-money-units:liquidity.json",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "explicit-synthetic-money-units:posting.json",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "explicit-synthetic-money-units:reconciliation.json",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "git-origin",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "gitignore:.env",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "gitignore:apps/api/.env.production",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "gitignore:node_modules/a.js",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "gitignore:apps/web/node_modules/a.js",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "gitignore:uploads/customer.png",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "gitignore:docs/evidence/raw/provider.log",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "gitignore:.env.example",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "gitignore:apps/api/.env.example",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "gitignore:pnpm-lock.yaml",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "gitignore:tests/fixtures/contracts/cash-scenarios.json",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "gitignore:docs/evidence/phase-02/result.json",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "reference-preview-script-syntax:0",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "credential-pattern-scan:AGENTS.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/context/official-challenges-snapshot.html",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/context/official-rules-snapshot.html",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/context/original-submission.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/context/prior-project-readmes.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/context/project-history-2026-11-17.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/context/README.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/context/research-2026-11-22.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/context/website-blueprint-2026-11-22.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/DECISIONS.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/evidence/README.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/GIT_CHECKPOINTS.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/INTEGRATIONS.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/KNOWN_ISSUES.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/progress.json",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/PROGRESS.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/reference-ui/shongoti-product-preview.html",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:docs/VALIDATION.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:plan.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:README.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:START_HERE.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:tests/fixtures/contracts/cash-scenarios.json",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:tests/fixtures/contracts/liquidity.json",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:tests/fixtures/contracts/posting.json",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:tests/fixtures/contracts/README.md",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:tests/fixtures/contracts/reconciliation.json",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    },
+    {
+      "check": "credential-pattern-scan:tools/verify_handoff.py",
+      "status": "passed",
+      "detail": "Limited pattern scan; not a guarantee of absence of all secrets."
+    }
+  ],
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 140,
+      "sha256": "db0a3b880365b8090a9c76f1fed464e766134aaeadaf2a1aabfa445671cd241d"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 720,
+      "sha256": "90c608ffbd5e77e7b26d7fb2adcc0426f38a499fd85a90f1b3848adce5defcfa"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 7555,
+      "sha256": "9fc996388eafb56b30e202b2fde4d2f40da0c6c1a6162a64f2c171dd6d9f6522"
+    },
+    {
+      "path": "docs/context/official-challenges-snapshot.html",
+      "bytes": 39819,
+      "sha256": "6f353fd2bc1a86a532564bc99973335a151fd69a5a6a1a6688afe250598d8018"
+    },
+    {
+      "path": "docs/context/official-rulebook.pdf",
+      "bytes": 695227,
+      "sha256": "4c0fd6a2a67de072a21731bb86311624714d73659a30c611654bda0c7d06f40f"
+    },
+    {
+      "path": "docs/context/official-rules-snapshot.html",
+      "bytes": 41090,
+      "sha256": "d0ae67cd092c837f55663cb378645d8bd6d3ab92cff9f490531740737516583f"
+    },
+    {
+      "path": "docs/context/original-submission.md",
+      "bytes": 8287,
+      "sha256": "433832204623ec55debfef16b9f3d2f5f305bbab56ad99984eef3c8dffd9aadf"
+    },
+    {
+      "path": "docs/context/prior-project-readmes.md",
+      "bytes": 259504,
+      "sha256": "2037a811e97c52b087c1af9207e026d3ee0a5f0cc80f86746973d11959c2fe1c"
+    },
+    {
+      "path": "docs/context/project-history-2026-11-17.md",
+      "bytes": 14511,
+      "sha256": "22be77489d7a441ef82e6f3e20ee83da362efea45828020b1ebda4044b94f776"
+    },
+    {
+      "path": "docs/context/proposal-reference.pdf",
+      "bytes": 59973,
+      "sha256": "b735b278e31499a9240ae8219cfb7f024564fd645194ae89c52383cdbd0a7a9b"
+    },
+    {
+      "path": "docs/context/README.md",
+      "bytes": 1808,
+      "sha256": "790340fe20d72f7cd12006d7bc2c3c070a808d230a0010cf21a297e7cff59193"
+    },
+    {
+      "path": "docs/context/research-2026-11-22.md",
+      "bytes": 44670,
+      "sha256": "e7bd4543d6c773b2fc49d1eaff87e42141843c667998b8725bfd1c139f492cde"
+    },
+    {
+      "path": "docs/context/website-blueprint-2026-11-22.md",
+      "bytes": 26193,
+      "sha256": "8c352576bfcec9d4b98ba48afe3aa49fbe3a232552e2a7f2e3e33c9172ece197"
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "bytes": 2196,
+      "sha256": "b18ebd2896591388222ea27631703c0ea708625c7045b14ca26b1267d8a81353"
+    },
+    {
+      "path": "docs/evidence/README.md",
+      "bytes": 699,
+      "sha256": "f9087062129f2e76e472f4f22859317381964512df1996e71c5800ef572700a9"
+    },
+    {
+      "path": "docs/GIT_CHECKPOINTS.md",
+      "bytes": 3691,
+      "sha256": "2535042ec7392132484eee3c9fce0c3cb6ee14fa3fcadb5447714e44a7298902"
+    },
+    {
+      "path": "docs/INTEGRATIONS.md",
+      "bytes": 2738,
+      "sha256": "71dea9daccc3b8b71bddd65426ba0b7fd09e37410044f0ab0a8f98a1c1a02c9b"
+    },
+    {
+      "path": "docs/KNOWN_ISSUES.md",
+      "bytes": 1596,
+      "sha256": "af7f4078d343e3d2d6e3f16446d379677851692955f19f4e48ec1c4b786883f1"
+    },
+    {
+      "path": "docs/progress.json",
+      "bytes": 12993,
+      "sha256": "510e2ed85838d1c8e70508c6340a26556db7fa42cdc525f6fe989dafaba035be"
+    },
+    {
+      "path": "docs/PROGRESS.md",
+      "bytes": 3081,
+      "sha256": "3ee60140c92c77a420447e09d2a3aa1db2d30c6a5dc5d0710a602dbd6bd1ab40"
+    },
+    {
+      "path": "docs/reference-ui/shongoti-product-preview.html",
+      "bytes": 46819,
+      "sha256": "f7ca5701cfa2328379a325a53c9a7cd82051a1a8bd25d2d224e359db82dcbb94"
+    },
+    {
+      "path": "docs/VALIDATION.md",
+      "bytes": 4130,
+      "sha256": "942aa9223deb5b635f6ed96586915731c7f3a0671ebb5e20ec6f7f0f8136e0a6"
+    },
+    {
+      "path": "plan.md",
+      "bytes": 77660,
+      "sha256": "0b0279debc26085e0eaf8ca260a1158d02556afc74388798213b0606c4bf3a97"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1142,
+      "sha256": "ea163cbfb334107fa386e7ef17d36edc779b3d799e4cc8fa7014f430730e6ff3"
+    },
+    {
+      "path": "START_HERE.md",
+      "bytes": 4073,
+      "sha256": "ba90abbc8394035f33e8c391c0ef17c8a0ae0720fcf84d4186b979b1aa1fbfcc"
+    },
+    {
+      "path": "tests/fixtures/contracts/cash-scenarios.json",
+      "bytes": 1743,
+      "sha256": "8ed6bb4c4f81f5e20c3e812e465bd8d56d9d9a7535966568266ebe31828f74c5"
+    },
+    {
+      "path": "tests/fixtures/contracts/liquidity.json",
+      "bytes": 1742,
+      "sha256": "f333e9b08bcd5fcd0ebcee354d3c5bb29c46f4fb19c1e917fba0e0b1eb1ab0c2"
+    },
+    {
+      "path": "tests/fixtures/contracts/posting.json",
+      "bytes": 1838,
+      "sha256": "3458c7b9bab972385d3d2541d48207d962deac36b31851ded331983fb37e99da"
+    },
+    {
+      "path": "tests/fixtures/contracts/README.md",
+      "bytes": 1271,
+      "sha256": "5d49e65d15d6e595aec6149932c9e84057b7745346dd4ab9913bbcaa6fdcd377"
+    },
+    {
+      "path": "tests/fixtures/contracts/reconciliation.json",
+      "bytes": 2003,
+      "sha256": "4317f14596ebb6a1e8212bdcf497c0bc0c2388dbbe5d912e9511a92446430795"
+    },
+    {
+      "path": "tools/verify_handoff.py",
+      "bytes": 12554,
+      "sha256": "dbbe89eae9be9cc37cc6ba53f31fbf002d4cfd4657f848c3731fd718bc68ed7a"
+    }
+  ]
+}

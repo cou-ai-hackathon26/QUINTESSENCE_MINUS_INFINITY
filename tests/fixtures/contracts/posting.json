@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "currency": "BDT",
+  "money_unit": "paisa",
+  "cases": [
+    {"id": "PST-001", "operation": "collect_existing_receivable", "amount": 50000, "expected_cash_change": 50000, "expected_receivable_change": -50000, "expected_new_sales_revenue": 0},
+    {"id": "PST-002", "operation": "credit_sale", "amount": 32000, "expected_cash_change": 0, "expected_receivable_change": 32000, "expected_sales_revenue_change": 32000, "inventory_cost_note": "COGS requires a supported stock/cost source; do not invent it"},
+    {"id": "PST-003", "operation": "split_sale", "amount": 32000, "cash_received": 20000, "expected_cash_change": 20000, "expected_receivable_change": 12000, "expected_sales_revenue_change": 32000},
+    {"id": "PST-004", "operation": "repeat_verified_provider_event", "provider_event_id": "SYNTHETIC-EVT-1", "attempts": 2, "expected_posted_receipts": 1},
+    {"id": "PST-005", "operation": "concurrent_allocation", "verified_payment_capacity": 400000, "requested_allocations": [400000, 400000], "expected_max_total_allocated": 400000, "expected_successful_full_allocations": 1},
+    {"id": "PST-006", "operation": "approve_stale_case", "approved_version": 1, "current_version": 2, "expected_committed_postings": 0, "expected_state": "conflict_or_needs_review"},
+    {"id": "PST-007", "operation": "owner_withdrawal", "amount": 100000, "expected_cash_change": -100000, "expected_operating_expense_change": 0},
+    {"id": "PST-008", "operation": "pending_gateway_settlement", "verified_amount": 100000, "available_now": false, "expected_spendable_cash_change": 0, "expected_pending_asset_change": 100000}
+  ],
+  "global_invariants": ["every posted journal must balance", "actual database constraints and concurrency tests are required", "a golden file is not production business logic"]
+}

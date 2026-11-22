@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "currency": "BDT",
+  "money_unit": "paisa",
+  "accounts": {"cash": 0, "nagad": 500000, "bkash": 200000},
+  "obligation": {"amount": 100000, "accepted_methods": ["cash"], "due_at": "2026-11-22T16:00:00+06:00"},
+  "cases": [
+    {"id": "LIQ-001", "actual_cash_receipt": 0, "promise": null, "cash_reserve": 0, "expected_available_cash": 0, "expected_funding_shortfall": 100000},
+    {"id": "LIQ-002", "actual_cash_receipt": 0, "promise": {"amount": 100000, "method": "cash", "at": "2026-11-22T15:00:00+06:00"}, "cash_reserve": 0, "expected_available_cash": 0, "expected_funding_shortfall_now": 100000},
+    {"id": "LIQ-003", "actual_cash_receipt": 100000, "promise": null, "cash_reserve": 0, "expected_cash_before_payment": 100000, "expected_cash_after_payment": 0, "expected_funding_shortfall": 0},
+    {"id": "LIQ-004", "actual_cash_receipt": 100000, "promise": null, "cash_reserve": 50000, "expected_cash_after_payment": 0, "expected_reserve_shortfall": 50000},
+    {"id": "LIQ-005", "illustrative_permitted_cashout": {"from": "nagad", "principal": 100000, "fee": 2000, "available_before_due": true}, "expected_accounts_after_cashout": {"cash": 100000, "nagad": 398000, "bkash": 200000}, "expected_total_after_cashout": 698000},
+    {"id": "LIQ-006", "actual_cash_receipt": 0, "promise": {"amount": 400000, "method": "bkash", "at": "2026-11-23T10:00:00+06:00"}, "expected_available_cash": 0, "expected_funding_shortfall_now": 100000}
+  ],
+  "global_invariants": ["cashout capability and fee are illustrative test configuration, not a provider tariff or access claim", "a positive total wallet balance does not satisfy a cash-only deadline", "unverified transfer routes must not be invented"]
+}

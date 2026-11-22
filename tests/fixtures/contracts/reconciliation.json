@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "currency": "BDT",
+  "money_unit": "paisa",
+  "source_facts": {
+    "demand": {"invoice_id": "41", "amount": 2500000},
+    "eligible_payment": {"event_id": "TX-B", "invoice_id": "41", "amount": 400000},
+    "accepted_return": {"event_id": "R1", "invoice_id": "41", "amount": 300000},
+    "unavailable_other_receipt": {"event_id": "TX-A", "amount": 400000, "allocated_invoice_id": "38", "allocated_amount": 400000}
+  },
+  "cases": [
+    {"id": "REC-001", "payment_included": null, "return_included": null, "expected_payables": [1800000, 2100000, 2200000, 2500000], "expected_state": "unresolved"},
+    {"id": "REC-002", "payment_included": true, "return_included": true, "expected_payables": [2500000], "expected_state": "supported"},
+    {"id": "REC-003", "payment_included": true, "return_included": false, "expected_payables": [2200000], "expected_state": "supported"},
+    {"id": "REC-004", "payment_included": false, "return_included": true, "expected_payables": [2100000], "expected_state": "supported"},
+    {"id": "REC-005", "payment_included": false, "return_included": false, "expected_payables": [1800000], "expected_state": "supported"},
+    {"id": "REC-006", "payment_received": true, "payment_included": null, "return_included": false, "expected_payables": [1800000, 2200000], "expected_state": "unresolved", "missing_fact": "whether TX-B is included in the current demand"},
+    {"id": "REC-007", "payment_included": false, "return_included": false, "attempt_reuse_event_id": "TX-A", "expected_payables": [1800000], "expected_reused_credit_applied": 0},
+    {"id": "REC-008", "payment_included": null, "return_included": false, "reply": null, "expected_payables": [1800000, 2200000], "expected_state": "unresolved"}
+  ],
+  "global_invariants": ["supported means supported by these supplied facts, not permission to post", "no external approval or ledger write is implied", "unaccepted or unlinked credits require a separate review state"]
+}

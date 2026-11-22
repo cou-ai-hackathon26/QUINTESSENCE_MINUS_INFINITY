@@ -1,0 +1,52 @@
+# Dependencies, builds and local runtime state
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage/
+.pnpm-store/
+dist/
+build/
+.next/
+.turbo/
+playwright-report/
+test-results/
+
+# Credentials and environment overrides
+.env
+.env.*
+!.env.example
+!.env.sample
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.sample
+*.pem
+*.key
+
+# Real data, runtime databases and unsanitized diagnostics
+uploads/
+private-data/
+data/runtime/
+*.sqlite
+*.sqlite3
+*.db
+*.log
+docs/evidence/raw/
+
+# Workspace caches and OS/editor files
+.research-deps/
+.uv-cache/
+tmp/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Keep lockfiles, migrations, synthetic fixtures and sanitized evidence tracked.
