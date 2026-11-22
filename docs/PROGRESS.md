@@ -1,12 +1,12 @@
 **Shongoti progress — evidence controls completion**
 
-Current state: **Phase 00 and 01 complete and verified. Phase 02 tasks verified; milestone publication pending.**
+Current state: **Phase 00, Phase 01, and Phase 02 work and milestone publication are verified. Phase 03 is next.**
 
 | Phase | Name | State | Evidence / dependency |
 |---|---|---|---|
 | 00 | Repository and verified handoff | complete | Work verified; milestone `6c6d389`; see `evidence/phase-00/git-checkpoint.json` |
 | 01 | Environment, contracts and executable skeleton | complete | Work verified; milestone `3808c0e`; see `evidence/phase-01/git-checkpoint.json` |
-| 02 | Exact financial domain and golden cases | in_progress | All 34 domain tests pass; milestone publication pending |
+| 02 | Exact financial domain and golden cases | complete | Work verified; milestone `8b34a32`; see `evidence/phase-02/git-checkpoint.json` |
 | 03 | Database, authentication and tenant isolation | not_started | Requires 01 and 02 |
 | 04 | Evidence ingestion and real AI boundary | not_started | Requires 03; live calls may need a provider key |
 | 05 | Supplier reconciliation and clarification | not_started | Requires 02, 03 and 04 |
@@ -18,9 +18,9 @@ Current state: **Phase 00 and 01 complete and verified. Phase 02 tasks verified;
 | 11 | Evaluation, security and complete validation | not_started | Relevant earlier phases complete or explicitly blocked |
 | 12 | Deployment, release documentation and handover | not_started | Requires 11; actual hosting/access gates |
 
-**Next action:** continue Phase 02 with P02-T01 (exact financial domain).
+**Next action:** continue Phase 03 with P03-T01 (Database schema, PostgreSQL migrations, and models).
 
-**Next implementation task:** P02-T01 — implement money/currency/rounding, financial event and account types; separate available, pending, obligation, promise and scenario states.
+**Next implementation task:** P03-T01 — implement schema/migrations for tenancy, accounts, evidence references, events/postings, obligations, allocations, and audits.
 
 **External unknowns:** model credentials/quota; payment sandbox/merchant access; hosting; optional OAuth/sender setup; repository public-release decision. See `INTEGRATIONS.md`. None are verified live.
 
@@ -28,6 +28,7 @@ Current state: **Phase 00 and 01 complete and verified. Phase 02 tasks verified;
 
 - 22 November 2026: cloned an empty private repository, connected `origin`, prepared the build contract, agent instructions, curated references, golden fixtures and truthful phase tracking. No production application or live integration is claimed.
 - 23 November 2026: Phase 01 completed and verified. Executable foundation, command contracts (typecheck, test:domain, test:api, test:web, db:migrate, build, verify:offline), API skeleton with health/readiness, and routed web shell implemented. Milestone `3808c0e` pushed to origin.
+- 23 November 2026: Phase 02 completed and verified. Exact financial domain: Money integer paisa primitive, balanced journal entries, capacity allocation, 4 supplier reconciliation hypotheses, liquidity channels, 7-day spending impact scenarios, and all 34 golden contract tests passing. Milestone `8b34a32` pushed to origin.
 
 At each session end add: phase/task IDs, changed files, actual checks/evidence, unresolved blockers and the next exact task. Update `progress.json` at the same time. Completion must be tied to acceptance criteria, not hours spent or number of files.
 

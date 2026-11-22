@@ -2,8 +2,8 @@
   "schema_version": 2,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "02",
-  "next_task": "P02-checkpoint",
+  "current_phase": "03",
+  "next_task": "P03-T01",
   "application_started": true,
   "phases": [
     {
@@ -99,7 +99,7 @@
     {
       "id": "02",
       "name": "Exact financial domain and golden cases",
-      "status": "in_progress",
+      "status": "complete",
       "depends_on": [
         "01"
       ],
@@ -139,10 +139,10 @@
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "pending",
+        "status": "published",
         "remote": "origin",
         "branch": "main",
-        "milestone_sha": null,
+        "milestone_sha": "8b34a32cd87e14bbedd624e446ae88f750624638",
         "receipt_path": "docs/evidence/phase-02/git-checkpoint.json"
       }
     },
