@@ -1,0 +1,41 @@
+"""
+Shongoti Core Settings and Database Configuration
+"""
+from typing import List
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    APP_NAME: str = "Shongoti API"
+    APP_VERSION: str = "0.1.0"
+    ENVIRONMENT: str = "development"
+    PORT: int = 8000
+    HOST: str = "127.0.0.1"
+    
+    # Financial Invariant: Default database is SQLite for local testability, PostgreSQL for production
+    DATABASE_URL: str = Field(
+        default="sqlite:///./apps/api/data/shongoti_dev.db",
+        description="SQLAlchemy database connection string"
+    )
+    SECRET_KEY: str = "change-this-in-production-synthetic-test-key"
+    ALLOWED_ORIGINS: str = "http://localhost:5173,http://127.0.0.1:5173"
+
+    @property
+    def cors_origins(self) -> List[str]:
+        return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",") if origin.strip()]
+
+    # Optional integration settings
+    GEMINI_API_KEY: str = ""
+    SSLCOMMERZ_STORE_ID: str = ""
+    SSLCOMMERZ_STORE_PASSWD: str = ""
+    SSLCOMMERZ_IS_SANDBOX: bool = True
+
+
+settings = Settings()

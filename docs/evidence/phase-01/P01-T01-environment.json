@@ -1,0 +1,17 @@
+{
+  "task_id": "P01-T01",
+  "check_id": "environment-inventory",
+  "status": "passed",
+  "command": "python --version; node --version; pnpm --version; uv --version; psql --version",
+  "working_directory": "E:/mu idea/Shongoti",
+  "ran_at_utc": "2026-11-22T18:28:00Z",
+  "code_revision": "750d6f652d25675f967095f81ff32f65d40d96ca",
+  "working_tree_description": "Clean working tree before Phase 01 modifications",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Observed Node v24.20.0, pnpm 12.16.1, CPython 3.12.15 via uv 0.13.5, psql 16.8. Confirmed stack in D004.",
+  "evidence_paths": [
+    "docs/DECISIONS.md"
+  ],
+  "blocked_reason": null
+}

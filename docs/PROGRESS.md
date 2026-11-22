@@ -1,11 +1,11 @@
 **Shongoti progress — evidence controls completion**
 
-Current state: **Phase 00 work and milestone publication are verified. Phase 01 is next; application implementation has not started.**
+Current state: **Phase 00 verified and published. Phase 01 tasks complete and verified; milestone publication pending.**
 
 | Phase | Name | State | Evidence / dependency |
 |---|---|---|---|
 | 00 | Repository and verified handoff | complete | Work verified; milestone `6c6d389`; see `evidence/phase-00/git-checkpoint.json` |
-| 01 | Environment, contracts and executable skeleton | not_started | Inspect environment, choose maintained versions, establish commands |
+| 01 | Environment, contracts and executable skeleton | in_progress | All tasks complete; offline verification passed; milestone publication pending |
 | 02 | Exact financial domain and golden cases | not_started | Requires 01 |
 | 03 | Database, authentication and tenant isolation | not_started | Requires 01 and 02 |
 | 04 | Evidence ingestion and real AI boundary | not_started | Requires 03; live calls may need a provider key |

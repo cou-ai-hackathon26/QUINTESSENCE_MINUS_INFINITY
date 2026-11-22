@@ -3,8 +3,8 @@
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
   "current_phase": "01",
-  "next_task": "P01-T01",
-  "application_started": false,
+  "next_task": "P01-checkpoint",
+  "application_started": true,
   "phases": [
     {
       "id": "00",
@@ -49,43 +49,51 @@
     {
       "id": "01",
       "name": "Environment, contracts and executable skeleton",
-      "status": "not_started",
+      "status": "in_progress",
       "depends_on": [
         "00"
       ],
       "tasks": [
         {
           "id": "P01-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-01/P01-T01-environment.json"
+          ],
+          "notes": "Environment inventoried and D004 accepted: Node v24, Python 3.12, pnpm, psql 16.8."
         },
         {
           "id": "P01-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-01/P01-T02-skeleton.json"
+          ],
+          "notes": "Skeleton created with configuration, health/readiness endpoints and .env.example."
         },
         {
           "id": "P01-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-01/P01-T03-commands.json"
+          ],
+          "notes": "Root commands verified: typecheck, test:domain, test:api, test:web, db:migrate, build, verify:offline."
         },
         {
           "id": "P01-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-01/P01-T04-web-shell.json"
+          ],
+          "notes": "Routed web shell with landing, demo, login, onboarding, today routes and reusable controls."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
-        "receipt_path": null
+        "receipt_path": "docs/evidence/phase-01/git-checkpoint.json"
       }
     },
     {

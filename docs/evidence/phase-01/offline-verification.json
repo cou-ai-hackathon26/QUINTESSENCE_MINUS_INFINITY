@@ -1,0 +1,20 @@
+{
+  "phase_id": "01",
+  "check_id": "phase-01-offline-verification",
+  "status": "passed",
+  "command": "pnpm verify:offline",
+  "working_directory": "E:/mu idea/Shongoti",
+  "ran_at_utc": "2026-11-22T18:28:00Z",
+  "code_revision": "750d6f652d25675f967095f81ff32f65d40d96ca",
+  "working_tree_description": "Phase 01 complete implementation",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "All Phase 01 acceptance criteria met: manifests installed, API health/ready validated, web builds, domain contracts tested, failure exit codes verified.",
+  "evidence_paths": [
+    "docs/evidence/phase-01/P01-T01-environment.json",
+    "docs/evidence/phase-01/P01-T02-skeleton.json",
+    "docs/evidence/phase-01/P01-T03-commands.json",
+    "docs/evidence/phase-01/P01-T04-web-shell.json"
+  ],
+  "blocked_reason": null
+}

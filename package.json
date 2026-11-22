@@ -1,0 +1,23 @@
+{
+  "name": "shongoti",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shongoti — Bangla-first financial workspace for MSMEs",
+  "scripts": {
+    "dev": "concurrently -n \"web,api\" -c \"cyan,magenta\" \"pnpm --filter @shongoti/web dev\" \"node scripts/run-python.js -m uvicorn app.main:app --app-dir apps/api --reload --port 8000\"",
+    "typecheck": "pnpm --filter @shongoti/web typecheck",
+    "test:domain": "node scripts/run-python.js -m pytest apps/api/tests/test_domain_contracts.py -v",
+    "test:api": "node scripts/run-python.js -m pytest apps/api/tests/test_health.py -v",
+    "test:web": "pnpm --filter @shongoti/web test",
+    "test:e2e": "node scripts/test-e2e.js",
+    "db:migrate": "node scripts/run-python.js -m alembic -c apps/api/alembic.ini upgrade head",
+    "db:check": "node scripts/run-python.js -m alembic -c apps/api/alembic.ini current",
+    "build": "pnpm --filter @shongoti/web build",
+    "verify:offline": "node scripts/verify-offline.js",
+    "verify:integrations": "node scripts/verify-integrations.js",
+    "eval:ai": "node scripts/eval-ai.js"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

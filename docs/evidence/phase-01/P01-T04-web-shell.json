@@ -1,0 +1,20 @@
+{
+  "task_id": "P01-T04",
+  "check_id": "web-shell-and-routing",
+  "status": "passed",
+  "command": "pnpm test:web && pnpm build",
+  "working_directory": "E:/mu idea/Shongoti",
+  "ran_at_utc": "2026-11-22T18:28:00Z",
+  "code_revision": "750d6f652d25675f967095f81ff32f65d40d96ca",
+  "working_tree_description": "Routed React shell with landing, demo, login, onboarding, today dashboard and reusable components",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Web shell built successfully with Vite and React Router. Vitest component test passed. Bundle built clean.",
+  "evidence_paths": [
+    "apps/web/src/App.tsx",
+    "apps/web/src/pages/LandingPage.tsx",
+    "apps/web/src/pages/DemoPage.tsx",
+    "apps/web/src/tests/App.test.tsx"
+  ],
+  "blocked_reason": null
+}

@@ -7,7 +7,7 @@ Use `open`, `accepted`, `proposed`, `superseded` or `rejected`; include date, re
 | D001 | accepted | Preserve original supplier reconciliation and connect it to daily money and scenario planning. |
 | D002 | accepted | Money uses integer paisa or exact decimals; semantic interpretation never controls posting authority. |
 | D003 | accepted | Separate actual/pending settlement/obligation/promise/forecast/scenario states. |
-| D004 | proposed | React/TypeScript + FastAPI/Python + PostgreSQL modular monolith; confirm runtime versions in Phase 01. |
+| D004 | accepted | React 18 + Vite 5 + TypeScript 5 frontend; FastAPI 0.115 + Python 3.12 (CPython 3.12.15 via uv) + SQLAlchemy 2.0 + Alembic backend; PostgreSQL 16.8 + SQLite offline support. Confirmed in Phase 01. |
 | D005 | proposed | Native PDF extraction first; bounded multimodal reader for scan/image; audio adapter chosen from observed Bengali task performance. |
 | D006 | accepted | No old project code, benchmark claims or live-provider claims transferred from reference material. |
 | D007 | accepted | Deterministic scenarios ship before statistical forecasts; model-backed forecast claims require evaluated relevant history. |

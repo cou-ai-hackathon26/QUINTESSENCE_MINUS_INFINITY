@@ -1,0 +1,19 @@
+{
+  "task_id": "P01-T02",
+  "check_id": "skeleton-and-health",
+  "status": "passed",
+  "command": "node scripts/run-python.js -m pytest apps/api/tests/test_health.py -v",
+  "working_directory": "E:/mu idea/Shongoti",
+  "ran_at_utc": "2026-11-22T18:28:00Z",
+  "code_revision": "750d6f652d25675f967095f81ff32f65d40d96ca",
+  "working_tree_description": "API skeleton and health/readiness endpoints created",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "API skeleton created with /health and /ready endpoints distinguishing database status. 3 tests passed.",
+  "evidence_paths": [
+    "apps/api/app/main.py",
+    "apps/api/tests/test_health.py",
+    ".env.example"
+  ],
+  "blocked_reason": null
+}

@@ -1,0 +1,77 @@
+"""
+Shongoti Main FastAPI Application
+"""
+from fastapi import FastAPI, status
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+
+from app.core.config import settings
+from app.core.database import check_db_connection
+
+app = FastAPI(
+    title=settings.APP_NAME,
+    version=settings.APP_VERSION,
+    description="Bangla-first MSME financial workspace backend API",
+)
+
+# CORS configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.cors_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/health", status_code=status.HTTP_200_OK, tags=["System"])
+def health_check():
+    """Liveness probe: verifies API process is alive."""
+    return {
+        "status": "ok",
+        "app": settings.APP_NAME,
+        "version": settings.APP_VERSION,
+        "environment": settings.ENVIRONMENT,
+    }
+
+
+@app.get("/ready", tags=["System"])
+def readiness_check():
+    """Readiness probe: distinguishes dependency readiness (e.g. database)."""
+    db_status = check_db_connection()
+    if db_status.get("connected"):
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={
+                "status": "ready",
+                "database": db_status,
+                "version": settings.APP_VERSION,
+            },
+        )
+    return JSONResponse(
+        status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+        content={
+            "status": "degraded",
+            "database": db_status,
+            "version": settings.APP_VERSION,
+        },
+    )
+
+
+@app.get("/api/v1/info", tags=["Metadata"])
+def get_info():
+    """Application metadata and supported capabilities."""
+    return {
+        "name": "সংগতি (Shongoti)",
+        "tagline": "ক্ষুদ্র ব্যবসার হিসাব, ভবিষ্যৎ পরিকল্পনা ও সিদ্ধান্ত",
+        "version": settings.APP_VERSION,
+        "currency": "BDT",
+        "money_unit": "paisa",
+        "supported_features": [
+            "daily_merchant_workflow",
+            "supplier_reconciliation",
+            "cash_liquidity_planner",
+            "decision_lab",
+            "tenant_isolation",
+        ],
+    }

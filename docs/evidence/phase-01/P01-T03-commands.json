@@ -1,0 +1,20 @@
+{
+  "task_id": "P01-T03",
+  "check_id": "root-command-contracts",
+  "status": "passed",
+  "command": "pnpm verify:offline",
+  "working_directory": "E:/mu idea/Shongoti",
+  "ran_at_utc": "2026-11-22T18:28:00Z",
+  "code_revision": "750d6f652d25675f967095f81ff32f65d40d96ca",
+  "working_tree_description": "Command contracts implemented in package.json and scripts",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Root commands pnpm typecheck, test:domain, test:api, test:web, db:check, db:migrate, build, verify:offline verified.",
+  "evidence_paths": [
+    "package.json",
+    "scripts/run-python.js",
+    "scripts/verify-offline.js",
+    "docs/DATABASE_SETUP.md"
+  ],
+  "blocked_reason": null
+}
