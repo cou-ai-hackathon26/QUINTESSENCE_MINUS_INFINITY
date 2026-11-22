@@ -1,0 +1,12 @@
+{
+  "phase_id": "11",
+  "status": "published",
+  "remote": "origin",
+  "remote_url": "https://github.com/sakibul-shovon/Shongoti.git",
+  "branch": "main",
+  "milestone_sha": "fa6131e491f63c6369c161689cf1a64af30c65a6",
+  "verified_remote_tip_at_milestone": "fa6131e491f63c6369c161689cf1a64af30c65a6",
+  "verified_at_utc": "2026-11-22T22:43:50Z",
+  "verification_summary": "git push origin main succeeded; git ls-remote origin refs/heads/main returned milestone SHA fa6131e491f63c6369c161689cf1a64af30c65a6.",
+  "application_tests_claimed": true
+}
