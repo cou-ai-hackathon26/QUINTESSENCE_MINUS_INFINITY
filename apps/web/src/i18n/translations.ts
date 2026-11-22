@@ -113,6 +113,22 @@ export const translations = {
     'planner.alert_breach': 'সতর্কতা: প্রথম রিজার্ভ ঘাটতি ঘটবে',
     'planner.alert_shortfall': 'বিপদ সংকেত: প্রথম প্রকৃত ক্যাশ সংকট ঘটবে',
     'planner.alert_safe': 'সব ৭ দিনেই ক্যাশ ব্যালেন্স নির্ধারিত রিজার্ভের উপরে থাকবে।',
+
+    // Customer Portal
+    'portal.invoice_title': 'ডিজিটাল ইনভয়েস ও পেমেন্ট রিসিট',
+    'portal.shop_label': 'দোকানের নাম',
+    'portal.customer_label': 'গ্রাহক',
+    'portal.invoice_no': 'চালান নং',
+    'portal.amount_due': 'পরিশোধযোগ্য বকেয়া টাকা',
+    'portal.paid_status': 'পরিশোধিত (Paid)',
+    'portal.due_status': 'পরিশোধ বাকি (Unpaid Due)',
+    'portal.pay_now_btn': 'বিকাশ / নগদ / কার্ড দিয়ে পরিশোধ করুন',
+    'portal.dispute_title': 'চালানে কোনো গরমিল বা আপত্তি আছে?',
+    'portal.dispute_placeholder': 'যেমন: কোনো আইটেম বেশি ধরা হয়েছে বা আগের টাকা বাদ দেওয়া হয়নি...',
+    'portal.dispute_submit': 'আপত্তি জমা দিন',
+    'portal.dispute_success': 'আপনার আপত্তি সফলভাবে দোকানদারের নিকট পাঠানো হয়েছে।',
+    'portal.expired_msg': 'এই চালানের লিংকের মেয়াদ উত্তীর্ণ হয়ে গেছে।',
+    'portal.revoked_msg': 'দোকানদার কর্তৃক এই চালানের লিংকটি বাতিল করা হয়েছে।',
   },
 
   en: {
@@ -227,6 +243,22 @@ export const translations = {
     'planner.alert_breach': 'Warning: First reserve breach on',
     'planner.alert_shortfall': 'Critical Alert: First cash shortfall on',
     'planner.alert_safe': 'All 7 days maintain cash reserves above the target threshold.',
+
+    // Customer Portal
+    'portal.invoice_title': 'Digital Invoice & Payment Portal',
+    'portal.shop_label': 'Shop Name',
+    'portal.customer_label': 'Customer',
+    'portal.invoice_no': 'Invoice #',
+    'portal.amount_due': 'Amount Due',
+    'portal.paid_status': 'Paid',
+    'portal.due_status': 'Unpaid Due',
+    'portal.pay_now_btn': 'Pay via bKash / Nagad / Cards',
+    'portal.dispute_title': 'Report an Issue or Dispute with this Invoice',
+    'portal.dispute_placeholder': 'e.g., extra item billed or prior payment not deducted...',
+    'portal.dispute_submit': 'Submit Dispute',
+    'portal.dispute_success': 'Your dispute note has been submitted to the merchant.',
+    'portal.expired_msg': 'This invoice link has expired.',
+    'portal.revoked_msg': 'This invoice link has been revoked by the merchant.',
   },
 } as const;
 

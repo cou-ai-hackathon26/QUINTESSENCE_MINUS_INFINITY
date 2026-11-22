@@ -275,3 +275,43 @@ class ScenarioModel(Base):
     first_funding_shortfall_date = Column(String(10), nullable=True)
     closing_series_json = Column(Text, nullable=False)  # JSON list of closing balances
     created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
+class ActionModel(Base):
+    __tablename__ = "actions"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    action_type = Column(String(64), nullable=False)  # "supplier_payment", "customer_reminder", "stock_reorder"
+    recipient = Column(String(255), nullable=False)
+    amount_paisa = Column(Integer, nullable=True)
+    status = Column(String(32), nullable=False, default="draft")  # "draft", "pending_approval", "approved", "completed", "cancelled", "failed"
+    idempotency_key = Column(String(128), nullable=True)
+    payload_json = Column(Text, nullable=True)
+    outcome_json = Column(Text, nullable=True)
+    created_by_user_id = Column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    approved_by_user_id = Column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    expires_at = Column(DateTime, nullable=True)
+    executed_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+    __table_args__ = (
+        UniqueConstraint("tenant_id", "idempotency_key", name="uq_tenant_action_idempotency"),
+    )
+
+
+class CustomerPortalTokenModel(Base):
+    __tablename__ = "customer_portal_tokens"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    token = Column(String(64), unique=True, nullable=False, index=True)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    party_id = Column(String(36), ForeignKey("parties.id", ondelete="CASCADE"), nullable=False)
+    invoice_number = Column(String(64), nullable=False)
+    amount_paisa = Column(Integer, nullable=False)
+    description = Column(String(255), nullable=True)
+    is_revoked = Column(Boolean, nullable=False, default=False)
+    is_paid = Column(Boolean, nullable=False, default=False)
+    expires_at = Column(DateTime, nullable=False)
+    dispute_note = Column(Text, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)

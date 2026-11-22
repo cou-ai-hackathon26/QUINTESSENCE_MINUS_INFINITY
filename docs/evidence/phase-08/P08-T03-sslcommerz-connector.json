@@ -1,0 +1,19 @@
+{
+  "task_id": "P08-T03",
+  "check_id": "sslcommerz-connector-and-tamper-checks",
+  "status": "passed",
+  "command": "node scripts/run-python.js -m pytest apps/api/tests/test_actions_and_portal.py -k \"test_sslcommerz_initiate_and_tampered_amount_rejection\" -v",
+  "working_directory": "E:\\mu idea\\Shongoti",
+  "ran_at_utc": "2026-11-22T20:44:15Z",
+  "code_revision": "d39a6bd0c7319c97e4822b3c33726881bb1bebd4",
+  "working_tree_description": "SSLCommerzAdapter session initiation, Order Validation / IPN callback verification, amount/currency tamper detection.",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Passed tests verifying gateway session initiation, rejection of tampered amount (HTTP 400), rejection of mismatched currency (HTTP 400), and store parameter verification.",
+  "evidence_paths": [
+    "apps/api/app/adapters/sslcommerz.py",
+    "apps/api/app/api/v1/actions_and_portal.py",
+    "apps/api/tests/test_actions_and_portal.py"
+  ],
+  "blocked_reason": null
+}

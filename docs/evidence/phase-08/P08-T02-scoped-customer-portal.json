@@ -1,0 +1,20 @@
+{
+  "task_id": "P08-T02",
+  "check_id": "scoped-customer-portal-and-dispute",
+  "status": "passed",
+  "command": "node scripts/run-python.js -m pytest apps/api/tests/test_actions_and_portal.py -k \"test_scoped_customer_portal_and_dispute\" -v",
+  "working_directory": "E:\\mu idea\\Shongoti",
+  "ran_at_utc": "2026-11-22T20:44:15Z",
+  "code_revision": "d39a6bd0c7319c97e4822b3c33726881bb1bebd4",
+  "working_tree_description": "CustomerPortalTokenModel, scoped public /pay/:token route, dispute intake, and frontend UI.",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Passed tests verifying unauthenticated access to scoped customer invoice details, dispute note submission, revocation/expiry handling, and bilingual CustomerPortalPage frontend.",
+  "evidence_paths": [
+    "apps/api/app/persistence/models.py",
+    "apps/api/app/api/v1/actions_and_portal.py",
+    "apps/web/src/pages/CustomerPortalPage.tsx",
+    "apps/api/tests/test_actions_and_portal.py"
+  ],
+  "blocked_reason": null
+}

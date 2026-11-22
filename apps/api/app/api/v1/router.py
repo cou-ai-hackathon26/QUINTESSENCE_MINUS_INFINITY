@@ -28,6 +28,7 @@ class LoginRequest(BaseModel):
     phone: str
     otp: str
     role: Optional[str] = "owner"
+    tenant_id: Optional[str] = None
 
 
 class AuthResponse(BaseModel):
@@ -64,10 +65,15 @@ def login(req: LoginRequest, db: Session = Depends(get_db)):
 
     user = db.query(UserModel).filter(UserModel.phone == req.phone).first()
     if not user:
-        # Create initial live tenant and owner/user
-        tenant = TenantModel(name=f"Shop {req.phone[-4:]}", currency="BDT", is_demo=False)
-        db.add(tenant)
-        db.flush()
+        if req.tenant_id:
+            tenant = db.query(TenantModel).filter(TenantModel.id == req.tenant_id).first()
+            if not tenant:
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Tenant not found.")
+        else:
+            tenant = TenantModel(name=f"Shop {req.phone[-4:]}", currency="BDT", is_demo=False)
+            db.add(tenant)
+            db.flush()
+
         user = UserModel(tenant_id=tenant.id, phone=req.phone, role=req.role or "owner", is_active=True)
         db.add(user)
         db.commit()

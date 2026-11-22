@@ -393,12 +393,10 @@
         "receipt_path": "docs/evidence/phase-07/git-checkpoint.json"
       }
     },
-      }
-    },
     {
       "id": "08",
       "name": "Action center, customer portal and one real connector",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "03",
         "05",
@@ -408,36 +406,44 @@
       "tasks": [
         {
           "id": "P08-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-08/P08-T01-action-drafts-and-approvals.json"
+          ],
+          "notes": "Versioned action drafts, approvals, cashier prohibition, execution transitions, and outbox event logging."
         },
         {
           "id": "P08-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-08/P08-T02-scoped-customer-portal.json"
+          ],
+          "notes": "Scoped token customer portal, public invoice view, and structured dispute submission."
         },
         {
           "id": "P08-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-08/P08-T03-sslcommerz-connector.json"
+          ],
+          "notes": "SSLCommerz adapter with session initiation, Order Validation / IPN callback verification, amount/currency tamper checks, and duplicate rejection."
         },
         {
           "id": "P08-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-08/P08-T04-verified-provider-outcomes.json"
+          ],
+          "notes": "Verified provider payment posting to double-entry ledger, party due reduction, fee deduction, and zero revenue double-counting."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
-        "receipt_path": null
+        "receipt_path": "docs/evidence/phase-08/git-checkpoint.json"
       }
     },
     {

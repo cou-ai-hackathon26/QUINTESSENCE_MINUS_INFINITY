@@ -1,0 +1,18 @@
+{
+  "task_id": "P08-T04",
+  "check_id": "verified-provider-outcomes-and-ledger-posting",
+  "status": "passed",
+  "command": "node scripts/run-python.js -m pytest apps/api/tests/test_actions_and_portal.py -k \"test_sslcommerz_valid_payment_posts_to_ledger_and_reduces_due\" -v",
+  "working_directory": "E:\\mu idea\\Shongoti",
+  "ran_at_utc": "2026-11-22T20:44:15Z",
+  "code_revision": "d39a6bd0c7319c97e4822b3c33726881bb1bebd4",
+  "working_tree_description": "Reflecting verified payment outcomes in balanced ledger postings, party dues reduction, and duplicate callback prevention.",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Passed tests verifying that verified gateway payments atomically debit Pending Gateway Settlement, credit Customer Receivables, mark invoice token paid, decrease party due, and reject duplicate callbacks without double posting.",
+  "evidence_paths": [
+    "apps/api/app/api/v1/actions_and_portal.py",
+    "apps/api/tests/test_actions_and_portal.py"
+  ],
+  "blocked_reason": null
+}

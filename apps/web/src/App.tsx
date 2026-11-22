@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import OnboardingPage from './pages/OnboardingPage';
 import TodayDashboard from './pages/TodayDashboard';
 import FuturePlannerPage from './pages/FuturePlannerPage';
+import CustomerPortalPage from './pages/CustomerPortalPage';
 import DemoPage from './pages/DemoPage';
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/app/planner" element={<FuturePlannerPage />} />
         <Route path="/app" element={<TodayDashboard />} />
         <Route path="/app/*" element={<TodayDashboard />} />
+        <Route path="/pay/:token" element={<CustomerPortalPage />} />
         <Route path="/demo" element={<DemoPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

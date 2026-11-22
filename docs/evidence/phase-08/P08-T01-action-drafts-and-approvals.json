@@ -1,0 +1,20 @@
+{
+  "task_id": "P08-T01",
+  "check_id": "action-drafts-approvals-and-outbox",
+  "status": "passed",
+  "command": "node scripts/run-python.js -m pytest apps/api/tests/test_actions_and_portal.py -k \"test_action_draft_approval_and_execution_workflow or test_action_cancellation_and_idempotency\" -v",
+  "working_directory": "E:\\mu idea\\Shongoti",
+  "ran_at_utc": "2026-11-22T20:44:15Z",
+  "code_revision": "d39a6bd0c7319c97e4822b3c33726881bb1bebd4",
+  "working_tree_description": "Phase 08 ActionModel, approval workflow with RBAC (cashier forbidden from financial approvals), cancellation, and execution.",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Passed tests verifying action draft creation, owner approval, cashier approval denial (HTTP 403), execution recording, idempotency key deduplication, and pre-execution cancellation.",
+  "evidence_paths": [
+    "apps/api/app/persistence/models.py",
+    "apps/api/alembic/versions/005_actions_and_portal.py",
+    "apps/api/app/api/v1/actions_and_portal.py",
+    "apps/api/tests/test_actions_and_portal.py"
+  ],
+  "blocked_reason": null
+}
