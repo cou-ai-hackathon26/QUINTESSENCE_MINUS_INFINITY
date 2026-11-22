@@ -16,11 +16,11 @@ Current state: **Phase 00, 01, 02, 03, 06, 07, 08, 09, 10, 11, 12 complete and v
 | 09 | Stock, supported forecasts and operating reports | complete | Work verified; milestone `332851e`; see `evidence/phase-09/git-checkpoint.json` |
 | 10 | Product UI, responsive/accessibility and failure states | complete | Work verified; milestone `0548800`; see `evidence/phase-10/git-checkpoint.json` |
 | 11 | Evaluation, security and complete validation | complete | Work verified; milestone `fa6131e`; see `evidence/phase-11/git-checkpoint.json` |
-| 12 | Deployment, release documentation and handover | complete | Work verified; milestone pending publication; see `evidence/phase-12/git-checkpoint.json` |
+| 12 | Deployment, release documentation and handover | complete | Work verified; milestone `54256a2`; see `evidence/phase-12/git-checkpoint.json` |
 
-**Next action:** publish Phase 12 checkpoint on origin main and provide final completion summary.
+**Next action:** All delivery phases (00-12) successfully published and verified on origin main. Awaiting user review or live model key configuration.
 
-**Next implementation task:** None (All unblocked phases 00-12 complete). Real AI adapter (P04-T04) can be activated whenever user sets GEMINI_API_KEY.
+**Next implementation task:** None. Real AI adapter (P04-T04) can be activated whenever user sets GEMINI_API_KEY.
 
 **External unknowns:** model credentials/quota; payment sandbox/merchant access; hosting; optional OAuth/sender setup; repository public-release decision. See `INTEGRATIONS.md`. None are verified live.
 
