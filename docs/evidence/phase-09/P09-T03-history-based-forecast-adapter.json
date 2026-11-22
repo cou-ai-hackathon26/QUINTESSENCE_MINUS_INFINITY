@@ -1,0 +1,16 @@
+{
+  "task_id": "P09-T03",
+  "description": "History-based sales forecast adapter with cold-start gating and rolling-origin evaluation",
+  "verified_at_utc": "2026-11-22T21:46:17Z",
+  "adapter": "app.adapters.forecast.HistoryForecastAdapter",
+  "test_suite": "apps/api/tests/test_stock_and_reports.py",
+  "tests_passed": [
+    "test_history_forecast_cold_start_and_evaluated_pipeline"
+  ],
+  "verification_details": {
+    "cold_start_gate": "Under 14 days of trading history (5 days tested), status is cold_start, data_quality_gate is insufficient_history, and statistical forecast is withheld.",
+    "rolling_origin_evaluation": "With 15 days of trading history, rolling-origin backtest evaluates Naive vs 7-day Simple Moving Average, calculates MAE in paisa, and provides calibrated 7-day projection with uncertainty interval.",
+    "synthetic_disclaimer": "Forecast is clearly labeled as history-based projection calibrated on observed merchant daily sales."
+  },
+  "status": "verified"
+}

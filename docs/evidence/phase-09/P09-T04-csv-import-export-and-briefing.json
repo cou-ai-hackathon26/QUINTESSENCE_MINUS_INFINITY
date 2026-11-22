@@ -1,0 +1,16 @@
+{
+  "task_id": "P09-T04",
+  "description": "Supported CSV import/export and daily briefing with deduplication and RBAC protection",
+  "verified_at_utc": "2026-11-22T21:46:17Z",
+  "test_suite": "apps/api/tests/test_stock_and_reports.py",
+  "tests_passed": [
+    "test_csv_export_import_and_deduplication"
+  ],
+  "verification_details": {
+    "csv_import_deduplication": "Product catalog CSV import deduplicates by SKU: updates existing products when SKU matches; inserts new products when SKU is unseen.",
+    "csv_exports": "Products CSV and Dues CSV export accurately formatted with BDT amounts.",
+    "rbac_enforcement": "Cashier role is strictly forbidden (HTTP 403) from importing or exporting financial catalogs and dues.",
+    "daily_briefing": "Morning executive briefing endpoint provides liquid cash, today sales, low-stock alerts, and 7-day upcoming commitments."
+  },
+  "status": "verified"
+}

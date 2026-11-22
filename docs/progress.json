@@ -449,7 +449,7 @@
     {
       "id": "09",
       "name": "Stock, supported forecasts and operating reports",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "06",
         "07"
@@ -457,36 +457,44 @@
       "tasks": [
         {
           "id": "P09-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-09/P09-T01-stock-units-and-wac.json"
+          ],
+          "notes": "Stock units, counts, purchase drafts, lead-time/stock-cover views, customer/supplier returns, and WAC recalculation per D011."
         },
         {
           "id": "P09-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-09/P09-T02-commitments-and-operating-reports.json"
+          ],
+          "notes": "Recurring commitments, cash-aware reorder comparison, and 4 separated operating reports (Cash, Accrual Profit, Inventory Valuation, Dues) with D011 incomplete cost suppression."
         },
         {
           "id": "P09-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-09/P09-T03-history-based-forecast-adapter.json"
+          ],
+          "notes": "History-based sales forecast adapter with cold-start gating (< 14 days) and rolling-origin backtest evaluation (>= 14 days) with calibrated MAE and uncertainty."
         },
         {
           "id": "P09-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-09/P09-T04-csv-import-export-and-briefing.json"
+          ],
+          "notes": "Supported CSV import with SKU deduplication, CSV exports for products and dues, daily briefing, and cashier 403 RBAC."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
-        "receipt_path": null
+        "receipt_path": "docs/evidence/phase-09/git-checkpoint.json"
       }
     },
     {

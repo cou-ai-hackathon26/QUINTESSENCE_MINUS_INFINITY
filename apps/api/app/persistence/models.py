@@ -204,6 +204,7 @@ class DailySnapshotModel(Base):
     closing_cash_paisa = Column(Integer, nullable=True)
     actual_drawer_cash_paisa = Column(Integer, nullable=True)
     discrepancy_paisa = Column(Integer, nullable=True)
+    total_sales_paisa = Column(Integer, nullable=True, default=0)
     status = Column(String(16), nullable=False, default="open")  # "open" or "closed"
     closed_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, nullable=False, default=now_utc)
@@ -236,6 +237,8 @@ class ProductItemModel(Base):
     quantity_on_hand = Column(Integer, nullable=False, default=0)
     cost_price_paisa = Column(Integer, nullable=True)  # WAC per unit
     selling_price_paisa = Column(Integer, nullable=False, default=0)
+    reorder_threshold = Column(Integer, nullable=True, default=5)
+    lead_time_days = Column(Integer, nullable=True, default=3)
     created_at = Column(DateTime, nullable=False, default=now_utc)
 
     movements = relationship("StockMovementModel", back_populates="product", cascade="all, delete-orphan")
@@ -315,3 +318,41 @@ class CustomerPortalTokenModel(Base):
     expires_at = Column(DateTime, nullable=False)
     dispute_note = Column(Text, nullable=True)
     created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
+class PurchaseDraftModel(Base):
+    __tablename__ = "purchase_drafts"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    supplier_id = Column(String(36), ForeignKey("parties.id", ondelete="SET NULL"), nullable=True)
+    product_id = Column(String(36), ForeignKey("products.id", ondelete="CASCADE"), nullable=False)
+    quantity = Column(Integer, nullable=False)
+    unit_cost_paisa = Column(Integer, nullable=False)
+    total_cost_paisa = Column(Integer, nullable=False)
+    lead_time_days = Column(Integer, nullable=False, default=3)
+    status = Column(String(32), nullable=False, default="draft")  # draft, approved, received, cancelled
+    notes = Column(Text, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+    received_at = Column(DateTime, nullable=True)
+
+    product = relationship("ProductItemModel")
+    supplier = relationship("PartyModel")
+
+
+class RecurringCommitmentModel(Base):
+    __tablename__ = "recurring_commitments"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    title = Column(String(255), nullable=False)
+    category = Column(String(64), nullable=False, default="other")  # rent, utilities, salary, loan, other
+    amount_paisa = Column(Integer, nullable=False)
+    frequency = Column(String(32), nullable=False, default="monthly")  # daily, weekly, monthly
+    party_id = Column(String(36), ForeignKey("parties.id", ondelete="SET NULL"), nullable=True)
+    due_day_of_month = Column(Integer, nullable=True)
+    is_active = Column(Boolean, nullable=False, default=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+    party = relationship("PartyModel")
+

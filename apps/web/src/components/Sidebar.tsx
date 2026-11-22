@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Wallet, Receipt, Users, GitCompare, CalendarDays } from 'lucide-react';
+import { LayoutDashboard, Wallet, Receipt, Users, GitCompare, CalendarDays, Boxes, FileBarChart } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 
 export const Sidebar: FC = () => {
@@ -8,6 +8,8 @@ export const Sidebar: FC = () => {
 
   const links = [
     { to: '/app', label: t('sidebar.today'), icon: LayoutDashboard },
+    { to: '/app/stock', label: t('sidebar.stock'), icon: Boxes },
+    { to: '/app/reports', label: t('sidebar.reports'), icon: FileBarChart },
     { to: '/app/money', label: t('sidebar.money'), icon: Wallet },
     { to: '/app/sales', label: t('sidebar.sales'), icon: Receipt },
     { to: '/app/reconciliation', label: t('sidebar.reconciliation'), icon: GitCompare },

@@ -1,0 +1,16 @@
+{
+  "task_id": "P09-T01",
+  "description": "Stock units, counts, purchase drafts, lead-time/stock-cover views, accepted-return follow-up and WAC calculations",
+  "verified_at_utc": "2026-11-22T21:46:17Z",
+  "test_suite": "apps/api/tests/test_stock_and_reports.py",
+  "tests_passed": [
+    "test_stock_units_counts_and_wac_recalculation",
+    "test_customer_and_supplier_returns"
+  ],
+  "verification_details": {
+    "wac_recalculation": "Verified Weighted Average Costing (WAC) recalculation per accounting rule D011 upon receiving goods (10 units @ 100 paisa + 10 units @ 160 paisa -> 20 units @ 130 paisa).",
+    "lead_time_cover": "Product stats endpoint computes 30-day daily sales velocity and stock cover days (quantity_on_hand / daily_velocity).",
+    "returns_handling": "Customer return restocks inventory and reduces customer receivable due; supplier return deduces inventory and reduces supplier payable due; excess returns strictly rejected with 400 Bad Request."
+  },
+  "status": "verified"
+}

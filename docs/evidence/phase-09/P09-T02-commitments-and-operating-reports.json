@@ -1,0 +1,22 @@
+{
+  "task_id": "P09-T02",
+  "description": "Recurring commitments, stock/cash-aware reorder comparison, and operating reports separating cash, profit, inventory and dues",
+  "verified_at_utc": "2026-11-22T21:46:17Z",
+  "test_suite": "apps/api/tests/test_stock_and_reports.py",
+  "tests_passed": [
+    "test_operating_reports_strictly_separate_views_and_enforce_d011",
+    "test_reorder_recommendation_and_cash_awareness"
+  ],
+  "verification_details": {
+    "separated_reports": {
+      "cash_statement": "Liquid balances from ledger accounts 1001 Cash, 1002 bKash, and 1003 Bank.",
+      "accrual_profit_statement": "Sales revenue, COGS via WAC, and operating expenses.",
+      "inventory_valuation": "Valuation of stock on hand using verified WAC cost.",
+      "dues_statement": "Customer receivables vs Supplier payables."
+    },
+    "d011_cost_suppression": "Verified that when any product lacks cost data (uncosted), cost_data_incomplete is set to true and unsupported net/gross profit claims are suppressed.",
+    "cash_aware_reorders": "Reorder recommendation compares estimated purchase cost against available spendable cash, flagging liquidity shortfalls.",
+    "recurring_commitments": "Support for rent, utilities, salary, and loan commitments with due day scheduling."
+  },
+  "status": "verified"
+}

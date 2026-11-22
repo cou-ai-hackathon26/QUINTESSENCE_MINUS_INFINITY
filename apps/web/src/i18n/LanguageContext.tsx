@@ -6,6 +6,7 @@ interface LanguageContextType {
   setLanguage: (lang: Language) => void;
   toggleLanguage: () => void;
   t: (key: TranslationKey) => string;
+  formatCurrency: (paisa: number) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -34,12 +35,17 @@ export const LanguageProvider: FC<{ children: ReactNode }> = ({ children }) => {
     return translations.bn[key as keyof typeof translations.bn] || key;
   };
 
+  const formatCurrency = (paisa: number): string => {
+    const bdt = (paisa / 100).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    return `৳${bdt}`;
+  };
+
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, t, formatCurrency }}>
       {children}
     </LanguageContext.Provider>
   );

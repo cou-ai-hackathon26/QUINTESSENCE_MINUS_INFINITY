@@ -6,6 +6,8 @@ import OnboardingPage from './pages/OnboardingPage';
 import TodayDashboard from './pages/TodayDashboard';
 import FuturePlannerPage from './pages/FuturePlannerPage';
 import CustomerPortalPage from './pages/CustomerPortalPage';
+import StockPage from './pages/StockPage';
+import ReportsPage from './pages/ReportsPage';
 import DemoPage from './pages/DemoPage';
 
 export default function App() {
@@ -15,6 +17,8 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/app/stock" element={<StockPage />} />
+        <Route path="/app/reports" element={<ReportsPage />} />
         <Route path="/app/planner" element={<FuturePlannerPage />} />
         <Route path="/app" element={<TodayDashboard />} />
         <Route path="/app/*" element={<TodayDashboard />} />
