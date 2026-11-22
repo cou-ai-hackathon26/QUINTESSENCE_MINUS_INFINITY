@@ -8,7 +8,7 @@ Current state: **Phase 00, 01, 02, 03 complete and verified. Phase 04 partially 
 | 01 | Environment, contracts and executable skeleton | complete | Work verified; milestone `3808c0e`; see `evidence/phase-01/git-checkpoint.json` |
 | 02 | Exact financial domain and golden cases | complete | Work verified; milestone `8b34a32`; see `evidence/phase-02/git-checkpoint.json` |
 | 03 | Database, authentication and tenant isolation | complete | Work verified; milestone `0c9cada`; see `evidence/phase-03/git-checkpoint.json` |
-| 04 | Evidence ingestion and real AI boundary | blocked | P04-T01..T03 verified; P04-T04 blocked pending GEMINI_API_KEY |
+| 04 | Evidence ingestion and real AI boundary | blocked | P04-T01..T03 verified; milestone `8e15789`; P04-T04 blocked pending GEMINI_API_KEY |
 | 05 | Supplier reconciliation and clarification | blocked | Blocked on Phase 04 completion (live AI provider gate) |
 | 06 | Connected daily merchant workflow | in_progress | Unblocked (depends on 02, 03) |
 | 07 | Liquidity outlook and spending-impact scenarios | not_started | Requires 05 and 06 for integrated acceptance |
