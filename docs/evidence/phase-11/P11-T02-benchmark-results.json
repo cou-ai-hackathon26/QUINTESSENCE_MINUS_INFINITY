@@ -1,0 +1,90 @@
+{
+  "benchmark_timestamp_utc": "2026-11-22T22:38:04.171Z",
+  "fixture": "tests/fixtures/evaluation/paired_stories_benchmark.json",
+  "systems": {
+    "rules_reasoning": {
+      "system_name": "rules_reasoning",
+      "denominators": {
+        "total_cases": 48,
+        "development_cases": 24,
+        "held_out_cases": 24,
+        "clarification_opportunities": 5
+      },
+      "metrics": {
+        "supported_completion_count": 36,
+        "appropriate_abstention_count": 12,
+        "supported_completion_rate_pct": 75,
+        "appropriate_abstention_rate_pct": 25,
+        "critical_fields_accuracy_pct": 100,
+        "absolute_financial_error_paisa": 0,
+        "clarification_value_pct": 100,
+        "false_precision_guesses": 0,
+        "mean_latency_ms": 4.5,
+        "estimated_cost_per_1k_usd": 0
+      }
+    },
+    "single_model_tools": {
+      "system_name": "single_model_tools",
+      "denominators": {
+        "total_cases": 48,
+        "development_cases": 24,
+        "held_out_cases": 24,
+        "clarification_opportunities": 5
+      },
+      "metrics": {
+        "supported_completion_count": 38,
+        "appropriate_abstention_count": 10,
+        "supported_completion_rate_pct": 79.2,
+        "appropriate_abstention_rate_pct": 20.8,
+        "critical_fields_accuracy_pct": 97.9,
+        "absolute_financial_error_paisa": 600000,
+        "clarification_value_pct": 60,
+        "false_precision_guesses": 2,
+        "mean_latency_ms": 640,
+        "estimated_cost_per_1k_usd": 0.35
+      }
+    },
+    "conditional_multi_role": {
+      "system_name": "conditional_multi_role",
+      "denominators": {
+        "total_cases": 48,
+        "development_cases": 24,
+        "held_out_cases": 24,
+        "clarification_opportunities": 5
+      },
+      "metrics": {
+        "supported_completion_count": 36,
+        "appropriate_abstention_count": 12,
+        "supported_completion_rate_pct": 75,
+        "appropriate_abstention_rate_pct": 25,
+        "critical_fields_accuracy_pct": 100,
+        "absolute_financial_error_paisa": 0,
+        "clarification_value_pct": 100,
+        "false_precision_guesses": 0,
+        "mean_latency_ms": 1850,
+        "estimated_cost_per_1k_usd": 1.12
+      }
+    },
+    "gold_fact_engine": {
+      "system_name": "gold_fact_engine",
+      "denominators": {
+        "total_cases": 48,
+        "development_cases": 24,
+        "held_out_cases": 24,
+        "clarification_opportunities": 5
+      },
+      "metrics": {
+        "supported_completion_count": 36,
+        "appropriate_abstention_count": 12,
+        "supported_completion_rate_pct": 75,
+        "appropriate_abstention_rate_pct": 25,
+        "critical_fields_accuracy_pct": 100,
+        "absolute_financial_error_paisa": 0,
+        "clarification_value_pct": 100,
+        "false_precision_guesses": 0,
+        "mean_latency_ms": 1.2,
+        "estimated_cost_per_1k_usd": 0
+      }
+    }
+  }
+}

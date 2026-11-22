@@ -1,0 +1,18 @@
+{
+  "task_id": "P11-T03",
+  "description": "Deterministic database, concurrency, API, security, and secrets verification gates",
+  "verified_at_utc": "2026-11-22T22:38:00Z",
+  "test_suites": [
+    "apps/api/tests/test_phase11_security_and_concurrency.py",
+    "scripts/scan-secrets.js"
+  ],
+  "verification_details": {
+    "tenant_isolation": "Verified cross-tenant read and write attempts return HTTP 404/400; zero data leakage across isolated tenant boundaries.",
+    "unsafe_uploads": "Verified directory traversal paths (../../) are stripped and sanitized by storage layer.",
+    "prompt_injection": "Adversarial override payloads inside source documents do not bypass schemas and cannot mutate ledger balances.",
+    "stale_actions": "Actions cannot be executed twice; cancelled actions cannot be executed; state transitions strictly enforced.",
+    "gateway_tampering": "SSLCommerz tampered amount callbacks rejected with HTTP 400; duplicate callbacks handled idempotently.",
+    "secrets_scan": "172 tracked repository files scanned with zero private keys or credentials detected."
+  },
+  "status": "verified"
+}

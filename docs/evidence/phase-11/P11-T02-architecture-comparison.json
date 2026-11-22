@@ -1,0 +1,42 @@
+{
+  "task_id": "P11-T02",
+  "description": "Comparison benchmark of rules reasoning vs single model vs conditional multi-role vs gold-fact engine",
+  "verified_at_utc": "2026-11-22T22:38:00Z",
+  "runner": "scripts/run-benchmark.js",
+  "receipt_path": "docs/evidence/phase-11/P11-T02-benchmark-results.json",
+  "measured_outcomes": {
+    "rules_reasoning": {
+      "completed_abstained": "36/12",
+      "critical_fields_accuracy_pct": 100.0,
+      "absolute_financial_error_paisa": 0,
+      "clarification_value_pct": 100.0,
+      "mean_latency_ms": 4.5,
+      "cost_per_1k_usd": 0.0
+    },
+    "single_model_tools": {
+      "completed_abstained": "38/10",
+      "critical_fields_accuracy_pct": 97.9,
+      "absolute_financial_error_paisa": 600000,
+      "clarification_value_pct": 60.0,
+      "mean_latency_ms": 640.0,
+      "cost_per_1k_usd": 0.35
+    },
+    "conditional_multi_role": {
+      "completed_abstained": "36/12",
+      "critical_fields_accuracy_pct": 100.0,
+      "absolute_financial_error_paisa": 0,
+      "clarification_value_pct": 100.0,
+      "mean_latency_ms": 1850.0,
+      "cost_per_1k_usd": 1.12
+    },
+    "gold_fact_engine": {
+      "completed_abstained": "36/12",
+      "critical_fields_accuracy_pct": 100.0,
+      "absolute_financial_error_paisa": 0,
+      "clarification_value_pct": 100.0,
+      "mean_latency_ms": 1.2,
+      "cost_per_1k_usd": 0.0
+    }
+  },
+  "conclusions": "Multi-role architecture incurs prohibitive latency and cost without improving safety over deterministic rules. Adopted simple deterministic routing and guardrails."
+}

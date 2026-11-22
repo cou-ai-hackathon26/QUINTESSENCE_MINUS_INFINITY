@@ -555,43 +555,53 @@
     {
       "id": "11",
       "name": "Evaluation, security and complete validation",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "10"
       ],
       "tasks": [
         {
           "id": "P11-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-11/P11-T01-paired-stories-benchmark.json"
+          ],
+          "notes": "24 paired stories / 48 cases benchmark dataset with development (24) and held-out splits (24)."
         },
         {
           "id": "P11-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-11/P11-T02-architecture-comparison.json",
+            "docs/evidence/phase-11/P11-T02-benchmark-results.json"
+          ],
+          "notes": "Comparison benchmark across rules reasoning, single model with tools, conditional multi-role, and gold-fact engine diagnosis."
         },
         {
           "id": "P11-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-11/P11-T03-security-and-concurrency-gates.json"
+          ],
+          "notes": "Deterministic security, concurrency, prompt injection resistance, unsafe upload sanitization, and 172-file secrets scan."
         },
         {
           "id": "P11-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-11/P11-T04-scoped-verification-report.json",
+            "docs/evidence/phase-11/evaluation-benchmark-report.md"
+          ],
+          "notes": "Scoped verification report, release gates analysis, and known-issues list update."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
-        "receipt_path": null
+        "receipt_path": "docs/evidence/phase-11/git-checkpoint.json"
       }
     },
     {

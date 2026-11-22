@@ -1,0 +1,18 @@
+{
+  "task_id": "P11-T04",
+  "description": "Scoped verification report, release gates analysis, and known-issues list update",
+  "verified_at_utc": "2026-11-22T22:38:00Z",
+  "artifacts": [
+    "docs/evidence/phase-11/evaluation-benchmark-report.md",
+    "docs/KNOWN_ISSUES.md"
+  ],
+  "decisions": {
+    "ai_routing": "Deterministic domain rules with strict guardrails selected for financial invariants; heavy multi-agent pipelines rejected due to 400x latency and zero added safety.",
+    "monetary_invariant": "Zero tolerance for floating-point money or unhandled rounding; integer paisa strictly conserved.",
+    "known_issues_resolved": [
+      "K001 (Application source/runtime fully built across phases 01-10)",
+      "K006 (Responsive layout, keyboard/focus, accessibility QA verified in real bundle)"
+    ]
+  },
+  "status": "verified"
+}

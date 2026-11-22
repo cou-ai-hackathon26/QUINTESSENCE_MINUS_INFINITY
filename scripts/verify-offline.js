@@ -12,9 +12,12 @@ const rootDir = path.resolve(__dirname, '..');
 const steps = [
   { name: 'Frontend Typecheck', cmd: 'pnpm --filter @shongoti/web typecheck' },
   { name: 'Domain Golden Contracts', cmd: 'node scripts/run-python.js -m pytest apps/api/tests/test_domain_contracts.py apps/api/tests/test_domain_golden.py -v' },
-  { name: 'API & Health Tests', cmd: 'node scripts/run-python.js -m pytest apps/api/tests/test_health.py apps/api/tests/test_persistence_and_auth.py apps/api/tests/test_evidence_ingestion.py apps/api/tests/test_merchant_workflow.py apps/api/tests/test_scenarios_workflow.py apps/api/tests/test_actions_and_portal.py apps/api/tests/test_stock_and_reports.py -v' },
-  { name: 'Web Unit Tests', cmd: 'pnpm --filter @shongoti/web test' },
+  { name: 'API, Persistence & Security Tests', cmd: 'node scripts/run-python.js -m pytest apps/api/tests/test_health.py apps/api/tests/test_persistence_and_auth.py apps/api/tests/test_evidence_ingestion.py apps/api/tests/test_merchant_workflow.py apps/api/tests/test_scenarios_workflow.py apps/api/tests/test_actions_and_portal.py apps/api/tests/test_stock_and_reports.py apps/api/tests/test_phase11_security_and_concurrency.py -v' },
+  { name: 'Web Unit & Workflow Tests', cmd: 'pnpm --filter @shongoti/web test' },
   { name: 'Web Production Build', cmd: 'pnpm --filter @shongoti/web build' },
+  { name: 'Evaluation Benchmark (48 Cases)', cmd: 'node scripts/run-benchmark.js' },
+  { name: 'Security & Secrets Scan', cmd: 'node scripts/scan-secrets.js' },
+  { name: 'E2E & UI Workflow Gate', cmd: 'node scripts/test-e2e.js' },
 ];
 
 console.log('=== Running Shongoti Offline Verification Gate ===\n');

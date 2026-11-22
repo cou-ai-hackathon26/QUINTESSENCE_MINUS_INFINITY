@@ -1,0 +1,18 @@
+{
+  "task_id": "P11-T01",
+  "description": "24 paired stories / 48 cases benchmark dataset with development and held-out splits",
+  "verified_at_utc": "2026-11-22T22:38:00Z",
+  "fixture_path": "tests/fixtures/evaluation/paired_stories_benchmark.json",
+  "total_story_families": 24,
+  "total_cases": 48,
+  "splits": {
+    "development_cases": 24,
+    "held_out_cases": 24
+  },
+  "verification_details": {
+    "family_retention": "Story families kept together strictly across development (Families 1-12) and held-out splits (Families 13-24).",
+    "edge_cases_covered": "Duplicate receipts, legitimate partial allocation, receipt vs prior inclusion, accepted/unaccepted returns, channel ambiguity, conditional promises, late receipts, route shortages, fees, reserve infeasibility, stale drafts, concurrent allocations, gateway replay, amount tampering, conflicting dates, unreadable sources, and RBAC.",
+    "controls_preserved": "Clean cash/digital sales, debt collections with zero revenue inflation, and appropriate no-reply unresolved controls."
+  },
+  "status": "verified"
+}

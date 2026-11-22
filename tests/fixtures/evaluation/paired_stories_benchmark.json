@@ -1,0 +1,1202 @@
+{
+  "benchmark_name": "Shongoti 24 Paired Stories / 48 Cases Evaluation Benchmark",
+  "version": "1.0.0",
+  "created_at_utc": "2026-11-22T22:15:00Z",
+  "total_story_families": 24,
+  "total_cases": 48,
+  "splits": {
+    "development": {
+      "families": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "cases_count": 24
+    },
+    "held_out": {
+      "families": [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+      "cases_count": 24
+    }
+  },
+  "cases": [
+    {
+      "id": "CASE_01A",
+      "family_id": 1,
+      "family_name": "reused_duplicate_receipts",
+      "split": "development",
+      "title": "First submission of supplier payment receipt",
+      "title_bn": "মহাজন রশিদ প্রথমবার জমা প্রদান",
+      "category": "reconciliation",
+      "input": {
+        "party_name": "M/S Haq Traders",
+        "doc_type": "money_receipt",
+        "receipt_no": "MR-401",
+        "amount_paisa": 500000,
+        "date": "2026-11-15",
+        "is_replayed": false
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "action": "allocate_payment",
+        "financial_delta_paisa": -500000,
+        "critical_fields_present": ["receipt_no", "amount_paisa", "date", "party_name"],
+        "clarification_required": false,
+        "invariant_check": "allocation_does_not_exceed_payable"
+      }
+    },
+    {
+      "id": "CASE_01B",
+      "family_id": 1,
+      "family_name": "reused_duplicate_receipts",
+      "split": "development",
+      "title": "Attempted reuse/duplicate submission of already allocated receipt",
+      "title_bn": "পূর্বে বরাদ্দকৃত রশিদের পুনঃব্যবহারের অপচেষ্টা",
+      "category": "reconciliation",
+      "input": {
+        "party_name": "M/S Haq Traders",
+        "doc_type": "money_receipt",
+        "receipt_no": "MR-401",
+        "amount_paisa": 500000,
+        "date": "2026-11-15",
+        "is_replayed": true,
+        "previous_allocation_id": "ALLOC-2026-001"
+      },
+      "ambiguity_label": "adversarial_duplicate",
+      "gold_expected": {
+        "status": "rejected",
+        "abstention": true,
+        "action": "reject_duplicate_receipt",
+        "financial_delta_paisa": 0,
+        "rejection_reason": "receipt_already_allocated_to_prior_invoice",
+        "critical_fields_present": ["receipt_no", "previous_allocation_id"],
+        "clarification_required": false,
+        "invariant_check": "no_duplicate_allocation"
+      }
+    },
+    {
+      "id": "CASE_02A",
+      "family_id": 2,
+      "family_name": "legitimate_partial_allocation",
+      "split": "development",
+      "title": "Exact full invoice payment allocation",
+      "title_bn": "চালানের সমপরিমাণ সম্পূর্ণ পরিশোধ",
+      "category": "ledger",
+      "input": {
+        "invoice_id": "INV-101",
+        "invoice_balance_paisa": 1200000,
+        "payment_paisa": 1200000
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "remaining_invoice_balance_paisa": 0,
+        "allocated_paisa": 1200000,
+        "financial_delta_paisa": -1200000,
+        "clarification_required": false,
+        "invariant_check": "zero_remaining_balance"
+      }
+    },
+    {
+      "id": "CASE_02B",
+      "family_id": 2,
+      "family_name": "legitimate_partial_allocation",
+      "split": "development",
+      "title": "Legitimate partial payment allocation leaving remaining balance",
+      "title_bn": "বৈধ আংশিক পরিশোধ এবং অবশিষ্ট বকেয়া সংরক্ষণ",
+      "category": "ledger",
+      "input": {
+        "invoice_id": "INV-102",
+        "invoice_balance_paisa": 1200000,
+        "payment_paisa": 800000
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "remaining_invoice_balance_paisa": 400000,
+        "allocated_paisa": 800000,
+        "financial_delta_paisa": -800000,
+        "clarification_required": false,
+        "invariant_check": "remaining_balance_equals_difference"
+      }
+    },
+    {
+      "id": "CASE_03A",
+      "family_id": 3,
+      "family_name": "receipt_versus_prior_inclusion",
+      "split": "development",
+      "title": "Payment made after statement opening balance cutoff",
+      "title_bn": "হিসাবের প্রারম্ভিক জেরের পরবর্তী তারিখের পরিশোধ",
+      "category": "reconciliation",
+      "input": {
+        "statement_opening_date": "2026-11-01",
+        "statement_opening_balance_paisa": 5000000,
+        "receipt_date": "2026-11-05",
+        "receipt_amount_paisa": 1000000
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "is_prior_included": false,
+        "adjusted_payable_paisa": 4000000,
+        "clarification_required": false,
+        "invariant_check": "post_cutoff_payment_reduces_payable"
+      }
+    },
+    {
+      "id": "CASE_03B",
+      "family_id": 3,
+      "family_name": "receipt_versus_prior_inclusion",
+      "split": "development",
+      "title": "Payment made prior to statement opening balance cutoff date",
+      "title_bn": "প্রারম্ভিক জেরের আগের পরিশোধ যা অলরেডি জেরে সমন্বিত",
+      "category": "reconciliation",
+      "input": {
+        "statement_opening_date": "2026-11-01",
+        "statement_opening_balance_paisa": 5000000,
+        "receipt_date": "2026-10-25",
+        "receipt_amount_paisa": 1000000
+      },
+      "ambiguity_label": "ambiguous_cutoff",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "is_prior_included": true,
+        "adjusted_payable_paisa": 5000000,
+        "clarification_required": false,
+        "invariant_check": "pre_cutoff_payment_does_not_double_deduct"
+      }
+    },
+    {
+      "id": "CASE_04A",
+      "family_id": 4,
+      "family_name": "accepted_vs_unaccepted_returns",
+      "split": "development",
+      "title": "Supplier returns accepted with signed credit note",
+      "title_bn": "স্বাক্ষরিত ক্রেডিট নোটসহ মহাজন কর্তৃক গৃহীত ফেরত মাল",
+      "category": "stock",
+      "input": {
+        "challan_no": "RET-001",
+        "supplier_signed": true,
+        "credit_note_amount_paisa": 250000,
+        "units_returned": 25
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "stock_deducted_units": 25,
+        "payable_reduction_paisa": 250000,
+        "clarification_required": false,
+        "invariant_check": "signed_return_reduces_payable_and_stock"
+      }
+    },
+    {
+      "id": "CASE_04B",
+      "family_id": 4,
+      "family_name": "accepted_vs_unaccepted_returns",
+      "split": "development",
+      "title": "Supplier disputed / unaccepted return without signed credit note",
+      "title_bn": "মহাজন কর্তৃক অস্বীকৃত ফেরত মাল (স্বাক্ষরবিহীন চালান)",
+      "category": "reconciliation",
+      "input": {
+        "challan_no": "RET-002",
+        "supplier_signed": false,
+        "claimed_amount_paisa": 250000,
+        "supplier_response": "goods_not_received_at_warehouse"
+      },
+      "ambiguity_label": "disputed_state",
+      "gold_expected": {
+        "status": "unresolved",
+        "abstention": true,
+        "stock_deducted_units": 0,
+        "payable_reduction_paisa": 0,
+        "clarification_required": true,
+        "invariant_check": "unaccepted_return_must_not_reduce_payable"
+      }
+    },
+    {
+      "id": "CASE_05A",
+      "family_id": 5,
+      "family_name": "channel_ambiguity",
+      "split": "development",
+      "title": "Explicit digital wallet payment with transaction ID",
+      "title_bn": "ট্রানজেকশন আইডিসহ স্পষ্ট বিকাশ পেমেন্ট",
+      "category": "money",
+      "input": {
+        "memo_text": "বিকাশ TrxID #8AK29L এ ৩০০০ টাকা পরিশোধ করা হয়েছে",
+        "amount_paisa": 300000,
+        "channel_candidate": "bkash"
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "resolved_channel": "bkash",
+        "financial_delta_paisa": -300000,
+        "clarification_required": false,
+        "invariant_check": "channel_explicitly_identified"
+      }
+    },
+    {
+      "id": "CASE_05B",
+      "family_id": 5,
+      "family_name": "channel_ambiguity",
+      "split": "development",
+      "title": "Ambiguous mobile wallet payment without provider name",
+      "title_bn": "অনির্দিষ্ট মোবাইল ব্যাংকিং পেমেন্ট (বিকাশ নাকি নগদ অস্পষ্ট)",
+      "category": "money",
+      "input": {
+        "memo_text": "মোবাইলে ৩০০০ টাকা দেওয়া হইলো",
+        "amount_paisa": 300000,
+        "merchant_channels": ["bkash", "nagad"]
+      },
+      "ambiguity_label": "channel_ambiguity",
+      "gold_expected": {
+        "status": "clarification_required",
+        "abstention": true,
+        "resolved_channel": null,
+        "financial_delta_paisa": 0,
+        "clarification_required": true,
+        "clarification_prompt": "বিকাশ নাকি নগদ একাউন্ট থেকে টাকা দেওয়া হয়েছে নিশ্চিত করুন",
+        "invariant_check": "never_guess_channel_when_ambiguous"
+      }
+    },
+    {
+      "id": "CASE_06A",
+      "family_id": 6,
+      "family_name": "retracted_conditional_promises",
+      "split": "development",
+      "title": "Unconditional customer debt settlement promise",
+      "title_bn": "গ্রাহকের শর্তহীন নিশ্চিত পাওনা পরিশোধ প্রতিশ্রুতি",
+      "category": "future_planner",
+      "input": {
+        "customer_name": "Karim Mia",
+        "promise_text": "আগামী মঙ্গলবার ৪০০০ টাকা পরিশোধ করবো",
+        "amount_paisa": 400000,
+        "due_date": "2026-11-25",
+        "conditional": false
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "is_conditional": false,
+        "included_in_guaranteed_cash": false,
+        "scenario_expected_inflow_paisa": 400000,
+        "clarification_required": false,
+        "invariant_check": "promise_is_not_spendable_cash_now"
+      }
+    },
+    {
+      "id": "CASE_06B",
+      "family_id": 6,
+      "family_name": "retracted_conditional_promises",
+      "split": "development",
+      "title": "Conditional customer promise contingent on salary deposit",
+      "title_bn": "বেতন প্রাপ্তি সাপেক্ষে শর্তযুক্ত গ্রাহক প্রতিশ্রুতি",
+      "category": "future_planner",
+      "input": {
+        "customer_name": "Rahim Store",
+        "promise_text": "রোববার যদি বেতন পাই তাহলে ৪০০০ টাকা দিতে পারব",
+        "amount_paisa": 400000,
+        "due_date": "2026-11-23",
+        "conditional": true,
+        "condition": "salary_received"
+      },
+      "ambiguity_label": "conditional_obligation",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "is_conditional": true,
+        "included_in_guaranteed_cash": false,
+        "excluded_from_baseline_liquidity": true,
+        "clarification_required": false,
+        "invariant_check": "conditional_promise_excluded_from_baseline_cash"
+      }
+    },
+    {
+      "id": "CASE_07A",
+      "family_id": 7,
+      "family_name": "late_receipts_after_close",
+      "split": "development",
+      "title": "Receipt submitted during active shift before drawer close",
+      "title_bn": "ক্যাশ ড্রয়ার বন্ধের পূর্বে প্রাপ্ত ক্যাশ রসিদ",
+      "category": "money",
+      "input": {
+        "receipt_time": "14:30",
+        "drawer_status": "open",
+        "amount_paisa": 150000
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "counted_in_current_drawer": true,
+        "financial_delta_paisa": 150000,
+        "clarification_required": false,
+        "invariant_check": "open_drawer_takes_current_receipts"
+      }
+    },
+    {
+      "id": "CASE_07B",
+      "family_id": 7,
+      "family_name": "late_receipts_after_close",
+      "split": "development",
+      "title": "Late receipt discovered after daily cash drawer already finalized",
+      "title_bn": "ক্যাশ ড্রয়ার চূড়ান্ত বন্ধ হওয়ার পর পাওয়া বিলম্বিত রসিদ",
+      "category": "money",
+      "input": {
+        "receipt_time": "22:15",
+        "drawer_status": "closed",
+        "closed_snapshot_id": "SNAP-20261122",
+        "amount_paisa": 150000
+      },
+      "ambiguity_label": "post_close_event",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "mutates_closed_snapshot": false,
+        "posts_to_next_day_or_adjustment": true,
+        "clarification_required": false,
+        "invariant_check": "finalized_daily_snapshots_are_immutable"
+      }
+    },
+    {
+      "id": "CASE_08A",
+      "family_id": 8,
+      "family_name": "route_cash_shortages",
+      "split": "development",
+      "title": "Complete delivery collection remitted by driver",
+      "title_bn": "ডেলিভারি প্রতিনিধি কর্তৃক সংগৃহীত সম্পূর্ণ টাকা জমা",
+      "category": "merchant_workflow",
+      "input": {
+        "challan_amount_paisa": 750000,
+        "driver_collected_paisa": 750000,
+        "driver_remitted_paisa": 750000
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "shortage_paisa": 0,
+        "customer_due_delta_paisa": -750000,
+        "clarification_required": false,
+        "invariant_check": "full_collection_clears_customer_due"
+      }
+    },
+    {
+      "id": "CASE_08B",
+      "family_id": 8,
+      "family_name": "route_cash_shortages",
+      "split": "development",
+      "title": "Delivery route cash remittance shortage",
+      "title_bn": "ডেলিভারি প্রতিনিধি কর্তৃক সংগৃহীত টাকায় ঘাটতি",
+      "category": "merchant_workflow",
+      "input": {
+        "challan_amount_paisa": 750000,
+        "driver_collected_paisa": 750000,
+        "driver_remitted_paisa": 700000,
+        "unaccounted_shortage_paisa": 50000
+      },
+      "ambiguity_label": "operational_shortage",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "shortage_paisa": 50000,
+        "customer_due_delta_paisa": -750000,
+        "route_shortage_receivable_paisa": 50000,
+        "clarification_required": false,
+        "invariant_check": "customer_not_penalized_for_driver_shortage"
+      }
+    },
+    {
+      "id": "CASE_09A",
+      "family_id": 9,
+      "family_name": "channel_transfer_fees",
+      "split": "development",
+      "title": "Bank channel transfer with 0 fee",
+      "title_bn": "ব্যাংক একাউন্ট ট্রান্সফার (কোন ফি নেই)",
+      "category": "money",
+      "input": {
+        "channel_from": "bank",
+        "channel_to": "cash",
+        "amount_paisa": 1000000,
+        "fee_rate_bps": 0
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "net_received_paisa": 1000000,
+        "fee_expense_paisa": 0,
+        "clarification_required": false,
+        "invariant_check": "zero_fee_leaves_balance_conserved"
+      }
+    },
+    {
+      "id": "CASE_09B",
+      "family_id": 9,
+      "family_name": "channel_transfer_fees",
+      "split": "development",
+      "title": "bKash digital cashout with 1.85% transaction fee deduction",
+      "title_bn": "বিকাশ ক্যাশআউট এবং ১.৮৫% ফি খরচ হিসেবে কর্তন",
+      "category": "money",
+      "input": {
+        "channel_from": "bkash",
+        "channel_to": "cash",
+        "amount_paisa": 1000000,
+        "fee_rate_bps": 185
+      },
+      "ambiguity_label": "fee_deduction",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "gross_debited_paisa": 1000000,
+        "net_cash_received_paisa": 981500,
+        "fee_expense_paisa": 18500,
+        "clarification_required": false,
+        "invariant_check": "postings_balance_gross_equals_net_plus_fee"
+      }
+    },
+    {
+      "id": "CASE_10A",
+      "family_id": 10,
+      "family_name": "reserve_infeasibility",
+      "split": "development",
+      "title": "Supplier payment within liquid cash buffer",
+      "title_bn": "নিরাপদ নগদ রিজার্ভ সীমার মধ্যে মহাজন পরিশোধ",
+      "category": "future_planner",
+      "input": {
+        "available_cash_paisa": 1500000,
+        "minimum_reserve_paisa": 500000,
+        "proposed_payment_paisa": 500000
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "is_feasible": true,
+        "reserve_breach": false,
+        "projected_surplus_paisa": 500000,
+        "clarification_required": false,
+        "invariant_check": "projected_balance_exceeds_reserve"
+      }
+    },
+    {
+      "id": "CASE_10B",
+      "family_id": 10,
+      "family_name": "reserve_infeasibility",
+      "split": "development",
+      "title": "Supplier payment breaching minimum cash reserve buffer",
+      "title_bn": "নগদ রিজার্ভ লঙ্ঘনকারী মহাজন পরিশোধ প্রস্তাবনা",
+      "category": "future_planner",
+      "input": {
+        "available_cash_paisa": 1500000,
+        "minimum_reserve_paisa": 500000,
+        "proposed_payment_paisa": 1200000
+      },
+      "ambiguity_label": "reserve_breach",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "is_feasible": false,
+        "reserve_breach": true,
+        "shortfall_vs_reserve_paisa": 200000,
+        "alert_level": "critical",
+        "clarification_required": false,
+        "invariant_check": "warn_reserve_breach_before_execution"
+      }
+    },
+    {
+      "id": "CASE_11A",
+      "family_id": 11,
+      "family_name": "stale_action_drafts",
+      "split": "development",
+      "title": "Fresh action draft executed within valid window",
+      "title_bn": "বৈধ সময়ের মধ্যে নতুন অ্যাকশন ড্রাফট অনুমোদন ও কার্যকর",
+      "category": "actions",
+      "input": {
+        "draft_id": "ACT-101",
+        "version": 1,
+        "current_version": 1,
+        "created_at_utc": "2026-11-22T10:00:00Z",
+        "execute_at_utc": "2026-11-22T11:00:00Z",
+        "ttl_hours": 24
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "executed": true,
+        "rejection_reason": null,
+        "clarification_required": false,
+        "invariant_check": "fresh_draft_executes_successfully"
+      }
+    },
+    {
+      "id": "CASE_11B",
+      "family_id": 11,
+      "family_name": "stale_action_drafts",
+      "split": "development",
+      "title": "Stale action draft executed after state mutation or expiration",
+      "title_bn": "মেয়াদোত্তীর্ণ বা পরিবর্তিত অবস্থার কারণে বাতিল অ্যাকশন ড্রাফট",
+      "category": "actions",
+      "input": {
+        "draft_id": "ACT-102",
+        "version": 1,
+        "current_version": 2,
+        "created_at_utc": "2026-11-20T10:00:00Z",
+        "execute_at_utc": "2026-11-22T12:00:00Z",
+        "ttl_hours": 24
+      },
+      "ambiguity_label": "stale_version_conflict",
+      "gold_expected": {
+        "status": "rejected",
+        "abstention": true,
+        "executed": false,
+        "rejection_reason": "stale_version_conflict_or_expired",
+        "clarification_required": false,
+        "invariant_check": "stale_action_must_never_execute"
+      }
+    },
+    {
+      "id": "CASE_12A",
+      "family_id": 12,
+      "family_name": "concurrent_allocations",
+      "split": "development",
+      "title": "Sequential allocation with adequate funds",
+      "title_bn": "পর্যাপ্ত ব্যালেন্সসহ ধারাবাহিক তহবিল বরাদ্দ",
+      "category": "ledger",
+      "input": {
+        "channel_balance_paisa": 2000000,
+        "request_1_paisa": 1000000,
+        "request_2_paisa": 1000000,
+        "concurrent": false
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "req1_success": true,
+        "req2_success": true,
+        "final_balance_paisa": 0,
+        "clarification_required": false,
+        "invariant_check": "funds_conserved_sequentially"
+      }
+    },
+    {
+      "id": "CASE_12B",
+      "family_id": 12,
+      "family_name": "concurrent_allocations",
+      "split": "development",
+      "title": "Concurrent simultaneous requests attempting double-spend",
+      "title_bn": "একই ব্যালেন্স দ্বৈতভাবে খরচের সমকালীন অনুরোধ",
+      "category": "ledger",
+      "input": {
+        "channel_balance_paisa": 1000000,
+        "request_1_paisa": 1000000,
+        "request_2_paisa": 1000000,
+        "concurrent": true
+      },
+      "ambiguity_label": "concurrency_race",
+      "gold_expected": {
+        "status": "completed_with_rejection",
+        "abstention": false,
+        "req1_success": true,
+        "req2_success": false,
+        "final_balance_paisa": 0,
+        "double_spend_prevented": true,
+        "clarification_required": false,
+        "invariant_check": "atomic_isolation_prevents_double_spend"
+      }
+    },
+    {
+      "id": "CASE_13A",
+      "family_id": 13,
+      "family_name": "gateway_retries_idempotency",
+      "split": "held_out",
+      "title": "Initial SSLCommerz IPN callback successfully posts to ledger",
+      "title_bn": "এসএসএলকমার্জ এর প্রথম আইপিএন কলব্যাক লেজারে পোস্টিং",
+      "category": "integrations",
+      "input": {
+        "tran_id": "SHON-TX-901",
+        "val_id": "VAL-901",
+        "amount_bdt": "1500.00",
+        "status": "VALIDATED",
+        "retry_count": 0
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "posted_to_ledger": true,
+        "party_due_reduced_paisa": 150000,
+        "revenue_double_counted": false,
+        "clarification_required": false,
+        "invariant_check": "valid_ipn_reduces_receivable_without_revenue_inflation"
+      }
+    },
+    {
+      "id": "CASE_13B",
+      "family_id": 13,
+      "family_name": "gateway_retries_idempotency",
+      "split": "held_out",
+      "title": "Replayed / retry SSLCommerz IPN callback handled idempotently",
+      "title_bn": "এসএসএলকমার্জ এর পুনরাবৃত্ত আইপিএন কলব্যাকের আইডেমপোটেন্ট হ্যান্ডলিং",
+      "category": "integrations",
+      "input": {
+        "tran_id": "SHON-TX-901",
+        "val_id": "VAL-901",
+        "amount_bdt": "1500.00",
+        "status": "VALIDATED",
+        "retry_count": 1
+      },
+      "ambiguity_label": "replayed_callback",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "posted_to_ledger": false,
+        "duplicate_prevented": true,
+        "idempotent_response": true,
+        "clarification_required": false,
+        "invariant_check": "repeat_ipn_must_not_double_post"
+      }
+    },
+    {
+      "id": "CASE_14A",
+      "family_id": 14,
+      "family_name": "gateway_amount_tampering",
+      "split": "held_out",
+      "title": "Genuine payment callback matching expected transaction amount",
+      "title_bn": "আসল পেমেন্ট কলব্যাক যা চালানের টাকার সাথে মিলে",
+      "category": "integrations",
+      "input": {
+        "tran_id": "SHON-TX-902",
+        "initiated_amount_paisa": 250000,
+        "callback_amount_paisa": 250000,
+        "currency": "BDT"
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "tamper_detected": false,
+        "accepted": true,
+        "clarification_required": false,
+        "invariant_check": "matching_amount_accepted"
+      }
+    },
+    {
+      "id": "CASE_14B",
+      "family_id": 14,
+      "family_name": "gateway_amount_tampering",
+      "split": "held_out",
+      "title": "Tampered payment callback with forged reduced amount",
+      "title_bn": "বিকৃত পেমেন্ট কলব্যাক যেখানে টাকার পরিমাণ অবৈধভাবে পরিবর্তন করা হয়েছে",
+      "category": "integrations",
+      "input": {
+        "tran_id": "SHON-TX-902",
+        "initiated_amount_paisa": 250000,
+        "callback_amount_paisa": 10000,
+        "currency": "BDT"
+      },
+      "ambiguity_label": "tampered_payload",
+      "gold_expected": {
+        "status": "rejected",
+        "abstention": true,
+        "tamper_detected": true,
+        "accepted": false,
+        "security_incident_logged": true,
+        "clarification_required": false,
+        "invariant_check": "tampered_amount_strictly_rejected"
+      }
+    },
+    {
+      "id": "CASE_15A",
+      "family_id": 15,
+      "family_name": "conflicting_dates",
+      "split": "held_out",
+      "title": "Consistent invoice date and delivery challan receipt date",
+      "title_bn": "চালান ও পণ্য প্রাপ্তির একই তারিখ",
+      "category": "stock",
+      "input": {
+        "invoice_date": "2026-11-10",
+        "challan_received_date": "2026-11-10",
+        "product_id": "PROD-001",
+        "units": 10
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "effective_stock_date": "2026-11-10",
+        "date_conflict": false,
+        "clarification_required": false,
+        "invariant_check": "clean_date_anchoring"
+      }
+    },
+    {
+      "id": "CASE_15B",
+      "family_id": 15,
+      "family_name": "conflicting_dates",
+      "split": "held_out",
+      "title": "Conflicting dates between invoice billing and actual goods receipt",
+      "title_bn": "চালানের তারিখ এবং মাল পৌঁছানোর তারিখের বৈপরীত্য",
+      "category": "stock",
+      "input": {
+        "invoice_date": "2026-11-01",
+        "challan_received_date": "2026-11-15",
+        "product_id": "PROD-001",
+        "units": 10
+      },
+      "ambiguity_label": "date_discrepancy",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "effective_stock_date": "2026-11-15",
+        "date_conflict": true,
+        "stock_anchored_to_physical_receipt": true,
+        "clarification_required": false,
+        "invariant_check": "inventory_recognition_anchored_to_actual_receipt"
+      }
+    },
+    {
+      "id": "CASE_16A",
+      "family_id": 16,
+      "family_name": "source_quality_abstention",
+      "split": "held_out",
+      "title": "High resolution printed invoice PDF extraction",
+      "title_bn": "উচ্চ রেজোলিউশনের স্পষ্ট পিডিএফ চালান থেকে তথ্য আহরণ",
+      "category": "evidence",
+      "input": {
+        "mime_type": "application/pdf",
+        "text_content": "চালান নং #৮৮২\nতারিখ: ১২ নভেম্বর ২০২৬\nমোট মূল্য: ১২,৫০০ টাকা",
+        "quality_score": 0.98
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "invoice_no": "৮৮২",
+        "total_paisa": 1250000,
+        "confidence_high": true,
+        "clarification_required": false,
+        "invariant_check": "exact_extraction_from_clean_source"
+      }
+    },
+    {
+      "id": "CASE_16B",
+      "family_id": 16,
+      "family_name": "source_quality_abstention",
+      "split": "held_out",
+      "title": "Degraded, blurry and torn memo image requiring abstention",
+      "title_bn": "অস্পষ্ট ও ক্ষতিগ্রস্ত রসিদের ছবি (মনগড়া তথ্যের বদলে বিরত থাকা)",
+      "category": "evidence",
+      "input": {
+        "mime_type": "image/jpeg",
+        "quality_score": 0.25,
+        "blur_detected": true,
+        "text_content": "চা...নং...টাকা ...???"
+      },
+      "ambiguity_label": "degraded_unreadable",
+      "gold_expected": {
+        "status": "unreadable_source",
+        "abstention": true,
+        "hallucinated_values_prevented": true,
+        "user_flagged_for_manual_rescan": true,
+        "clarification_required": true,
+        "invariant_check": "abstain_on_unreadable_source_do_not_guess"
+      }
+    },
+    {
+      "id": "CASE_17A",
+      "family_id": 17,
+      "family_name": "straightforward_sales_control",
+      "split": "held_out",
+      "title": "Standard cash counter sale",
+      "title_bn": "স্ট্যান্ডার্ড নগদ কাউন্টার বিক্রয়",
+      "category": "merchant_workflow",
+      "input": {
+        "sale_type": "cash",
+        "items": [
+          {"sku": "SOAP-01", "qty": 3, "unit_price_paisa": 15000}
+        ],
+        "total_paisa": 45000
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "cash_debited_paisa": 45000,
+        "revenue_credited_paisa": 45000,
+        "receivable_delta_paisa": 0,
+        "clarification_required": false,
+        "invariant_check": "balanced_cash_sale_journal_entry"
+      }
+    },
+    {
+      "id": "CASE_17B",
+      "family_id": 17,
+      "family_name": "straightforward_sales_control",
+      "split": "held_out",
+      "title": "Digital wallet counter sale via bKash",
+      "title_bn": "বিকাশের মাধ্যমে ডিজিটাল কাউন্টার বিক্রয়",
+      "category": "merchant_workflow",
+      "input": {
+        "sale_type": "split",
+        "items": [
+          {"sku": "OIL-01", "qty": 1, "unit_price_paisa": 15000}
+        ],
+        "cash_paid_paisa": 0,
+        "digital_paid_paisa": 15000,
+        "digital_provider": "bkash"
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "wallet_debited_paisa": 15000,
+        "revenue_credited_paisa": 15000,
+        "receivable_delta_paisa": 0,
+        "clarification_required": false,
+        "invariant_check": "balanced_digital_sale_journal_entry"
+      }
+    },
+    {
+      "id": "CASE_18A",
+      "family_id": 18,
+      "family_name": "old_debt_collection_control",
+      "split": "held_out",
+      "title": "Customer debt collection in cash with zero revenue inflation",
+      "title_bn": "নগদে বকেয়া আদায় (রাজস্বের দ্বৈত গণনা প্রতিরোধ)",
+      "category": "merchant_workflow",
+      "input": {
+        "party_type": "customer",
+        "party_name": "Salim Mia",
+        "collection_paisa": 200000,
+        "channel": "cash"
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "cash_debited_paisa": 200000,
+        "receivable_credited_paisa": 200000,
+        "revenue_credited_paisa": 0,
+        "clarification_required": false,
+        "invariant_check": "debt_collection_must_not_inflate_revenue"
+      }
+    },
+    {
+      "id": "CASE_18B",
+      "family_id": 18,
+      "family_name": "old_debt_collection_control",
+      "split": "held_out",
+      "title": "Customer debt collection via bank deposit with zero revenue inflation",
+      "title_bn": "ব্যাংক ডিপোজিটের মাধ্যমে বকেয়া আদায়",
+      "category": "merchant_workflow",
+      "input": {
+        "party_type": "customer",
+        "party_name": "Salim Mia",
+        "collection_paisa": 500000,
+        "channel": "bank"
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "bank_debited_paisa": 500000,
+        "receivable_credited_paisa": 500000,
+        "revenue_credited_paisa": 0,
+        "clarification_required": false,
+        "invariant_check": "bank_debt_collection_does_not_inflate_revenue"
+      }
+    },
+    {
+      "id": "CASE_19A",
+      "family_id": 19,
+      "family_name": "supplier_missing_invoice",
+      "split": "held_out",
+      "title": "Supplier statement matching all known invoices",
+      "title_bn": "মহাজন বিবরণীর সকল চালান স্থানীয় তথ্যের সাথে সামঞ্জস্যপূর্ণ",
+      "category": "reconciliation",
+      "input": {
+        "supplier_name": "M/S Haq Traders",
+        "statement_invoices": ["INV-401", "INV-402"],
+        "local_invoices": ["INV-401", "INV-402"]
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "unmatched_invoices_count": 0,
+        "clarification_required": false,
+        "invariant_check": "all_invoices_reconciled"
+      }
+    },
+    {
+      "id": "CASE_19B",
+      "family_id": 19,
+      "family_name": "supplier_missing_invoice",
+      "split": "held_out",
+      "title": "Supplier statement claims invoice missing from merchant purchase records",
+      "title_bn": "মহাজন বিবরণীতে উল্লেখিত চালান যা ব্যবসায়ীর রেকর্ডে নেই",
+      "category": "reconciliation",
+      "input": {
+        "supplier_name": "M/S Haq Traders",
+        "statement_invoices": ["INV-401", "INV-9988"],
+        "local_invoices": ["INV-401"],
+        "missing_invoice_amount_paisa": 850000
+      },
+      "ambiguity_label": "missing_local_record",
+      "gold_expected": {
+        "status": "unresolved",
+        "abstention": true,
+        "unmatched_invoices_count": 1,
+        "unmatched_invoice_id": "INV-9988",
+        "auto_approval_permitted": false,
+        "clarification_required": true,
+        "clarification_prompt": "চালান #INV-9988 এর মালপত্র আসলেই গুদামে প্রবেশ করেছে কিনা নিশ্চিত করুন",
+        "invariant_check": "missing_invoices_must_not_be_auto_accepted"
+      }
+    },
+    {
+      "id": "CASE_20A",
+      "family_id": 20,
+      "family_name": "supplier_clarification_reply",
+      "split": "held_out",
+      "title": "Supplier replies confirming promotional trade discount",
+      "title_bn": "মহাজন কর্তৃক বিশেষ ছাড় নিশ্চিত করে উত্তর প্রদান",
+      "category": "reconciliation",
+      "input": {
+        "supplier_name": "M/S Haq Traders",
+        "reply_received": true,
+        "reply_type": "confirmed_discount",
+        "discount_amount_paisa": 150000
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "discount_applied_paisa": 150000,
+        "dispute_resolved": true,
+        "clarification_required": false,
+        "invariant_check": "confirmed_reply_resolves_difference"
+      }
+    },
+    {
+      "id": "CASE_20B",
+      "family_id": 20,
+      "family_name": "supplier_clarification_reply",
+      "split": "held_out",
+      "title": "Supplier fails to respond to clarification query after 7 days",
+      "title_bn": "৭ দিন পরও মহাজন থেকে স্পষ্টীকরণের কোনো উত্তর না পাওয়া",
+      "category": "reconciliation",
+      "input": {
+        "supplier_name": "M/S Haq Traders",
+        "reply_received": false,
+        "days_elapsed": 7,
+        "pending_dispute_amount_paisa": 150000
+      },
+      "ambiguity_label": "no_reply_timeout",
+      "gold_expected": {
+        "status": "unresolved",
+        "abstention": true,
+        "auto_resolved": false,
+        "remains_in_reconciliation_queue": true,
+        "clarification_required": true,
+        "invariant_check": "no_reply_remains_unresolved_never_auto_finalized"
+      }
+    },
+    {
+      "id": "CASE_21A",
+      "family_id": 21,
+      "family_name": "wac_costing_integrity",
+      "split": "held_out",
+      "title": "Weighted average costing with complete purchase history",
+      "title_bn": "সম্পূর্ণ ক্রয় চালানসহ সঠিক গড় ক্রয়মূল্য (WAC) ও মুনাফা নিরূপণ",
+      "category": "reports",
+      "input": {
+        "product_id": "SOAP-01",
+        "batch_1": {"units": 10, "cost_paisa": 10000},
+        "batch_2": {"units": 10, "cost_paisa": 12000},
+        "sale": {"units": 5, "price_paisa": 15000}
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "calculated_wac_paisa": 11000,
+        "cogs_paisa": 55000,
+        "gross_profit_paisa": 20000,
+        "unsupported_profit_suppressed": false,
+        "clarification_required": false,
+        "invariant_check": "exact_wac_profit_calculation"
+      }
+    },
+    {
+      "id": "CASE_21B",
+      "family_id": 21,
+      "family_name": "wac_costing_integrity",
+      "split": "held_out",
+      "title": "Product sale without purchase history triggering D011 profit suppression",
+      "title_bn": "ক্রয়মূল্যবিহীন পণ্যের ক্ষেত্রে D011 নীতি অনুযায়ী অনুমানভিত্তিক মুনাফা গোপন",
+      "category": "reports",
+      "input": {
+        "product_id": "UNKNOWN-01",
+        "purchase_history": [],
+        "cost_price_paisa": null,
+        "sale": {"units": 5, "price_paisa": 15000}
+      },
+      "ambiguity_label": "incomplete_cost_data",
+      "gold_expected": {
+        "status": "completed_with_suppression",
+        "abstention": true,
+        "cost_data_incomplete": true,
+        "unsupported_profit_suppressed": true,
+        "gross_profit_reported": null,
+        "clarification_required": false,
+        "invariant_check": "d011_suppresses_unsupported_profit"
+      }
+    },
+    {
+      "id": "CASE_22A",
+      "family_id": 22,
+      "family_name": "forecast_cold_start_gating",
+      "split": "held_out",
+      "title": "Product with 30-day history emits backtested forecast",
+      "title_bn": "৩০ দিনের বিক্রয় তথ্যের ভিত্তিতে মূল্যায়িত নির্ভুল পূর্বাভাস",
+      "category": "forecasting",
+      "input": {
+        "product_id": "BISCUIT-01",
+        "sales_history_days": 30
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "evaluated_forecast",
+        "abstention": false,
+        "cold_start": false,
+        "forecast_emitted": true,
+        "has_mae_and_uncertainty_bounds": true,
+        "clarification_required": false,
+        "invariant_check": "adequate_history_emits_calibrated_forecast"
+      }
+    },
+    {
+      "id": "CASE_22B",
+      "family_id": 22,
+      "family_name": "forecast_cold_start_gating",
+      "split": "held_out",
+      "title": "Product with fewer than 14 days history strictly withheld by cold start gate",
+      "title_bn": "১৪ দিনের কম বিক্রয় তথ্যের পণ্যে পূর্বাভাস প্রদান বন্ধ রাখা",
+      "category": "forecasting",
+      "input": {
+        "product_id": "NEW-ITEM-01",
+        "sales_history_days": 5
+      },
+      "ambiguity_label": "cold_start_insufficient_history",
+      "gold_expected": {
+        "status": "cold_start",
+        "abstention": true,
+        "cold_start": true,
+        "forecast_emitted": false,
+        "data_quality_gate": "insufficient_history",
+        "clarification_required": false,
+        "invariant_check": "cold_start_gate_prevents_hallucinated_forecasts"
+      }
+    },
+    {
+      "id": "CASE_23A",
+      "family_id": 23,
+      "family_name": "rbac_owner_withdrawal",
+      "split": "held_out",
+      "title": "Owner role executes authorized equity withdrawal",
+      "title_bn": "মালিক কর্তৃক ব্যক্তিগত উত্তোলন সম্পাদন",
+      "category": "auth",
+      "input": {
+        "user_role": "owner",
+        "action": "owner_withdrawal",
+        "amount_paisa": 1000000
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "authorized": true,
+        "cash_debited_paisa": 1000000,
+        "owner_equity_debited_paisa": 1000000,
+        "clarification_required": false,
+        "invariant_check": "owner_permitted_withdrawal"
+      }
+    },
+    {
+      "id": "CASE_23B",
+      "family_id": 23,
+      "family_name": "rbac_owner_withdrawal",
+      "split": "held_out",
+      "title": "Cashier role denied from executing owner equity withdrawal",
+      "title_bn": "ক্যাশিয়ার কর্তৃক ব্যক্তিগত উত্তোলনের অপচেষ্টা কঠোরভাবে নিষিদ্ধ",
+      "category": "auth",
+      "input": {
+        "user_role": "cashier",
+        "action": "owner_withdrawal",
+        "amount_paisa": 1000000
+      },
+      "ambiguity_label": "privilege_escalation_attempt",
+      "gold_expected": {
+        "status": "rejected",
+        "abstention": true,
+        "authorized": false,
+        "http_status": 403,
+        "clarification_required": false,
+        "invariant_check": "cashier_strictly_forbidden_from_owner_withdrawal"
+      }
+    },
+    {
+      "id": "CASE_24A",
+      "family_id": 24,
+      "family_name": "cross_tenant_isolation",
+      "split": "held_out",
+      "title": "Tenant queries own ledger accounts and parties",
+      "title_bn": "ব্যবসায়ী কর্তৃক নিজস্ব হিসাব ও খাতা তথ্য দর্শন",
+      "category": "security",
+      "input": {
+        "auth_tenant_id": "TENANT-AAA",
+        "resource_tenant_id": "TENANT-AAA"
+      },
+      "ambiguity_label": "clean",
+      "gold_expected": {
+        "status": "completed",
+        "abstention": false,
+        "authorized": true,
+        "cross_tenant_leak": false,
+        "clarification_required": false,
+        "invariant_check": "same_tenant_access_allowed"
+      }
+    },
+    {
+      "id": "CASE_24B",
+      "family_id": 24,
+      "family_name": "cross_tenant_isolation",
+      "split": "held_out",
+      "title": "Tenant attempts to access or mutate another tenant's records",
+      "title_bn": "অন্য ব্যবসায়ীর তথ্যে অনুপ্রবেশের অপচেষ্টা সম্পূর্ণ অবরুদ্ধ",
+      "category": "security",
+      "input": {
+        "auth_tenant_id": "TENANT-AAA",
+        "resource_tenant_id": "TENANT-BBB"
+      },
+      "ambiguity_label": "cross_tenant_tampering",
+      "gold_expected": {
+        "status": "rejected",
+        "abstention": true,
+        "authorized": false,
+        "cross_tenant_leak": false,
+        "http_status": 404,
+        "clarification_required": false,
+        "invariant_check": "tenant_boundary_strictly_enforced"
+      }
+    }
+  ]
+}
