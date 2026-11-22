@@ -1,0 +1,17 @@
+{
+  "task_id": "P12-T02",
+  "description": "Deployment smoke-test verifying live workflow paths and readiness",
+  "verified_at_utc": "2026-11-22T22:55:00Z",
+  "runner": "scripts/smoke-test.js",
+  "script_path": "scripts/smoke_test.py",
+  "checks_passed": [
+    "Probing /health and /ready",
+    "Authenticating demo merchant (Owner JWT issuance)",
+    "Querying Today Dashboard metrics",
+    "Simulating 7-Day Scenario Baseline",
+    "Generating Customer Portal Scoped Token and viewing invoice",
+    "Retrieving Operating Reports and Stock Products"
+  ],
+  "exit_code": 0,
+  "status": "verified"
+}

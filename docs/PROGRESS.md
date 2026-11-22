@@ -1,6 +1,6 @@
 **Shongoti progress — evidence controls completion**
 
-Current state: **Phase 00, 01, 02, 03, 06, 07, 08, 09, 10, 11 complete and verified. Phase 04 partially implemented and blocked on live AI key. Phase 12 next.**
+Current state: **Phase 00, 01, 02, 03, 06, 07, 08, 09, 10, 11, 12 complete and verified. Phase 04 partially implemented and blocked on live AI key.**
 
 | Phase | Name | State | Evidence / dependency |
 |---|---|---|---|
@@ -16,11 +16,11 @@ Current state: **Phase 00, 01, 02, 03, 06, 07, 08, 09, 10, 11 complete and verif
 | 09 | Stock, supported forecasts and operating reports | complete | Work verified; milestone `332851e`; see `evidence/phase-09/git-checkpoint.json` |
 | 10 | Product UI, responsive/accessibility and failure states | complete | Work verified; milestone `0548800`; see `evidence/phase-10/git-checkpoint.json` |
 | 11 | Evaluation, security and complete validation | complete | Work verified; milestone `fa6131e`; see `evidence/phase-11/git-checkpoint.json` |
-| 12 | Deployment, release documentation and handover | not_started | Requires 11; actual hosting/access gates |
+| 12 | Deployment, release documentation and handover | complete | Work verified; milestone pending publication; see `evidence/phase-12/git-checkpoint.json` |
 
-**Next action:** publish Phase 11 milestone and proceed to Phase 12 (Deployment, release documentation and handover).
+**Next action:** publish Phase 12 checkpoint on origin main and provide final completion summary.
 
-**Next implementation task:** P12-T01 — configure hosting/deployment artifacts and production dependency readiness.
+**Next implementation task:** None (All unblocked phases 00-12 complete). Real AI adapter (P04-T04) can be activated whenever user sets GEMINI_API_KEY.
 
 **External unknowns:** model credentials/quota; payment sandbox/merchant access; hosting; optional OAuth/sender setup; repository public-release decision. See `INTEGRATIONS.md`. None are verified live.
 
@@ -37,6 +37,7 @@ Current state: **Phase 00, 01, 02, 03, 06, 07, 08, 09, 10, 11 complete and verif
 - 23 November 2026: Phase 09 completed and verified. Stock, supported forecasts and operating reports: PurchaseDraftModel, RecurringCommitmentModel, migration 006_stock_reports_commitments, WAC recalculation per D011, lead-time cover, accepted customer/supplier returns, cash-aware reorder alerts, 4 strictly separated operating reports (Cash, Accrual Profit with incomplete cost suppression, Inventory Valuation, Dues), HistoryForecastAdapter with cold-start gating (<14 days) and evaluated rolling-origin backtests (>=14 days), CSV import with SKU deduplication and exports, daily executive briefing, and bilingual StockPage & ReportsPage. All 40 API tests and offline gates passed. Milestone `332851e` published and receipt recorded.
 - 23 November 2026: Phase 10 completed and verified. Product UI, responsive/accessibility and failure states: MoneyPage (/app/money), SalesPage (/app/sales), PeoplePage (/app/people), ReconciliationPage (/app/reconciliation), ConnectionsPage (/app/connections), comprehensive bilingual support (Bangla/English) across all pages and navigation links, 360px mobile responsive stacked layout, focus indicators, touch-action min sizes, reduced-motion accessibility, cashier RBAC failure states, and end-to-end verification gate (scripts/test-e2e.js, Workflows.test.tsx). All 34 domain golden contracts, 40 API tests, 8 web tests, and production build passed.
 - 23 November 2026: Phase 11 completed and verified. Evaluation, security and complete validation: 24 paired story families / 48 cases benchmark fixture (tests/fixtures/evaluation/paired_stories_benchmark.json), benchmark harness (scripts/run-benchmark.js) evaluating rules reasoning vs single model vs conditional multi-role vs gold-fact engine, security & concurrency test suite (apps/api/tests/test_phase11_security_and_concurrency.py) covering cross-tenant read/write isolation, path traversal sanitization, prompt injection resistance, idempotent action execution, and SSLCommerz callback tampering rejection, secrets scanner (scripts/scan-secrets.js) checking 172 tracked repository files with 0 leaks, and comprehensive evaluation report (docs/evidence/phase-11/evaluation-benchmark-report.md). All 34 domain golden contracts, 45 API tests, 8 web tests, production build, benchmark, and secrets scan passed.
+- 23 November 2026: Phase 12 completed and verified. Deployment, release documentation and handover: Production containerization artifacts (Dockerfile.api with Python 3.12, Dockerfile.web with Node/Nginx SPA fallback, docker-compose.yml with PostgreSQL 16 healthchecks, .env.production.example), deployment smoke test suite (scripts/smoke-test.js, scripts/smoke_test.py) verifying 6 live workflow gates (/health, /ready, demo auth, today dashboard, 7-day scenarios, customer portal, reports), updated comprehensive runbook HANDOVER.md, updated README.md, and linear Git checkpoint receipt. All offline verification gates, tests, and smoke checks passed.
 
 At each session end add: phase/task IDs, changed files, actual checks/evidence, unresolved blockers and the next exact task. Update `progress.json` at the same time. Completion must be tied to acceptance criteria, not hours spent or number of files.
 

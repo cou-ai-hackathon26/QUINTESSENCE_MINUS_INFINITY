@@ -1,0 +1,18 @@
+{
+  "task_id": "P12-T01",
+  "description": "Production containerization, PostgreSQL persistence, and dependency readiness",
+  "verified_at_utc": "2026-11-22T22:55:00Z",
+  "artifacts": [
+    "Dockerfile.api",
+    "Dockerfile.web",
+    "docker-compose.yml",
+    ".env.production.example"
+  ],
+  "verification_details": {
+    "api_container": "Dockerfile.api built with Python 3.12-slim, non-root appuser, automatic Alembic migration execution, and production Uvicorn server.",
+    "web_container": "Dockerfile.web multi-stage Node/Vite build with Nginx Alpine static web server and SPA router fallback (/index.html).",
+    "orchestration": "docker-compose.yml coordinates PostgreSQL 16, API service with healthcheck dependency wait, and Web frontend with persistent storage volumes.",
+    "database_persistence": "Verified local PostgreSQL 16 on 127.0.0.1:5432 with Alembic migrations at head."
+  },
+  "status": "verified"
+}

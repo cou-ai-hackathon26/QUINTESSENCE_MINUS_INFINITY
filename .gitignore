@@ -22,10 +22,12 @@ test-results/
 .env
 .env.*
 !.env.example
+!.env.production.example
 !.env.sample
 **/.env
 **/.env.*
 !**/.env.example
+!**/.env.production.example
 !**/.env.sample
 *.pem
 *.key

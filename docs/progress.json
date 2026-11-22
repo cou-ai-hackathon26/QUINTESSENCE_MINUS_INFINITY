@@ -607,43 +607,51 @@
     {
       "id": "12",
       "name": "Deployment, release documentation and handover",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "11"
       ],
       "tasks": [
         {
           "id": "P12-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-12/P12-T01-hosting-containers-and-dependencies.json"
+          ],
+          "notes": "Dockerfile.api, Dockerfile.web, docker-compose.yml, and .env.production.example production readiness."
         },
         {
           "id": "P12-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-12/P12-T02-smoke-test-verification.json"
+          ],
+          "notes": "Deployment smoke-test verifying health, auth, today metrics, scenario baseline, customer portal, and reports."
         },
         {
           "id": "P12-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-12/P12-T03-setup-and-runtime-documentation.json"
+          ],
+          "notes": "Comprehensive HANDOVER.md runbook, runtime versions, test credentials, and architecture invariants."
         },
         {
           "id": "P12-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-12/P12-T04-publication-and-handover.json"
+          ],
+          "notes": "Local containerized deployment verified; cloud hosting deferred per plan.md; git history preserved."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
-        "receipt_path": null
+        "receipt_path": "docs/evidence/phase-12/git-checkpoint.json"
       }
     }
   ],
@@ -656,5 +664,5 @@
     "allow_force_push": false,
     "allow_visibility_change": false
   },
-  "next_action": "Audit current source/tests/Git evidence and implement P01-T01."
+  "next_action": "All unblocked platform phases (00, 01, 02, 03, 06, 07, 08, 09, 10, 11, 12) complete and verified on GitHub main. Phase 04/05 live AI boundary remains blocked pending GEMINI_API_KEY."
 }
