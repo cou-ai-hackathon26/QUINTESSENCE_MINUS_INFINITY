@@ -1,6 +1,6 @@
 **Shongoti progress — evidence controls completion**
 
-Current state: **Phase 00, 01, 02, 03 complete and verified. Phase 04 partially implemented and blocked on live AI key. Phase 06 verified; checkpoint pending.**
+Current state: **Phase 00, 01, 02, 03, 06 complete and verified. Phase 04 partially implemented and blocked on live AI key. Phase 07 next.**
 
 | Phase | Name | State | Evidence / dependency |
 |---|---|---|---|
@@ -10,17 +10,17 @@ Current state: **Phase 00, 01, 02, 03 complete and verified. Phase 04 partially 
 | 03 | Database, authentication and tenant isolation | complete | Work verified; milestone `0c9cada`; see `evidence/phase-03/git-checkpoint.json` |
 | 04 | Evidence ingestion and real AI boundary | blocked | P04-T01..T03 verified; milestone `8e15789`; P04-T04 blocked pending GEMINI_API_KEY |
 | 05 | Supplier reconciliation and clarification | blocked | Blocked on Phase 04 completion (live AI provider gate) |
-| 06 | Connected daily merchant workflow | in_progress | All 4 tasks verified offline; checkpoint publication pending |
-| 07 | Liquidity outlook and spending-impact scenarios | not_started | Requires 05 and 06 for integrated acceptance |
+| 06 | Connected daily merchant workflow | complete | Work verified; milestone `af708cb`; see `evidence/phase-06/git-checkpoint.json` |
+| 07 | Liquidity outlook and spending-impact scenarios | not_started | Next unblocked phase; uses Phase 02 scenario engine and ledger |
 | 08 | Action center, customer portal and one real connector | not_started | Requires 03, 05, 06 and 07; provider access gate |
 | 09 | Stock, supported forecasts and operating reports | not_started | Requires 06 and 07; statistical claims need evaluated history |
 | 10 | Product UI, responsive/accessibility and failure states | not_started | Requires integrated feature paths; shell starts in 01 |
 | 11 | Evaluation, security and complete validation | not_started | Relevant earlier phases complete or explicitly blocked |
 | 12 | Deployment, release documentation and handover | not_started | Requires 11; actual hosting/access gates |
 
-**Next action:** publish Phase 06 milestone and checkpoint receipt, then proceed with Phase 07.
+**Next action:** advance unblocked Phase 07 (Decision lab and spending impact scenarios) and integrate bilingual i18n support.
 
-**Next implementation task:** Phase 07 — Liquidity outlook and spending-impact scenarios.
+**Next implementation task:** P07-T01 — implement versioned planning snapshots and API endpoints for spending-impact scenarios.
 
 **External unknowns:** model credentials/quota; payment sandbox/merchant access; hosting; optional OAuth/sender setup; repository public-release decision. See `INTEGRATIONS.md`. None are verified live.
 

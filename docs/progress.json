@@ -2,8 +2,8 @@
   "schema_version": 2,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "06",
-  "next_task": "P06-T01",
+  "current_phase": "07",
+  "next_task": "P07-T01",
   "application_started": true,
   "phases": [
     {
@@ -294,7 +294,7 @@
     {
       "id": "06",
       "name": "Connected daily merchant workflow",
-      "status": "in_progress",
+      "status": "complete",
       "depends_on": [
         "02",
         "03"
@@ -335,10 +335,10 @@
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "pending",
+        "status": "published",
         "remote": "origin",
         "branch": "main",
-        "milestone_sha": null,
+        "milestone_sha": "af708cb4f91522cfc1afb2f13b3cc79b14d95249",
         "receipt_path": "docs/evidence/phase-06/git-checkpoint.json"
       }
     },
