@@ -1,0 +1,189 @@
+export type Language = 'bn' | 'en';
+
+export const translations = {
+  bn: {
+    // Brand
+    'brand.name': 'সংগতি',
+    'brand.subtitle': 'Shongoti',
+    'brand.tagline': 'বাংলা-প্রথম আর্থিক ওয়ার্কস্পেস',
+
+    // Navbar
+    'nav.today': 'আজকের হিসাব',
+    'nav.demo': 'ডেমো দেখুন',
+    'nav.login': 'প্রবেশ করুন',
+    'nav.live_tenant': 'বাস্তব হিসাব (Live)',
+    'nav.demo_mode': 'নকল তথ্য (Demo)',
+    'nav.switch_lang': 'English',
+
+    // Sidebar
+    'sidebar.title': 'ব্যবসার ড্যাশবোর্ড',
+    'sidebar.today': 'আজকের হিসাব (Today)',
+    'sidebar.money': 'টাকা ও মাধ্যম (Money)',
+    'sidebar.sales': 'বিক্রি ও বাকি (Sales & Dues)',
+    'sidebar.reconciliation': 'মহাজন মিলকরণ (Supplier Rec)',
+    'sidebar.planner': '৭ দিনের ভবিষ্যৎ (Outlook)',
+    'sidebar.people': 'পার্টি খাতা (People)',
+
+    // Landing
+    'landing.badge': 'সংগতি — বাংলা ও ইংরেজি উভমুখী আর্থিক ওয়ার্কস্পেস',
+    'landing.title_1': 'হিসাব রাখুন। সামনে কী আসছে দেখুন।',
+    'landing.title_2': 'সিদ্ধান্তের প্রভাব বুঝে কাজ শেষ করুন।',
+    'landing.desc': 'দোকানের প্রতিদিনের নগদ ও ডিজিটাল বিক্রি, মহাজনের চালান মিলকরণ, বকেয়া এবং আগামী ৭ দিনের তারল্য সংকট এড়ানোর পূর্ণাঙ্গ সমাধান।',
+    'landing.cta_demo': 'নকল তথ্যে ডেমো দেখুন',
+    'landing.cta_start': 'নতুন খাতা চালু করুন',
+    'landing.feature1_title': 'মহাজন চালান ও দাবি মিলকরণ',
+    'landing.feature1_desc': 'মহাজনের ২৫,০০০ টাকার দাবিতে পূর্বের পেমেন্ট বা ফেরত পণ্যের সমন্বয় রয়েছে কিনা তা স্পষ্ট যুক্তি ও প্রমাণের মাধ্যমে চিহ্নিত করুন।',
+    'landing.feature2_title': 'সঠিক হিসাব — পয়সা স্তরীয় নির্ভুলতা',
+    'landing.feature2_desc': 'কোনো ফ্লোটিং পয়েন্ট ভুল নয়। নগদ টাকা, বিকাশ, নগদ ওয়ালেট এবং বাকির হিসাব আলাদা লেজারে সম্পূর্ণ সমতা বজায় রেখে রক্ষিত হয়।',
+    'landing.feature3_title': '৭ দিনের সিদ্ধান্ত পরীক্ষাগার',
+    'landing.feature3_desc': 'আজ মহাজনকে টাকা দিলে বা নতুন মাল তুললে সামনের সপ্তাহে ক্যাশ সংকট হবে কিনা তা আগে থেকেই সিমুলেশন করে দেখুন।',
+    'landing.footer': 'সংগতি (Shongoti) — Quintessence Minus Infinity | Hackathon Build',
+
+    // Dashboard
+    'dashboard.title': 'আজকের ড্যাশবোর্ড (Today)',
+    'dashboard.date_subtitle': '২২ নভেম্বর ২০২৬ — একক খতিয়ানভিত্তিক সার্বিক হিসাব',
+    'dashboard.live_badge': 'সরাসরি লেজার ডেটা (Live)',
+    'dashboard.connected_badge': 'Phase 06 Connected',
+    'dashboard.cash_balance': 'নগদ ক্যাশ ব্যালেন্স',
+    'dashboard.digital_wallet': 'ডিজিটাল ওয়ালেট (বিকাশ/নগদ)',
+    'dashboard.supplier_dues': 'মহাজন দেনা (দাবি)',
+    'dashboard.reconciliation_needed': 'মিলকরণ প্রয়োজন (Unresolved)',
+    'dashboard.total_revenue': 'আজকের মোট বিক্রি (Revenue)',
+    'dashboard.customer_dues_sub': 'বকেয়া পাওনা:',
+    'dashboard.liquidity_risk': '৭ দিনের তারল্য ঝুঁকি',
+    'dashboard.warning': 'সতর্কতা',
+    'dashboard.reserve_breach_warning': '২৪ তারিখে রিজার্ভ সংকট হতে পারে',
+    'dashboard.rec_card_title': 'মহাজন দাবি পরীক্ষা ও মিলকরণ (Supplier Reconciliation)',
+    'dashboard.rec_card_desc': 'মেসার্স হক ট্রেডার্স চালান নং ৪১ এর জন্য ২৫,০০০ টাকা দাবি করেছেন। সিস্টেমে ৪,০০০ টাকার পেমেন্ট এবং ৩,০০০ টাকার রিটার্ন নথিভুক্ত আছে।',
+    'dashboard.claim_amount': 'দাবি: ৳ ২৫,০০০',
+    'dashboard.actual_due_range': 'প্রকৃত বকেয়া: ৳ ১৮,০০০ - ৳ ২৫,০০০',
+    'dashboard.verification_question': 'যাচাই প্রয়োজন: পূর্বের ৪,০০০ টাকা পেমেন্ট কি এই দাবিতে বাদ দেয়া হয়েছে?',
+    'dashboard.quick_actions_title': 'আজকের দ্রুত কাজ (Quick Actions)',
+    'dashboard.action_new_sale': '+ নতুন বিক্রি লিপিবদ্ধ করুন',
+    'dashboard.action_upload_slip': '+ চালান বা স্লিপ আপলোড করুন',
+    'dashboard.action_collect_due': '+ বকেয়া আদায় রেকর্ড করুন',
+
+    // Login
+    'login.title': 'দোকানের অ্যাকাউন্টে প্রবেশ',
+    'login.subtitle': 'আপনার রেজিস্টার্ড মোবাইল নম্বর দিয়ে ওটিপি কোড পান',
+    'login.phone_label': 'মোবাইল নম্বর',
+    'login.otp_label': '৬ সংখ্যার ওটিপি (OTP) কোড',
+    'login.send_otp': 'ওটিপি পাঠান',
+    'login.verify_otp': 'যাচাই করে প্রবেশ করুন',
+    'login.demo_prompt': 'লগইন না করে ডেমো মোডে দেখতে চান?',
+
+    // Onboarding
+    'onboarding.title': 'দোকানের খাতা শুরু করুন',
+    'onboarding.subtitle': 'দোকানের নাম ও প্রাথমিক নগদ/ডিজিটাল ব্যালেন্স নির্ধারণ করুন',
+    'onboarding.shop_name': 'দোকানের নাম',
+    'onboarding.shop_placeholder': 'যেমন: ভাই ভাই জেনারেল স্টোর',
+    'onboarding.cash_opening': 'শুরুর ক্যাশ বাক্স ব্যালেন্স (টাকা)',
+    'onboarding.digital_opening': 'বিকাশ/নগদ ব্যালেন্স (টাকা)',
+    'onboarding.submit': 'হিসাব শুরু করুন',
+
+    // Demo
+    'demo.alert_title': 'ডেমো মোড — সিন্থেটিক ডেটা সতর্কতা',
+    'demo.alert_desc': 'এই ডেমো পরিবেশটি গোল্ডেন টেস্ট কেস ও কৃত্রিম তথ্যে পরিচালিত। কোনো বাস্তব আর্থিক ডাটাবেস বা লাইভ পেমেন্ট গেটওয়ে এর সাথে যুক্ত নয়।',
+    'demo.select_scenario': 'ডেমো পরিস্থিতি নির্বাচন করুন',
+    'demo.case1_title': 'কেস ১: মেসার্স হক ট্রেডার্স — ২৫,০০০ টাকা দাবি মিলকরণ',
+    'demo.case1_desc': 'চালান নং ৪১ (দাবি: ২৫,০০০ টাকা, যোগ্য পেমেন্ট: ৪,০০০ টাকা, স্বীকৃত ফেরত: ৩,০০০ টাকা)।',
+    'demo.case1_btn': 'চালান দেখুন',
+    'demo.case2_title': 'কেস ২: ৭ দিনের নগদ ক্যাশ সংকট সিমুলেশন',
+    'demo.case2_desc': 'প্রথম দিন অতিরিক্ত ৬,০০০ টাকা খরচ হলে ৩য় দিন ৩,০০০ টাকা রিজার্ভ ঘাটতি এবং ৫ম দিন ১,০০০ টাকা প্রকৃত ঘাটতি ঘটে।',
+    'demo.case2_btn': 'সিমুলেশন দেখুন',
+  },
+
+  en: {
+    // Brand
+    'brand.name': 'Shongoti',
+    'brand.subtitle': 'সংগতি',
+    'brand.tagline': 'Bilingual MSME Financial Workspace',
+
+    // Navbar
+    'nav.today': 'Today',
+    'nav.demo': 'View Demo',
+    'nav.login': 'Sign In',
+    'nav.live_tenant': 'Live Tenant',
+    'nav.demo_mode': 'Demo Mode',
+    'nav.switch_lang': 'বাংলা',
+
+    // Sidebar
+    'sidebar.title': 'Business Dashboard',
+    'sidebar.today': 'Today Position',
+    'sidebar.money': 'Money & Channels',
+    'sidebar.sales': 'Sales & Receivables',
+    'sidebar.reconciliation': 'Supplier Reconciliation',
+    'sidebar.planner': '7-Day Outlook',
+    'sidebar.people': 'Customer & Supplier Khata',
+
+    // Landing
+    'landing.badge': 'Shongoti — Bilingual MSME Financial Workspace (Bangla & English)',
+    'landing.title_1': 'Keep your books. See what is coming.',
+    'landing.title_2': 'Understand financial impact before committing cash.',
+    'landing.desc': 'A complete workspace for daily cash and digital sales, supplier statement reconciliation, customer dues, and 7-day liquidity shortfall prevention.',
+    'landing.cta_demo': 'Explore Sample Store',
+    'landing.cta_start': 'Open Your Shop Ledger',
+    'landing.feature1_title': 'Supplier Statement Reconciliation',
+    'landing.feature1_desc': 'Identify whether a 25,000 BDT supplier demand already deducts prior payments or returned goods using exact logic and source evidence.',
+    'landing.feature2_title': 'Exact Financial Invariants',
+    'landing.feature2_desc': 'Zero floating-point rounding errors. Cash, bKash, Nagad, and credit accounts are maintained with double-entry balance at integer paisa precision.',
+    'landing.feature3_title': '7-Day Decision Lab',
+    'landing.feature3_desc': 'Simulate how today extra expense, owner withdrawal, or supplier payment affects cash reserves and obligations next week.',
+    'landing.footer': 'Shongoti — Quintessence Minus Infinity | Hackathon Build',
+
+    // Dashboard
+    'dashboard.title': "Today's Dashboard",
+    'dashboard.date_subtitle': '22 November 2026 — Unified Ledger Financial Position',
+    'dashboard.live_badge': 'Live Ledger Data',
+    'dashboard.connected_badge': 'Phase 06 Connected',
+    'dashboard.cash_balance': 'Cash Drawer Balance',
+    'dashboard.digital_wallet': 'Digital Wallets (bKash/Nagad)',
+    'dashboard.supplier_dues': 'Supplier Obligations (Payables)',
+    'dashboard.reconciliation_needed': 'Reconciliation Needed (Unresolved)',
+    'dashboard.total_revenue': "Today's Total Revenue",
+    'dashboard.customer_dues_sub': 'Customer Dues:',
+    'dashboard.liquidity_risk': '7-Day Liquidity Risk',
+    'dashboard.warning': 'Warning',
+    'dashboard.reserve_breach_warning': 'Potential reserve shortfall on Nov 24',
+    'dashboard.rec_card_title': 'Supplier Statement Reconciliation',
+    'dashboard.rec_card_desc': 'M/S Haque Traders claimed 25,000 BDT for Bill #41. System records 4,000 BDT payment and 3,000 BDT return credit.',
+    'dashboard.claim_amount': 'Demand: ৳ 25,000',
+    'dashboard.actual_due_range': 'Supported Payable: ৳ 18,000 - ৳ 25,000',
+    'dashboard.verification_question': 'Verification required: Does the current 25,000 BDT claim already deduct the prior 4,000 BDT payment?',
+    'dashboard.quick_actions_title': 'Quick Actions',
+    'dashboard.action_new_sale': '+ Record New Sale',
+    'dashboard.action_upload_slip': '+ Upload Invoice or Slip',
+    'dashboard.action_collect_due': '+ Collect Customer Due',
+
+    // Login
+    'login.title': 'Shop Account Sign In',
+    'login.subtitle': 'Enter your registered mobile number to receive an OTP code',
+    'login.phone_label': 'Mobile Number',
+    'login.otp_label': '6-Digit OTP Code',
+    'login.send_otp': 'Send OTP',
+    'login.verify_otp': 'Verify & Sign In',
+    'login.demo_prompt': 'Want to explore in demo mode without signing in?',
+
+    // Onboarding
+    'onboarding.title': 'Set Up Your Shop Ledger',
+    'onboarding.subtitle': 'Set your shop name and opening cash/digital balances',
+    'onboarding.shop_name': 'Shop Name',
+    'onboarding.shop_placeholder': 'e.g. Bhai Bhai General Store',
+    'onboarding.cash_opening': 'Opening Cash Drawer Balance (BDT)',
+    'onboarding.digital_opening': 'Opening bKash/Nagad Balance (BDT)',
+    'onboarding.submit': 'Start Ledger',
+
+    // Demo
+    'demo.alert_title': 'Demo Mode — Synthetic Data Notice',
+    'demo.alert_desc': 'This demo environment runs on synthetic data and golden test cases. No real merchant database or live payment gateway is connected.',
+    'demo.select_scenario': 'Select Demo Scenario',
+    'demo.case1_title': 'Case 1: M/S Haque Traders — 25,000 BDT Demand Reconciliation',
+    'demo.case1_desc': 'Invoice #41 (Demand: 25,000 BDT, eligible payment: 4,000 BDT, accepted return: 3,000 BDT).',
+    'demo.case1_btn': 'View Invoice',
+    'demo.case2_title': 'Case 2: 7-Day Cash Shortfall Simulation',
+    'demo.case2_desc': 'If 6,000 BDT extra expense occurs on day 1, a 3,000 BDT reserve breach occurs on day 3, and a 1,000 BDT actual shortfall occurs on day 5.',
+    'demo.case2_btn': 'View Simulation',
+  },
+} as const;
+
+export type TranslationKey = keyof typeof translations.bn;

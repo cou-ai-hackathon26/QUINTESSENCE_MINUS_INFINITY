@@ -1,15 +1,18 @@
 import type { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Wallet, Receipt, Users, GitCompare, CalendarDays } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 export const Sidebar: FC = () => {
+  const { t } = useLanguage();
+
   const links = [
-    { to: '/app', label: 'আজকের হিসাব (Today)', icon: LayoutDashboard },
-    { to: '/app/money', label: 'টাকা ও মাধ্যম (Money)', icon: Wallet },
-    { to: '/app/sales', label: 'বিক্রি ও বাকি (Sales & Dues)', icon: Receipt },
-    { to: '/app/reconciliation', label: 'মহাজন মিলকরণ (Supplier Rec)', icon: GitCompare },
-    { to: '/app/planner', label: '৭ দিনের ভবিষ্যৎ (Outlook)', icon: CalendarDays },
-    { to: '/app/people', label: 'পার্টি খাতা (People)', icon: Users },
+    { to: '/app', label: t('sidebar.today'), icon: LayoutDashboard },
+    { to: '/app/money', label: t('sidebar.money'), icon: Wallet },
+    { to: '/app/sales', label: t('sidebar.sales'), icon: Receipt },
+    { to: '/app/reconciliation', label: t('sidebar.reconciliation'), icon: GitCompare },
+    { to: '/app/planner', label: t('sidebar.planner'), icon: CalendarDays },
+    { to: '/app/people', label: t('sidebar.people'), icon: Users },
   ];
 
   return (
@@ -21,7 +24,7 @@ export const Sidebar: FC = () => {
       padding: '1rem 0'
     }}>
       <div style={{ padding: '0 1rem 1rem 1rem', fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600 }}>
-        ব্যবসার ড্যাশবোর্ড
+        {t('sidebar.title')}
       </div>
       <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
         {links.map((link) => {

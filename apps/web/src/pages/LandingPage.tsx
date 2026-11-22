@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { ArrowRight, CheckCircle2, DollarSign, Split } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 export default function LandingPage() {
+  const { t } = useLanguage();
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
@@ -18,14 +21,14 @@ export default function LandingPage() {
             fontWeight: 600,
             marginBottom: '1rem'
           }}>
-            সংগতি — বাংলা-প্রথম আর্থিক ওয়ার্কস্পেস
+            {t('landing.badge')}
           </div>
           <h1 style={{ fontSize: '2.5rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.2 }}>
-            হিসাব রাখুন। সামনে কী আসছে দেখুন।<br />
-            <span style={{ color: '#0284c7' }}>সিদ্ধান্তের প্রভাব বুঝে কাজ শেষ করুন।</span>
+            {t('landing.title_1')}<br />
+            <span style={{ color: '#0284c7' }}>{t('landing.title_2')}</span>
           </h1>
           <p style={{ fontSize: '1.125rem', color: '#475569', marginTop: '1.25rem', maxWidth: '700px', marginInline: 'auto' }}>
-            দোকানের প্রতিদিনের নগদ ও ডিজিটাল বিক্রি, মহাজনের চালান মিলকরণ, বকেয়া এবং আগামী ৭ দিনের তারল্য সংকট এড়ানোর পূর্ণাঙ্গ সমাধান।
+            {t('landing.desc')}
           </p>
 
           <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: '1rem' }}>
@@ -40,7 +43,7 @@ export default function LandingPage() {
               alignItems: 'center',
               gap: '0.5rem'
             }}>
-              নকল তথ্যে ডেমো দেখুন <ArrowRight size={18} />
+              {t('landing.cta_demo')} <ArrowRight size={18} />
             </Link>
             <Link to="/onboarding" style={{
               padding: '0.75rem 1.5rem',
@@ -51,7 +54,7 @@ export default function LandingPage() {
               textDecoration: 'none',
               fontWeight: 600
             }}>
-              নতুন খাতা চালু করুন
+              {t('landing.cta_start')}
             </Link>
           </div>
         </div>
@@ -59,32 +62,32 @@ export default function LandingPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
           <div style={{ backgroundColor: '#ffffff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
             <div style={{ color: '#0284c7', marginBottom: '0.75rem' }}><CheckCircle2 size={28} /></div>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#0f172a' }}>মহাজন চালান ও দাবি মিলকরণ</h3>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#0f172a' }}>{t('landing.feature1_title')}</h3>
             <p style={{ fontSize: '0.875rem', color: '#64748b', marginTop: '0.5rem' }}>
-              মহাজনের ২৫,০০০ টাকার দাবিতে পূর্বের পেমেন্ট বা ফেরত পণ্যের সমন্বয় রয়েছে কিনা তা স্পষ্ট যুক্তি ও প্রমাণের মাধ্যমে চিহ্নিত করুন।
+              {t('landing.feature1_desc')}
             </p>
           </div>
 
           <div style={{ backgroundColor: '#ffffff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
             <div style={{ color: '#16a34a', marginBottom: '0.75rem' }}><DollarSign size={28} /></div>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#0f172a' }}>সঠিক হিসাব — পয়সা স্তরীয় নির্ভুলতা</h3>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#0f172a' }}>{t('landing.feature2_title')}</h3>
             <p style={{ fontSize: '0.875rem', color: '#64748b', marginTop: '0.5rem' }}>
-              কোনো ফ্লোটিং পয়েন্ট ভুল নয়। নগদ টাকা, বিকাশ, নগদ ওয়ালেট এবং বাকির হিসাব আলাদা লেজারে সম্পূর্ণ সমতা বজায় রেখে রক্ষিত হয়।
+              {t('landing.feature2_desc')}
             </p>
           </div>
 
           <div style={{ backgroundColor: '#ffffff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
             <div style={{ color: '#ea580c', marginBottom: '0.75rem' }}><Split size={28} /></div>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#0f172a' }}>৭ দিনের সিদ্ধান্ত পরীক্ষাগার</h3>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#0f172a' }}>{t('landing.feature3_title')}</h3>
             <p style={{ fontSize: '0.875rem', color: '#64748b', marginTop: '0.5rem' }}>
-              আজ মহাজনকে টাকা দিলে বা নতুন মাল তুললে সামনের সপ্তাহে ক্যাশ সংকট হবে কিনা তা আগে থেকেই সিমুলেশন করে দেখুন।
+              {t('landing.feature3_desc')}
             </p>
           </div>
         </div>
       </main>
 
       <footer style={{ borderTop: '1px solid #e2e8f0', padding: '1.5rem', textAlign: 'center', fontSize: '0.875rem', color: '#94a3b8' }}>
-        সংগতি (Shongoti) — Quintessence Minus Infinity | Hackathon Build
+        {t('landing.footer')}
       </footer>
     </div>
   );

@@ -4,6 +4,7 @@ import { Sidebar } from '../components/Sidebar';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { Wallet, AlertTriangle, ArrowUpRight, ArrowDownLeft, TrendingUp } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface TodaySummary {
   cash_balance_paisa: number;
@@ -16,6 +17,7 @@ interface TodaySummary {
 }
 
 export default function TodayDashboard() {
+  const { t } = useLanguage();
   const [summary, setSummary] = useState<TodaySummary>({
     cash_balance_paisa: 1200000,
     digital_wallet_balance_paisa: 700000,
@@ -60,12 +62,12 @@ export default function TodayDashboard() {
         <main style={{ flex: 1, padding: '1.5rem 2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
             <div>
-              <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>আজকের ড্যাশবোর্ড (Today)</h1>
-              <p style={{ fontSize: '0.875rem', color: '#64748b' }}>২২ নভেম্বর ২০২৬ — একক খতিয়ানভিত্তিক সার্বিক হিসাব</p>
+              <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>{t('dashboard.title')}</h1>
+              <p style={{ fontSize: '0.875rem', color: '#64748b' }}>{t('dashboard.date_subtitle')}</p>
             </div>
             <div style={{ display: 'flex', gap: '0.5rem' }}>
               <Badge variant={isLive ? 'supported' : 'info'}>
-                {isLive ? 'সরাসরি লেজার ডেটা (Live)' : 'Phase 06 Connected'}
+                {isLive ? t('dashboard.live_badge') : t('dashboard.connected_badge')}
               </Badge>
             </div>
           </div>
@@ -74,7 +76,7 @@ export default function TodayDashboard() {
             <Card>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
-                  <p style={{ fontSize: '0.8rem', color: '#64748b' }}>নগদ ক্যাশ ব্যালেন্স</p>
+                  <p style={{ fontSize: '0.8rem', color: '#64748b' }}>{t('dashboard.cash_balance')}</p>
                   <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0f172a', marginTop: '0.25rem' }}>
                     {formatBDT(summary.cash_balance_paisa)}
                   </p>
@@ -86,7 +88,7 @@ export default function TodayDashboard() {
             <Card>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
-                  <p style={{ fontSize: '0.8rem', color: '#64748b' }}>ডিজিটাল ওয়ালেট (বিকাশ/নগদ)</p>
+                  <p style={{ fontSize: '0.8rem', color: '#64748b' }}>{t('dashboard.digital_wallet')}</p>
                   <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#0f172a', marginTop: '0.25rem' }}>
                     {formatBDT(summary.digital_wallet_balance_paisa)}
                   </p>
@@ -98,7 +100,7 @@ export default function TodayDashboard() {
             <Card>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
-                  <p style={{ fontSize: '0.8rem', color: '#64748b' }}>মহাজন দেনা (দাবি)</p>
+                  <p style={{ fontSize: '0.8rem', color: '#64748b' }}>{t('dashboard.supplier_dues')}</p>
                   <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#dc2626', marginTop: '0.25rem' }}>
                     {formatBDT(summary.supplier_dues_paisa)}
                   </p>
@@ -106,14 +108,14 @@ export default function TodayDashboard() {
                 <div style={{ color: '#dc2626' }}><AlertTriangle size={24} /></div>
               </div>
               <div style={{ marginTop: '0.5rem' }}>
-                <Badge variant="unresolved">মিলকরণ প্রয়োজন (Unresolved)</Badge>
+                <Badge variant="unresolved">{t('dashboard.reconciliation_needed')}</Badge>
               </div>
             </Card>
 
             <Card>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
-                  <p style={{ fontSize: '0.8rem', color: '#64748b' }}>আজকের মোট বিক্রি (Revenue)</p>
+                  <p style={{ fontSize: '0.8rem', color: '#64748b' }}>{t('dashboard.total_revenue')}</p>
                   <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#059669', marginTop: '0.25rem' }}>
                     {formatBDT(summary.total_revenue_paisa)}
                   </p>
@@ -122,7 +124,7 @@ export default function TodayDashboard() {
               </div>
               <div style={{ marginTop: '0.5rem' }}>
                 <span style={{ fontSize: '0.75rem', color: '#64748b' }}>
-                  বকেয়া পাওনা: {formatBDT(summary.customer_dues_paisa)}
+                  {t('dashboard.customer_dues_sub')} {formatBDT(summary.customer_dues_paisa)}
                 </span>
               </div>
             </Card>
@@ -130,45 +132,45 @@ export default function TodayDashboard() {
             <Card>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
-                  <p style={{ fontSize: '0.8rem', color: '#64748b' }}>৭ দিনের তারল্য ঝুঁকি</p>
-                  <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#ea580c', marginTop: '0.25rem' }}>সতর্কতা</p>
+                  <p style={{ fontSize: '0.8rem', color: '#64748b' }}>{t('dashboard.liquidity_risk')}</p>
+                  <p style={{ fontSize: '1.4rem', fontWeight: 700, color: '#ea580c', marginTop: '0.25rem' }}>{t('dashboard.warning')}</p>
                 </div>
                 <div style={{ color: '#ea580c' }}><ArrowUpRight size={24} /></div>
               </div>
               <div style={{ marginTop: '0.5rem' }}>
-                <span style={{ fontSize: '0.75rem', color: '#b45309' }}>২৪ তারিখে রিজার্ভ সংকট হতে পারে</span>
+                <span style={{ fontSize: '0.75rem', color: '#b45309' }}>{t('dashboard.reserve_breach_warning')}</span>
               </div>
             </Card>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem' }}>
-            <Card title="মহাজন দাবি পরীক্ষা ও মিলকরণ (Supplier Reconciliation)">
+            <Card title={t('dashboard.rec_card_title')}>
               <div style={{ padding: '0.5rem 0' }}>
                 <p style={{ fontSize: '0.875rem', color: '#475569', marginBottom: '1rem' }}>
-                  মেসার্স হক ট্রেডার্স চালান নং ৪১ এর জন্য ২৫,০০০ টাকা দাবি করেছেন। সিস্টেমে ৪,০০০ টাকার পেমেন্ট এবং ৩,০০০ টাকার রিটার্ন নথিভুক্ত আছে।
+                  {t('dashboard.rec_card_desc')}
                 </p>
                 <div style={{ backgroundColor: '#f8fafc', padding: '1rem', borderRadius: '6px', border: '1px solid #e2e8f0', marginBottom: '1rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                    <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>দাবি: ৳ ২৫,০০০</span>
-                    <span style={{ fontSize: '0.85rem', color: '#dc2626' }}>প্রকৃত বকেয়া: ৳ ১৮,০০০ - ৳ ২৫,০০০</span>
+                    <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('dashboard.claim_amount')}</span>
+                    <span style={{ fontSize: '0.85rem', color: '#dc2626' }}>{t('dashboard.actual_due_range')}</span>
                   </div>
                   <p style={{ fontSize: '0.8rem', color: '#64748b' }}>
-                    যাচাই প্রয়োজন: পূর্বের ৪,০০০ টাকা পেমেন্ট কি এই দাবিতে বাদ দেয়া হয়েছে?
+                    {t('dashboard.verification_question')}
                   </p>
                 </div>
               </div>
             </Card>
 
-            <Card title="আজকের দ্রুত কাজ (Quick Actions)">
+            <Card title={t('dashboard.quick_actions_title')}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <button style={{ padding: '0.6rem 0.8rem', textAlign: 'left', borderRadius: '6px', border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 500 }}>
-                  + নতুন বিক্রি লিপিবদ্ধ করুন
+                  {t('dashboard.action_new_sale')}
                 </button>
                 <button style={{ padding: '0.6rem 0.8rem', textAlign: 'left', borderRadius: '6px', border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 500 }}>
-                  + চালান বা স্লিপ আপলোড করুন
+                  {t('dashboard.action_upload_slip')}
                 </button>
                 <button style={{ padding: '0.6rem 0.8rem', textAlign: 'left', borderRadius: '6px', border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 500 }}>
-                  + বকেয়া আদায় রেকর্ড করুন
+                  {t('dashboard.action_collect_due')}
                 </button>
               </div>
             </Card>

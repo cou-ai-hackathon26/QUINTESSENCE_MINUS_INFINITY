@@ -1,11 +1,15 @@
 import type { FC } from 'react';
 import { Link } from 'react-router-dom';
+import { Languages } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface NavbarProps {
   isDemo?: boolean;
 }
 
 export const Navbar: FC<NavbarProps> = ({ isDemo = false }) => {
+  const { language, toggleLanguage, t } = useLanguage();
+
   return (
     <header style={{
       backgroundColor: '#ffffff',
@@ -17,8 +21,8 @@ export const Navbar: FC<NavbarProps> = ({ isDemo = false }) => {
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <Link to="/" style={{ textDecoration: 'none', color: '#0f172a', fontWeight: 'bold', fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span style={{ color: '#0284c7' }}>সংগতি</span>
-          <span style={{ fontSize: '0.875rem', color: '#64748b' }}>Shongoti</span>
+          <span style={{ color: '#0284c7' }}>{t('brand.name')}</span>
+          <span style={{ fontSize: '0.875rem', color: '#64748b' }}>{t('brand.subtitle')}</span>
         </Link>
         {isDemo ? (
           <span style={{
@@ -29,7 +33,7 @@ export const Navbar: FC<NavbarProps> = ({ isDemo = false }) => {
             borderRadius: '4px',
             fontWeight: 600
           }}>
-            নকল তথ্য (Demo Mode)
+            {t('nav.demo_mode')}
           </span>
         ) : (
           <span style={{
@@ -39,17 +43,17 @@ export const Navbar: FC<NavbarProps> = ({ isDemo = false }) => {
             padding: '0.2rem 0.5rem',
             borderRadius: '4px'
           }}>
-            বাস্তব হিসাব (Live Tenant)
+            {t('nav.live_tenant')}
           </span>
         )}
       </div>
 
       <nav style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <Link to="/app" style={{ color: '#334155', textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500 }}>
-          আজকের হিসাব
+          {t('nav.today')}
         </Link>
         <Link to="/demo" style={{ color: '#0284c7', textDecoration: 'none', fontSize: '0.875rem', fontWeight: 600 }}>
-          ডেমো দেখুন
+          {t('nav.demo')}
         </Link>
         <Link to="/login" style={{
           padding: '0.4rem 0.9rem',
@@ -60,8 +64,31 @@ export const Navbar: FC<NavbarProps> = ({ isDemo = false }) => {
           fontSize: '0.875rem',
           fontWeight: 500
         }}>
-          প্রবেশ করুন
+          {t('nav.login')}
         </Link>
+
+        {/* Language Switcher Pill */}
+        <button
+          onClick={toggleLanguage}
+          title={language === 'bn' ? 'Switch to English' : 'বাংলায় দেখুন'}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.35rem',
+            padding: '0.35rem 0.7rem',
+            borderRadius: '20px',
+            border: '1px solid #cbd5e1',
+            backgroundColor: '#f8fafc',
+            color: '#0f172a',
+            fontSize: '0.8rem',
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all 0.15s ease'
+          }}
+        >
+          <Languages size={15} style={{ color: '#0284c7' }} />
+          <span>{language === 'bn' ? 'English' : 'বাংলা'}</span>
+        </button>
       </nav>
     </header>
   );

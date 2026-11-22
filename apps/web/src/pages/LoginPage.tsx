@@ -3,8 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
+import { useLanguage } from '../i18n/LanguageContext';
 
 export default function LoginPage() {
+  const { t } = useLanguage();
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState<'phone' | 'otp'>('phone');
@@ -28,17 +30,17 @@ export default function LoginPage() {
       <main style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem' }}>
         <Card style={{ width: '100%', maxWidth: '400px' }}>
           <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.5rem', textAlign: 'center' }}>
-            দোকানের অ্যাকাউন্টে প্রবেশ
+            {t('login.title')}
           </h2>
           <p style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: '1.5rem', textAlign: 'center' }}>
-            আপনার রেজিস্টার্ড মোবাইল নম্বর দিয়ে ওটিপি কোড পান
+            {t('login.subtitle')}
           </p>
 
           {step === 'phone' ? (
             <form onSubmit={handleSendOtp} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#334155', marginBottom: '0.25rem' }}>
-                  মোবাইল নম্বর
+                  {t('login.phone_label')}
                 </label>
                 <input
                   type="tel"
@@ -55,13 +57,13 @@ export default function LoginPage() {
                   required
                 />
               </div>
-              <Button type="submit">ওটিপি পাঠান</Button>
+              <Button type="submit">{t('login.send_otp')}</Button>
             </form>
           ) : (
             <form onSubmit={handleVerifyOtp} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, color: '#334155', marginBottom: '0.25rem' }}>
-                  ৬ সংখ্যার ওটিপি (OTP) কোড
+                  {t('login.otp_label')}
                 </label>
                 <input
                   type="text"
@@ -80,13 +82,13 @@ export default function LoginPage() {
                   required
                 />
               </div>
-              <Button type="submit">যাচাই করে প্রবেশ করুন</Button>
+              <Button type="submit">{t('login.verify_otp')}</Button>
             </form>
           )}
 
           <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.875rem' }}>
             <Link to="/demo" style={{ color: '#0284c7', textDecoration: 'none', fontWeight: 600 }}>
-              লগইন না করে ডেমো মোডে দেখতে চান?
+              {t('login.demo_prompt')}
             </Link>
           </div>
         </Card>
