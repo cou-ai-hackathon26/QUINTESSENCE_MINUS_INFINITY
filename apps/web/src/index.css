@@ -39,3 +39,46 @@ button, input, select, textarea {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
+
+/* Touch targets */
+button, a {
+  touch-action: manipulation;
+}
+
+/* Responsive layout: 360px mobile, 768px tablet, 1440px desktop */
+@media (max-width: 768px) {
+  .layout-container {
+    flex-direction: column !important;
+  }
+  .app-sidebar {
+    width: 100% !important;
+    min-height: auto !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--color-border) !important;
+    padding: 0.5rem 0 !important;
+  }
+  .app-sidebar nav {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 0.25rem !important;
+    padding: 0 0.5rem !important;
+  }
+  .app-sidebar nav a {
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.75rem !important;
+  }
+  .main-content {
+    padding: 1rem !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

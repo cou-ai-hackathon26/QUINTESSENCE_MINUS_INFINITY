@@ -1,0 +1,20 @@
+{
+  "task_id": "P10-T02",
+  "description": "Source-to-action interactions across today, future, money, sales, people, reconciliation, stock, reports, and connections",
+  "verified_at_utc": "2026-11-22T22:04:00Z",
+  "test_suite": "apps/web/src/tests/Workflows.test.tsx",
+  "tests_passed": [
+    "navigates to Sales page and allows sales recording & debt collection",
+    "navigates to People page and lists customer khata vs supplier khata",
+    "navigates to Reconciliation page and displays golden hypotheses",
+    "navigates to Connections page and displays gateway integration cards"
+  ],
+  "verification_details": {
+    "money_interactions": "Live liquid balances across drawer cash, bKash wallet, and bank account; drawer close with discrepancy recording; wallet transfer with 1.85% cashout fee; owner withdrawal with cashier restriction.",
+    "sales_and_debt": "Cash, credit, and split sales recording; debt collection with explicit zero revenue double-counting; instant customer payment portal link generator with copy button.",
+    "people_khata": "Bilingual Customer Khata (বাকি খাতা) and Supplier Khata (মহাজন খাতা); payment recording reducing party dues without affecting revenue.",
+    "reconciliation_hypotheses": "Direct UI selection and approval for 4 golden hypotheses (REC 001 - 004); supplier claim statement upload and resolution details.",
+    "connections": "SSLCOMMERZ sandbox configuration and test IPN callback trigger; SMS mock gateway; WhatsApp business gating notice per D009."
+  },
+  "status": "verified"
+}

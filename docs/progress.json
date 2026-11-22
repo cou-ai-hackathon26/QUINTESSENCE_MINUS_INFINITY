@@ -500,7 +500,7 @@
     {
       "id": "10",
       "name": "Product UI, responsive/accessibility and failure states",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "04",
         "05",
@@ -512,36 +512,44 @@
       "tasks": [
         {
           "id": "P10-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-10/P10-T01-complete-entry-and-navigation.json"
+          ],
+          "notes": "Landing, authenticated/demo entry, onboarding, and consistent full navigation across all MSME modules."
         },
         {
           "id": "P10-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-10/P10-T02-source-to-action-interactions.json"
+          ],
+          "notes": "Source-to-action interactions across today, future, money, sales, people, reconciliation, stock, reports, and connections."
         },
         {
           "id": "P10-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-10/P10-T03-responsive-accessibility-verification.json"
+          ],
+          "notes": "Browser responsive layouts (360px mobile, 768px tablet, 1440px desktop), accessibility, Bengali typography and reduced-motion."
         },
         {
           "id": "P10-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-10/P10-T04-failure-states-and-e2e.json"
+          ],
+          "notes": "Failure states, permission denials, offline fallback data, and end-to-end verification gate."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
-        "receipt_path": null
+        "receipt_path": "docs/evidence/phase-10/git-checkpoint.json"
       }
     },
     {

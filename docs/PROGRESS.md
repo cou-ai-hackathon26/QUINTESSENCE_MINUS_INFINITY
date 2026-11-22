@@ -1,6 +1,6 @@
 **Shongoti progress — evidence controls completion**
 
-Current state: **Phase 00, 01, 02, 03, 06, 07, 08, 09 complete and verified. Phase 04 partially implemented and blocked on live AI key. Phase 10 next.**
+Current state: **Phase 00, 01, 02, 03, 06, 07, 08, 09, 10 complete and verified. Phase 04 partially implemented and blocked on live AI key. Phase 11 next.**
 
 | Phase | Name | State | Evidence / dependency |
 |---|---|---|---|
@@ -14,13 +14,13 @@ Current state: **Phase 00, 01, 02, 03, 06, 07, 08, 09 complete and verified. Pha
 | 07 | Liquidity outlook and spending-impact scenarios | complete | Work verified; milestone `e4265e9`; see `evidence/phase-07/git-checkpoint.json` |
 | 08 | Action center, customer portal and one real connector | complete | Work verified; milestone `ba38e5f`; see `evidence/phase-08/git-checkpoint.json` |
 | 09 | Stock, supported forecasts and operating reports | complete | Work verified; milestone `332851e`; see `evidence/phase-09/git-checkpoint.json` |
-| 10 | Product UI, responsive/accessibility and failure states | not_started | Requires integrated feature paths; shell starts in 01 |
+| 10 | Product UI, responsive/accessibility and failure states | complete | Work verified; milestone pending publication; see `evidence/phase-10/git-checkpoint.json` |
 | 11 | Evaluation, security and complete validation | not_started | Relevant earlier phases complete or explicitly blocked |
 | 12 | Deployment, release documentation and handover | not_started | Requires 11; actual hosting/access gates |
 
-**Next action:** implement Phase 10 (Product UI, responsive/accessibility and failure states).
+**Next action:** publish Phase 10 checkpoint and proceed to Phase 11 (Evaluation, security and complete validation).
 
-**Next implementation task:** P08-T01 — implement versioned action drafts, approvals, idempotency and outbox.
+**Next implementation task:** P11-T01 — implement independent 24 paired stories / 48 evaluation cases.
 
 **External unknowns:** model credentials/quota; payment sandbox/merchant access; hosting; optional OAuth/sender setup; repository public-release decision. See `INTEGRATIONS.md`. None are verified live.
 
@@ -35,6 +35,7 @@ Current state: **Phase 00, 01, 02, 03, 06, 07, 08, 09 complete and verified. Pha
 - 23 November 2026: Phase 07 completed and verified. Liquidity outlook & decision lab: ScenarioModel, migration 004_scenarios_schema, ScenarioEngine wired to /api/v1/scenarios (simulate, save, list, baseline), FuturePlannerPage bilingual UI decision lab, verified non-mutation of actual books, Day 3 reserve breach and Day 5 cash shortfall alerts. All 29 API tests and offline gates passed.
 - 23 November 2026: Phase 08 completed and verified. Action center, customer portal and real SSLCOMMERZ connector: ActionModel, CustomerPortalTokenModel, migration 005_actions_and_portal, SSLCommerz sandbox adapter with Order Validation/IPN callback verification and tamper detection, scoped customer portal with itemized breakdown and dispute submission, cashier approval denial, and verified provider payment posting to ledger reducing due without duplicate revenue. All 34 API tests and offline gates passed. Milestone `ba38e5f` published and receipt recorded.
 - 23 November 2026: Phase 09 completed and verified. Stock, supported forecasts and operating reports: PurchaseDraftModel, RecurringCommitmentModel, migration 006_stock_reports_commitments, WAC recalculation per D011, lead-time cover, accepted customer/supplier returns, cash-aware reorder alerts, 4 strictly separated operating reports (Cash, Accrual Profit with incomplete cost suppression, Inventory Valuation, Dues), HistoryForecastAdapter with cold-start gating (<14 days) and evaluated rolling-origin backtests (>=14 days), CSV import with SKU deduplication and exports, daily executive briefing, and bilingual StockPage & ReportsPage. All 40 API tests and offline gates passed. Milestone `332851e` published and receipt recorded.
+- 23 November 2026: Phase 10 completed and verified. Product UI, responsive/accessibility and failure states: MoneyPage (/app/money), SalesPage (/app/sales), PeoplePage (/app/people), ReconciliationPage (/app/reconciliation), ConnectionsPage (/app/connections), comprehensive bilingual support (Bangla/English) across all pages and navigation links, 360px mobile responsive stacked layout, focus indicators, touch-action min sizes, reduced-motion accessibility, cashier RBAC failure states, and end-to-end verification gate (scripts/test-e2e.js, Workflows.test.tsx). All 34 domain golden contracts, 40 API tests, 8 web tests, and production build passed.
 
 At each session end add: phase/task IDs, changed files, actual checks/evidence, unresolved blockers and the next exact task. Update `progress.json` at the same time. Completion must be tied to acceptance criteria, not hours spent or number of files.
 

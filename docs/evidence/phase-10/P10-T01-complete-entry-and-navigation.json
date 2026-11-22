@@ -1,0 +1,16 @@
+{
+  "task_id": "P10-T01",
+  "description": "Landing, authenticated/demo entry, onboarding, and consistent full navigation across all MSME modules",
+  "verified_at_utc": "2026-11-22T22:04:00Z",
+  "test_suite": "apps/web/src/tests/Workflows.test.tsx",
+  "tests_passed": [
+    "renders Today Dashboard with sidebar navigation across all MSME modules",
+    "navigates to Money page and renders liquid channels and drawer close"
+  ],
+  "verification_details": {
+    "landing_and_entry": "LandingPage and AuthPage with demo account quick-login, phone authentication, and role selection (Owner/Cashier).",
+    "navigation_coverage": "Sidebar and App routes provide dedicated entry points for Today (/app/today), Future Planner (/app/planner), Money (/app/money), Sales (/app/sales), People (/app/people), Reconciliation (/app/reconciliation), Stock (/app/stock), Reports (/app/reports), Connections (/app/connections), and Customer Portal (/pay/:token).",
+    "bilingual_support": "LanguageContext and translations.ts provide instant toggle between Bengali (বাংলা) and English across all nav links and shell headers."
+  },
+  "status": "verified"
+}

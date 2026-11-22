@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Wallet, Receipt, Users, GitCompare, CalendarDays, Boxes, FileBarChart } from 'lucide-react';
+import { LayoutDashboard, Wallet, Receipt, Users, GitCompare, CalendarDays, Boxes, FileBarChart, Link2 } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 
 export const Sidebar: FC = () => {
@@ -15,10 +15,11 @@ export const Sidebar: FC = () => {
     { to: '/app/reconciliation', label: t('sidebar.reconciliation'), icon: GitCompare },
     { to: '/app/planner', label: t('sidebar.planner'), icon: CalendarDays },
     { to: '/app/people', label: t('sidebar.people'), icon: Users },
+    { to: '/app/connections', label: t('sidebar.connections'), icon: Link2 },
   ];
 
   return (
-    <aside style={{
+    <aside className="app-sidebar" style={{
       width: '240px',
       backgroundColor: '#ffffff',
       borderRight: '1px solid #e2e8f0',

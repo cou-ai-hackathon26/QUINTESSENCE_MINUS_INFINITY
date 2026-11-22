@@ -25,6 +25,7 @@ export const translations = {
     'sidebar.people': 'পার্টি খাতা (People)',
     'sidebar.stock': 'মজুদ ও মালপত্র (Stock)',
     'sidebar.reports': 'আর্থিক রিপোর্ট (Reports)',
+    'sidebar.connections': 'কানেকশন ও গেটওয়ে (Connections)',
 
     // Landing
     'landing.badge': 'সংগতি — বাংলা ও ইংরেজি উভমুখী আর্থিক ওয়ার্কস্পেস',
@@ -168,6 +169,38 @@ export const translations = {
     'reports.export_dues_csv': 'বকেয়া খাতা ডাউনলোড (CSV)',
     'reports.print_briefing': 'দৈনিক ব্রিফিং প্রিন্ট',
     'reports.d011_warning': 'সতর্কতা: কিছু পণ্যের ক্রয়মূল্য বা চালান নথিভুক্ত নেই। D011 নীতি অনুযায়ী অনুমানভিত্তিক মুনাফা গোপন রাখা হয়েছে।',
+
+    // Money & Channels
+    'money.title': 'টাকা ও পেমেন্ট মাধ্যম (Money & Channels)',
+    'money.subtitle': 'নগদ ক্যাশ ড্রয়ার, ডিজিটাল ওয়ালেট, ব্যাংক ও চ্যানেল ট্রান্সফার',
+    'money.transfer_btn': 'টাকা স্থানান্তর / ক্যাশ আউট',
+    'money.cash_close_btn': 'দিনের ক্যাশ ড্রয়ার মিলকরণ (Close)',
+    'money.withdraw_btn': 'মালিকের ব্যক্তিগত উত্তোলন',
+
+    // Sales & Receivables
+    'sales.title': 'বিক্রি ও বকেয়া খাতা (Sales & Receivables)',
+    'sales.subtitle': 'নগদ, বাকি ও আংশিক বিক্রি, বকেয়া আদায় এবং ডিজিটাল ইনভয়েস',
+    'sales.new_sale_btn': 'নতুন বিক্রি নথিভুক্ত',
+    'sales.collect_due_btn': 'বকেয়া আদায়',
+    'sales.portal_link_btn': 'পেমেন্ট লিংক / কিউআর',
+
+    // People (Parties)
+    'people.title': 'পার্টি খাতা — কাস্টমার ও মহাজন (People)',
+    'people.subtitle': 'গ্রাহকের বকেয়া, মহাজনের পাওনা এবং পার্টিভিত্তিক লেনদেন',
+    'people.add_party_btn': 'নতুন পার্টি যোগ',
+    'people.customer_tab': 'কাস্টমার খাতা (Customers)',
+    'people.supplier_tab': 'মহাজন খাতা (Suppliers)',
+    'people.pay_supplier_btn': 'মহাজনকে পরিশোধ',
+
+    // Reconciliation
+    'rec.title': 'মহাজন চালান ও দাবি মিলকরণ (Supplier Reconciliation)',
+    'rec.subtitle': '৪টি গোল্ডেন অনুসিদ্ধান্ত (REC 001 - 004), চালান আপলোড এবং যাচাই',
+    'rec.upload_btn': 'চালান / স্লিপ আপলোড',
+    'rec.approve_btn': 'দাবি নিষ্পত্তি অনুমোদন (Owner)',
+
+    // Connections
+    'conn.title': 'কানেকশন ও গেটওয়ে (Integrations)',
+    'conn.subtitle': 'এসএসএলকমার্জ স্যান্ডবক্স এবং এসএমএস গেটওয়ে',
   },
 
   en: {
@@ -194,6 +227,7 @@ export const translations = {
     'sidebar.people': 'Customer & Supplier Khata',
     'sidebar.stock': 'Stock & Inventory',
     'sidebar.reports': 'Financial Reports',
+    'sidebar.connections': 'Connections & Gateways',
 
     // Landing
     'landing.badge': 'Shongoti — Bilingual MSME Financial Workspace (Bangla & English)',
@@ -337,6 +371,38 @@ export const translations = {
     'reports.export_dues_csv': 'Export Dues CSV',
     'reports.print_briefing': 'Print Daily Briefing',
     'reports.d011_warning': 'Caution: Incomplete purchase cost data detected. Unsupported profit claims are suppressed per D011.',
+
+    // Money & Channels
+    'money.title': 'Money & Payment Channels',
+    'money.subtitle': 'Cash drawer, digital wallets, bank accounts and channel transfers',
+    'money.transfer_btn': 'Transfer / Cashout',
+    'money.cash_close_btn': 'Daily Cash Close',
+    'money.withdraw_btn': 'Owner Withdrawal',
+
+    // Sales & Receivables
+    'sales.title': 'Sales & Receivables',
+    'sales.subtitle': 'Cash, credit and split sales, customer dues collection and digital invoice links',
+    'sales.new_sale_btn': 'Record New Sale',
+    'sales.collect_due_btn': 'Collect Customer Due',
+    'sales.portal_link_btn': 'Generate Invoice Link',
+
+    // People (Parties)
+    'people.title': 'Customer & Supplier Khata',
+    'people.subtitle': 'Customer credit balances, supplier payables and party ledgers',
+    'people.add_party_btn': 'Add New Party',
+    'people.customer_tab': 'Customer Ledger',
+    'people.supplier_tab': 'Supplier Ledger',
+    'people.pay_supplier_btn': 'Pay Supplier',
+
+    // Reconciliation
+    'rec.title': 'Supplier Statement Reconciliation',
+    'rec.subtitle': '4 Golden Hypotheses (REC 001 - 004), Document Inspection & Evidence Verification',
+    'rec.upload_btn': 'Upload Slip / Invoice',
+    'rec.approve_btn': 'Approve Action (Owner)',
+
+    // Connections
+    'conn.title': 'External Connectors & Integrations',
+    'conn.subtitle': 'SSLCOMMERZ Sandbox and SMS Notification Adapters',
   },
 } as const;
 
