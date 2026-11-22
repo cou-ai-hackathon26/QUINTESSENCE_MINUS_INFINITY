@@ -12,13 +12,13 @@ Current state: **Phase 00, 01, 02, 03, 06, 07, 08 complete and verified. Phase 0
 | 05 | Supplier reconciliation and clarification | blocked | Blocked on Phase 04 completion (live AI provider gate) |
 | 06 | Connected daily merchant workflow | complete | Work verified; milestone `af708cb`; see `evidence/phase-06/git-checkpoint.json` |
 | 07 | Liquidity outlook and spending-impact scenarios | complete | Work verified; milestone `e4265e9`; see `evidence/phase-07/git-checkpoint.json` |
-| 08 | Action center, customer portal and one real connector | complete | Work verified; milestone pending publish; see `evidence/phase-08/` |
+| 08 | Action center, customer portal and one real connector | complete | Work verified; milestone `ba38e5f`; see `evidence/phase-08/git-checkpoint.json` |
 | 09 | Stock, supported forecasts and operating reports | not_started | Requires 06 and 07; statistical claims need evaluated history |
 | 10 | Product UI, responsive/accessibility and failure states | not_started | Requires integrated feature paths; shell starts in 01 |
 | 11 | Evaluation, security and complete validation | not_started | Relevant earlier phases complete or explicitly blocked |
 | 12 | Deployment, release documentation and handover | not_started | Requires 11; actual hosting/access gates |
 
-**Next action:** publish Phase 08 checkpoint, then begin Phase 09 (Stock, supported forecasts and operating reports).
+**Next action:** implement Phase 09 (Stock, supported forecasts and operating reports).
 
 **Next implementation task:** P08-T01 — implement versioned action drafts, approvals, idempotency and outbox.
 

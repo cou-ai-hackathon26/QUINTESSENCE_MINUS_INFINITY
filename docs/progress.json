@@ -439,10 +439,10 @@
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "pending",
+        "status": "published",
         "remote": "origin",
         "branch": "main",
-        "milestone_sha": null,
+        "milestone_sha": "ba38e5f83e2a4496cb5cf2e332e003797821d167",
         "receipt_path": "docs/evidence/phase-08/git-checkpoint.json"
       }
     },
