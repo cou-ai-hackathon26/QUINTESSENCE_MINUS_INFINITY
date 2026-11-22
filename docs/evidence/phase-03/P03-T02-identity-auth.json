@@ -1,0 +1,18 @@
+{
+  "task_id": "P03-T02",
+  "check_id": "identity-and-demo-isolation",
+  "status": "passed",
+  "command": "node scripts/run-python.js -m pytest apps/api/tests/test_persistence_and_auth.py -k \"test_auth_demo_session or test_auth_login\" -v",
+  "working_directory": "E:/mu idea/Shongoti",
+  "ran_at_utc": "2026-11-22T19:15:00Z",
+  "code_revision": "bcbdaea8d032f429653d73a6498e46939f48a1d7",
+  "working_tree_description": "JWT session auth and demo tenancy isolation implemented",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "JWT authentication with HMAC-SHA256, OTP validation, and demo tenant isolation verified.",
+  "evidence_paths": [
+    "apps/api/app/core/auth.py",
+    "docs/DECISIONS.md"
+  ],
+  "blocked_reason": null
+}

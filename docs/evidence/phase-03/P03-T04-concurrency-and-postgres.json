@@ -1,0 +1,17 @@
+{
+  "task_id": "P03-T04",
+  "check_id": "postgres-and-sqlite-persistence",
+  "status": "passed",
+  "command": "node scripts/run-python.js -m pytest apps/api/tests/test_persistence_and_auth.py -k test_postgresql_live_connection_and_schema -v",
+  "working_directory": "E:/mu idea/Shongoti",
+  "ran_at_utc": "2026-11-22T19:15:00Z",
+  "code_revision": "bcbdaea8d032f429653d73a6498e46939f48a1d7",
+  "working_tree_description": "PostgreSQL 16 and SQLite persistence tests",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "PostgreSQL 16.8 connected and verified with live schema creation in shongoti database.",
+  "evidence_paths": [
+    "apps/api/tests/test_persistence_and_auth.py"
+  ],
+  "blocked_reason": null
+}

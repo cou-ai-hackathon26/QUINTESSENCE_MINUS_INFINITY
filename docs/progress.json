@@ -3,7 +3,7 @@
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
   "current_phase": "03",
-  "next_task": "P03-T01",
+  "next_task": "P03-checkpoint",
   "application_started": true,
   "phases": [
     {
@@ -149,7 +149,7 @@
     {
       "id": "03",
       "name": "Database, authentication and tenant isolation",
-      "status": "not_started",
+      "status": "in_progress",
       "depends_on": [
         "01",
         "02"
@@ -157,36 +157,44 @@
       "tasks": [
         {
           "id": "P03-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-03/P03-T01-schema-migrations.json"
+          ],
+          "notes": "PostgreSQL and SQLite schema with Alembic 001_initial_schema."
         },
         {
           "id": "P03-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-03/P03-T02-identity-auth.json"
+          ],
+          "notes": "JWT session auth, OTP login, and demo tenancy isolation verified."
         },
         {
           "id": "P03-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-03/P03-T03-role-permissions.json"
+          ],
+          "notes": "Role permissions enforced: cashier cannot withdraw capital; duplicate events rejected."
         },
         {
           "id": "P03-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-03/P03-T04-concurrency-and-postgres.json"
+          ],
+          "notes": "PostgreSQL 16 verified live; tables created and tested."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
-        "receipt_path": null
+        "receipt_path": "docs/evidence/phase-03/git-checkpoint.json"
       }
     },
     {

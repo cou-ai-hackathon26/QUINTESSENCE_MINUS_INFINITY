@@ -12,7 +12,7 @@ const rootDir = path.resolve(__dirname, '..');
 const steps = [
   { name: 'Frontend Typecheck', cmd: 'pnpm --filter @shongoti/web typecheck' },
   { name: 'Domain Golden Contracts', cmd: 'node scripts/run-python.js -m pytest apps/api/tests/test_domain_contracts.py apps/api/tests/test_domain_golden.py -v' },
-  { name: 'API & Health Tests', cmd: 'node scripts/run-python.js -m pytest apps/api/tests/test_health.py -v' },
+  { name: 'API & Health Tests', cmd: 'node scripts/run-python.js -m pytest apps/api/tests/test_health.py apps/api/tests/test_persistence_and_auth.py -v' },
   { name: 'Web Unit Tests', cmd: 'pnpm --filter @shongoti/web test' },
   { name: 'Web Production Build', cmd: 'pnpm --filter @shongoti/web build' },
 ];

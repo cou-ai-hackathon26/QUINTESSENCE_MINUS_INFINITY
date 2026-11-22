@@ -1,0 +1,18 @@
+{
+  "task_id": "P03-T01",
+  "check_id": "schema-and-migrations",
+  "status": "passed",
+  "command": "pnpm db:migrate && pnpm db:check",
+  "working_directory": "E:/mu idea/Shongoti",
+  "ran_at_utc": "2026-11-22T19:15:00Z",
+  "code_revision": "bcbdaea8d032f429653d73a6498e46939f48a1d7",
+  "working_tree_description": "Initial multi-tenant schema migration created and applied",
+  "mode": "offline",
+  "exit_code": 0,
+  "summary": "Alembic migration 001_initial_schema created and applied. All 8 tables verified on SQLite and PostgreSQL.",
+  "evidence_paths": [
+    "apps/api/alembic/versions/001_initial_schema.py",
+    "apps/api/app/persistence/models.py"
+  ],
+  "blocked_reason": null
+}

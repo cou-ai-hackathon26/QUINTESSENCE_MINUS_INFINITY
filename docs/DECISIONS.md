@@ -13,7 +13,7 @@ Use `open`, `accepted`, `proposed`, `superseded` or `rejected`; include date, re
 | D007 | accepted | Deterministic scenarios ship before statistical forecasts; model-backed forecast claims require evaluated relevant history. |
 | D008 | proposed | SSLCOMMERZ sandbox is the first real connector candidate; actual account/credentials not yet available. |
 | D009 | accepted | Do not build unrestricted WhatsApp debt-collection automation; provider eligibility governs communications. |
-| D010 | open | Authentication provider and OTP delivery mechanism; use real configured identity and isolated demo tenancy. |
+| D010 | accepted | Session JWT with HMAC-SHA256, RBAC (Owner/Cashier/Accountant). Mock OTP fallback in local dev without configured sender; demo tenancy strictly isolated with is_demo flag. |
 | D011 | open | Initial inventory costing method and scope, to be explicit before publishing profit reports. |
 | D012 | open | Hosting/storage choice, background job runtime and deployment secret management. |
 | D013 | open | Model/version, quotas, data treatment, per-case cost ceiling and task-quality gates after the first benchmark. |

@@ -1,13 +1,13 @@
 **Shongoti progress — evidence controls completion**
 
-Current state: **Phase 00, Phase 01, and Phase 02 work and milestone publication are verified. Phase 03 is next.**
+Current state: **Phase 00, 01, and 02 complete and verified. Phase 03 tasks verified; milestone publication pending.**
 
 | Phase | Name | State | Evidence / dependency |
 |---|---|---|---|
 | 00 | Repository and verified handoff | complete | Work verified; milestone `6c6d389`; see `evidence/phase-00/git-checkpoint.json` |
 | 01 | Environment, contracts and executable skeleton | complete | Work verified; milestone `3808c0e`; see `evidence/phase-01/git-checkpoint.json` |
 | 02 | Exact financial domain and golden cases | complete | Work verified; milestone `8b34a32`; see `evidence/phase-02/git-checkpoint.json` |
-| 03 | Database, authentication and tenant isolation | not_started | Requires 01 and 02 |
+| 03 | Database, authentication and tenant isolation | in_progress | Migrations applied, PostgreSQL 16 tested, auth & tenancy verified |
 | 04 | Evidence ingestion and real AI boundary | not_started | Requires 03; live calls may need a provider key |
 | 05 | Supplier reconciliation and clarification | not_started | Requires 02, 03 and 04 |
 | 06 | Connected daily merchant workflow | not_started | Requires 02 and 03 |
