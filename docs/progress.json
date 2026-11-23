@@ -931,10 +931,10 @@
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "pending_milestone",
+        "status": "published",
         "remote": "origin",
         "branch": "main",
-        "milestone_sha": null,
+        "milestone_sha": "d01de9b9864c7a8ea4f4439f63db951d5c32f9a6",
         "receipt_path": "docs/evidence/phase-17/git-checkpoint.json"
       }
     },
