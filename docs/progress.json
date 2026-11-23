@@ -2,8 +2,8 @@
   "schema_version": 3,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "13",
-  "next_task": "P14-T01",
+  "current_phase": "14",
+  "next_task": "P15-T01",
   "application_started": true,
   "phases": [
     {
@@ -713,45 +713,61 @@
     {
       "id": "14",
       "name": "genuine evidence inference and original reconciliation",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "13"
       ],
       "tasks": [
         {
           "id": "P14-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "apps/api/app/ingestion/adapters.py",
+            "docs/evidence/phase-14/multimodal-reconciliation-report.md"
+          ],
+          "notes": "Implemented AIModelAdapter with Google Gemini REST API boundary, typed validation, retry/timeout, and explicit offline test doubles."
         },
         {
           "id": "P14-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "apps/api/app/ingestion/adapters.py",
+            "docs/evidence/phase-14/multimodal-reconciliation-report.md"
+          ],
+          "notes": "Implemented multimodal audio, image, and PDF paths with Bengali numeral normalization (normalize_bengali_digits) and integer paisa parsing."
         },
         {
           "id": "P14-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "apps/api/app/api/v1/evidence.py",
+            "docs/evidence/phase-14/multimodal-reconciliation-report.md"
+          ],
+          "notes": "Wired evidence upload to forward raw bytes and mime types; structured errors handled with explicit unknowns rather than mocks."
         },
         {
           "id": "P14-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "apps/api/app/api/v1/reconciliation.py",
+            "apps/api/tests/test_phase14_multimodal_and_reconciliation.py"
+          ],
+          "notes": "Repaired original P04/P05 reconciliation journey: wired ReconciliationEngine to /api/v1/reconciliation, tested 4 hypotheses, Bangla clarification reply parsing, and action draft generation."
         },
         {
           "id": "P14-T05",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "scripts/eval-ai.js",
+            "scripts/eval_ai.py",
+            "docs/evidence/phase-14/eval-ai-report.json"
+          ],
+          "notes": "Implemented eval:ai runner scoring multimodal cases; recorded mode, latency, and field correctness in eval-ai-report.json."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending_receipt",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,

@@ -22,8 +22,9 @@ Source review at `8d4c122`: configured `AIModelAdapter` raises without a provide
 | 11 | Evaluation, security and complete validation | in_progress | Prior milestone `fa6131e` preserved; P11-T02/T04 reopened on 23 November: simulated architecture comparison cannot establish measured results |
 | 12 | Deployment, release documentation and handover | complete | Work verified; milestone `54256a2`; see `evidence/phase-12/git-checkpoint.json` |
 | 13 | Establish the real upgrade baseline | complete | Work verified; audit report docs/BASELINE_AUDIT.md, honest runners, security escalation patch, baseline report docs/evidence/phase-13/baseline-verification-report.md |
+| 14 | Genuine evidence inference and original reconciliation | complete | Work verified; Gemini boundary, multimodal audio/image/PDF, Bengali numeral normalization, reconciliation API /api/v1/reconciliation, eval-ai runner |
 
-**Next action:** P14-T01: explicit provider boundary and genuine multimodal media paths under EXTENSION_PLAN.md.
+**Next action:** P15-T01: cases, provenance and confidence policy under EXTENSION_PLAN.md.
 
 **Next implementation task:** P13-T01, followed by the actual next unblocked task from the additive extension contract. Genuine inference still needs provider implementation, image/audio routing and actual evaluation; adding a key alone is insufficient. External blockers permit only section J's explicitly independent local tasks.
 

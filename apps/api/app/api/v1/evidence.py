@@ -65,7 +65,25 @@ async def upload_evidence(
             extracted_text = ""
 
     adapter = AIModelAdapter()
-    claim_extraction = adapter.parse_bangla_document(extracted_text, source_type=source_type)
+    try:
+        claim_extraction = adapter.parse_bangla_document(
+            text_or_content=extracted_text,
+            source_type=source_type,
+            raw_bytes=content,
+            mime_type=file.content_type,
+            file_path=storage_path,
+        )
+    except Exception as exc:
+        # Fallback to explicit unknowns on provider exception rather than crashing upload
+        claim_extraction = StructuredClaimExtraction(
+            party_name=None,
+            invoice_ref=None,
+            amount_paisa=None,
+            claim_date=None,
+            payment_method=None,
+            confidence=0.0,
+            raw_snippet=f"Extraction failure: {exc}",
+        )
 
     claim = ExtractedClaimModel(
         tenant_id=current_user.tenant_id,

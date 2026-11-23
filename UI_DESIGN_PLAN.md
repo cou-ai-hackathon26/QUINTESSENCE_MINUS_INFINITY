@@ -5,7 +5,7 @@ Status: **design proposal and isolated concept study, not a shipped UI or usabil
 
 The user requested design research and ideas before implementation. Antigravity is concurrently changing this repository. This work does not edit application source, dependencies, its phase trackers or its in-progress backend work. Coordinate ownership before implementing shared files. Preserve `EXTENSION_PLAN.md`, exact financial rules and source-backed confidence/agent contracts.
 
-Open [the interactive direction study](docs/design/shongoti-directions.html) to compare four proposed directions and a synthetic evidence interaction. It is an isolated HTML study, not the React application, a real model call or a finished responsive product. No award badge, customer adoption, live provider or benchmark claim is implied.
+Open [the interactive direction study](docs/design/shongoti-directions.html) to compare four proposed visual treatments of the same storyboard and a synthetic evidence interaction. These are not four completed websites. It is an isolated HTML study, not the React application, a real model call or a finished responsive product. No award badge, customer adoption, live provider or benchmark claim is implied.
 
 ## 1. Recommendation
 
@@ -295,5 +295,7 @@ and push the agreed completed work under the canonical phase/checkpoint rules.
 ## 14. Research session limitations
 
 Official pages/source were reviewed; a live-browser initialization failure prevented rendered visual QA. Public reference HTML/gallery entries do not prove their animation behavior on our target devices. The direction study is original HTML/CSS/JS with synthetic data; it has no real AI/provider call and has not been browser-verified here. Its structural/interaction calculations can be checked separately without claiming a usability/performance pass.
+
+Run `node docs/design/validate-study.cjs` for repeatable document-link, inline-JavaScript, independent synthetic payable-branch and proposed color-pair checks. Results go to `docs/evidence/ui-design-research-2026-11-23/concept-validation.json`. These checks do not replace browser or merchant testing. The study intentionally bundles no external font assets and may use device font fallbacks; typography still needs rendered review.
 
 No application source, package/lockfile, database or active progress tracker is modified by this research deliverable. No real competition outcome, user adoption or conversion result is predicted.

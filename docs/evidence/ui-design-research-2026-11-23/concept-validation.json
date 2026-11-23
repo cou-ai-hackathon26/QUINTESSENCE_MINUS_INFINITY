@@ -1,0 +1,40 @@
+{
+  "check_id": "ui-design-research-concept",
+  "run_utc": "2026-11-23T08:58:12.194Z",
+  "command": "node docs/design/validate-study.cjs",
+  "working_directory": "E:\\mu idea\\Shongoti",
+  "source_revision": "869a4b3aa7ddeb532249672e6ef7df9556da7c05",
+  "mode": "documentation_and_isolated_concept",
+  "outcome": "passed",
+  "exit_code": 0,
+  "checks": [
+    "Inline prototype JavaScript parses",
+    "Independent synthetic branch: included",
+    "Independent synthetic branch: not_included",
+    "Independent synthetic branch: unknown",
+    "Independent synthetic branch: invalid",
+    "HTML IDs, anchors, file links and direction/reply controls",
+    "Declared reduced-motion and accessibility hooks (not browser verified)",
+    "No model/service request path",
+    "Explicit illustrative mode labels",
+    "Five proposed solid-color text pair ratios exceed 4.5:1"
+  ],
+  "contrast": {
+    "ink/paper": 14.69,
+    "muted/paper": 5.15,
+    "white/forest": 6.93,
+    "ink/lime": 14.11,
+    "amber/pale": 6.17
+  },
+  "artifact_sha256": {
+    "UI_DESIGN_PLAN.md": "7f7ce0ef53afaf53637463ebbbd4a26c04c69552df5a2bc1021857d64664ea9e",
+    "docs/design/shongoti-directions.html": "4dbcfad2f7f8dbe4c71e3a7d691b8c20d9d4e33d61a388618437994fa1cc349d",
+    "docs/design/validate-study.cjs": "d8569d4f22a1e4a02abbb847e2a02dc150ae7c14b585e22d09378d7b9258c67b"
+  },
+  "application_source_changed_by_this_task": false,
+  "application_tests_run": false,
+  "real_ai_calls_run": false,
+  "browser_visual_qa_run": false,
+  "merchant_usability_tested": false,
+  "limitation": "Browser initialization failed. Syntax/hooks and example arithmetic do not establish rendered layout, motion, full accessibility, conversion or runtime performance. Study uses device font fallbacks; no font assets bundled. Concurrent application changes belong to the other developer."
+}

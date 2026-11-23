@@ -1,0 +1,47 @@
+{
+  "timestamp_utc": "2026-11-23T09:08:12Z",
+  "mode": "offline_test_double",
+  "is_live_provider": false,
+  "model": "gemini-1.5-flash",
+  "total_cases": 4,
+  "overall_field_accuracy": "100.0%",
+  "avg_latency_ms": 0.0,
+  "results": [
+    {
+      "case_id": "CASE-TXT-01",
+      "type": "text",
+      "passed": true,
+      "score": "4/4",
+      "elapsed_ms": 0.0,
+      "confidence": 0.95,
+      "amount_paisa": 2500000
+    },
+    {
+      "case_id": "CASE-TXT-02",
+      "type": "text",
+      "passed": true,
+      "score": "3/3",
+      "elapsed_ms": 0.0,
+      "confidence": 0.9,
+      "amount_paisa": 50000
+    },
+    {
+      "case_id": "CASE-AUD-01",
+      "type": "audio",
+      "passed": true,
+      "score": "3/3",
+      "elapsed_ms": 0.0,
+      "confidence": 0.88,
+      "amount_paisa": 100000
+    },
+    {
+      "case_id": "CASE-IMG-01",
+      "type": "image",
+      "passed": true,
+      "score": "4/4",
+      "elapsed_ms": 0.0,
+      "confidence": 0.91,
+      "amount_paisa": 1800000
+    }
+  ]
+}

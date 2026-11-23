@@ -4,13 +4,14 @@ Restricts actions based on Owner, Cashier, Accountant roles.
 Guarantees cross-tenant boundary protection.
 """
 from typing import Callable, List
-from fastapi import HTTPException, status
+from fastapi import Depends, HTTPException, status
 
+from app.core.auth import get_current_user
 from app.persistence.models import UserModel
 
 
 def require_role(allowed_roles: List[str]) -> Callable:
-    def dependency(current_user: UserModel) -> UserModel:
+    def dependency(current_user: UserModel = Depends(get_current_user)) -> UserModel:
         if current_user.role not in allowed_roles:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,

@@ -1,16 +1,20 @@
 #!/usr/bin/env node
 /**
  * AI Provider Evaluation Runner.
- * Genuine provider evaluation requires approved credentials.
+ * Executes actual multimodal extraction scoring across text, audio, and image cases.
+ * Reports mode: live_gemini (when GEMINI_API_KEY is configured) or offline_test_double.
  */
-console.log('=== Shongoti AI Provider Evaluation ===\n');
+const { spawnSync } = require('child_process');
+const path = require('path');
 
-if (!process.env.GEMINI_API_KEY) {
-  console.log('[BLOCKED] Real AI evaluation requires GEMINI_API_KEY.');
-  console.log('See docs/INTEGRATIONS.md. Local deterministic and mock boundary tests remain valid.');
-  process.exit(0);
-} else {
-  console.log('[CONFIGURED] GEMINI_API_KEY detected. Running evaluation suite...');
-  // Provider evaluation logic implemented in Phase 04 / Phase 11
-  process.exit(0);
-}
+const rootDir = path.resolve(__dirname, '..');
+
+console.log('=== Running Shongoti Multimodal AI Evaluation Runner ===\n');
+
+const res = spawnSync('node', ['scripts/run-python.js', 'scripts/eval_ai.py'], {
+  cwd: rootDir,
+  stdio: 'inherit',
+  shell: true,
+});
+
+process.exit(res.status || 0);

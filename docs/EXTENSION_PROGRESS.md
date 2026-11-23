@@ -9,7 +9,7 @@ Contract: [EXTENSION_PLAN.md](../EXTENSION_PLAN.md). Start/resume: [START_EXTENS
 | Phase | Milestone | State | Initial task |
 |---|---|---|---|
 | 13 | establish the real upgrade baseline | complete | P13-T01 |
-| 14 | genuine evidence inference and original reconciliation | not_started | P14-T01 |
+| 14 | genuine evidence inference and original reconciliation | complete | P14-T01 |
 | 15 | cases, provenance and confidence | not_started | P15-T01 |
 | 16 | hybrid merchant memory | not_started | P16-T01 |
 | 17 | bounded collaboration and visible teamwork | not_started | P17-T01 |
