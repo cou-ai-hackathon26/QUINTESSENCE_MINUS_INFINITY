@@ -39,7 +39,12 @@
     {
       "id": "UIR-03",
       "name": "Evidence, agent and voice copilot workspace",
-      "status": "verified_pending_publication"
+      "status": "complete",
+      "git_checkpoint": {
+        "status": "milestone_published",
+        "milestone_sha": "88177c15c97731f7b21da1050dae4987f262bbda",
+        "receipt": "docs/evidence/ui-redesign/UIR-03/git-checkpoint.json"
+      }
     },
     {
       "id": "UIR-04",
