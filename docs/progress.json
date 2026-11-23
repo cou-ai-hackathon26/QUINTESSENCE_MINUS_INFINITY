@@ -2,8 +2,8 @@
   "schema_version": 3,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "25",
-  "next_task": "P26-T01",
+  "current_phase": "26",
+  "next_task": null,
   "application_started": true,
   "phases": [
     {
@@ -1375,39 +1375,50 @@
     {
       "id": "26",
       "name": "release and resumable handover",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "25"
       ],
       "tasks": [
         {
           "id": "P26-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-26/release-handover-report.md",
+            "docs/PRODUCTION_RUNBOOK.md"
+          ],
+          "notes": "Full regression, type, API, domain, build, and offline verification gates passed."
         },
         {
           "id": "P26-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-26/release-handover-report.md",
+            "docs/PRODUCTION_RUNBOOK.md"
+          ],
+          "notes": "Persistence, migration verification (001-016), backup and recovery procedures."
         },
         {
           "id": "P26-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-26/release-handover-report.md",
+            "docs/PRODUCTION_RUNBOOK.md"
+          ],
+          "notes": "Production runbook, configuration guide, and deployment smoke-test suite."
         },
         {
           "id": "P26-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-26/release-handover-report.md"
+          ],
+          "notes": "Final handover ledger reconciling all 27 phases and milestone receipts."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "in_progress",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
