@@ -1,0 +1,46 @@
+{
+  "date": "2026-11-23T15:51:37.359Z",
+  "base_revision": "e2f95606bae8420c9fe11c1bf69b1cd934109dc8",
+  "scope": "Uncommitted JR-02 tree on this base; milestone is recorded separately",
+  "checks": [
+    {
+      "command": "node scripts/run-python.js -m pytest apps/api/tests/ -q -p no:cacheprovider",
+      "exit_code": 0,
+      "passed": 153
+    },
+    {
+      "command": "pnpm.cmd test:web",
+      "exit_code": 0,
+      "passed": 31
+    },
+    {
+      "command": "pnpm.cmd build",
+      "exit_code": 0
+    },
+    {
+      "command": "node scripts/run-python.js scripts/verify-groq-live.py",
+      "exit_code": 0,
+      "actual_provider_checks": 6
+    },
+    {
+      "command": "node scripts/run-python.js scripts/verify-groq-voice.py",
+      "exit_code": 0,
+      "synthetic_speech": "Windows SAPI, real Whisper inference"
+    },
+    {
+      "command": "node scripts/check-groq-browser.mjs",
+      "exit_code": 0,
+      "checks": 4,
+      "screenshots": 7
+    }
+  ],
+  "secret_scan": {
+    "checked_files": 37,
+    "credential_pattern_hits": 0
+  },
+  "limitations": [
+    "Bangla speech quality not benchmarked",
+    "Browser speech playback requires installed language voice",
+    "No claim of completed agent repair or actual external payment/message delivery"
+  ]
+}

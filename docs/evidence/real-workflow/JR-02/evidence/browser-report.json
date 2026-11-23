@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-23T15:48:50.626Z",
+  "mode": "actual_groq_multimodal_judge",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Unseen image uses real Groq vision and renders extracted text, exact amount and actual receipt",
+    "Actual audio produces separately reviewable debt collection and credit sale with Whisper receipt and retained source",
+    "Actual grounded chat answers from current persisted ledger and renders provider receipt",
+    "Real transcript, proposals and chat receipts survive reload and history reopening"
+  ],
+  "screenshots": [
+    "actual-image-1440.png",
+    "actual-image-768.png",
+    "actual-image-360.png",
+    "actual-voice-1440.png",
+    "actual-voice-768.png",
+    "actual-voice-360.png",
+    "actual-chat-360.png"
+  ],
+  "errors": [],
+  "passed": true
+}

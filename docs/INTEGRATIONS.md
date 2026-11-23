@@ -1,3 +1,5 @@
+**Current real-workflow repair (23 November 2026):** See [REAL_WORKFLOW_PLAN.md](REAL_WORKFLOW_PLAN.md), [real-workflow-progress.json](real-workflow-progress.json), and [actual Groq verification](evidence/real-workflow/JR-02/REPORT.md). Seeded judge accounts use persistent APIs. Groq document/image/PDF/voice and grounded chat have genuine task evidence. Historical phase reports below do not certify unfinished agent, semantic retrieval, payment or messaging integrations.
+
 **Integration capability and access register**
 
 Initial state: **no real application integration has been configured or tested**. Provider documentation was researched; this does not establish credentials, quotas or sandbox/live behavior.

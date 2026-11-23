@@ -1,0 +1,57 @@
+{
+  "scope": "Actual app voice endpoint, Windows SAPI synthetic English audio, real Groq Whisper and extraction; no Bangla quality claim",
+  "passed": true,
+  "http_status": 200,
+  "transcription": "Karim paid 500 Taka of his old debt. He also bought 200 Taka of new goods on credit.",
+  "compound_operations": [
+    {
+      "type": "debt_collection",
+      "party_name": "Karim",
+      "amount_paisa": 50000,
+      "payment_method": "unknown",
+      "invoice_ref": null,
+      "source_quote": "Karim paid 500 Taka of his old debt.",
+      "missing_fields": [],
+      "party": "Karim",
+      "amount_bdt": 500.0
+    },
+    {
+      "type": "credit_sale",
+      "party_name": "Karim",
+      "amount_paisa": 20000,
+      "payment_method": "unknown",
+      "invoice_ref": null,
+      "source_quote": "He also bought 200 Taka of new goods on credit.",
+      "missing_fields": [],
+      "party": "Karim",
+      "amount_bdt": 200.0
+    }
+  ],
+  "provider_receipts": [
+    {
+      "id": "fd2ed1d9-eb3f-41b9-b1da-4f054989b351",
+      "provider": "groq",
+      "model": "whisper-large-v3",
+      "capability": "audio_transcription",
+      "status": "succeeded",
+      "provider_request_id": "req_01m84h68mye85vbdjhsq1z93f7",
+      "input_tokens": null,
+      "output_tokens": null,
+      "latency_ms": 1483,
+      "error_code": null
+    },
+    {
+      "id": "a7f218bd-c3ab-481b-894d-5b131cc9f463",
+      "provider": "groq",
+      "model": "openai/gpt-oss-120b",
+      "capability": "document_extraction",
+      "status": "succeeded",
+      "provider_request_id": "chatcmpl-c4a445e0-b4f3-416c-942c-afdb62fd001f",
+      "input_tokens": 923,
+      "output_tokens": 345,
+      "latency_ms": 1640,
+      "error_code": null
+    }
+  ],
+  "evidence_id": "0b9043d5-77d0-4f3b-85ea-36201acba07a"
+}

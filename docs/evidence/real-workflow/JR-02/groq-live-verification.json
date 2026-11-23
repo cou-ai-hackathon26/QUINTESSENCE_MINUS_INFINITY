@@ -1,0 +1,179 @@
+{
+  "provider": "groq",
+  "scope": "Actual app HTTP and genuine provider responses on newly generated synthetic sources",
+  "expected_invoice_ref": "LIVE-45054618",
+  "expected_amount_paisa": 176355,
+  "checks": [
+    {
+      "source": "unseen-invoice.txt",
+      "status": "extracted",
+      "amount_paisa": 176355,
+      "invoice_ref": "LIVE-45054618",
+      "correct": true,
+      "error": null,
+      "receipts": [
+        {
+          "id": "3b770aa8-c167-4397-b608-5072f94f9293",
+          "provider": "groq",
+          "model": "openai/gpt-oss-120b",
+          "capability": "document_extraction",
+          "status": "succeeded",
+          "provider_request_id": "chatcmpl-1da285ab-aa33-4339-a1d0-8b895235d211",
+          "input_tokens": 953,
+          "output_tokens": 523,
+          "latency_ms": 1594,
+          "error_code": null
+        }
+      ]
+    },
+    {
+      "source": "unseen-invoice.png",
+      "status": "extracted",
+      "amount_paisa": 176355,
+      "invoice_ref": "LIVE-45054618",
+      "correct": true,
+      "error": null,
+      "receipts": [
+        {
+          "id": "4fd26c26-0704-482e-8910-a91bb0bfdecd",
+          "provider": "groq",
+          "model": "qwen/qwen3.8-27b",
+          "capability": "image_ocr",
+          "status": "succeeded",
+          "provider_request_id": "chatcmpl-97d58c3a-b33d-417c-9cf1-9f64ca82ba75",
+          "input_tokens": 1499,
+          "output_tokens": 591,
+          "latency_ms": 1765,
+          "error_code": null
+        }
+      ]
+    },
+    {
+      "source": "unseen-native.pdf",
+      "status": "extracted",
+      "amount_paisa": 176355,
+      "invoice_ref": "LIVE-45054618",
+      "correct": true,
+      "error": null,
+      "receipts": [
+        {
+          "id": "abde96aa-cc56-45ec-98b8-1688c4fd1d63",
+          "provider": "groq",
+          "model": "openai/gpt-oss-120b",
+          "capability": "document_extraction",
+          "status": "succeeded",
+          "provider_request_id": "chatcmpl-1d94dd27-e98d-4c72-af7d-e60f1aa8ca9e",
+          "input_tokens": 958,
+          "output_tokens": 563,
+          "latency_ms": 1859,
+          "error_code": null
+        }
+      ]
+    },
+    {
+      "source": "unseen-scanned.pdf",
+      "status": "extracted",
+      "amount_paisa": 176355,
+      "invoice_ref": "LIVE-45054618",
+      "correct": true,
+      "error": null,
+      "receipts": [
+        {
+          "id": "d1e5f4f6-e354-4623-9b7b-71c4b3da2363",
+          "provider": "groq",
+          "model": "qwen/qwen3.8-27b",
+          "capability": "image_ocr",
+          "status": "succeeded",
+          "provider_request_id": "chatcmpl-7d46f6bc-45e4-441f-bc51-67870cceb2c7",
+          "input_tokens": 1499,
+          "output_tokens": 708,
+          "latency_ms": 2000,
+          "error_code": null
+        }
+      ]
+    },
+    {
+      "type": "grounded_chat",
+      "answer": "আপনার নগদ (cash) এবং উভয় ওয়ালেট (bKash ও Nagad) মিলিয়ে মোট BDT 12,000 (১,২০০,০০০ পয়সা) আছে।",
+      "citations": [
+        {
+          "source_id": "ledger/current",
+          "source_type": "ledger_account",
+          "name": "Current ledger balances",
+          "as_of": "2026-11-23T15:50:49.389741+00:00"
+        }
+      ],
+      "receipts": [
+        {
+          "id": "24668c8b-8716-40e5-8ba4-2b2872f89935",
+          "provider": "groq",
+          "model": "openai/gpt-oss-120b",
+          "capability": "grounded_chat",
+          "status": "succeeded",
+          "provider_request_id": "chatcmpl-743e2f88-cd78-4dcc-bc2d-dbf9941ac24e",
+          "input_tokens": 2165,
+          "output_tokens": 186,
+          "latency_ms": 812,
+          "error_code": null
+        }
+      ]
+    },
+    {
+      "type": "voice",
+      "transcription": "Karim paid 500 Taka of his old debt. He also bought 200 Taka of new goods on credit.",
+      "operations": [
+        {
+          "type": "debt_collection",
+          "party_name": "Karim",
+          "amount_paisa": 50000,
+          "payment_method": "unknown",
+          "invoice_ref": null,
+          "source_quote": "Karim paid 500 Taka of his old debt.",
+          "missing_fields": [
+            "payment account"
+          ],
+          "party": "Karim",
+          "amount_bdt": 500.0
+        },
+        {
+          "type": "credit_sale",
+          "party_name": "Karim",
+          "amount_paisa": 20000,
+          "payment_method": "unknown",
+          "invoice_ref": null,
+          "source_quote": "He also bought 200 Taka of new goods on credit.",
+          "missing_fields": [],
+          "party": "Karim",
+          "amount_bdt": 200.0
+        }
+      ],
+      "receipts": [
+        {
+          "id": "d03b5057-89cb-49bd-ab16-ef741a4fc16a",
+          "provider": "groq",
+          "model": "whisper-large-v3",
+          "capability": "audio_transcription",
+          "status": "succeeded",
+          "provider_request_id": "req_01m84hmmkper99kj1baecbz7yv",
+          "input_tokens": null,
+          "output_tokens": null,
+          "latency_ms": 827,
+          "error_code": null
+        },
+        {
+          "id": "3d26c85e-5667-41c6-a599-b494c703efeb",
+          "provider": "groq",
+          "model": "openai/gpt-oss-120b",
+          "capability": "document_extraction",
+          "status": "succeeded",
+          "provider_request_id": "chatcmpl-abd7316a-3dc9-414f-b18e-85990d4a40fe",
+          "input_tokens": 923,
+          "output_tokens": 377,
+          "latency_ms": 1375,
+          "error_code": null
+        }
+      ]
+    }
+  ],
+  "passed": true
+}

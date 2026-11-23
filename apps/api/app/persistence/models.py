@@ -25,6 +25,25 @@ from sqlalchemy.orm import relationship
 from app.core.database import Base
 
 
+class ProviderReceiptModel(Base):
+    __tablename__='provider_receipts'
+    id=Column(String(36),primary_key=True,default=lambda:str(uuid.uuid4()))
+    tenant_id=Column(String(36),ForeignKey('tenants.id',ondelete='CASCADE'),nullable=False,index=True)
+    entity_type=Column(String(32),nullable=True)
+    entity_id=Column(String(36),nullable=True,index=True)
+    capability=Column(String(48),nullable=False)
+    provider=Column(String(32),nullable=False)
+    model=Column(String(128),nullable=False)
+    status=Column(String(24),nullable=False)
+    request_fingerprint=Column(String(64),nullable=False)
+    provider_request_id=Column(String(128),nullable=True)
+    input_tokens=Column(Integer,nullable=True)
+    output_tokens=Column(Integer,nullable=True)
+    latency_ms=Column(Integer,nullable=False)
+    error_code=Column(String(64),nullable=True)
+    created_at=Column(DateTime,nullable=False,default=lambda:datetime.now(timezone.utc))
+
+
 def generate_uuid() -> str:
     return str(uuid.uuid4())
 

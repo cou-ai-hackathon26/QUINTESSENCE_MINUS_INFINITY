@@ -15,7 +15,7 @@
     },
     {
       "id": "JR-02",
-      "status": "not_started",
+      "status": "verified_pending_publication",
       "scope": "Real Groq multimodal inference and grounded chat"
     },
     {
@@ -32,7 +32,7 @@
   "provider": {
     "name": "groq",
     "models_access": "verified_http_200",
-    "task_inference": "not_yet_verified"
+    "task_inference": "genuine_text_image_native_pdf_scanned_pdf_whisper_grounded_chat_verified"
   },
-  "next_task": "Connect configured Groq text/vision/Whisper inference, document indexing and task receipts; verify unseen synthetic requests."
+  "next_task": "Finish JR-02 publication, then replace agent canned findings and lexical hash vectors with actual source-grounded execution and semantic retrieval."
 }

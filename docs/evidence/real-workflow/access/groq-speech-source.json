@@ -1,0 +1,8 @@
+{
+  "provider": "groq",
+  "model": "canopylabs/orpheus-v1-english",
+  "purpose": "Synthetic English merchant speech to test real Whisper input; not Bangla TTS certification",
+  "http_status": 400,
+  "elapsed_ms": 265,
+  "error_code": "model_terms_required"
+}

@@ -14,6 +14,12 @@ from app.core.auth import get_current_user
 from app.core.database import get_db
 from app.copilot.engine import CopilotEngine
 from app.ingestion.adapters import AIModelAdapter, ProviderUnavailableError, parse_paisa_amount
+from app.groq_provider import configured,InferenceUnavailable
+from app.copilot.grounded import answer_query
+from app.core.config import settings
+from starlette.concurrency import run_in_threadpool
+from app.api.v1.evidence import upload_evidence
+from app.persistence.models import ExtractedClaimModel,now_utc
 from app.persistence.models import (
     CopilotMessageModel,
     CopilotSessionModel,
@@ -152,6 +158,12 @@ def send_copilot_message(
 ):
     """Routes query, executes scoped intent, and returns sourced response with confidence score."""
     engine = CopilotEngine(db, current_user.tenant_id)
+    if configured() and settings.AI_PROVIDER=='groq':
+        session=engine.get_session(session_id)
+        if not session:raise HTTPException(404,'Session not found.')
+        try:return answer_query(engine,session,req.query,current_user.id)
+        except InferenceUnavailable as error:
+            db.commit();raise HTTPException(error.status,str(error))
     if engine.classify_intent(req.query) == "action_draft" and not parse_paisa_amount(req.query):
         raise HTTPException(status_code=422, detail="Provide an explicit positive payment amount before preparing a draft.")
     try:
@@ -177,6 +189,24 @@ async def send_copilot_voice(
     session = engine.get_session(session_id)
     if not session:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Session not found")
+
+    if not (file.content_type or '').startswith('audio/'):
+        raise HTTPException(415,'An audio file is required.')
+    if configured() and settings.AI_PROVIDER=='groq':
+        result=await run_in_threadpool(upload_evidence,file,current_user,db)
+        source_id=result['evidence_id']
+        claim=db.query(ExtractedClaimModel).filter_by(tenant_id=current_user.tenant_id,evidence_id=source_id).first()
+        payload=json.loads(claim.raw_model_response or '{}') if claim else {}
+        extraction=payload.get('extraction')
+        if not extraction:raise HTTPException(503,'Audio stored, but transcription or extraction did not finish ('+str(payload.get('extraction_error') or 'unknown')+'). Review source '+source_id+'.')
+        transcript=extraction.get('extracted_text','')
+        proposed=extraction.get('operations',[])
+        ambiguous=bool(extraction.get('uncertainties')) or any(op.get('amount_paisa') is None or op.get('type')=='unknown' or op.get('missing_fields') for op in proposed)
+        compound=[{**op,'party':op.get('party_name'),'amount_bdt':op['amount_paisa']/100 if op.get('amount_paisa') is not None else None} for op in proposed]
+        metadata={'transcription':transcript,'is_ambiguous':ambiguous,'compound_operations':compound,'proposed_operations':proposed,'missing_facts':extraction.get('uncertainties',[]),'provider_receipts':result['provider_receipts'],'evidence_id':source_id}
+        message=CopilotMessageModel(tenant_id=current_user.tenant_id,session_id=session.id,role='assistant',content=transcript,intent='voice_transaction_review',readiness='needs_clarification' if ambiguous else 'ready_for_review',citations_json=json.dumps([{'source_type':'audio_transcript','document_id':source_id,'filename':file.filename}]),audio_metadata_json=json.dumps(metadata,ensure_ascii=False))
+        db.add(message);session.updated_at=now_utc();db.commit()
+        return {'message_id':message.id,'session_id':session.id,'transcription':transcript,'is_ambiguous':ambiguous,'compound_operations':compound,'provider_receipts':result['provider_receipts'],'content':message.content,'evidence_id':source_id}
 
     if not AIModelAdapter().is_configured():
         raise HTTPException(status_code=503, detail="Voice transcription provider is not configured. Your recording has not been transcribed.")

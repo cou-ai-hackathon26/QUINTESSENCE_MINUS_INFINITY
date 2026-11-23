@@ -3,6 +3,7 @@ Evidence and Claim Ingestion Router.
 Handles file upload, claim extraction, human review, and corrections.
 """
 from typing import List, Optional
+import json
 from pathlib import Path
 from fastapi.responses import FileResponse
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
@@ -15,7 +16,10 @@ from app.core.permissions import require_role
 from app.ingestion.adapters import AIModelAdapter, NativePdfParser
 from app.ingestion.storage import storage
 from app.ingestion.schemas import StructuredClaimExtraction
-from app.persistence.models import EvidenceModel, ExtractedClaimModel, UserModel
+from app.persistence.models import EvidenceModel, ExtractedClaimModel, UserModel,ProviderReceiptModel
+from app.document_inference import extract_document,index_extracted_text
+from app.groq_provider import configured,InferenceUnavailable,receipt_dict
+from app.core.config import settings
 
 evidence_router = APIRouter(prefix="/api/v1/evidence", tags=["Evidence"])
 
@@ -39,7 +43,7 @@ class ClaimCorrectionRequest(BaseModel):
 
 
 @evidence_router.post("/upload")
-async def upload_evidence(
+def upload_evidence(
     file: UploadFile = File(...),
     current_user: UserModel = Depends(get_current_user),
     db: Session = Depends(get_db),
@@ -48,7 +52,8 @@ async def upload_evidence(
     Tenant-owned evidence upload.
     Calculates SHA-256, stores in private folder, and performs initial extraction.
     """
-    content = await file.read()
+    content = file.file.read(10*1024*1024+1)
+    if not content:raise HTTPException(422,'The uploaded file is empty.')
     sha256, storage_path, file_size, source_type = storage.store_file(
         tenant_id=current_user.tenant_id,
         original_filename=file.filename or "file.bin",
@@ -80,8 +85,14 @@ async def upload_evidence(
             extracted_text = ""
 
     adapter = AIModelAdapter()
+    extraction=None;receipts=[];extraction_error=None
     try:
-        if not adapter.is_configured():
+        if settings.AI_PROVIDER=='groq' and configured():
+            extraction,receipts=extract_document(db,current_user.tenant_id,evidence,content,extracted_text)
+            claim_extraction=StructuredClaimExtraction(party_name=extraction.party_name,invoice_ref=extraction.invoice_ref,amount_paisa=extraction.amount_paisa,claim_date=extraction.claim_date,payment_method=extraction.payment_method,confidence=None,raw_snippet=extraction.source_quote)
+            extracted_text=extraction.extracted_text
+        elif not adapter.is_configured() or settings.AI_PROVIDER=='groq':
+            extraction_error='not_configured'
             claim_extraction = StructuredClaimExtraction(party_name=None, invoice_ref=None, amount_paisa=None, claim_date=None, payment_method=None, confidence=0.0, raw_snippet=extracted_text)
         else:
             claim_extraction = adapter.parse_bangla_document(
@@ -92,6 +103,7 @@ async def upload_evidence(
             file_path=storage_path,
         )
     except Exception as exc:
+        extraction_error=exc.code if isinstance(exc,InferenceUnavailable) else 'extraction_failed'
         # Fallback to explicit unknowns on provider exception rather than crashing upload
         claim_extraction = StructuredClaimExtraction(
             party_name=None,
@@ -112,10 +124,11 @@ async def upload_evidence(
         claim_date=claim_extraction.claim_date,
         payment_method=claim_extraction.payment_method,
         status="proposed",
-        raw_model_response=claim_extraction.raw_snippet,
+        raw_model_response=json.dumps({'extraction':extraction.model_dump() if extraction else None,'extracted_text':extracted_text,'extraction_error':extraction_error,'source_quote':claim_extraction.raw_snippet},ensure_ascii=False),
     )
     db.add(claim)
-    evidence.status = "extracted" if adapter.is_configured() and claim.amount_paisa is not None else "needs_review"
+    evidence.status = "extracted" if extraction or (adapter.is_configured() and settings.AI_PROVIDER!='groq' and claim.amount_paisa is not None) else "needs_review"
+    index_extracted_text(db,current_user.tenant_id,evidence.id,extracted_text,'audio_transcript' if source_type=='audio' else 'invoice',claim.invoice_ref)
     db.commit()
 
     return {
@@ -126,6 +139,8 @@ async def upload_evidence(
         "proposed_party": claim.party_name,
         "proposed_amount_paisa": claim.amount_paisa,
         "status": evidence.status,
+        "extraction_error":extraction_error,
+        "provider_receipts":[receipt_dict(receipt) for receipt in receipts],
     }
 
 
@@ -156,6 +171,10 @@ def get_evidence_details(
         for c in evidence.claims
     ]
 
+    raw=next((claim.raw_model_response for claim in evidence.claims if claim.raw_model_response),'')
+    try:extracted=json.loads(raw)
+    except (ValueError,TypeError):extracted={'extracted_text':raw}
+    receipts=db.query(ProviderReceiptModel).filter_by(tenant_id=current_user.tenant_id,entity_type='evidence',entity_id=evidence.id).order_by(ProviderReceiptModel.created_at.asc()).all()
     return {
         "id": evidence.id,
         "filename": evidence.filename,
@@ -163,6 +182,10 @@ def get_evidence_details(
         "source_type": evidence.source_type,
         "status": evidence.status,
         "claims": claims,
+        "extraction":extracted.get('extraction'),
+        "extracted_text":extracted.get('extracted_text'),
+        "extraction_error":extracted.get('extraction_error'),
+        "provider_receipts":[receipt_dict(receipt) for receipt in receipts],
     }
 
 

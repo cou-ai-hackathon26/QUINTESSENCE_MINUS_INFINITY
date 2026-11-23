@@ -1,3 +1,5 @@
+**Current real-workflow repair (23 November 2026):** See [REAL_WORKFLOW_PLAN.md](REAL_WORKFLOW_PLAN.md), [real-workflow-progress.json](real-workflow-progress.json), and [actual Groq verification](evidence/real-workflow/JR-02/REPORT.md). Seeded judge accounts use persistent APIs. Groq document/image/PDF/voice and grounded chat have genuine task evidence. Historical phase reports below do not certify unfinished agent, semantic retrieval, payment or messaging integrations.
+
 **Current UI handoff (23 November 2026):** [UI_REDESIGN_HANDOFF.md](UI_REDESIGN_HANDOFF.md), [UI progress](UI_REDESIGN_PROGRESS.md), and [UI tracker](ui-redesign-progress.json) cover the integrated main-branch redesign. The original phase history below is preserved and does not certify live integrations.
 
 **Shongoti progress — evidence controls completion**
