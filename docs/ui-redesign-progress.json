@@ -4,7 +4,7 @@
   "branch": "main",
   "owner_authorized_execution": true,
   "preview_merge_sha": "436f4490fe523a060515c6db8d6a515d7bf8c705",
-  "current_phase": "UIR-01",
+  "current_phase": "UIR-02",
   "phases": [
     {
       "id": "UIR-00",
@@ -29,7 +29,7 @@
     {
       "id": "UIR-02",
       "name": "Landing, Today and case vertical slice",
-      "status": "not_started"
+      "status": "verified_pending_publication"
     },
     {
       "id": "UIR-03",

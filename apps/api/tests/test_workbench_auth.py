@@ -64,3 +64,21 @@ def test_registration_validation_and_duplicate_identity(client):
     assert c.post('/api/v1/auth/register',json={**p,'phone':'invalid'}).status_code==400
     assert c.post('/api/v1/auth/register',json=p).status_code==201
     assert c.post('/api/v1/auth/register',json=p).status_code==409
+
+def test_cashflow_uses_tenant_owned_postings_and_excludes_internal_transfer_gross(client):
+    from app.persistence.models import AccountModel,JournalEntryModel
+    c,factory=client
+    session=c.post('/api/v1/auth/judge-session',json={}).json()
+    with factory() as db:
+        accounts=db.query(AccountModel).filter_by(tenant_id=session['tenant_id']).all()
+        cash=next(a for a in accounts if a.code=='asset:cash')
+        wallet=next(a for a in accounts if a.code=='asset:wallet:bkash')
+        entry=JournalEntryModel(tenant_id=session['tenant_id'],entry_number='SYNTHETIC-TRANSFER',description='Internal transfer')
+        db.add(entry);db.flush()
+        db.add_all([PostingModel(journal_entry_id=entry.id,account_id=cash.id,direction='credit',amount_paisa=10000),PostingModel(journal_entry_id=entry.id,account_id=wallet.id,direction='debit',amount_paisa=10000)])
+        db.commit()
+    flow=c.get('/api/v1/workbench/cashflow')
+    assert flow.status_code==200
+    assert sum(flow.json()['incoming_paisa'])==1200000
+    assert sum(flow.json()['outgoing_paisa'])==0
+    assert len(flow.json()['dates'])==7

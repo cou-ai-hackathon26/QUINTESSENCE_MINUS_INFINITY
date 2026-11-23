@@ -1,4 +1,4 @@
-import {createContext,useContext,useEffect,useState,type ReactNode} from 'react';
+import {createContext,useContext,useEffect,useState,Fragment,type ReactNode} from 'react';
 import { Navigate,useLocation } from 'react-router-dom';
 import {request,post,setWorkspaceSession,type Session} from './api';
 interface Auth {user:Session|null;loading:boolean;enter:(mode:'register'|'password-login'|'judge-session',body?:unknown)=>Promise<void>;logout:()=>Promise<void>}
@@ -12,4 +12,4 @@ export function AuthProvider({children}:{children:ReactNode}){
  return <Context.Provider value={{user,loading,enter,logout}}>{children}</Context.Provider>;
 }
 export function useAuth(){const context=useContext(Context);if(!context)throw new Error('Auth provider required');return context;}
-export function Protected({children}:{children:ReactNode}){const {user,loading}=useAuth(),location=useLocation();if(loading)return <div className="session-loader" role="status"><i className="spinner"/>Session যাচাই হচ্ছে…</div>;if(!user)return <Navigate to="/login" state={{from:location.pathname}} replace/>;return <>{children}</>;}
+export function Protected({children}:{children:ReactNode}){const {user,loading}=useAuth(),location=useLocation();if(loading)return <div className="session-loader" role="status"><i className="spinner"/>Session যাচাই হচ্ছে…</div>;if(!user)return <Navigate to="/login" state={{from:location.pathname}} replace/>;return <Fragment key={user.tenant_id}>{children}</Fragment>;}

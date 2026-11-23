@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-23",
+  "scope": "main React landing Today case and recorded agent workspace",
+  "backend": {
+    "tests": 38,
+    "result": "passed"
+  },
+  "frontend": {
+    "tests": 27,
+    "result": "passed"
+  },
+  "build": "passed",
+  "browser": "evidence/browser-report.json",
+  "limits": [
+    "Real inference and external payments not verified",
+    "Agent API returns synchronous recorded history; replay explicitly labeled",
+    "Initial route bundle optimization remains UIR-09"
+  ]
+}

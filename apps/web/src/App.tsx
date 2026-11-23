@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './i18n/LanguageContext';
-import LandingPage from './pages/LandingPage';
+import LandingPage from './workbench/Landing';
 import OnboardingPage from './pages/OnboardingPage';
-import TodayDashboard from './pages/TodayDashboard';
+import TodayDashboard,{Scenarios} from './workbench/Home';
 import FuturePlannerPage from './pages/FuturePlannerPage';
 import CustomerPortalPage from './pages/CustomerPortalPage';
 import StockPage from './pages/StockPage';
@@ -10,7 +10,8 @@ import ReportsPage from './pages/ReportsPage';
 import MoneyPage from './pages/MoneyPage';
 import SalesPage from './pages/SalesPage';
 import PeoplePage from './pages/PeoplePage';
-import ReconciliationPage from './pages/ReconciliationPage';
+import Cases,{CaseDetail} from './workbench/Cases';
+import AgentPage from './workbench/Agents';
 import ConnectionsPage from './pages/ConnectionsPage';
 import DemoPage from './pages/DemoPage';
 import {AuthProvider,Protected} from './workbench/Auth';
@@ -26,12 +27,16 @@ export default function App() {
         <Route path="/register" element={<AuthPage register />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route element={<Protected><AppShell/></Protected>}>
-        <Route path="/app" element={<div className="legacy-surface"><TodayDashboard /></div>} />
+        <Route path="/app" element={<TodayDashboard />} />
+        <Route path="/app/cases" element={<Cases/>}/>
+        <Route path="/app/cases/:caseId" element={<CaseDetail/>}/>
+        <Route path="/app/agents/:runId" element={<AgentPage/>}/>
+        <Route path="/app/scenarios" element={<Scenarios/>}/>
         <Route path="/app/stock" element={<StockPage />} />
         <Route path="/app/reports" element={<ReportsPage />} />
         <Route path="/app/money" element={<MoneyPage />} />
         <Route path="/app/sales" element={<SalesPage />} />
-        <Route path="/app/reconciliation" element={<ReconciliationPage />} />
+        <Route path="/app/reconciliation" element={<Navigate to="/app/cases" replace/>} />
         <Route path="/app/planner" element={<FuturePlannerPage />} />
         <Route path="/app/people" element={<PeoplePage />} />
         <Route path="/app/connections" element={<ConnectionsPage />} />

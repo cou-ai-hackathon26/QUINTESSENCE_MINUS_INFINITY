@@ -30,8 +30,8 @@ describe('Shongoti Application Shell & Bilingual Support', () => {
     fireEvent.click(switchBtn);
 
     // Now English texts appear
-    expect(screen.getByText(/Keep your books/i)).toBeInTheDocument();
-    expect(screen.getByText(/Explore Sample Store/i)).toBeInTheDocument();
+    expect(screen.getByText(/Your shop\./i)).toBeInTheDocument();
+    expect(screen.getByText(/Try it for yourself/i)).toBeInTheDocument();
 
     // Switch button now shows "বাংলা"
     const bnSwitchBtn = screen.getByRole('button', { name: /বাংলা/i });
@@ -39,6 +39,6 @@ describe('Shongoti Application Shell & Bilingual Support', () => {
 
     // Click back to Bangla
     fireEvent.click(bnSwitchBtn);
-    expect(screen.getByText(/হিসাব রাখুন/i)).toBeInTheDocument();
+    expect(document.documentElement.lang).toBe('bn');
   });
 });

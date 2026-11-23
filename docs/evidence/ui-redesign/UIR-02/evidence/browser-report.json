@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-23T13:56:06.724Z",
+  "mode": "main_react_foundation_judge",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Approved landing exact port and language switch; one-click entry opens main React workbench",
+    "Critical clarification changes supported payable without double deduction",
+    "Unknown fact caps evidence support and blocks draft preparation",
+    "Recorded API workflow and explicitly labeled playback have separate states"
+  ],
+  "screenshots": [
+    "approved-landing-1440.png",
+    "dashboard-1440.png",
+    "dashboard-768.png",
+    "dashboard-360.png",
+    "recorded-agent-workspace-1440.png",
+    "agent-playback-1440.png",
+    "case-768.png",
+    "case-360.png"
+  ],
+  "errors": [],
+  "passed": true
+}

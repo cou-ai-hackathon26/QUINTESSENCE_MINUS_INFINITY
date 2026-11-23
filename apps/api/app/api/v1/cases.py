@@ -145,6 +145,8 @@ def get_case_details(
                 "is_critical": cl.is_critical,
                 "state": cl.state,
                 "weight": cl.weight,
+                "source_locator": json.loads(cl.source_locator_json) if cl.source_locator_json else None,
+                "claim_value": json.loads(cl.claim_value_json) if cl.claim_value_json else None,
                 "reasons": json.loads(cl.reasons_json) if cl.reasons_json else [],
             }
             for cl in claims

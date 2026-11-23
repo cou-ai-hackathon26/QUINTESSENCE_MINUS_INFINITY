@@ -25,6 +25,7 @@ from app.api.v1.notifications import notifications_router
 from app.api.v1.operations import operations_router
 from app.api.v1.helpdesk import helpdesk_router
 from app.api.v1.workbench_auth import workbench_auth_router
+from app.api.v1.workbench_data import workbench_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -59,6 +60,7 @@ app.include_router(notifications_router)
 app.include_router(operations_router)
 app.include_router(helpdesk_router)
 app.include_router(workbench_auth_router)
+app.include_router(workbench_router)
 
 
 @app.get("/health", status_code=status.HTTP_200_OK, tags=["System"])
