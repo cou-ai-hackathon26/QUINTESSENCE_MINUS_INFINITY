@@ -1,0 +1,10 @@
+{
+  "phase_id": "AJ-02",
+  "status": "published",
+  "remote": "https://github.com/sakibul-shovon/Shongoti.git",
+  "branch": "main",
+  "milestone_sha": "4038f8b2e8713f5900f9d61274a3d8a2706a9193",
+  "verified_remote_tip_at_milestone": "4038f8b2e8713f5900f9d61274a3d8a2706a9193",
+  "verified_at_utc": "2026-11-23T22:40:49.161854+00:00",
+  "verification": "Normal push and exact ls-remote match. Offline full regression also passed; AJ-03 holds final live/browser evidence."
+}

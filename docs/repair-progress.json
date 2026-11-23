@@ -14,8 +14,13 @@
     },
     {
       "id": "AJ-02",
-      "status": "in_progress",
-      "scope": "Security, grounding, dependencies and CI"
+      "status": "complete",
+      "scope": "Security, grounding, dependencies and CI",
+      "git_checkpoint": {
+        "status": "published",
+        "milestone_sha": "4038f8b2e8713f5900f9d61274a3d8a2706a9193",
+        "receipt": "docs/evidence/readiness/AJ-02/git-checkpoint.json"
+      }
     },
     {
       "id": "AJ-03",
@@ -28,5 +33,5 @@
     "Payment integration owner-deferred",
     "No new comparative accuracy or adoption claim"
   ],
-  "next_task": "AJ-02 publication then AJ-03 browser/evidence handoff"
+  "next_task": "AJ-03 final browser/live evidence and current handoff"
 }

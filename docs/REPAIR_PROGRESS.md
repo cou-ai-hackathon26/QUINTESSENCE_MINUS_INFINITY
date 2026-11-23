@@ -5,7 +5,7 @@ Baseline: `c8a57ff`. User authorized fixes with existing successful workflows/UI
 | Phase | Scope | State |
 |---|---|---|
 | AJ-01 | Exact/atomic CSV, honest voice missing-data states, declared optional speech dependency, deployment recipe corrections | Complete local scope; milestone `1c00a2d` published |
-| AJ-02 | Speech/privacy/auth limits, production secret/claim guards, grounding, compatible dependency maintenance and CI | Targeted checks passed; publication pending |
+| AJ-02 | Speech/privacy/auth limits, production secret/claim guards, grounding, compatible dependency maintenance and CI | Complete; milestone `4038f8b` published |
 | AJ-03 | Final full regression, bounded real/browser smoke checks, current disclosures and handoff | Not started |
 
 Observed AJ-01 checks: 13 backend CSV/stock tests passed; 5 voice UI tests passed. Optional missing speech no longer prevents API import. Docker daemon is unavailable; no actual image/runtime qualification is claimed. Deployment corrections require their own final execution evidence where available.
