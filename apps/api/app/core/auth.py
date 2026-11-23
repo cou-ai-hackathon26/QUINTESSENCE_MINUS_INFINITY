@@ -5,14 +5,16 @@ Enforces real session validation, role assignment, and demo tenant separation.
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 import jwt
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Request
+import hashlib
+import secrets
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.database import get_db
-from app.persistence.models import TenantModel, UserModel
+from app.persistence.models import TenantModel, UserModel, RevokedSessionModel
 
 security = HTTPBearer(auto_error=False)
 
@@ -30,6 +32,7 @@ class TokenData(BaseModel):
 def create_access_token(user_id: str, tenant_id: str, role: str, is_demo: bool = False) -> str:
     expire = datetime.now(timezone.utc) + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS)
     payload = {
+        "jti": secrets.token_hex(16),
         "sub": user_id,
         "tenant_id": tenant_id,
         "role": role,
@@ -61,16 +64,24 @@ def decode_access_token(token: str) -> TokenData:
 
 
 def get_current_user(
+    request: Request,
     auth: Optional[HTTPAuthorizationCredentials] = Depends(security),
     db: Session = Depends(get_db),
 ) -> UserModel:
-    if not auth or not auth.credentials:
+    token = auth.credentials if auth and auth.credentials else request.cookies.get('shongoti_session')
+    if not token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Authentication required. Please provide a Bearer token.",
         )
 
-    token_data = decode_access_token(auth.credentials)
+    if not auth and request.method not in ('GET','HEAD','OPTIONS'):
+        allowed=set(settings.cors_origins)|{str(request.base_url).rstrip('/')}
+        if request.headers.get('origin') not in allowed:
+            raise HTTPException(403,'Same-origin request required for cookie-authenticated writes.')
+    if db.get(RevokedSessionModel, hashlib.sha256(token.encode()).hexdigest()):
+        raise HTTPException(401,'Session has been revoked. Sign in again.')
+    token_data = decode_access_token(token)
     user = (
         db.query(UserModel)
         .filter(UserModel.id == token_data.user_id, UserModel.tenant_id == token_data.tenant_id)

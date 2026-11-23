@@ -60,8 +60,15 @@ def login(req: LoginRequest, db: Session = Depends(get_db)):
     Validates phone and OTP.
     In local dev mode, OTP '123456' is accepted for registered numbers or creates initial owner.
     """
+    from app.core.config import settings
+    if settings.ENVIRONMENT == 'production':
+        raise HTTPException(status_code=503, detail='OTP sender is not configured. Use the credential sign-in flow.')
     if req.otp != "123456":
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid OTP code.")
+
+    from app.persistence.models import UserCredentialModel
+    if db.query(UserCredentialModel).filter_by(phone=req.phone).first():
+        raise HTTPException(status_code=401, detail='This account requires password sign-in.')
 
     user = db.query(UserModel).filter(UserModel.phone == req.phone).first()
     if not user:

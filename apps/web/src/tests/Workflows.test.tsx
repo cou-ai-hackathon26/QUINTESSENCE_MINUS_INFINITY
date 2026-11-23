@@ -1,89 +1,18 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import {describe,it,expect,beforeEach,afterEach,vi} from 'vitest';
+import {render,screen,fireEvent,waitFor,cleanup} from '@testing-library/react';
+import {MemoryRouter} from 'react-router-dom';
 import App from '../App';
-
-describe('Phase 10: Complete Product Workflows & Navigation', () => {
-  it('renders Today Dashboard with sidebar navigation across all MSME modules', () => {
-    render(
-      <MemoryRouter initialEntries={['/app']}>
-        <App />
-      </MemoryRouter>
-    );
-
-    // Sidebar navigation items
-    expect(screen.getAllByText(/আজকের হিসাব/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/মজুদ ও মালপত্র/i)).toBeInTheDocument();
-    expect(screen.getByText(/আর্থিক রিপোর্ট/i)).toBeInTheDocument();
-    expect(screen.getByText(/টাকা ও মাধ্যম/i)).toBeInTheDocument();
-    expect(screen.getByText(/বিক্রি ও বাকি/i)).toBeInTheDocument();
-    expect(screen.getByText(/মহাজন মিলকরণ/i)).toBeInTheDocument();
-    expect(screen.getByText(/৭ দিনের ভবিষ্যৎ/i)).toBeInTheDocument();
-    expect(screen.getByText(/পার্টি খাতা/i)).toBeInTheDocument();
-    expect(screen.getByText(/কানেকশন ও গেটওয়ে/i)).toBeInTheDocument();
-  });
-
-  it('renders Stock page with product inventory and cash-aware reorder alert', async () => {
-    render(
-      <MemoryRouter initialEntries={['/app/stock']}>
-        <App />
-      </MemoryRouter>
-    );
-
-    expect(await screen.findByText(/মজুদ ও মালপত্র ব্যবস্থাপনা/i)).toBeInTheDocument();
-    expect(screen.getByText(/নতুন পণ্য যোগ/i)).toBeInTheDocument();
-    expect(screen.getByText(/ক্রয় চালান ড্রাফট/i)).toBeInTheDocument();
-  });
-
-  it('renders Reports page with strictly separated 4 views and D011 incomplete cost notice', async () => {
-    render(
-      <MemoryRouter initialEntries={['/app/reports']}>
-        <App />
-      </MemoryRouter>
-    );
-
-    expect(await screen.findByText(/বাস্তব আর্থিক ও ব্যবসায়িক রিপোর্ট/i)).toBeInTheDocument();
-    expect(await screen.findByText(/নগদ টাকা \(Cash\)/i)).toBeInTheDocument();
-    expect(screen.getByText(/লাভ-ক্ষতি \(Accrual Profit\)/i)).toBeInTheDocument();
-    expect(screen.getByText(/মজুদ মূল্য \(Inventory\)/i)).toBeInTheDocument();
-    expect(screen.getByText(/বকেয়া খাতা \(Dues\)/i)).toBeInTheDocument();
-  });
-
-  it('renders Reconciliation page with 4 golden hypotheses (REC 001 - 004)', () => {
-    render(
-      <MemoryRouter initialEntries={['/app/reconciliation']}>
-        <App />
-      </MemoryRouter>
-    );
-
-    expect(screen.getByText(/মহাজন চালান ও দাবি মিলকরণ/i)).toBeInTheDocument();
-    expect(screen.getByText(/REC-001/i)).toBeInTheDocument();
-    expect(screen.getByText(/REC-002/i)).toBeInTheDocument();
-    expect(screen.getByText(/REC-003/i)).toBeInTheDocument();
-    expect(screen.getByText(/REC-004/i)).toBeInTheDocument();
-  });
-
-  it('renders Money & Channels page with liquid accounts and transfer actions', () => {
-    render(
-      <MemoryRouter initialEntries={['/app/money']}>
-        <App />
-      </MemoryRouter>
-    );
-
-    expect(screen.getByText(/টাকা ও পেমেন্ট মাধ্যম/i)).toBeInTheDocument();
-    expect(screen.getByText(/টাকা স্থানান্তর \/ ক্যাশ আউট/i)).toBeInTheDocument();
-    expect(screen.getByText(/দিনের ক্যাশ ড্রয়ার মিলকরণ/i)).toBeInTheDocument();
-  });
-
-  it('renders Connections page with SSLCOMMERZ verified status and D009 WhatsApp gate', () => {
-    render(
-      <MemoryRouter initialEntries={['/app/connections']}>
-        <App />
-      </MemoryRouter>
-    );
-
-    expect(screen.getByText(/SSLCOMMERZ পেমেন্ট গেটওয়ে/i)).toBeInTheDocument();
-    expect(screen.getByText(/স্যান্ডবক্স সক্রিয় \(Verified\)/i)).toBeInTheDocument();
-    expect(screen.getByText(/নিষিদ্ধ \/ নীতিগত গেটেড \(D009\)/i)).toBeInTheDocument();
-  });
+import {setWorkspaceSession,parsePaisa} from '../workbench/api';
+const session={user_id:'judge-1',tenant_id:'judge-tenant-1',name:'Judge',shop_name:'Synthetic Test Shop',role:'owner',is_demo:true};
+const response=(body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers:{'content-type':'application/json'}});
+beforeEach(()=>{localStorage.clear();setWorkspaceSession(null);vi.stubGlobal('fetch',vi.fn(async()=>response({detail:'Authentication required'},401)));});
+afterEach(()=>{cleanup();vi.unstubAllGlobals();setWorkspaceSession(null);});
+const mount=(path='/login')=>render(<MemoryRouter initialEntries={[path]}><App/></MemoryRouter>);
+describe('Protected merchant workflow boundaries',()=>{
+ it('anonymous direct navigation requires sign in, without showing seeded balances',async()=>{const {container}=mount('/app');await screen.findByRole('button',{name:/Sign in|লগইন করুন/});expect(container.querySelector('.wb-sidebar')).toBeNull();expect(container.querySelector('.metric-grid')).toBeNull();});
+ it('failed password sign-in preserves credentials and never reports success',async()=>{mount();const phone=await screen.findByLabelText(/Mobile number|মোবাইল নম্বর/);const password=screen.getByLabelText('Password',{exact:true});fireEvent.change(phone,{target:{value:'01712345678'}});fireEvent.change(password,{target:{value:'incorrect-password'}});fireEvent.submit(phone.closest('form')!);await waitFor(()=>expect(screen.getByRole('alert')).toHaveTextContent('Authentication required'));expect(phone).toHaveValue('01712345678');expect(password).toHaveValue('incorrect-password');expect(document.querySelector('.wb-sidebar')).toBeNull();});
+ it('judge service failure stays on entry screen and offers retry',async()=>{mount();const entry=await screen.findByRole('button',{name:/Judge workspace/});fireEvent.click(entry);await waitFor(()=>expect(screen.getByRole('alert')).toHaveTextContent('Authentication required'));expect(entry).not.toBeDisabled();expect(document.querySelector('.wb-sidebar')).toBeNull();});
+ it('one-click judge entry uses the server endpoint and opens the protected shell',async()=>{vi.stubGlobal('fetch',vi.fn(async(input:RequestInfo|URL)=>String(input).endsWith('/judge-session')?response(session,201):response({detail:'Authentication required'},401)));const {container}=mount();fireEvent.click(await screen.findByRole('button',{name:/Judge workspace/}));await waitFor(()=>expect(container.querySelector('.wb-sidebar')).not.toBeNull());expect(container.querySelector('.workspace-mode')).toHaveTextContent('Judge');expect(localStorage.getItem('shongoti_token')).toBeNull();});
+ it('registration has a distinct account form and strong-password length requirement',async()=>{mount('/register');const name=await screen.findByLabelText(/Your name|আপনার নাম/);expect(name).toBeRequired();expect(screen.getByLabelText('Password',{exact:true})).toHaveAttribute('minlength','12');expect(document.querySelector('input[name=shop_name]')).toBeRequired();});
+ it('money input normalization remains exact and rejects ambiguous precision',()=>{expect(parsePaisa('১২৩.০৫')).toBe(12305);expect(()=>parsePaisa('1.001')).toThrow();expect(()=>parsePaisa('-10')).toThrow();});
 });

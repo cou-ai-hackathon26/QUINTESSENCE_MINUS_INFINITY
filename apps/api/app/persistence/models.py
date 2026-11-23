@@ -65,6 +65,21 @@ class UserModel(Base):
     )
 
 
+class UserCredentialModel(Base):
+    __tablename__ = "user_credentials"
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    phone = Column(String(32), nullable=False, unique=True)
+    display_name = Column(String(100), nullable=False)
+    password_salt = Column(String(64), nullable=False)
+    password_hash = Column(String(128), nullable=False)
+
+
+class RevokedSessionModel(Base):
+    __tablename__ = "revoked_sessions"
+    token_hash = Column(String(64), primary_key=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
 class AccountModel(Base):
     __tablename__ = "accounts"
 

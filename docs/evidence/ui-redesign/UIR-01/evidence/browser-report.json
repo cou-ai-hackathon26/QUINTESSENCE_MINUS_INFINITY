@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-23T13:35:29.709Z",
+  "mode": "main_react_foundation_judge",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Judge cookie session opens protected React shell",
+    "Profile dialog keyboard Escape closes and restores focus"
+  ],
+  "screenshots": [
+    "login-1440.png",
+    "login-768.png",
+    "login-360.png",
+    "shell-1440.png"
+  ],
+  "errors": [],
+  "passed": true
+}
