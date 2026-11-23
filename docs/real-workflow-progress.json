@@ -35,7 +35,7 @@
     },
     {
       "id": "JR-04",
-      "status": "verified_partial_pending_publication",
+      "status": "local_complete_external_deferred",
       "scope": "End-to-end workflow and integration verification",
       "verified_local_scope": [
         "guarded daily posting and retry keys",
@@ -49,7 +49,13 @@
         "Message sender/delivery and phone verification/recovery provider",
         "Cloud Bangla TTS / installed-language playback",
         "Production durable worker/database/storage/deployment verification"
-      ]
+      ],
+      "git_checkpoint": {
+        "status": "published",
+        "milestone_sha": "ad8f8cdf734102f72e6056dfdf8d8f9de9dcb239",
+        "integration_sha": "c3f281c850bc8083ef060e49db59da9cbb0b1c78",
+        "receipt": "docs/evidence/real-workflow/JR-04/git-checkpoint.json"
+      }
     }
   ],
   "provider": {
@@ -59,6 +65,6 @@
     "semantic": "Actual pinned multilingual E5 ONNX CPU inference verified for Bangla/English synthetic paraphrases",
     "agents": "Three genuine Groq calls plus exact reconciliation; sequential persisted tasks with live polling"
   },
-  "next_task": "Publish verified JR-04 local scope as a partial checkpoint; preserve deferred external gates. Resume actual payment transport only when sandbox setup is available, without weakening fail-closed behavior.",
+  "next_task": "Owner review of the real local app. Preserve deferred external gates: implement and genuinely verify payment transport only after sandbox setup is available; messaging, cloud Bangla TTS and production qualification remain separate. See REAL_WORKFLOW_HANDOFF.md for exact remaining product gaps.",
   "handoff": "docs/REAL_WORKFLOW_HANDOFF.md"
 }

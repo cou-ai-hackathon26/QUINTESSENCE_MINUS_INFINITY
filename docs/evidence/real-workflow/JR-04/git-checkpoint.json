@@ -1,0 +1,15 @@
+{
+  "phase": "JR-04",
+  "status": "published",
+  "scope": "Verified local scope; external work explicitly deferred by owner",
+  "milestone_sha": "ad8f8cdf734102f72e6056dfdf8d8f9de9dcb239",
+  "integration_sha": "c3f281c850bc8083ef060e49db59da9cbb0b1c78",
+  "verified_remote_tip": "c3f281c850bc8083ef060e49db59da9cbb0b1c78",
+  "verified_at": "2026-11-23T16:54:17.558Z",
+  "concurrent_change": {
+    "preserved_commit": "b782def1b338a6c06f5e18bf8d53f60f2b50c859",
+    "scope": "Graph documentation and ignore entries only; no runtime source changed",
+    "resolution": "Normal merge; no force push"
+  },
+  "validation": "checks.json; code tested in milestone is unchanged by the documentation merge"
+}
