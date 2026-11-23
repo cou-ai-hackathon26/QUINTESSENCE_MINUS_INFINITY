@@ -1199,10 +1199,10 @@
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "in_progress",
+        "status": "published",
         "remote": "origin",
         "branch": "main",
-        "milestone_sha": null,
+        "milestone_sha": "2bb7dea8ab3f2d396d95783d9f80b643514d428d",
         "receipt_path": "docs/evidence/phase-22/git-checkpoint.json"
       }
     },
