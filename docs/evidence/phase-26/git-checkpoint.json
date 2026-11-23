@@ -1,0 +1,20 @@
+{
+  "phase": "26",
+  "name": "Release and resumable handover",
+  "milestone_sha": "d3d6ce210edb4ec1460b53c39188e2aa744f0685",
+  "timestamp": "2026-11-23T17:34:10+06:00",
+  "remote": "origin",
+  "branch": "main",
+  "status": "published",
+  "verification": {
+    "typecheck": "pass",
+    "domain_contracts": "pass",
+    "api_tests": "pass",
+    "web_tests": "pass",
+    "build": "pass",
+    "css_scan": "pass",
+    "secrets_scan": "pass",
+    "benchmark": "pass",
+    "smoke_test": "pass"
+  }
+}
