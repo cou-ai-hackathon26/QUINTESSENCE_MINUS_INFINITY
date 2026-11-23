@@ -25,8 +25,13 @@
     },
     {
       "id": "JR-03",
-      "status": "verified_pending_publication",
-      "scope": "Real agent workflow and evidence retrieval"
+      "status": "complete",
+      "scope": "Real agent workflow and evidence retrieval",
+      "git_checkpoint": {
+        "status": "published",
+        "milestone_sha": "4f633daab7615bb77ba14e377a0c78090c0a1398",
+        "receipt": "docs/evidence/real-workflow/JR-03/git-checkpoint.json"
+      }
     },
     {
       "id": "JR-04",
