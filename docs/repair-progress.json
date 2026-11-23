@@ -24,7 +24,7 @@
     },
     {
       "id": "AJ-03",
-      "status": "in_progress",
+      "status": "complete",
       "scope": "Integrated regression and current handoff",
       "verified": [
         "188 backend tests",
@@ -33,7 +33,12 @@
         "genuine multimodal/chat/specialists/Whisper/English and Bangla TTS",
         "browser/normal registration",
         "corrected remote CI"
-      ]
+      ],
+      "git_checkpoint": {
+        "status": "published",
+        "milestone_sha": "61131aa7773393f7f9462672a02a6eae134b865c",
+        "receipt": "docs/evidence/readiness/AJ-03/git-checkpoint.json"
+      }
     }
   ],
   "limits": [
@@ -41,5 +46,5 @@
     "Payment integration owner-deferred",
     "No new comparative accuracy or adoption claim"
   ],
-  "next_task": "AJ-03 milestone and receipt publication"
+  "next_task": "Owner review of running local app; production/deferred product work remains separately scoped."
 }
