@@ -1,14 +1,17 @@
 """
 Neural Voice Synthesis Streaming API for Bangla MSME voice assistant.
-Uses Microsoft Azure Neural TTS (via edge-tts) with disk caching for sub-millisecond repeated responses.
-Provides 100% human-natural Bangladeshi Bangla audio (bn-BD-PradeepNeural / bn-BD-NabanitaNeural).
+Uses the third-party edge-tts client for Microsoft Edge online speech.
+Availability and voice quality depend on that external service.
 """
 import hashlib
 import re
 from pathlib import Path
 from fastapi import APIRouter, HTTPException, Query, Response
 from pydantic import BaseModel, Field
-import edge_tts
+try:
+    import edge_tts
+except ImportError:
+    edge_tts = None
 
 voice_router = APIRouter(prefix="/api/v1/voice", tags=["Voice"])
 
@@ -41,6 +44,8 @@ class SpeakRequest(BaseModel):
 
 @voice_router.post("/speak")
 async def synthesize_speech(payload: SpeakRequest):
+    if edge_tts is None:
+        raise HTTPException(503, 'Online speech is unavailable. The written transcript remains available.')
     raw_text = payload.text.strip()
     if not raw_text:
         raise HTTPException(status_code=400, detail="Text cannot be empty.")

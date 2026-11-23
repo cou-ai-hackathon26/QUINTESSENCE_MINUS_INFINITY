@@ -1,0 +1,21 @@
+[
+  {
+    "command": [
+      "-c",
+      "from app.main import app; print(\"API import OK\", len(app.routes))"
+    ],
+    "exit_code": 0,
+    "output": "API import OK 121\n"
+  },
+  {
+    "command": [
+      "-m",
+      "alembic",
+      "-c",
+      "apps/api/alembic.ini",
+      "current"
+    ],
+    "exit_code": 0,
+    "output": "INFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\n"
+  }
+]

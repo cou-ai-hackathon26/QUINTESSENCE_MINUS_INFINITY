@@ -18,7 +18,14 @@ dependencies = [
     "pypdf>=5.1.0",
     "pymupdf>=1.26,<2",
     "fastembed>=0.9,<1",
+    "edge-tts>=7.3.1,<8",
 ]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3.3,<10"]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
 
 [build-system]
 requires = ["setuptools>=61.0"]

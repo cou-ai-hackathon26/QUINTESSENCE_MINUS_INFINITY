@@ -4,6 +4,19 @@ import { MemoryRouter } from 'react-router-dom';
 import { VoiceNotificationOrb } from '../workbench/VoiceNotificationOrb';
 import { LanguageProvider } from '../i18n/LanguageContext';
 
+const resources = vi.hoisted(() => ({ unavailable: false }));
+vi.mock('../workbench/ui', async importOriginal => {
+  const original = await importOriginal<typeof import('../workbench/ui')>();
+  return { ...original, useResource: (path: string) => ({
+    loading: false, error: resources.unavailable ? 'Synthetic unavailable' : '', reload: vi.fn(),
+    data: resources.unavailable ? null : path.endsWith('/brief') ? {
+      date: '2026-11-24', liquid_cash_bdt: 5000, open_notifications_count: 0,
+      voice_script_en: 'Good morning. Total liquid cash is 5000 Taka.',
+      voice_script_bn: 'বর্তমান তরল টাকা ৫০০০ টাকা।',
+    } : [],
+  }) };
+});
+
 // Mock Audio
 const mockPauseInstances: any[] = [];
 class MockAudio {
@@ -26,6 +39,7 @@ class MockAudio {
 describe('VoiceNotificationOrb Component & Futuristic HUD', () => {
   beforeEach(() => {
     mockPauseInstances.length = 0;
+    resources.unavailable = false;
     vi.stubGlobal('Audio', MockAudio);
   });
 
@@ -116,5 +130,15 @@ describe('VoiceNotificationOrb Component & Futuristic HUD', () => {
 
     // Subtitle transcript should be in English
     expect(screen.getByText(/Good morning|Total liquid cash/i)).toBeDefined();
+  });
+
+  it('never substitutes invented cash or all-clear alerts when current data is unavailable', () => {
+    resources.unavailable = true;
+    render(<MemoryRouter><LanguageProvider><VoiceNotificationOrb /></LanguageProvider></MemoryRouter>);
+    fireEvent.click(screen.getByRole('button', { name: /ভয়েস নোটিফিকেশন শুনুন|Listen to Voice Notification/i }));
+    fireEvent.click(screen.getByText(/🇺🇸 English/i));
+    expect(screen.getByText(/current briefing is unavailable/i)).toBeDefined();
+    expect(screen.queryByText(/25,400|25 thousand|operations are running smoothly/i)).toBeNull();
+    expect(screen.getByRole('button', { name: 'Play' })).toBeDisabled();
   });
 });

@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-24",
+  "baseline": "c8a57ffc306848d77c72f7fad7edcf12c13a4dee",
+  "phases": [
+    {"id": "AJ-01", "status": "in_progress", "scope": "Local correctness and reproducibility repairs", "git_checkpoint": {"status": "pending"}},
+    {"id": "AJ-02", "status": "not_started", "scope": "Security, grounding, dependencies and CI"},
+    {"id": "AJ-03", "status": "not_started", "scope": "Integrated regression and current handoff"}
+  ],
+  "limits": ["Docker daemon unavailable; container runtime not verified", "Payment integration owner-deferred", "No new comparative accuracy or adoption claim"],
+  "next_task": "AJ-01 publication then AJ-02 focused repairs"
+}

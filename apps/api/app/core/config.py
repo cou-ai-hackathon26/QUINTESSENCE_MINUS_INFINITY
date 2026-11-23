@@ -44,6 +44,8 @@ class Settings(BaseSettings):
     PDF_MAX_OCR_PAGES: int = 6
     SEMANTIC_ENABLED: bool = False
     SEMANTIC_MODEL_PATH: str = 'apps/api/data/models/multilingual-e5-small'
+    EVIDENCE_STORAGE_PATH: str = 'apps/api/data/evidence'
+    VOICE_CACHE_PATH: str = 'tmp/voice_cache'
     SSLCOMMERZ_STORE_ID: str = ""
     SSLCOMMERZ_STORE_PASSWD: str = ""
     SSLCOMMERZ_IS_SANDBOX: bool = True

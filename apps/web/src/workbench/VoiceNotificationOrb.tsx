@@ -82,8 +82,12 @@ export function VoiceNotificationOrb() {
   }, [language, isOpen]);
 
   // Fetch real authenticated brief and notifications
-  const { data: brief } = useResource<DailyBrief>('/api/v1/notifications/brief');
-  const { data: notifications } = useResource<NotificationItem[]>('/api/v1/notifications');
+  const { data: brief, loading: briefLoading, error: briefError, reload: refreshBrief } = useResource<DailyBrief>('/api/v1/notifications/brief');
+  const { data: notifications, loading: notificationLoading, error: notificationError, reload: refreshNotifications } = useResource<NotificationItem[]>('/api/v1/notifications');
+  const dataReady = !briefLoading && !notificationLoading && !briefError && !notificationError && brief !== null && notifications !== null;
+  const unavailableText = (english: boolean) => english
+    ? 'The current briefing is unavailable. Reopen the bulletin to refresh your shop records.'
+    : 'বর্তমান ব্রিফ পাওয়া যায়নি। দোকানের তথ্য আবার লোড করতে বুলেটিন খুলুন।';
 
   // Count unread or urgent alerts
   const urgentCount = notifications?.filter(n => n.priority === 'high' && n.status !== 'resolved').length ?? 0;
@@ -102,8 +106,8 @@ export function VoiceNotificationOrb() {
           targetUrl: '/app/planner',
           targetLabel: englishMode ? 'Go to Cash Planner' : 'ক্যাশ প্ল্যানারে যান',
           text: englishMode
-            ? (brief?.voice_script_en || 'Good morning. Total liquid cash in your shop is 25,400 Taka with 3 active workflow alerts to review.')
-            : (brief?.voice_script_bn || 'শুভ সকাল। আপনার দোকানে বর্তমানে মোট লিকুইড ক্যাশ রয়েছে ২৫ হাজার টাকা। আজকের জন্য ৩টি গুরুত্বপূর্ণ কাজের সতর্কতা রয়েছে।')
+            ? (dataReady ? brief!.voice_script_en : unavailableText(true))
+            : (dataReady ? brief!.voice_script_bn : unavailableText(false))
         };
       case 'urgent': {
         const urgentItems = notifications?.filter(n => n.priority === 'high' && n.status !== 'resolved') || [];
@@ -121,11 +125,11 @@ export function VoiceNotificationOrb() {
           icon: AlertTriangle,
           targetUrl: '/app/cases',
           targetLabel: englishMode ? 'View in Agent Workspace' : 'Agent Workspace-এ দেখুন',
-          text: englishMode ? textEn : textBn
+          text: dataReady ? (englishMode ? textEn : textBn) : unavailableText(englishMode)
         };
       }
       case 'cash': {
-        const cashAmount = brief?.liquid_cash_bdt ?? 25400;
+        const cashAmount = brief?.liquid_cash_bdt ?? 0;
         const textEn = `Liquidity analysis. Total available liquid cash is approximately ${Math.round(cashAmount)} Taka. Verify required reserves before committing to new expenditures.`;
         const textBn = `তারল্য হিসাব। আপনার দোকানে বর্তমান মোট তরল তহবিল প্রায় ${Math.round(cashAmount)} টাকা। কোনো খরচ করার আগে রিজার্ভ নিশ্চিত করুন।`;
         return {
@@ -136,7 +140,7 @@ export function VoiceNotificationOrb() {
           icon: Wallet,
           targetUrl: '/app/money',
           targetLabel: englishMode ? 'View Money Accounts' : 'টাকার খাতা দেখুন',
-          text: englishMode ? textEn : textBn
+          text: dataReady ? (englishMode ? textEn : textBn) : unavailableText(englishMode)
         };
       }
       case 'receiving': {
@@ -155,7 +159,7 @@ export function VoiceNotificationOrb() {
           icon: Package,
           targetUrl: '/app/receiving',
           targetLabel: englishMode ? 'Go to Receiving Desk' : 'রিসিভিং পেজে যান',
-          text: englishMode ? textEn : textBn
+          text: dataReady ? (englishMode ? textEn : textBn) : unavailableText(englishMode)
         };
       }
     }
@@ -208,6 +212,7 @@ export function VoiceNotificationOrb() {
   const playVoice = (text: string, currentVoice: VoiceKey = voice, currentSpeed: string = speed) => {
     // 1. Force stop and clear ANY prior audio instance immediately!
     stopAudio();
+    if (!dataReady) return;
     setPlaybackError(null);
     setAudioLoading(true);
 
@@ -302,10 +307,13 @@ export function VoiceNotificationOrb() {
   };
 
   const handleOpenModal = () => {
+    refreshBrief();
+    refreshNotifications();
     setIsOpen(true);
     // Autoplay the default overview on opening HUD
     const details = getCategoryDetails(activeCategory, isEnglish);
-    playVoice(details.text, voice, speed);
+    // Refresh first; an old financial snapshot must not autoplay as current.
+    void details;
   };
 
   const handleCloseModal = () => {
@@ -476,7 +484,7 @@ export function VoiceNotificationOrb() {
                   <button 
                     className="vno-play-btn"
                     onClick={handleTogglePlay}
-                    disabled={audioLoading}
+                    disabled={audioLoading || !dataReady}
                     aria-label={isPlaying ? (isEnglish ? 'Pause' : 'বিরতি') : (isEnglish ? 'Play' : 'প্লে করুন')}
                   >
                     {isPlaying ? <Pause size={20} /> : <Play size={20} style={{ marginLeft: 2 }} />}
@@ -485,7 +493,7 @@ export function VoiceNotificationOrb() {
                   <button 
                     className="vno-secondary-btn"
                     onClick={handleReplay}
-                    disabled={audioLoading}
+                    disabled={audioLoading || !dataReady}
                   >
                     <RotateCcw size={14} />
                     <span>{isEnglish ? 'Replay' : 'আবার শুনুন'}</span>

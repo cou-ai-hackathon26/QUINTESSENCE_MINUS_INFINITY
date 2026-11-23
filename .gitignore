@@ -57,3 +57,5 @@ graphify-out/.graphify_python
 graphify-out/.graphify_root
 
 # Keep lockfiles, migrations, synthetic fixtures and sanitized evidence tracked.
+# Editable Python build metadata
+*.egg-info/

@@ -26,6 +26,7 @@ from app.persistence.models import (
 from app.core.auth import get_current_user
 from app.adapters.forecast import HistoryForecastAdapter
 from app.domain.ledger import StandardAccount
+from app.domain.csv_io import csv_count, csv_paisa, spreadsheet_text
 
 stock_reports_router = APIRouter(tags=["Stock, Reports & Forecasting"])
 
@@ -73,7 +74,7 @@ class RecurringCommitmentCreateRequest(BaseModel):
 
 
 class CSVImportRequest(BaseModel):
-    csv_content: str
+    csv_content: str = Field(min_length=1, max_length=1_000_000)
 
 
 class CSVImportResponse(BaseModel):
@@ -779,9 +780,9 @@ def export_products_csv(
         cost_bdt = f"{p.cost_price_paisa / 100:.2f}" if p.cost_price_paisa is not None else ""
         selling_bdt = f"{p.selling_price_paisa / 100:.2f}"
         writer.writerow([
-            p.sku or "",
-            p.name,
-            p.unit,
+            spreadsheet_text(p.sku),
+            spreadsheet_text(p.name),
+            spreadsheet_text(p.unit),
             p.quantity_on_hand,
             cost_bdt,
             selling_bdt,
@@ -810,11 +811,17 @@ def import_products_csv(
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Cashier cannot import catalog.")
 
     reader = csv.DictReader(io.StringIO(req.csv_content.strip()))
+    if not reader.fieldnames or 'name' not in reader.fieldnames:
+        raise HTTPException(422, 'CSV requires a name column.')
     created_count = 0
     updated_count = 0
     errors = []
 
+    prepared = []
+    seen_skus = set()
     for row_idx, row in enumerate(reader, start=1):
+        if row_idx > 5000:
+            raise HTTPException(422, 'Import at most 5000 products per file.')
         name = row.get("name", "").strip()
         if not name:
             errors.append(f"Row {row_idx}: 'name' is required.")
@@ -823,24 +830,34 @@ def import_products_csv(
         sku = row.get("sku", "").strip() or None
         unit = row.get("unit", "pcs").strip() or "pcs"
         try:
-            qty = int(row.get("quantity_on_hand", 0))
+            qty = csv_count(row.get("quantity_on_hand", '0'), 'Quantity')
             cost_bdt_str = row.get("cost_price_bdt", "").strip()
-            cost_paisa = int(float(cost_bdt_str) * 100) if cost_bdt_str else None
+            cost_paisa = csv_paisa(cost_bdt_str) if cost_bdt_str else None
             selling_bdt_str = row.get("selling_price_bdt", "0").strip()
-            selling_paisa = int(float(selling_bdt_str) * 100)
-            threshold = int(row.get("reorder_threshold", 5))
-            lead_time = int(row.get("lead_time_days", 3))
+            selling_paisa = csv_paisa(selling_bdt_str)
+            threshold = csv_count(row.get("reorder_threshold", '5'), 'Reorder threshold')
+            lead_time = csv_count(row.get("lead_time_days", '3'), 'Lead time', 3650)
         except ValueError as ex:
             errors.append(f"Row {row_idx}: invalid numeric format ({ex}).")
             continue
 
-        # Deduplication by SKU if SKU provided
+        if sku and sku in seen_skus:
+            errors.append(f'Row {row_idx}: duplicate SKU in the same import.')
+        if sku:
+            seen_skus.add(sku)
+        prepared.append((name, sku, unit, qty, cost_paisa, selling_paisa, threshold, lead_time))
+
+    if errors:
+        raise HTTPException(422, 'No products were changed. ' + '; '.join(errors[:10]))
+
+    for name, sku, unit, qty, cost_paisa, selling_paisa, threshold, lead_time in prepared:
+        # Existing import remains an explicit owner-reviewed absolute stock count.
         existing = None
         if sku:
             existing = db.query(ProductItemModel).filter(
                 ProductItemModel.tenant_id == current_user.tenant_id,
                 ProductItemModel.sku == sku
-            ).first()
+            ).with_for_update().first()
 
         if existing:
             existing.name = name
@@ -895,9 +912,9 @@ def export_dues_csv(
 
     for p in parties:
         writer.writerow([
-            p.name,
-            p.party_type,
-            p.phone or "",
+            spreadsheet_text(p.name),
+            spreadsheet_text(p.party_type),
+            spreadsheet_text(p.phone),
             f"{p.current_due_paisa / 100:.2f}"
         ])
 

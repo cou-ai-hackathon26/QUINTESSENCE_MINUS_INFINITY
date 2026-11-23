@@ -1,0 +1,23 @@
+{
+  "baseline": "c8a57ff",
+  "mode": "offline",
+  "record_type": "Observed tool results summarized after execution",
+  "checks": [
+    {
+      "command": "node scripts/run-python.js -m pytest apps/api/tests/test_readiness_repairs.py apps/api/tests/test_stock_and_reports.py -q -p no:cacheprovider",
+      "exit_code": 0,
+      "passed": 13
+    },
+    {
+      "command": "pnpm.cmd --filter @shongoti/web test src/tests/VoiceNotificationOrb.test.tsx",
+      "exit_code": 0,
+      "passed": 5
+    },
+    {
+      "command": "docker info --format ServerVersion",
+      "exit_code": 1,
+      "status": "not_available",
+      "reason": "Docker daemon pipe absent; image was not built"
+    }
+  ]
+}

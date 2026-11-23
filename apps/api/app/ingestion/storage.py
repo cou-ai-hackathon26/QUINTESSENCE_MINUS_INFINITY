@@ -5,6 +5,7 @@ Manages private file storage, SHA-256 calculation, and size limits.
 import hashlib
 import os
 import re
+from app.core.config import settings
 from typing import Tuple
 from fastapi import HTTPException, status
 
@@ -12,8 +13,8 @@ MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024  # 10 MB limit
 
 
 class EvidenceStorage:
-    def __init__(self, base_dir: str = "apps/api/data/evidence") -> None:
-        self.base_dir = os.path.abspath(base_dir)
+    def __init__(self, base_dir: str | None = None) -> None:
+        self.base_dir = os.path.abspath(base_dir or settings.EVIDENCE_STORAGE_PATH)
         os.makedirs(self.base_dir, exist_ok=True)
 
     def _sanitize_filename(self, filename: str) -> str:
