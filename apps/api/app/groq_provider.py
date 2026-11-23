@@ -46,13 +46,18 @@ class GroqProvider:
         fingerprint_input={'payload':payload or data,'files':{name:hashlib.sha256(value[1]).hexdigest() for name,value in (files or {}).items()}}
         fingerprint=hashlib.sha256(json.dumps(fingerprint_input,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
         try:
-            with httpx.Client(timeout=settings.AI_TIMEOUT_SECONDS,transport=self.transport) as client:
-                response=client.post('https://api.groq.com/openai/v1/'+endpoint,headers={'Authorization':'Bearer '+settings.GROQ_API_KEY},json=payload,files=files,data=data)
-                if not response.is_success:
-                    error='http_'+str(response.status_code)
-                    raise InferenceUnavailable(error,429 if response.status_code==429 else 503)
-                body=response.json();status='succeeded'
-                return body
+            for attempt in range(3):
+                with httpx.Client(timeout=settings.AI_TIMEOUT_SECONDS,transport=self.transport) as client:
+                    response=client.post('https://api.groq.com/openai/v1/'+endpoint,headers={'Authorization':'Bearer '+settings.GROQ_API_KEY},json=payload,files=files,data=data)
+                    if response.status_code==429 and attempt<2:
+                        retry_after=float(response.headers.get('retry-after','5'))
+                        time.sleep(min(max(retry_after,3.0),10.0))
+                        continue
+                    if not response.is_success:
+                        error='http_'+str(response.status_code)
+                        raise InferenceUnavailable(error,429 if response.status_code==429 else 503)
+                    body=response.json();status='succeeded'
+                    return body
         except InferenceUnavailable:raise
         except (httpx.HTTPError,ValueError):
             error='connection_or_response_error';raise InferenceUnavailable(error)

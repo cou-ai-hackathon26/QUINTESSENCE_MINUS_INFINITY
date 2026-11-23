@@ -1,27 +1,27 @@
 {
   "provider": "groq",
   "scope": "Actual app HTTP and genuine provider responses on newly generated synthetic sources",
-  "expected_invoice_ref": "LIVE-45054618",
+  "expected_invoice_ref": "LIVE-38F34354",
   "expected_amount_paisa": 176355,
   "checks": [
     {
       "source": "unseen-invoice.txt",
       "status": "extracted",
       "amount_paisa": 176355,
-      "invoice_ref": "LIVE-45054618",
+      "invoice_ref": "LIVE-38F34354",
       "correct": true,
       "error": null,
       "receipts": [
         {
-          "id": "3b770aa8-c167-4397-b608-5072f94f9293",
+          "id": "18c2e733-19ab-4308-b533-ac60d21b9ab2",
           "provider": "groq",
           "model": "openai/gpt-oss-120b",
           "capability": "document_extraction",
           "status": "succeeded",
-          "provider_request_id": "chatcmpl-1da285ab-aa33-4339-a1d0-8b895235d211",
-          "input_tokens": 953,
-          "output_tokens": 523,
-          "latency_ms": 1594,
+          "provider_request_id": "chatcmpl-21679430-3019-4dff-a8ae-e51a9b524927",
+          "input_tokens": 954,
+          "output_tokens": 563,
+          "latency_ms": 1655,
           "error_code": null
         }
       ]
@@ -30,20 +30,20 @@
       "source": "unseen-invoice.png",
       "status": "extracted",
       "amount_paisa": 176355,
-      "invoice_ref": "LIVE-45054618",
+      "invoice_ref": "LIVE-38F34354",
       "correct": true,
       "error": null,
       "receipts": [
         {
-          "id": "4fd26c26-0704-482e-8910-a91bb0bfdecd",
+          "id": "ba561749-c826-4537-a50b-79b4cce097b9",
           "provider": "groq",
           "model": "qwen/qwen3.8-27b",
           "capability": "image_ocr",
           "status": "succeeded",
-          "provider_request_id": "chatcmpl-97d58c3a-b33d-417c-9cf1-9f64ca82ba75",
+          "provider_request_id": "chatcmpl-5dad5c03-878e-48b1-8b36-12ab224e1b4a",
           "input_tokens": 1499,
-          "output_tokens": 591,
-          "latency_ms": 1765,
+          "output_tokens": 523,
+          "latency_ms": 1641,
           "error_code": null
         }
       ]
@@ -52,20 +52,20 @@
       "source": "unseen-native.pdf",
       "status": "extracted",
       "amount_paisa": 176355,
-      "invoice_ref": "LIVE-45054618",
+      "invoice_ref": "LIVE-38F34354",
       "correct": true,
       "error": null,
       "receipts": [
         {
-          "id": "abde96aa-cc56-45ec-98b8-1688c4fd1d63",
+          "id": "21c6f13f-5bd8-49f8-a8c0-43973c915b40",
           "provider": "groq",
           "model": "openai/gpt-oss-120b",
           "capability": "document_extraction",
           "status": "succeeded",
-          "provider_request_id": "chatcmpl-1d94dd27-e98d-4c72-af7d-e60f1aa8ca9e",
-          "input_tokens": 958,
-          "output_tokens": 563,
-          "latency_ms": 1859,
+          "provider_request_id": "chatcmpl-f591ea61-33e8-4ea7-a1f1-16adcd8f3c61",
+          "input_tokens": 959,
+          "output_tokens": 556,
+          "latency_ms": 1655,
           "error_code": null
         }
       ]
@@ -74,102 +74,46 @@
       "source": "unseen-scanned.pdf",
       "status": "extracted",
       "amount_paisa": 176355,
-      "invoice_ref": "LIVE-45054618",
+      "invoice_ref": "LIVE-38F34354",
       "correct": true,
       "error": null,
       "receipts": [
         {
-          "id": "d1e5f4f6-e354-4623-9b7b-71c4b3da2363",
+          "id": "60cc5b5b-765f-4944-9c0f-1acc1f9d60a8",
           "provider": "groq",
           "model": "qwen/qwen3.8-27b",
           "capability": "image_ocr",
           "status": "succeeded",
-          "provider_request_id": "chatcmpl-7d46f6bc-45e4-441f-bc51-67870cceb2c7",
+          "provider_request_id": "chatcmpl-84af257c-e825-4807-afdd-d1eb6647076b",
           "input_tokens": 1499,
-          "output_tokens": 708,
-          "latency_ms": 2000,
+          "output_tokens": 653,
+          "latency_ms": 1891,
           "error_code": null
         }
       ]
     },
     {
       "type": "grounded_chat",
-      "answer": "আপনার নগদ (cash) এবং উভয় ওয়ালেট (bKash ও Nagad) মিলিয়ে মোট BDT 12,000 (১,২০০,০০০ পয়সা) আছে।",
+      "answer": "আপনার হাতে নগদ (cash) এবং দুইটি ওয়ালেট (bKash ও Nagad) মিলিয়ে মোট BDT 12,000 (১,২০০,০০০ পয়সা) আছে।",
       "citations": [
         {
           "source_id": "ledger/current",
           "source_type": "ledger_account",
           "name": "Current ledger balances",
-          "as_of": "2026-11-23T15:50:49.389741+00:00"
+          "as_of": "2026-11-23T20:46:11.994086+00:00"
         }
       ],
       "receipts": [
         {
-          "id": "24668c8b-8716-40e5-8ba4-2b2872f89935",
+          "id": "fa94882d-fe66-4248-80e1-7fe7f63d2a45",
           "provider": "groq",
           "model": "openai/gpt-oss-120b",
           "capability": "grounded_chat",
           "status": "succeeded",
-          "provider_request_id": "chatcmpl-743e2f88-cd78-4dcc-bc2d-dbf9941ac24e",
-          "input_tokens": 2165,
-          "output_tokens": 186,
-          "latency_ms": 812,
-          "error_code": null
-        }
-      ]
-    },
-    {
-      "type": "voice",
-      "transcription": "Karim paid 500 Taka of his old debt. He also bought 200 Taka of new goods on credit.",
-      "operations": [
-        {
-          "type": "debt_collection",
-          "party_name": "Karim",
-          "amount_paisa": 50000,
-          "payment_method": "unknown",
-          "invoice_ref": null,
-          "source_quote": "Karim paid 500 Taka of his old debt.",
-          "missing_fields": [
-            "payment account"
-          ],
-          "party": "Karim",
-          "amount_bdt": 500.0
-        },
-        {
-          "type": "credit_sale",
-          "party_name": "Karim",
-          "amount_paisa": 20000,
-          "payment_method": "unknown",
-          "invoice_ref": null,
-          "source_quote": "He also bought 200 Taka of new goods on credit.",
-          "missing_fields": [],
-          "party": "Karim",
-          "amount_bdt": 200.0
-        }
-      ],
-      "receipts": [
-        {
-          "id": "d03b5057-89cb-49bd-ab16-ef741a4fc16a",
-          "provider": "groq",
-          "model": "whisper-large-v3",
-          "capability": "audio_transcription",
-          "status": "succeeded",
-          "provider_request_id": "req_01m84hmmkper99kj1baecbz7yv",
-          "input_tokens": null,
-          "output_tokens": null,
-          "latency_ms": 827,
-          "error_code": null
-        },
-        {
-          "id": "3d26c85e-5667-41c6-a599-b494c703efeb",
-          "provider": "groq",
-          "model": "openai/gpt-oss-120b",
-          "capability": "document_extraction",
-          "status": "succeeded",
-          "provider_request_id": "chatcmpl-abd7316a-3dc9-414f-b18e-85990d4a40fe",
-          "input_tokens": 923,
-          "output_tokens": 377,
-          "latency_ms": 1375,
+          "provider_request_id": "chatcmpl-322b7db3-cf7f-4ea3-a9b5-1749d1d43e57",
+          "input_tokens": 2173,
+          "output_tokens": 187,
+          "latency_ms": 1156,
           "error_code": null
         }
       ]

@@ -2,7 +2,7 @@
   "scope": "Actual app voice endpoint, Windows SAPI synthetic English audio, real Groq Whisper and extraction; no Bangla quality claim",
   "passed": true,
   "http_status": 200,
-  "transcription": "Karim paid 500 Taka of his old debt. He also bought 200 Taka of new goods on credit.",
+  "transcription": "Karim paid 500 taka of his old debt. He also bought 200 taka of new goods on credit.",
   "compound_operations": [
     {
       "type": "debt_collection",
@@ -10,8 +10,10 @@
       "amount_paisa": 50000,
       "payment_method": "unknown",
       "invoice_ref": null,
-      "source_quote": "Karim paid 500 Taka of his old debt.",
-      "missing_fields": [],
+      "source_quote": "Karim paid 500 taka of his old debt.",
+      "missing_fields": [
+        "payment account"
+      ],
       "party": "Karim",
       "amount_bdt": 500.0
     },
@@ -21,7 +23,7 @@
       "amount_paisa": 20000,
       "payment_method": "unknown",
       "invoice_ref": null,
-      "source_quote": "He also bought 200 Taka of new goods on credit.",
+      "source_quote": "He also bought 200 taka of new goods on credit.",
       "missing_fields": [],
       "party": "Karim",
       "amount_bdt": 200.0
@@ -29,29 +31,29 @@
   ],
   "provider_receipts": [
     {
-      "id": "fd2ed1d9-eb3f-41b9-b1da-4f054989b351",
+      "id": "46bcc9e1-56bd-4aa1-b1cd-33890a51ffb4",
       "provider": "groq",
       "model": "whisper-large-v3",
       "capability": "audio_transcription",
       "status": "succeeded",
-      "provider_request_id": "req_01m84h68mye85vbdjhsq1z93f7",
+      "provider_request_id": "req_01m852j0qmec1rqp2y3r3e9fj2",
       "input_tokens": null,
       "output_tokens": null,
-      "latency_ms": 1483,
+      "latency_ms": 844,
       "error_code": null
     },
     {
-      "id": "a7f218bd-c3ab-481b-894d-5b131cc9f463",
+      "id": "2d4e0f2f-cf8f-4311-aabc-ca46dd37662e",
       "provider": "groq",
       "model": "openai/gpt-oss-120b",
       "capability": "document_extraction",
       "status": "succeeded",
-      "provider_request_id": "chatcmpl-c4a445e0-b4f3-416c-942c-afdb62fd001f",
-      "input_tokens": 923,
-      "output_tokens": 345,
-      "latency_ms": 1640,
+      "provider_request_id": "chatcmpl-0cabbd3e-0c33-4c0e-926d-158d70b69417",
+      "input_tokens": 921,
+      "output_tokens": 386,
+      "latency_ms": 1202,
       "error_code": null
     }
   ],
-  "evidence_id": "0b9043d5-77d0-4f3b-85ea-36201acba07a"
+  "evidence_id": "ccff72ed-b70d-43a2-beb1-50a70f5a8319"
 }

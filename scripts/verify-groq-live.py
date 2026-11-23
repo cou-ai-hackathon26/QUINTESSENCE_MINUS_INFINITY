@@ -1,5 +1,5 @@
 """Genuine bounded provider checks through the running app; no credential output."""
-import json,uuid,sys
+import json,uuid,sys,time
 from pathlib import Path
 import httpx
 import pymupdf
@@ -18,6 +18,7 @@ try:
     with httpx.Client(base_url='http://127.0.0.1:8000',timeout=180,headers={'Origin':'http://127.0.0.1:8000'}) as client:
         auth=client.post('/api/v1/auth/judge-session',json={});assert auth.status_code==201,'Judge entry failed'
         for name,content,mime in samples:
+            time.sleep(3)
             (fixtures/name).write_bytes(content)
             result=client.post('/api/v1/evidence/upload',files={'file':(name,content,mime)})
             assert result.status_code==200,'Upload HTTP '+str(result.status_code)
@@ -28,6 +29,7 @@ try:
             report['checks'].append(row);print(json.dumps({'source':name,'status':body['status'],'correct':correct,'error':row['error']}),flush=True)
             assert correct,'Live extraction mismatch for '+name
         session=client.post('/api/v1/copilot/sessions',json={'title':'Actual provider verification','context_entity_type':'case','context_entity_id':auth.json()['case_id']}).json()
+        time.sleep(3)
         answer=client.post('/api/v1/copilot/sessions/'+session['id']+'/messages',json={'query':'আমার হাতে cash আর wallet মিলিয়ে মোট কত টাকা আছে? Source দেখাও, পাওনা যোগ করো না।'})
         assert answer.status_code==200,'Chat HTTP '+str(answer.status_code)
         body=answer.json();assert body.get('provider_receipts') and body.get('citations'),'Expected actual inference and source citations'
