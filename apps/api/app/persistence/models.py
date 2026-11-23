@@ -583,5 +583,30 @@ class CreditNoteModel(Base):
     created_at = Column(DateTime, nullable=False, default=now_utc)
 
 
+class UnmetDemandModel(Base):
+    __tablename__ = "unmet_demands"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    customer_name = Column(String(255), nullable=True)
+    requested_product = Column(String(255), nullable=False)
+    sku = Column(String(64), nullable=True, index=True)
+    quantity = Column(Integer, nullable=False, default=1)
+    reason = Column(String(64), nullable=False, default="stockout")  # stockout, not_carried, price_too_high
+    notes = Column(Text, nullable=True)
+    recorded_at = Column(DateTime, nullable=False, default=now_utc)
+
+
+class StockoutPeriodModel(Base):
+    __tablename__ = "stockout_periods"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    sku = Column(String(64), nullable=False, index=True)
+    started_at = Column(DateTime, nullable=False, default=now_utc)
+    ended_at = Column(DateTime, nullable=True)
+    total_lost_requests_count = Column(Integer, nullable=False, default=0)
+
+
 
 

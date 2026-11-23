@@ -2,8 +2,8 @@
   "schema_version": 3,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "20",
-  "next_task": "P21-T01",
+  "current_phase": "21",
+  "next_task": "P22-T01",
   "application_started": true,
   "phases": [
     {
@@ -1105,7 +1105,7 @@
     {
       "id": "21",
       "name": "Demand Memory and supported future impact",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "19",
         "20",
@@ -1114,32 +1114,40 @@
       "tasks": [
         {
           "id": "P21-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-21/demand-memory-report.md"
+          ],
+          "notes": "Unmet customer demand logging without inflating ledger revenue or sales."
         },
         {
           "id": "P21-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-21/demand-memory-report.md"
+          ],
+          "notes": "Availability-aware stockout window tracking distinguishing sales vs stockouts."
         },
         {
           "id": "P21-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-21/demand-memory-report.md"
+          ],
+          "notes": "Honest observed scenario forecasting with explicit assumption disclaimers."
         },
         {
           "id": "P21-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-21/demand-memory-report.md"
+          ],
+          "notes": "DemandTracker UI component showing demand ledger, stockout alerts, and reorder scenarios."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending_milestone",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
