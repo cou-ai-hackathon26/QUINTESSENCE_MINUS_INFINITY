@@ -1,0 +1,12 @@
+
+ RUN  v4.1.12 E:/mu idea/Shongoti/apps/web
+
+
+ Test Files  16 passed (16)
+      Tests  39 passed (39)
+   Start at  04:31:08
+   Duration  13.26s (transform 2.28s, setup 8.44s, import 15.05s, tests 9.04s, environment 40.12s)
+
+
+$ pnpm --filter @shongoti/web test
+$ vitest run

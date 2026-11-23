@@ -1,0 +1,8 @@
+{
+  "mode": "actual_online",
+  "status": 200,
+  "voice": "bn-BD-PradeepNeural",
+  "audio_bytes": 28512,
+  "subjective_quality_validated": false,
+  "note": "The earlier PowerShell-piped inline Unicode attempt was corrupted; a valid escaped Unicode request succeeded."
+}

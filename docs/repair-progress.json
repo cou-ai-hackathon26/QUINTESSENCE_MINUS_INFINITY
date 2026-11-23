@@ -25,7 +25,15 @@
     {
       "id": "AJ-03",
       "status": "in_progress",
-      "scope": "Integrated regression and current handoff"
+      "scope": "Integrated regression and current handoff",
+      "verified": [
+        "188 backend tests",
+        "39 frontend tests",
+        "build/secret scan",
+        "genuine multimodal/chat/specialists/Whisper/English and Bangla TTS",
+        "browser/normal registration",
+        "corrected remote CI"
+      ]
     }
   ],
   "limits": [
@@ -33,5 +41,5 @@
     "Payment integration owner-deferred",
     "No new comparative accuracy or adoption claim"
   ],
-  "next_task": "AJ-03 final browser/live evidence and current handoff"
+  "next_task": "AJ-03 milestone and receipt publication"
 }

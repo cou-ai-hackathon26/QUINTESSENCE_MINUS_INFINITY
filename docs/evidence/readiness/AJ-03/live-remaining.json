@@ -1,0 +1,26 @@
+{
+  "mode": "genuine_retry_after_429",
+  "checks": [
+    {
+      "check": "actual_specialists",
+      "status": "waiting_user",
+      "model_calls": 3,
+      "tasks": 4
+    },
+    {
+      "check": "actual_whisper",
+      "operation_types": [
+        "credit_sale",
+        "debt_collection"
+      ],
+      "no_automatic_posting": true,
+      "receipts": 2
+    },
+    {
+      "check": "actual_online_speech",
+      "status": 200,
+      "bytes": 26352
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,8 @@
+{
+  "mode": "actual_http_synthetic_records",
+  "normal_registration_status": 201,
+  "opening_cash_paisa": 0,
+  "logout_status": 200,
+  "password_login_status": 200,
+  "passed": true
+}

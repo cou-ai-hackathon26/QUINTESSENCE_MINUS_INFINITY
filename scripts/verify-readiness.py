@@ -23,7 +23,7 @@ def run(item):
     name, command = item
     started = time.monotonic()
     result = subprocess.run(command, cwd=ROOT, env=ENV, capture_output=True, text=True, encoding='utf-8', errors='replace')
-    (OUT / (name + '.log')).write_text(result.stdout + '\n' + result.stderr, encoding='utf-8')
+    (OUT / (name + '.txt')).write_text(result.stdout + '\n' + result.stderr, encoding='utf-8')
     row = {'check': name, 'command': command, 'exit_code': result.returncode, 'seconds': round(time.monotonic()-started, 2)}
     print(json.dumps(row), flush=True)
     if result.returncode: print((result.stdout + result.stderr)[-4000:], flush=True)

@@ -1,3 +1,5 @@
+**24 November observed update:** [READINESS_HANDOFF.md](READINESS_HANDOFF.md) and [AJ-03 evidence](evidence/readiness/AJ-03/) record actual repaired Groq OCR/PDF/chat, specialists, Whisper and authenticated English/Bangla Edge online speech. Edge speech is a third-party network-dependent service, separate from installed browser read-aloud voices; transcript fallback remains. Current secrets stay local. Historical tables below are not current availability certification.
+
 **Current verified real workflow (23 November 2026):** Read [REAL_WORKFLOW_HANDOFF.md](REAL_WORKFLOW_HANDOFF.md), [real-workflow-progress.json](real-workflow-progress.json), and [JR-04 local verification](evidence/real-workflow/JR-04/REPORT.md). JR-01/02/03 are published: persistent Judge APIs, genuine Groq document/PDF/Whisper/chat, actual specialists, multilingual semantic retrieval and reviewed accounting. JR-04 verifies local daily workflows; external payment, messaging and cloud Bangla playback remain deferred. Historical statements below are preserved history, not current provider status.
 
 **Integration capability and access register**

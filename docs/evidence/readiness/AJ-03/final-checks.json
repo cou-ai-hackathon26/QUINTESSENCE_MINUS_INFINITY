@@ -1,0 +1,55 @@
+{
+  "at_utc": "2026-11-23T22:32:16.533188+00:00",
+  "base_head": "52de9dedc86a319a75701e867f5bfb876890861c",
+  "tracked_diff_sha256_excluding_owner_database_notes": "39e5310970ec8c5a07f3bb1df3309c6cf4c476214f3b11d9baf95fe9f996cb6b",
+  "cwd": "E:\\mu idea\\Shongoti",
+  "mode": "offline_no_provider_calls",
+  "checks": [
+    {
+      "check": "backend",
+      "command": [
+        "E:\\mu idea\\Shongoti\\apps\\api\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "apps/api/tests/",
+        "-q",
+        "-p",
+        "no:cacheprovider"
+      ],
+      "exit_code": 0,
+      "seconds": 55.53
+    },
+    {
+      "check": "frontend",
+      "command": [
+        "cmd",
+        "/c",
+        "pnpm.cmd",
+        "test:web"
+      ],
+      "exit_code": 0,
+      "seconds": 15.39
+    },
+    {
+      "check": "build",
+      "command": [
+        "cmd",
+        "/c",
+        "pnpm.cmd",
+        "build"
+      ],
+      "exit_code": 0,
+      "seconds": 12.42
+    },
+    {
+      "check": "secrets",
+      "command": [
+        "node",
+        "scripts/scan-secrets.js"
+      ],
+      "exit_code": 0,
+      "seconds": 1.89
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,12 @@
+{
+  "mode": "actual_local_browser",
+  "checks": [
+    "Actual one-click Judge entry and opening balance",
+    "Cookie session and records survive reload",
+    "Voice bulletin shows actual scoped brief and enables playback after loading",
+    "18 additional routes at 360/768/1440 without runtime failure or overflow",
+    "Explicit blocked-network failure test disables speech and never invents a balance"
+  ],
+  "errors": [],
+  "passed": true
+}

@@ -1,0 +1,31 @@
+{
+  "mode": "genuine_provider_synthetic_records",
+  "checks": [
+    {
+      "check": "isolated_judge",
+      "status": 201
+    },
+    {
+      "check": "readiness.png",
+      "amount_paisa": 51929,
+      "receipt_count": 1
+    },
+    {
+      "check": "readiness-native.pdf",
+      "amount_paisa": 51929,
+      "receipt_count": 1
+    },
+    {
+      "check": "readiness-scan.pdf",
+      "amount_paisa": 51929,
+      "receipt_count": 1
+    },
+    {
+      "check": "grounded_chat",
+      "receipt_count": 1,
+      "citations": 3
+    }
+  ],
+  "passed": false,
+  "failure": "failed"
+}

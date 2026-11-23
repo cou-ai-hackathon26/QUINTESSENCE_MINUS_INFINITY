@@ -7,7 +7,7 @@ Verified in this repair pass:
 - Final offline regression: **188 backend tests, 39 frontend tests, production frontend build and targeted tracked secret scan passed**. Logs: [AJ-03](evidence/readiness/AJ-03/final-checks.json).
 - Actual new synthetic image, native PDF and scanned PDF returned the exact 51929-paisa amount; original private bytes remained downloadable. Actual grounded chat returned citations and provider receipts.
 - Actual sequential investigation completed all four tasks with three model receipts; unresolved prior inclusion correctly leaves the run waiting for owner input. The first attempt hit Groq HTTP 429 at the report call; the bounded retry passed. Both observations are retained.
-- Actual Whisper separated old-debt collection and a new credit sale without changing the ledger. Actual authenticated English online speech returned 26352 audio bytes. These synthetic checks do not certify general Bangla recognition/voice quality.
+- Actual Whisper separated old-debt collection and a new credit sale without changing the ledger. Actual authenticated English and Bangla online speech returned 26352 and 28512 audio bytes. These synthetic checks do not certify general recognition or subjective voice quality. Ordinary empty-account registration, logout and password login also passed actual HTTP checks.
 - Actual browser checks passed Judge login/reload, scoped voice brief/loading and explicit network-failure behavior, plus 18 additional routes at 360/768/1440 without runtime errors or document overflow.
 - Dependency lock audits found no known advisories at check time. This is not an exhaustive security audit. Current auth checks, quota bounds, private speech and exact/atomic CSV are covered by regression tests.
 
@@ -23,7 +23,7 @@ Limits that remain:
 - Monetary-mention/citation/quote checks reduce known failures; they are not complete semantic entailment or a guarantee that prose is correct. Evidence support remains an uncalibrated policy index. Large held-out/ablation benchmarks were not run in this urgent repair pass.
 - Financial imports retain the existing explicit absolute stock-count update behavior. Complex inventory reconciliation, import races/versioning, historical sale costs and bill-linked credit ledger posting remain existing domain follow-ups.
 - Payments and message dispatch remain unavailable and owner-deferred. Pricing is a proposed commercial presentation, not verified subscriptions/entitlements. Legal corpus applicability, adoption, savings and forecast quality remain unvalidated.
-- A new GitHub Actions workflow uses empty provider secrets and an ephemeral PostgreSQL 16 service. Its first remote run exposed missing service/provider-test configuration; that setup was corrected without disabling assertions. Check the actual remote run independently of local passes.
+- The GitHub Actions workflow uses empty provider secrets and an ephemeral PostgreSQL 16 service. Its first remote run exposed missing service/provider-test configuration; that setup was corrected without disabling assertions. [The corrected remote run passed](https://github.com/sakibul-shovon/Shongoti/actions/runs/45282441457), independently verifying fresh installation, migration, tests/build and secret scan at `ba10a33`.
 
 Runtime model clients: Groq text/vision/Whisper, pinned local multilingual E5 through FastEmbed/ONNX, and third-party `edge-tts` for the bulletin. Groq/Edge outages leave explicit errors/transcripts; no fixture output is substituted. Never commit `.env`, provider tokens or private merchant files.
 

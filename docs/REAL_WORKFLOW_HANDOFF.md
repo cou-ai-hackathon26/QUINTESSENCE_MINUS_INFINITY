@@ -1,3 +1,5 @@
+**24 November repairs:** Continue from [READINESS_HANDOFF.md](READINESS_HANDOFF.md) and [REPAIR_PROGRESS.md](REPAIR_PROGRESS.md). They supersede older dependency and Bangla bulletin speech descriptions here. Existing financial/production follow-ups remain open; approved UI and merchant data were preserved.
+
 # Real merchant workflow handoff
 
 23 November 2026. Read this before relying on older Phase 00–26/UI reports. The approved interface is preserved; the fixture-only execution path has been removed. The current repair tracker is `docs/real-workflow-progress.json` and the contract is `docs/REAL_WORKFLOW_PLAN.md`.

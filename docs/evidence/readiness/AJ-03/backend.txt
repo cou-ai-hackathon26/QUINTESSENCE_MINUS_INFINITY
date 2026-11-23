@@ -1,0 +1,59 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.15, pytest-9.2.0, pluggy-1.7.0
+rootdir: E:\mu idea\Shongoti\apps\api
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collected 188 items
+
+apps\api\tests\test_actions_and_portal.py .....                          [  2%]
+apps\api\tests\test_agents.py ........                                   [  6%]
+apps\api\tests\test_business_help.py ....                                [  9%]
+apps\api\tests\test_buying_desk.py ....                                  [ 11%]
+apps\api\tests\test_confidence_and_cases.py ...                          [ 12%]
+apps\api\tests\test_copilot.py .....                                     [ 15%]
+apps\api\tests\test_credit_acceptance.py ..                              [ 16%]
+apps\api\tests\test_daily_posting_guards.py ......                       [ 19%]
+apps\api\tests\test_daily_posting_race.py .                              [ 20%]
+apps\api\tests\test_demand_memory.py ...                                 [ 21%]
+apps\api\tests\test_domain_contracts.py ....                             [ 23%]
+apps\api\tests\test_domain_golden.py ..............................      [ 39%]
+apps\api\tests\test_evidence_ingestion.py .....                          [ 42%]
+apps\api\tests\test_evidence_retry.py .                                  [ 43%]
+apps\api\tests\test_groq_provider.py ...........                         [ 48%]
+apps\api\tests\test_health.py ...                                        [ 50%]
+apps\api\tests\test_judge_real_workflow.py ..                            [ 51%]
+apps\api\tests\test_merchant_workflow.py ..........                      [ 56%]
+apps\api\tests\test_notifications.py ....                                [ 59%]
+apps\api\tests\test_operations.py .....                                  [ 61%]
+apps\api\tests\test_persistence_and_auth.py ......                       [ 64%]
+apps\api\tests\test_phase11_security_and_concurrency.py ......           [ 68%]
+apps\api\tests\test_phase14_multimodal_and_reconciliation.py ........    [ 72%]
+apps\api\tests\test_proposal_review.py .......                           [ 76%]
+apps\api\tests\test_readiness_repairs.py .......                         [ 79%]
+apps\api\tests\test_readiness_security.py .....                          [ 82%]
+apps\api\tests\test_real_retrieval_contract.py ...                       [ 84%]
+apps\api\tests\test_receiving_and_returns.py ...                         [ 85%]
+apps\api\tests\test_retrieval.py ....                                    [ 87%]
+apps\api\tests\test_scenarios_workflow.py .....                          [ 90%]
+apps\api\tests\test_stock_and_reports.py ......                          [ 93%]
+apps\api\tests\test_workbench_auth.py ............                       [100%]
+
+============================== warnings summary ===============================
+apps\api\.venv\Lib\site-packages\fastapi\testclient.py:1
+  E:\mu idea\Shongoti\apps\api\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/test_evidence_ingestion.py::test_evidence_file_size_limit
+  E:\mu idea\Shongoti\apps\api\tests\test_evidence_ingestion.py:65: StarletteDeprecationWarning: 'HTTP_413_REQUEST_ENTITY_TOO_LARGE' is deprecated. Use 'HTTP_413_CONTENT_TOO_LARGE' instead.
+    storage.store_file("tenant-test", "huge.bin", large_content, "application/octet-stream")
+
+tests/test_persistence_and_auth.py::test_unbalanced_entry_rejected
+  E:\mu idea\Shongoti\apps\api\.venv\Lib\site-packages\fastapi\telemetry\_api.py:244: StarletteDeprecationWarning: 'HTTP_422_UNPROCESSABLE_ENTITY' is deprecated. Use 'HTTP_422_UNPROCESSABLE_CONTENT' instead.
+    return function(**arguments)
+
+tests/test_workbench_auth.py::test_public_invoice_is_scoped_and_unverified_payments_cannot_post
+  E:\mu idea\Shongoti\apps\api\tests\test_workbench_auth.py:217: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    row.expires_at=datetime.utcnow()-timedelta(days=1)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+====================== 188 passed, 4 warnings in 52.62s =======================

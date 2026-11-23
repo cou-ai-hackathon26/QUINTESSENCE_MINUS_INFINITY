@@ -1475,5 +1475,12 @@
   },
   "current_real_workflow_tracker": "docs/real-workflow-progress.json",
   "current_real_workflow_handoff": "docs/REAL_WORKFLOW_HANDOFF.md",
-  "historical_phase_claims_require_current_source_and_evidence": true
+  "historical_phase_claims_require_current_source_and_evidence": true,
+  "readiness_repair": {
+    "tracker": "docs/repair-progress.json",
+    "handoff": "docs/READINESS_HANDOFF.md",
+    "date": "2026-11-24",
+    "verified_scope": "Local repairs, actual synthetic provider/browser checks and remote CI",
+    "production_qualification": "not_claimed"
+  }
 }
