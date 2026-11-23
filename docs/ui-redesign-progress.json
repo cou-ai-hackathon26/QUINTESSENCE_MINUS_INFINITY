@@ -69,7 +69,12 @@
     {
       "id": "UIR-06",
       "name": "Planner, reports and explanations",
-      "status": "verified_pending_publication"
+      "status": "complete",
+      "git_checkpoint": {
+        "status": "milestone_published",
+        "milestone_sha": "55221519c9879d1aed4b233da3972a63441ec4b4",
+        "receipt": "docs/evidence/ui-redesign/UIR-06/git-checkpoint.json"
+      }
     },
     {
       "id": "UIR-07",
