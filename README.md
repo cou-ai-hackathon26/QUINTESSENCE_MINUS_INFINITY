@@ -6,7 +6,7 @@
 
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)](#technology-stack)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?style=flat-square&logo=fastapi&logoColor=white)](#technology-stack)
-[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](#technology-stack)
+[![React 18](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)](#technology-stack)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript&logoColor=white)](#technology-stack)
 [![Groq Multimodal AI](https://img.shields.io/badge/Inference-Groq_LLM_%C2%B7_Vision_%C2%B7_Whisper-F55036?style=flat-square)](#system-architecture)
 [![Hybrid RAG](https://img.shields.io/badge/Retrieval-Multilingual_E5_ONNX_+_BM25_RRF-184530?style=flat-square)](#hybrid-rag--multimodal-ingestion-pipeline)
@@ -15,6 +15,10 @@
 **[Overview](#overview)** · **[Key Capabilities](#key-capabilities)** · **[Product Tour](#product-tour)** · **[System Architecture](#system-architecture)** · **[Database ER Diagram](#database-entity-relationship-er-diagram)** · **[Module Reference](#application-modules--route-reference)** · **[Quick Start](#getting-started)** · **[Verification](#testing--verification)**
 
 </div>
+
+**24 November readiness repairs:** See [current verified status](docs/READINESS_HANDOFF.md), [repair progress](docs/REPAIR_PROGRESS.md) and [judge navigation](docs/JUDGE_GUIDE.md). These supersede older dependency/speech capability statements below. Successful local smoke checks are not production deployment or accuracy certification.
+
+**AI assistance disclosure:** OpenAI Codex assisted research, planning, implementation, review, tests and documentation; Google Antigravity assisted implementation. The team must understand and defend the resulting code. Runtime model/provider libraries and their roles are listed below; project data used in the evidence is explicitly synthetic.
 
 ---
 
@@ -564,7 +568,8 @@ pnpm.cmd install --frozen-lockfile
 
 # 2. Create (if needed) and populate the Python 3.12 virtual environment
 uv venv --python 3.12 apps/api/.venv
-uv pip install --python apps/api/.venv/Scripts/python.exe -e apps/api
+uv pip install --python apps/api/.venv/Scripts/python.exe -r apps/api/requirements.lock
+uv pip install --python apps/api/.venv/Scripts/python.exe --no-deps -e apps/api
 
 # 3. Apply all 16 Alembic database migrations
 pnpm.cmd db:migrate
@@ -612,7 +617,7 @@ Shongoti enforces strict operational transparency—distinguishing live verified
 | **Hybrid RAG Memory (Local Pinned Multilingual E5 ONNX + Unicode BM25 + RRF)** | **Verified Live** | Local CPU ONNX inference verified across English and Bangla synthetic paraphrases with exact invoice-ID priority ([`docs/evidence/real-workflow/JR-03/`](docs/evidence/real-workflow/JR-03/)). |
 | **Online Payment Gateway (SSLCOMMERZ Checkout & Order Validation)** | **Deferred (Fails Closed)** | Synthetic checkout URLs were removed; payment endpoints fail closed until `SSLCOMMERZ_STORE_ID`, `SSLCOMMERZ_STORE_PASSWD`, and a public HTTPS callback origin are configured. |
 | **External SMS / WhatsApp Delivery & Phone OTP Recovery** | **Deferred (Drafts Only)** | Reminder drafts are persisted locally as reviewable drafts; no external message delivery is claimed without a configured sender account. |
-| **Cloud Bangla Text-to-Speech (TTS)** | **Browser Voice / Transcript** | Groq Whisper handles speech-to-text transcription; audio read-aloud uses installed browser Web Speech voices with full written transcript fallback. |
+| **Bangla/English bulletin speech** | **Actual online smoke verified locally** | Authenticated Edge online speech (`edge-tts`), tenant-private bounded cache, rate/size/time limits and transcript fallback. This is separate from installed browser read-aloud voices and is not an official Azure enterprise integration. |
 
 ---
 

@@ -7,6 +7,7 @@ from app.core.database import get_db
 from app.persistence.models import AccountModel,JournalEntryModel,PostingModel,UserModel,ProviderReceiptModel
 from app.groq_provider import configured
 from app.retrieval.semantic import status as semantic_status
+from app.api.v1.voice_speak import edge_tts
 workbench_router=APIRouter(prefix='/api/v1/workbench',tags=['Workbench data'])
 @workbench_router.get('/capabilities')
 def capabilities(user:UserModel=Depends(get_current_user),db:Session=Depends(get_db)):
@@ -18,7 +19,7 @@ def capabilities(user:UserModel=Depends(get_current_user),db:Session=Depends(get
         {'id':'retrieval','title':'Shop memory search','state':'hybrid_bm25_dense' if semantic['available'] else 'model_prepared' if semantic['enabled'] and semantic['prepared'] else 'keyword_only','detail':'Actual local multilingual E5 + BM25 + RRF when enabled/prepared; keyword-only fallback is disclosed. Similarity is not confidence.'},
         {'id':'payments','title':'Online payment execution','state':'unavailable','detail':'Needs SSLCOMMERZ sandbox credentials, public HTTPS callbacks and actual provider session/validation verification. Bookkeeping does not transfer wallet funds.'},
         {'id':'messages','title':'SMS / WhatsApp dispatch','state':'unavailable','detail':'No delivery provider or verified receipt. A reviewed reminder remains a draft.'},
-        {'id':'voice_playback','title':'Spoken answers and briefs','state':'browser_voice_dependent','detail':'User-triggered browser speech requires an installed matching-language voice. Groq Whisper is transcription; Bangla TTS is not configured.'},
+        {'id':'voice_playback','title':'Spoken answers and briefs','state':'available_on_request' if edge_tts is not None else 'unavailable','detail':'The bulletin uses authenticated Edge online Bangla/English speech with bounded tenant-private cache and transcript fallback. Network success is established by each actual speech response. Copilot browser read-aloud still depends on installed voices; Whisper is transcription.'},
         {'id':'files','title':'Private documents and exports','state':'available','detail':'Tenant-scoped original files, reviewed corrections and actual exports.'},
         {'id':'legal','title':'Business document references','state':'reference_only','detail':'Document summaries and cited references; current jurisdiction-specific legal applicability is not verified.'}
     ]}
