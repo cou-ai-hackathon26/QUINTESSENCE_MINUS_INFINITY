@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-23T13:04:05.205Z",
+  "base": "87ec050f6c852da7a12560e9fa2057a75382ff61",
+  "scope": "Isolated design preview checkpoint; no completed full-redesign phase",
+  "commands": [
+    {
+      "command": "node --test product-preview/preview.test.mjs product-preview/auth.test.mjs",
+      "exit_code": 0,
+      "tests": 23,
+      "mode": "domain + JSDOM + real local password/session store"
+    },
+    {
+      "command": "node product-preview/http-check.mjs",
+      "exit_code": 0,
+      "checks": 17,
+      "mode": "real local HTTP boundary checks"
+    },
+    {
+      "command": "node product-preview/browser-check.mjs",
+      "exit_code": 0,
+      "checks": 19,
+      "screenshots": 20,
+      "mode": "isolated installed headless Chrome / synthetic local scenarios"
+    },
+    {
+      "command": "node scripts/scan-secrets.js",
+      "exit_code": 0,
+      "tracked_files_scanned": 330,
+      "limits": "Pattern scan, not an exhaustive security audit"
+    }
+  ],
+  "cssParsing": {
+    "passed": true,
+    "files": [
+      "styles.css",
+      "workbench.css",
+      "purchasing.css"
+    ]
+  },
+  "sourceSha256": {
+    "index.html": "331c744aae5a90eb82dff3715d7d6c2c0d2c13f2d93aa62e836655977a267b8d",
+    "app.js": "2573176bbcdeff2551e6a015605a29cc96a2a53696dab851dbb34bd2ceb5d071",
+    "domain.js": "742257af821013e4e26b6b36798cf0356f4b12240d6a8f390c44080e2e318e0e",
+    "styles.css": "8ec7a2193750a46c98dbf2f48c3c975df951cbc36efe57b982d5c75ffae33a9b",
+    "workbench.css": "b0aa9b5d8667203afc509cdb85987122973d1799961b808fad85f377485eead3",
+    "purchasing.css": "8f420cc7dd41459d17b55452e45bd2b3fe6493241e64ebde999ad85f27a772aa",
+    "auth-store.mjs": "748ab0329453aeb51ee19e79b45bebebb4910839283c4a579d3bfb180a0ece8c",
+    "server.mjs": "71f1dc4b0a49d2d4c80c8d4b3d0c7501276d7b7c7f1bc96cf6696cf4fadf632d"
+  },
+  "limitations": [
+    "No live AI inference or evaluated RAG",
+    "Agent activity is labeled fixture playback",
+    "Three exception cases are fixed inspectors",
+    "Merchant ledger service not connected to local accounts",
+    "Phone verification, recovery, deployed TLS not configured",
+    "No full screen-reader audit or real merchant usability study"
+  ],
+  "earlierFailures": [
+    "PowerShell pnpm policy resolved with pnpm.cmd in preceding audit",
+    "Built-in browser runtime failed to initialize; isolated headless Chrome used for real development checks",
+    "Initial sandboxed Chrome GPU startup failed; authorized isolated Chrome launch succeeded",
+    "Browser found null focus target on auth hash navigation; corrected and full checks passed",
+    "JSDOM navigation harness required advancing its zero-delay event timer"
+  ],
+  "main_application_modified": false
+}

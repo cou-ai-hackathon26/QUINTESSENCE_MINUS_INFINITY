@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-23",
+  "scope": "Four-core-screen design review, revised after feedback, plus local authentication and judge scenario entry",
+  "branch": "design/product-preview",
+  "base_sha": "87ec050f6c852da7a12560e9fa2057a75382ff61",
+  "design_status": "awaiting_owner_review",
+  "main_application_modified": false,
+  "production_auth_integrated": false,
+  "live_ai_integrated": false,
+  "ui_phases_completed": [],
+  "screens": [
+    "overview",
+    "agent_workspace",
+    "purchasing",
+    "cash_planning",
+    "login",
+    "register",
+    "judge_scenarios"
+  ],
+  "scenario_count": 6,
+  "capability_modes": {
+    "account_verification": "real_local_server",
+    "financial_calculations": "deterministic_synthetic_fixtures",
+    "agent_activity": "explicit_fixture_playback",
+    "copilot": "local_fixture_answers",
+    "receiving_duplicate_notice": "predefined_inspection_scenarios",
+    "voice_brief": "user_initiated_device_speech_when_available"
+  },
+  "verification": {
+    "domain_component_auth_tests": "passed_23",
+    "http_boundary_checks": "passed_17",
+    "browser": "passed_19_checks_20_screenshots_360_768_1440",
+    "merchant_usability": "not_run",
+    "live_ai_payment_rag": "not_run"
+  },
+  "git_checkpoint": {
+    "status": "pending"
+  },
+  "next_task": "Collect owner feedback on the revised workbench and judge entry; production rollout remains unapproved."
+}

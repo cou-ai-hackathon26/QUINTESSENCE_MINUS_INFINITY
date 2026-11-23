@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-23T13:01:47.568Z",
+  "passed": true,
+  "checks": [
+    "Asset serves: /",
+    "Asset serves: /app.js",
+    "Asset serves: /domain.js",
+    "Asset serves: /styles.css",
+    "Asset serves: /workbench.css",
+    "Asset serves: /purchasing.css",
+    "Asset serves: /favicon.svg",
+    "Private path excluded: /.runtime/accounts.json",
+    "Private path excluded: /auth-store.mjs",
+    "Private path excluded: /server.mjs",
+    "Private path excluded: /../../.env",
+    "Anonymous session contains no account",
+    "Cross-origin mutation refused",
+    "Non-JSON mutation refused",
+    "Judge cookie is HttpOnly/SameSite Strict; no token exposed in response",
+    "Reset creates new judge tenant and revokes replaced session",
+    "Logout revokes session and expires cookie"
+  ],
+  "scope": "Local preview HTTP/auth boundaries only; not main FastAPI or production financial integration."
+}

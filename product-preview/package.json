@@ -1,0 +1,9 @@
+{
+  "name": "shongoti-product-design-preview",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test preview.test.mjs"
+  }
+}
