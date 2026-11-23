@@ -2,8 +2,8 @@
   "schema_version": 3,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "21",
-  "next_task": "P22-T01",
+  "current_phase": "22",
+  "next_task": "P23-T01",
   "application_started": true,
   "phases": [
     {
@@ -1157,7 +1157,7 @@
     {
       "id": "22",
       "name": "notifications, voice alerts and briefs",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "18",
         "20",
@@ -1166,32 +1166,40 @@
       "tasks": [
         {
           "id": "P22-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-22/notifications-inbox-report.md"
+          ],
+          "notes": "NotificationModel schema and idempotent notification generator."
         },
         {
           "id": "P22-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-22/notifications-inbox-report.md"
+          ],
+          "notes": "Notification status lifecycle: unread, read, snoozed, resolved."
         },
         {
           "id": "P22-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-22/notifications-inbox-report.md"
+          ],
+          "notes": "Daily executive brief and natural Bangla voice script generator."
         },
         {
           "id": "P22-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-22/notifications-inbox-report.md"
+          ],
+          "notes": "ActionableInbox UI component with category badges and audio preview."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "in_progress",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,

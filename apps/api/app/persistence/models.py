@@ -608,5 +608,23 @@ class StockoutPeriodModel(Base):
     total_lost_requests_count = Column(Integer, nullable=False, default=0)
 
 
+class NotificationModel(Base):
+    __tablename__ = "notifications"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    title = Column(String(255), nullable=False)
+    message = Column(Text, nullable=False)
+    category = Column(String(64), nullable=False)  # unresolved_receipt, unapplied_credit, return_deadline, cash_constraint, approval_required
+    priority = Column(String(32), nullable=False, default="medium")  # high, medium, low
+    status = Column(String(32), nullable=False, default="unread")  # unread, read, snoozed, resolved
+    target_entity_type = Column(String(64), nullable=True)
+    target_entity_id = Column(String(36), nullable=True)
+    dedup_key = Column(String(128), nullable=False, index=True)
+    snoozed_until = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+    updated_at = Column(DateTime, nullable=False, default=now_utc, onupdate=now_utc)
+
+
 
 
