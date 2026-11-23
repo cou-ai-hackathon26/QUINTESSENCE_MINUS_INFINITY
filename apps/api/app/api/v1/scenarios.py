@@ -4,6 +4,7 @@ Provides 7-day cash flow simulation, intervention testing (expenses, delays, pro
 and versioned scenario persistence without mutating the actual ledger.
 """
 import json
+from datetime import datetime, timedelta, timezone
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
@@ -187,6 +188,10 @@ def list_scenarios(
             "assumed_daily_receipt_paisa": s.assumed_daily_receipt_paisa,
             "reserve_target_paisa": s.reserve_target_paisa,
             "extra_expense_paisa": s.extra_expense_paisa,
+            "planned_outflows_paisa": json.loads(s.planned_outflows_json),
+            "conditional_promise_paisa": s.conditional_promise_paisa,
+            "conditional_promise_date": s.conditional_promise_date,
+            "closing_cash_series": json.loads(s.closing_series_json),
             "first_reserve_breach_date": s.first_reserve_breach_date,
             "first_funding_shortfall_date": s.first_funding_shortfall_date,
             "created_at": s.created_at.isoformat(),
@@ -212,16 +217,25 @@ def get_tenant_baseline(
         )
         .first()
     )
-    opening_cash = cash_acc.current_balance_paisa if cash_acc else 1200000
+    opening_cash = cash_acc.current_balance_paisa if cash_acc else 0
 
     # Golden contract baseline parameters
-    golden_outflows_paisa = [200000, 0, 600000, 0, 400000, 0, 300000]
-    daily_receipt_paisa = 100000  # 1,000 BDT
-    reserve_target_paisa = 300000  # 3,000 BDT
+    today = datetime.now(timezone(timedelta(hours=6))).date()
+    dates = [(today + timedelta(days=i)).isoformat() for i in range(7)]
+    golden_outflows_paisa = [0] * 7
+    sources = []
+    obligations = db.query(ObligationModel).filter(ObligationModel.tenant_id == current_user.tenant_id, ObligationModel.status == 'supported').all()
+    for obligation in obligations:
+        due = obligation.due_at.date().isoformat()
+        if due in dates:
+            golden_outflows_paisa[dates.index(due)] += obligation.amount_paisa
+            sources.append({'id':obligation.id,'invoice_ref':obligation.invoice_ref,'due_date':due,'amount_paisa':obligation.amount_paisa})
+    daily_receipt_paisa = 0  # No future revenue is inferred from missing history.
+    reserve_target_paisa = 0  # Owner must choose a reserve target.
 
     eval_result = ScenarioEngine.simulate_7_day(
         case_id="baseline",
-        dates=DEFAULT_7_DATES,
+        dates=dates,
         opening_cash=Money(opening_cash),
         assumed_daily_receipt=Money(daily_receipt_paisa),
         planned_outflows=[Money(p) for p in golden_outflows_paisa],
@@ -229,7 +243,10 @@ def get_tenant_baseline(
     )
 
     return {
-        "dates": DEFAULT_7_DATES,
+        "dates": dates,
+        "obligation_sources": sources,
+        "assumption_status": "owner_input_required; supported obligations only; no invented future revenue",
+        "as_of": datetime.now(timezone.utc).isoformat(),
         "opening_cash_paisa": opening_cash,
         "assumed_daily_receipt_paisa": daily_receipt_paisa,
         "planned_outflows_paisa": golden_outflows_paisa,

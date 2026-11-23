@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-23",
+  "build": "passed",
+  "api": "test_planner_has_no_fabricated_baseline_and_report_uses_real_accounts: passed",
+  "browser": "evidence/browser-report.json",
+  "scope": [
+    "Owner-editable exact-money seven-day baseline/alternate charts and accessible value table",
+    "Conditional promise explicitly dashed and never posted",
+    "Saved assumptions reload and re-evaluation",
+    "Recurring commitments management",
+    "Reports actual cash/revenue/dues and withheld unsupported historical profit"
+  ],
+  "corrections": [
+    "Real baseline no longer uses golden sample amounts or stale dates",
+    "Report uses canonical ledger codes, sums all wallets",
+    "Saved scenario API includes required assumptions for reload"
+  ],
+  "limits": [
+    "Forecast model and actual provider inference not reverified; no fabricated forecast chart",
+    "Recurring commitments are visible separately, not silently double-counted into obligations",
+    "Historical sale-time cost records are insufficient to certify profit; positive-revenue profit is withheld"
+  ]
+}

@@ -2,9 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './i18n/LanguageContext';
 import LandingPage from './workbench/Landing';
 import TodayDashboard,{Scenarios} from './workbench/Home';
-import FuturePlannerPage from './pages/FuturePlannerPage';
 import CustomerPortalPage from './pages/CustomerPortalPage';
-import ReportsPage from './pages/ReportsPage';
 import Cases,{CaseDetail} from './workbench/Cases';
 import AgentPage from './workbench/Agents';
 import ConnectionsPage from './pages/ConnectionsPage';
@@ -17,6 +15,7 @@ import Evidence from './workbench/Evidence';
 import Actions from './workbench/Actions';
 import {Sales,People,Money,Setup} from './workbench/Commerce';
 import {Buying,Receiving,Stock,Demand} from './workbench/Inventory';
+import {Planner,Reports} from './workbench/Planning';
 
 export default function App() {
   return (
@@ -37,11 +36,11 @@ export default function App() {
         <Route path="/app/evidence/:evidenceId" element={<Evidence/>}/>
         <Route path="/app/actions" element={<Actions/>}/>
         <Route path="/app/buying" element={<Buying/>}/><Route path="/app/receiving" element={<Receiving/>}/><Route path="/app/demand" element={<Demand/>}/><Route path="/app/stock" element={<Stock/>} />
-        <Route path="/app/reports" element={<ReportsPage />} />
+        <Route path="/app/reports" element={<Reports/>} />
         <Route path="/app/money" element={<Money/>} />
         <Route path="/app/sales" element={<Sales/>} />
         <Route path="/app/reconciliation" element={<Navigate to="/app/cases" replace/>} />
-        <Route path="/app/planner" element={<FuturePlannerPage />} />
+        <Route path="/app/planner" element={<Planner/>} />
         <Route path="/app/people" element={<People/>} />
         <Route path="/app/connections" element={<ConnectionsPage />} />
         </Route>

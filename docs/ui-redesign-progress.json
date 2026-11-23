@@ -4,7 +4,7 @@
   "branch": "main",
   "owner_authorized_execution": true,
   "preview_merge_sha": "436f4490fe523a060515c6db8d6a515d7bf8c705",
-  "current_phase": "UIR-05",
+  "current_phase": "UIR-06",
   "phases": [
     {
       "id": "UIR-00",
@@ -69,7 +69,7 @@
     {
       "id": "UIR-06",
       "name": "Planner, reports and explanations",
-      "status": "not_started"
+      "status": "verified_pending_publication"
     },
     {
       "id": "UIR-07",

@@ -25,6 +25,7 @@ from app.persistence.models import (
 )
 from app.core.auth import get_current_user
 from app.adapters.forecast import HistoryForecastAdapter
+from app.domain.ledger import StandardAccount
 
 stock_reports_router = APIRouter(tags=["Stock, Reports & Forecasting"])
 
@@ -575,21 +576,21 @@ def get_operating_summary(
     bkash_balance = 0
     bank_balance = 0
     for acc in accounts:
-        if acc.code == "1001":
+        if acc.code == StandardAccount.CASH.value:
             cash_in_hand = acc.current_balance_paisa
-        elif acc.code == "1002":
-            bkash_balance = acc.current_balance_paisa
-        elif acc.code == "1003":
-            bank_balance = acc.current_balance_paisa
+        elif acc.code.startswith("asset:wallet:"):
+            bkash_balance += acc.current_balance_paisa
+        elif acc.code.startswith("asset:bank:"):
+            bank_balance += acc.current_balance_paisa
     total_liquid_cash = cash_in_hand + bkash_balance + bank_balance
 
     # 2. Accrual Profit & Loss
     # Revenue: Account 4001 Sales Revenue credit balance
-    rev_acc = next((a for a in accounts if a.code == "4001"), None)
+    rev_acc = next((a for a in accounts if a.code == StandardAccount.SALES_REVENUE.value), None)
     total_revenue_paisa = rev_acc.current_balance_paisa if rev_acc else 0
 
     # Operating Expenses: Account 5001 Expenses debit balance
-    exp_acc = next((a for a in accounts if a.code == "5001"), None)
+    exp_acc = next((a for a in accounts if a.code == StandardAccount.OPERATING_EXPENSE.value), None)
     total_expenses_paisa = exp_acc.current_balance_paisa if exp_acc else 0
 
     # Calculate COGS from stock movements
@@ -616,6 +617,10 @@ def get_operating_summary(
     # Check uncosted active products
     uncosted_count = sum(1 for p in products if p.cost_price_paisa is None)
     if uncosted_count > 0:
+        cost_data_incomplete = True
+
+    # Current product cost is not historical sale cost. Suppress unverified profit.
+    if total_revenue_paisa > 0:
         cost_data_incomplete = True
 
     # If cost data is incomplete, suppress unsupported profit claim (D011)

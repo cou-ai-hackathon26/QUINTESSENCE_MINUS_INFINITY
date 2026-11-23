@@ -154,3 +154,25 @@ def test_receiving_only_usable_units_and_pending_credit_cannot_apply(client):
     assert c.post('/api/v1/demand/unmet',json={'requested_product':'Synthetic rice','sku':'TEST-RICE','quantity':2}).status_code == 201
     analysis = c.get('/api/v1/demand/analysis/TEST-RICE')
     assert analysis.status_code == 200 and analysis.json()['current_stock'] == 7
+
+
+def test_planner_has_no_fabricated_baseline_and_report_uses_real_accounts(client):
+    c, _ = client
+    c.post('/api/v1/auth/register',json=payload())
+    c.headers['Origin'] = 'http://testserver'
+    baseline = c.get('/api/v1/scenarios/baseline').json()
+    assert baseline['opening_cash_paisa'] == 0
+    assert baseline['assumed_daily_receipt_paisa'] == 0
+    assert baseline['planned_outflows_paisa'] == [0] * 7
+    c.post('/api/v1/auth/judge-session',json={})
+    before = c.get('/api/v1/merchant/today').json()
+    baseline = c.get('/api/v1/scenarios/baseline').json()
+    data = {'case_id':'test','dates':baseline['dates'],'opening_cash_paisa':500000,'assumed_daily_receipt_paisa':0,'planned_outflows_paisa':[0]*7,'reserve_target_paisa':300000,'extra_expense_day_1_paisa':250000,'conditional_promise_paisa':100000,'conditional_promise_date':baseline['dates'][2]}
+    scenario = c.post('/api/v1/scenarios/simulate',json=data).json()
+    assert scenario['closing_cash_series'] == [250000,250000,350000,350000,350000,350000,350000]
+    assert c.post('/api/v1/scenarios/save',json={**data,'name':'Synthetic planning test'}).status_code == 200
+    saved = c.get('/api/v1/scenarios').json()[0]
+    assert saved['planned_outflows_paisa'] == [0]*7 and saved['conditional_promise_paisa'] == 100000
+    assert c.get('/api/v1/merchant/today').json() == before
+    report = c.get('/api/v1/reports/operating-summary').json()
+    assert report['cash_statement']['total_liquid_cash_paisa'] == 1200000

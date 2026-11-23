@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-23T14:33:45.400Z",
+  "mode": "main_react_foundation_judge",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Baseline and extra-spending paths return with reserve/shortfall dates",
+    "Conditional promise is a separate dashed scenario",
+    "Reports retain separate cash, revenue, withheld profit and receivable states"
+  ],
+  "screenshots": [
+    "planner-1440.png",
+    "planner-768.png",
+    "planner-360.png",
+    "reports-360.png"
+  ],
+  "errors": [],
+  "passed": true
+}
