@@ -482,5 +482,35 @@ class AgentEventModel(Base):
     created_at = Column(DateTime, nullable=False, default=now_utc)
 
 
+class CopilotSessionModel(Base):
+    __tablename__ = "copilot_sessions"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    title = Column(String(255), nullable=False, default="নতুন আলোচনা")
+    context_entity_type = Column(String(64), nullable=True)  # case, supplier, product, general
+    context_entity_id = Column(String(36), nullable=True, index=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+    updated_at = Column(DateTime, nullable=False, default=now_utc, onupdate=now_utc)
+
+
+class CopilotMessageModel(Base):
+    __tablename__ = "copilot_messages"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    session_id = Column(String(36), ForeignKey("copilot_sessions.id", ondelete="CASCADE"), nullable=False, index=True)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    role = Column(String(32), nullable=False)  # user, assistant, system
+    content = Column(Text, nullable=False)
+    intent = Column(String(64), nullable=True)  # canonical_query, hybrid_retrieval, agent_investigation, scenario_simulation, action_draft, clarification
+    confidence_score = Column(Integer, nullable=True)
+    confidence_band = Column(String(32), nullable=True)
+    readiness = Column(String(32), nullable=True)
+    citations_json = Column(Text, nullable=True)
+    action_draft_id = Column(String(36), ForeignKey("actions.id", ondelete="SET NULL"), nullable=True)
+    audio_metadata_json = Column(Text, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
 
 

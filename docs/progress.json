@@ -2,8 +2,8 @@
   "schema_version": 3,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "17",
-  "next_task": "P18-T01",
+  "current_phase": "18",
+  "next_task": "P19-T01",
   "application_started": true,
   "phases": [
     {
@@ -941,7 +941,7 @@
     {
       "id": "18",
       "name": "copilot and compound voice transaction review",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "14",
         "15",
@@ -951,32 +951,40 @@
       "tasks": [
         {
           "id": "P18-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-18/copilot-voice-report.md"
+          ],
+          "notes": "Scoped conversation persistence and intent routing across canonical, hybrid, draft, and scenario."
         },
         {
           "id": "P18-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-18/copilot-voice-report.md"
+          ],
+          "notes": "Sourced answers with explicit citations and confidence score capped at 59 when evidence is absent."
         },
         {
           "id": "P18-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-18/copilot-voice-report.md"
+          ],
+          "notes": "Action draft creation with explicit preview without unauthorized ledger mutations."
         },
         {
           "id": "P18-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-18/copilot-voice-report.md"
+          ],
+          "notes": "Compound voice transaction parsing (debt collection vs new sale) and ambiguity handling."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending_milestone",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
