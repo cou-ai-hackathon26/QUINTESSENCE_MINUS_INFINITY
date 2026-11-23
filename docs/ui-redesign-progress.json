@@ -79,7 +79,12 @@
     {
       "id": "UIR-07",
       "name": "Inbox, voice brief and operations",
-      "status": "verified_pending_publication"
+      "status": "complete",
+      "git_checkpoint": {
+        "status": "milestone_published",
+        "milestone_sha": "76c48357fa9300954b04be3a4dabcc92e37ec94f",
+        "receipt": "docs/evidence/ui-redesign/UIR-07/git-checkpoint.json"
+      }
     },
     {
       "id": "UIR-08",
