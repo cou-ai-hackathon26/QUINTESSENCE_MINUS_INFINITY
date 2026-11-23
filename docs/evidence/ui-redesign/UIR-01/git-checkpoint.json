@@ -1,0 +1,10 @@
+{
+  "phase_id": "UIR-01",
+  "status": "milestone_published",
+  "remote": "https://github.com/sakibul-shovon/Shongoti.git",
+  "branch": "main",
+  "milestone_sha": "b8330a7ada112d5ea87225aaae9b5f5eb05aa4bf",
+  "verified_remote_tip_at_milestone": "b8330a7ada112d5ea87225aaae9b5f5eb05aa4bf",
+  "verified_at_utc": "2026-11-23T13:38:14.959Z",
+  "verification": "Normal push and exact ls-remote main tip match."
+}
