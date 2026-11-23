@@ -9,7 +9,12 @@
     {
       "id": "UIR-00",
       "name": "Baseline and contracts",
-      "status": "verified_pending_publication"
+      "status": "complete",
+      "git_checkpoint": {
+        "status": "milestone_published",
+        "milestone_sha": "855b5b3b3912e3aebb80324284b074fb2b236f91",
+        "receipt": "docs/evidence/ui-redesign/UIR-00/git-checkpoint.json"
+      }
     },
     {
       "id": "UIR-01",
