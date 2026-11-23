@@ -1,5 +1,7 @@
 **Shongoti — canonical build plan for Antigravity**
 
+**23 November extension:** The application now has implementation. This file preserves the original domain contract and Phase 00–12; statements below about the initial empty handoff are historical. Continue the user's approved additive Phase 13–26 under [EXTENSION_PLAN.md](EXTENSION_PLAN.md) using [START_EXTENSION.md](START_EXTENSION.md), current source and both trackers. Do not rebuild the project or interpret this document's original “not implemented yet” statements as the current runtime state.
+
 Prepared 22 November 2026, Asia/Dhaka. Repository: `https://github.com/sakibul-shovon/Shongoti.git`.
 
 This is the implementation contract and full product context. Start here together with `AGENTS.md` and `docs/PROGRESS.md`. The team wants the complete merchant product described below, delivered in verified phases. A UI preview, written test fixture, mocked call or plausible model answer does not mean the application feature is complete.

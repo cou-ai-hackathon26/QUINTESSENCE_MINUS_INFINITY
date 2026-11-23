@@ -1,5 +1,7 @@
 # Shongoti (সংগতি)
 
+**Current development handoff:** Extend the existing application using [EXTENSION_PLAN.md](EXTENSION_PLAN.md), [START_EXTENSION.md](START_EXTENSION.md) and [extension progress](docs/EXTENSION_PROGRESS.md). New Phase 13–26 covers the approved product/AI expansion. Existing AI/evaluation/browser completion claims require reconciliation; new features are not implemented by this handoff.
+
 **A Bilingual (Bangla/English) Financial Workspace for Small Businesses & MSMEs**
 
 Shongoti empowers local shop owners and MSMEs in Bangladesh to capture source evidence, verify supplier obligations, manage daily liquid money, stress-test future spending consequences, and execute reviewed actions safely.
@@ -8,7 +10,7 @@ Shongoti empowers local shop owners and MSMEs in Bangladesh to capture source ev
 
 ## Current Status & Verification
 
-- **Phases 00 through 12 Completed and Verified.**
+- **Historical delivery report, not a current certification:** the source review reopened AI/reconciliation/evaluation gates, and the extension begins with a reproducible audit. See [current progress](docs/PROGRESS.md). The old test counts and browser/architecture claims below were not independently revalidated by this documentation session; simulated benchmarks and source/CSS scans are not empirical AI/browser evidence.
 - **Bilingual Support:** 100% of UI screens support both Bengali (বাংলা) as the first-class default experience and instant toggle to English.
 - **Offline Verification Gate:** Passed 100% via `pnpm verify:offline`:
   - 34 Domain Golden Contracts

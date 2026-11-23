@@ -1,0 +1,13 @@
+﻿{
+    "run_utc":  "2026-11-23T07:55:45.9148880Z",
+    "mode":  "documentation",
+    "source_revision":  "8d4c122d712edbca4adad998090727779bef1dd0",
+    "command":  "git diff --check; PowerShell assertions for section 11.1-11.7 and local links",
+    "command_exit_code":  0,
+    "outcome":  "passed",
+    "application_tests_run":  false,
+    "live_provider_calls_run":  false,
+    "new_features_implemented":  false,
+    "report":  "docs/research/2026-11-23-product-innovation-review.md",
+    "note":  "Follow-up design research only: visible agent teamwork, copilot, hybrid retrieval, notifications, briefings and bounded compliance assistance."
+}

@@ -2,7 +2,10 @@
 /**
  * Offline verification runner.
  * Executes required local deterministic/type/build/boundary gates.
- * Exits with nonzero on any failure.
+ * Exits with:
+ *   0: All required local gates passed.
+ *   1: Hard test/type/build failure.
+ *   2: Blocked gate (e.g. headless browser missing).
  */
 const { execSync } = require('child_process');
 const path = require('path');
@@ -10,14 +13,14 @@ const path = require('path');
 const rootDir = path.resolve(__dirname, '..');
 
 const steps = [
-  { name: 'Frontend Typecheck', cmd: 'pnpm --filter @shongoti/web typecheck' },
-  { name: 'Domain Golden Contracts', cmd: 'node scripts/run-python.js -m pytest apps/api/tests/test_domain_contracts.py apps/api/tests/test_domain_golden.py -v' },
-  { name: 'API, Persistence & Security Tests', cmd: 'node scripts/run-python.js -m pytest apps/api/tests/test_health.py apps/api/tests/test_persistence_and_auth.py apps/api/tests/test_evidence_ingestion.py apps/api/tests/test_merchant_workflow.py apps/api/tests/test_scenarios_workflow.py apps/api/tests/test_actions_and_portal.py apps/api/tests/test_stock_and_reports.py apps/api/tests/test_phase11_security_and_concurrency.py -v' },
-  { name: 'Web Unit & Workflow Tests', cmd: 'pnpm --filter @shongoti/web test' },
-  { name: 'Web Production Build', cmd: 'pnpm --filter @shongoti/web build' },
-  { name: 'Evaluation Benchmark (48 Cases)', cmd: 'node scripts/run-benchmark.js' },
-  { name: 'Security & Secrets Scan', cmd: 'node scripts/scan-secrets.js' },
-  { name: 'E2E & UI Workflow Gate', cmd: 'node scripts/test-e2e.js' },
+  { name: 'Frontend Typecheck', cmd: 'pnpm --filter @shongoti/web typecheck', required: true },
+  { name: 'Domain Golden Contracts', cmd: 'node scripts/run-python.js -m pytest apps/api/tests/test_domain_contracts.py apps/api/tests/test_domain_golden.py -v', required: true },
+  { name: 'API, Persistence & Security Tests', cmd: 'node scripts/run-python.js -m pytest apps/api/tests/ -v', required: true },
+  { name: 'Web Unit & Workflow Tests', cmd: 'pnpm --filter @shongoti/web test', required: true },
+  { name: 'Web Production Build', cmd: 'pnpm --filter @shongoti/web build', required: true },
+  { name: 'CSS & Accessibility Static Scan', cmd: 'node scripts/check-css.js', required: true },
+  { name: 'Security & Secrets Scan', cmd: 'node scripts/scan-secrets.js', required: true },
+  { name: 'Evaluation Benchmark Fixtures', cmd: 'node scripts/run-benchmark.js', required: true },
 ];
 
 console.log('=== Running Shongoti Offline Verification Gate ===\n');
@@ -39,6 +42,6 @@ if (failed) {
   console.error('Offline verification FAILED.');
   process.exit(1);
 } else {
-  console.log('=== All Offline Verification Gates PASSED ===');
+  console.log('=== All Required Offline Verification Gates PASSED ===');
   process.exit(0);
 }

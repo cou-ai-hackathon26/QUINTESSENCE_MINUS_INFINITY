@@ -1,0 +1,443 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "policy_version": "evidence-support-v1",
+  "kind": "evidence_support_index",
+  "not_a_correctness_probability": true,
+  "weights": {
+    "critical": 3,
+    "ordinary": 1
+  },
+  "critical_cap": 59,
+  "bands": {
+    "strong_min": 85,
+    "review_min": 60
+  },
+  "meaning": "Independent handoff arithmetic/routing examples; not implemented AI or application test results. Required claim states here are inputs, not proof a real evaluator finds correct support.",
+  "cases": [
+    {
+      "id": "all_supported_index_not_probability",
+      "claims": [
+        {
+          "key": "supplier_identity",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "offer_cash_condition",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "delivery_note",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "offer_date",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "contact_name",
+          "critical": false,
+          "state": "supported"
+        }
+      ],
+      "unavailable_reason": null,
+      "blocking_validation_failure": false,
+      "model_self_confidence": 0.99,
+      "expected": {
+        "base_score": 100,
+        "score": 100,
+        "band": "strong",
+        "readiness": "ready_for_review",
+        "can_execute_without_approval": false
+      }
+    },
+    {
+      "id": "critical_unknown_caps_67_at_59",
+      "claims": [
+        {
+          "key": "supplier_identity",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "offer_cash_condition",
+          "critical": true,
+          "state": "unknown"
+        },
+        {
+          "key": "delivery_note",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "offer_date",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "contact_name",
+          "critical": false,
+          "state": "supported"
+        }
+      ],
+      "unavailable_reason": null,
+      "blocking_validation_failure": false,
+      "model_self_confidence": 0.99,
+      "expected": {
+        "base_score": 67,
+        "score": 59,
+        "band": "limited",
+        "readiness": "needs_clarification",
+        "can_execute_without_approval": false
+      }
+    },
+    {
+      "id": "critical_conflict_caps_67_at_59",
+      "claims": [
+        {
+          "key": "supplier_identity",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "offer_cash_condition",
+          "critical": true,
+          "state": "conflicted"
+        },
+        {
+          "key": "delivery_note",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "offer_date",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "contact_name",
+          "critical": false,
+          "state": "supported"
+        }
+      ],
+      "unavailable_reason": null,
+      "blocking_validation_failure": false,
+      "model_self_confidence": 0.99,
+      "expected": {
+        "base_score": 67,
+        "score": 59,
+        "band": "limited",
+        "readiness": "needs_clarification",
+        "can_execute_without_approval": false
+      }
+    },
+    {
+      "id": "ordinary_unknown_not_critical",
+      "claims": [
+        {
+          "key": "supplier_identity",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "offer_cash_condition",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "delivery_note",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "offer_date",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "contact_name",
+          "critical": false,
+          "state": "unknown"
+        }
+      ],
+      "unavailable_reason": null,
+      "blocking_validation_failure": false,
+      "model_self_confidence": 0.99,
+      "expected": {
+        "base_score": 89,
+        "score": 89,
+        "band": "strong",
+        "readiness": "ready_for_review",
+        "can_execute_without_approval": false
+      }
+    },
+    {
+      "id": "provider_unavailable",
+      "claims": [
+        {
+          "key": "supplier_identity",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "offer_cash_condition",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "delivery_note",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "offer_date",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "contact_name",
+          "critical": false,
+          "state": "supported"
+        }
+      ],
+      "unavailable_reason": "provider_unavailable",
+      "blocking_validation_failure": false,
+      "model_self_confidence": 0.99,
+      "expected": {
+        "base_score": null,
+        "score": null,
+        "band": "unavailable",
+        "readiness": "unavailable",
+        "can_execute_without_approval": false
+      }
+    },
+    {
+      "id": "source_inaccessible",
+      "claims": [
+        {
+          "key": "supplier_identity",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "offer_cash_condition",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "delivery_note",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "offer_date",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "contact_name",
+          "critical": false,
+          "state": "supported"
+        }
+      ],
+      "unavailable_reason": "no_accessible_evidence",
+      "blocking_validation_failure": false,
+      "model_self_confidence": 0.99,
+      "expected": {
+        "base_score": null,
+        "score": null,
+        "band": "unavailable",
+        "readiness": "unavailable",
+        "can_execute_without_approval": false
+      }
+    },
+    {
+      "id": "stale_case",
+      "claims": [
+        {
+          "key": "supplier_identity",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "offer_cash_condition",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "delivery_note",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "offer_date",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "contact_name",
+          "critical": false,
+          "state": "supported"
+        }
+      ],
+      "unavailable_reason": "stale_case_version",
+      "blocking_validation_failure": false,
+      "model_self_confidence": 0.99,
+      "expected": {
+        "base_score": null,
+        "score": null,
+        "band": "unavailable",
+        "readiness": "unavailable",
+        "can_execute_without_approval": false
+      }
+    },
+    {
+      "id": "validator_blocks_high_self_rating",
+      "claims": [
+        {
+          "key": "supplier_identity",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "offer_cash_condition",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "delivery_note",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "offer_date",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "contact_name",
+          "critical": false,
+          "state": "supported"
+        }
+      ],
+      "unavailable_reason": null,
+      "blocking_validation_failure": true,
+      "model_self_confidence": 0.99,
+      "expected": {
+        "base_score": null,
+        "score": null,
+        "band": "unavailable",
+        "readiness": "blocked",
+        "can_execute_without_approval": false
+      }
+    },
+    {
+      "id": "all_unknown",
+      "claims": [
+        {
+          "key": "supplier_identity",
+          "critical": true,
+          "state": "unknown"
+        },
+        {
+          "key": "offer_cash_condition",
+          "critical": true,
+          "state": "unknown"
+        },
+        {
+          "key": "delivery_note",
+          "critical": false,
+          "state": "unknown"
+        },
+        {
+          "key": "offer_date",
+          "critical": false,
+          "state": "unknown"
+        },
+        {
+          "key": "contact_name",
+          "critical": false,
+          "state": "unknown"
+        }
+      ],
+      "unavailable_reason": null,
+      "blocking_validation_failure": false,
+      "model_self_confidence": 0.99,
+      "expected": {
+        "base_score": 0,
+        "score": 0,
+        "band": "limited",
+        "readiness": "needs_clarification",
+        "can_execute_without_approval": false
+      }
+    },
+    {
+      "id": "no_required_claim_definition",
+      "claims": [],
+      "unavailable_reason": null,
+      "blocking_validation_failure": false,
+      "model_self_confidence": 0.99,
+      "expected": {
+        "base_score": null,
+        "score": null,
+        "band": "unavailable",
+        "readiness": "unavailable",
+        "can_execute_without_approval": false
+      }
+    },
+    {
+      "id": "review_band_noncritical_gaps",
+      "claims": [
+        {
+          "key": "entity",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "terms",
+          "critical": true,
+          "state": "supported"
+        },
+        {
+          "key": "ordinary_0",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "ordinary_1",
+          "critical": false,
+          "state": "supported"
+        },
+        {
+          "key": "ordinary_2",
+          "critical": false,
+          "state": "unknown"
+        },
+        {
+          "key": "ordinary_3",
+          "critical": false,
+          "state": "unknown"
+        },
+        {
+          "key": "ordinary_4",
+          "critical": false,
+          "state": "unknown"
+        }
+      ],
+      "unavailable_reason": null,
+      "blocking_validation_failure": false,
+      "model_self_confidence": 0.99,
+      "expected": {
+        "base_score": 73,
+        "score": 73,
+        "band": "review",
+        "readiness": "needs_review",
+        "can_execute_without_approval": false
+      }
+    }
+  ]
+}

@@ -69,12 +69,16 @@ def login(req: LoginRequest, db: Session = Depends(get_db)):
             tenant = db.query(TenantModel).filter(TenantModel.id == req.tenant_id).first()
             if not tenant:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Tenant not found.")
+            # Unauthenticated registration against an existing tenant defaults strictly to cashier
+            # to prevent self-assigning owner/manager privileges.
+            user_role = "cashier"
         else:
             tenant = TenantModel(name=f"Shop {req.phone[-4:]}", currency="BDT", is_demo=False)
             db.add(tenant)
             db.flush()
+            user_role = req.role or "owner"
 
-        user = UserModel(tenant_id=tenant.id, phone=req.phone, role=req.role or "owner", is_active=True)
+        user = UserModel(tenant_id=tenant.id, phone=req.phone, role=user_role, is_active=True)
         db.add(user)
         db.commit()
     else:

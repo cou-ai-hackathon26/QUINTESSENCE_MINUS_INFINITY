@@ -112,6 +112,23 @@ def test_unsafe_file_upload_traversal_and_sanitization(client, tenant_a_headers)
     assert "evidence_id" in data
 
 
+def test_registration_prevents_role_escalation_on_existing_tenant(client, tenant_a_headers):
+    """Ensure joining an existing tenant defaults strictly to cashier, refusing self-assigned owner role."""
+    existing_tenant_id = tenant_a_headers["tenant_id"]
+    new_phone = f"0173{uuid.uuid4().hex[:6]}"
+
+    # Attacker tries to join Tenant A and grant themselves 'owner'
+    res = client.post(
+        "/api/v1/auth/login",
+        json={"phone": new_phone, "otp": "123456", "tenant_id": existing_tenant_id, "role": "owner"},
+    )
+    assert res.status_code == 200
+    data = res.json()
+    assert data["tenant_id"] == existing_tenant_id
+    # Must be forced to cashier, NEVER owner
+    assert data["role"] == "cashier", "Security violation: user self-assigned owner role on existing tenant"
+
+
 def test_source_prompt_injection_resistance(client, tenant_a_headers):
     """Verify adversarial LLM injection prompts inside documents do not bypass schemas or mutate ledger."""
     headers = {"Authorization": tenant_a_headers["Authorization"]}

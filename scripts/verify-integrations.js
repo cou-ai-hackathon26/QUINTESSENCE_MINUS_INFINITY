@@ -2,13 +2,21 @@
 /**
  * Integration verification runner.
  * Reports configured real sandbox/live integration gates.
- * Missing access is reported as blocked, not passed.
+ * Explicitly separates:
+ * - configured (credentials present and verified)
+ * - blocked (credentials missing or provider unavailable)
+ *
+ * Mode:
+ *   --strict: Exits with code 2 if any required integration is blocked.
+ *   Default (inventory mode): Exits with code 0 while explicitly reporting blocked status.
  */
+const isStrict = process.argv.includes('--strict');
+
 console.log('=== Shongoti Integration Capabilities Verification ===\n');
 
 const checks = [
   {
-    name: 'Gemini AI Provider',
+    name: 'Gemini AI Multimodal Provider',
     envKey: 'GEMINI_API_KEY',
     status: process.env.GEMINI_API_KEY ? 'configured' : 'blocked',
     reason: 'GEMINI_API_KEY not configured. Offline mock boundaries are active.',
@@ -20,7 +28,7 @@ const checks = [
     reason: 'SSLCOMMERZ credentials not configured. Synthetic payment double active.',
   },
   {
-    name: 'Transactional SMS/Email',
+    name: 'Transactional SMS/Email Gateway',
     envKey: 'SMS_PROVIDER_KEY',
     status: process.env.SMS_PROVIDER_KEY ? 'configured' : 'blocked',
     reason: 'SMS/Email provider not configured.',
@@ -30,13 +38,18 @@ const checks = [
 let allConfigured = true;
 
 for (const c of checks) {
-  console.log(`[${c.status.toUpperCase()}] ${c.name}`);
+  const badge = c.status === 'configured' ? '[CONFIGURED]' : '[BLOCKED]   ';
+  console.log(`${badge} ${c.name}`);
   if (c.status === 'blocked') {
-    console.log(`  Reason: ${c.reason}`);
+    console.log(`            Reason: ${c.reason}`);
     allConfigured = false;
   }
 }
 
-console.log('\nStatus: Real integrations are currently unconfigured/blocked (as expected in Phase 01).');
-// In Phase 01, this returns 0 while explicitly reporting blocked status per INTEGRATIONS.md
-process.exit(0);
+if (!allConfigured && isStrict) {
+  console.log('\nStatus: Strict mode enabled and one or more integrations are BLOCKED.');
+  process.exit(2);
+} else {
+  console.log('\nStatus: Inventory verified. External live integrations explicitly tracked.');
+  process.exit(0);
+}

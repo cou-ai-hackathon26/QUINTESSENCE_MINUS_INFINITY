@@ -1,5 +1,7 @@
 # Shongoti Phase 11 — Independent Evaluation & Release Verification Report
 
+> **Review notice — 23 November 2026:** The architecture-comparison figures below are **simulated, not measured model or domain-engine results**. Source review at `8d4c122` found that `scripts/run-benchmark.js` reads gold labels, credits fields directly, injects hypothetical errors and adds fixed latency/cost. Do not cite these figures as evidence of accuracy, financial error, cost, speed or architecture superiority. P11-T02/T04 have been reopened; other test claims below were not independently re-audited in this session. See [the dated review](../../research/2026-11-23-product-innovation-review.md).
+
 **Date:** 23 November 2026  
 **Scope:** Independent 24 Paired Story Families (48 Synthetic Evaluation Cases), Architecture Comparison Benchmark, Security, Concurrency, and Release Gates.  
 **Evaluator:** Deterministic Offline Suite & Automated Benchmark Harness (`scripts/run-benchmark.js`, `scripts/scan-secrets.js`, `apps/api/tests/test_phase11_security_and_concurrency.py`).

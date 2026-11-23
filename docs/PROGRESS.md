@@ -1,6 +1,10 @@
 **Shongoti progress — evidence controls completion**
 
-Current state: **Phase 00, 01, 02, 03, 06, 07, 08, 09, 10, 11, 12 complete and verified. Phase 04 partially implemented and blocked on live AI key.**
+**Current build entry:** [EXTENSION_PLAN.md](../EXTENSION_PLAN.md) adds approved Phase 13–26 on the existing application. Start/resume with [START_EXTENSION.md](../START_EXTENSION.md) and [EXTENSION_PROGRESS.md](EXTENSION_PROGRESS.md). All 14 new phases / 59 tasks are initially not_started; this handoff implements no application feature.
+
+Current review, 23 November 2026: **Phase 04 requires actual inference implementation, not only a key. Phase 05 remains incomplete. Phase 11's architecture comparison and report gates are reopened because the runner simulates outputs.** Other phase completion entries below are prior delivery reports, not independently revalidated in this research session. Phase 12's earlier publication does not resolve these reopened release dependencies.
+
+Source review at `8d4c122`: configured `AIModelAdapter` raises without a provider request; image/audio bytes are not routed to inference; `eval-ai.js` does not evaluate; `run-benchmark.js` uses gold answers and fixed latency/cost. No application tests or live calls were executed in this review. See [the dated research and gap review](research/2026-11-23-product-innovation-review.md).
 
 | Phase | Name | State | Evidence / dependency |
 |---|---|---|---|
@@ -8,23 +12,28 @@ Current state: **Phase 00, 01, 02, 03, 06, 07, 08, 09, 10, 11, 12 complete and v
 | 01 | Environment, contracts and executable skeleton | complete | Work verified; milestone `3808c0e`; see `evidence/phase-01/git-checkpoint.json` |
 | 02 | Exact financial domain and golden cases | complete | Work verified; milestone `8b34a32`; see `evidence/phase-02/git-checkpoint.json` |
 | 03 | Database, authentication and tenant isolation | complete | Work verified; milestone `0c9cada`; see `evidence/phase-03/git-checkpoint.json` |
-| 04 | Evidence ingestion and real AI boundary | blocked | P04-T01..T03 verified; milestone `8e15789`; P04-T04 blocked pending GEMINI_API_KEY |
+| 04 | Evidence ingestion and real AI boundary | in_progress | Prior intake/review work retained; P04-T04 needs provider implementation, modality routing and genuine evaluation; live verification additionally requires configured access |
 | 05 | Supplier reconciliation and clarification | blocked | Blocked on Phase 04 completion (live AI provider gate) |
 | 06 | Connected daily merchant workflow | complete | Work verified; milestone `af708cb`; see `evidence/phase-06/git-checkpoint.json` |
 | 07 | Liquidity outlook and spending-impact scenarios | complete | Work verified; milestone `e4265e9`; see `evidence/phase-07/git-checkpoint.json` |
 | 08 | Action center, customer portal and one real connector | complete | Work verified; milestone `ba38e5f`; see `evidence/phase-08/git-checkpoint.json` |
 | 09 | Stock, supported forecasts and operating reports | complete | Work verified; milestone `332851e`; see `evidence/phase-09/git-checkpoint.json` |
 | 10 | Product UI, responsive/accessibility and failure states | complete | Work verified; milestone `0548800`; see `evidence/phase-10/git-checkpoint.json` |
-| 11 | Evaluation, security and complete validation | complete | Work verified; milestone `fa6131e`; see `evidence/phase-11/git-checkpoint.json` |
+| 11 | Evaluation, security and complete validation | in_progress | Prior milestone `fa6131e` preserved; P11-T02/T04 reopened on 23 November: simulated architecture comparison cannot establish measured results |
 | 12 | Deployment, release documentation and handover | complete | Work verified; milestone `54256a2`; see `evidence/phase-12/git-checkpoint.json` |
+| 13 | Establish the real upgrade baseline | complete | Work verified; audit report docs/BASELINE_AUDIT.md, honest runners, security escalation patch, baseline report docs/evidence/phase-13/baseline-verification-report.md |
 
-**Next action:** All delivery phases (00-12) successfully published and verified on origin main. Awaiting user review or live model key configuration.
+**Next action:** P14-T01: explicit provider boundary and genuine multimodal media paths under EXTENSION_PLAN.md.
 
-**Next implementation task:** None. Real AI adapter (P04-T04) can be activated whenever user sets GEMINI_API_KEY.
+**Next implementation task:** P13-T01, followed by the actual next unblocked task from the additive extension contract. Genuine inference still needs provider implementation, image/audio routing and actual evaluation; adding a key alone is insufficient. External blockers permit only section J's explicitly independent local tasks.
 
 **External unknowns:** model credentials/quota; payment sandbox/merchant access; hosting; optional OAuth/sender setup; repository public-release decision. See `INTEGRATIONS.md`. None are verified live.
 
 **Session log**
+
+- 23 November 2026: prepared EXTENSION_PLAN.md, START_EXTENSION.md, extension tracking and independent confidence-policy fixtures for the user's approved expansion. New confidence is an evidence-support index with critical blockers and actual behavior routing; no calibrated probability or application execution is claimed by this handoff. Every verified phase still requires commit, push and receipt publication.
+
+- 23 November 2026: Research-only product/AI review at `8d4c122`; added `research/2026-11-23-product-innovation-review.md` with current primary sources, proposed buying/receiving/credit/demand workflows, bounded multi-agent design and fair evaluation gates. Reopened unsupported inference/evaluation claims from source inspection; no application runtime, merchant adoption, model quality or new feature completion claimed.
 
 - 22 November 2026: cloned an empty private repository, connected `origin`, prepared the build contract, agent instructions, curated references, golden fixtures and truthful phase tracking. No production application or live integration is claimed.
 - 23 November 2026: Phase 01 completed and verified. Executable foundation, command contracts (typecheck, test:domain, test:api, test:web, db:migrate, build, verify:offline), API skeleton with health/readiness, and routed web shell implemented. Milestone `3808c0e` pushed to origin.

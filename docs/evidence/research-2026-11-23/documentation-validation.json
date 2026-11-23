@@ -1,0 +1,13 @@
+﻿{
+    "mode":  "documentation",
+    "run_utc":  "2026-11-23T07:35:16.8184851Z",
+    "source_revision":  "8d4c122d712edbca4adad998090727779bef1dd0",
+    "command":  "git diff --check; PowerShell JSON/next-task and local Markdown link assertions",
+    "working_directory":  "E:\\mu idea\\Shongoti",
+    "outcome":  "passed",
+    "command_exit_code":  0,
+    "checked_local_links":  4,
+    "application_tests_run":  false,
+    "provider_requests_run":  false,
+    "note":  "Documentation validation only; product source unchanged and new workflows remain proposals."
+}

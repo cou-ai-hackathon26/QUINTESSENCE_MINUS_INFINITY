@@ -1,5 +1,7 @@
 **Verification protocol — claims require observations**
 
+**Extension contract:** Phase 13–26 gates and new command interfaces are defined in [EXTENSION_PLAN.md](../EXTENSION_PLAN.md), especially D/F/G/H. Existing commands and earlier claimed results must be audited, not assumed absent or verified. `node scripts/validate-extension-handoff.cjs` validates documentation/tracker/fixture consistency only; it never passes application, model, browser, RAG or integration gates.
+
 The initial handoff has documentation/fixture checks only. Application commands listed in `plan.md` must be implemented in Phase 01. No command is deemed to exist or pass merely because it is mentioned here.
 
 **Evidence record contract**
