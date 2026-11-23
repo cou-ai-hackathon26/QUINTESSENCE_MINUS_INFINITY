@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session
 from app.core.auth import get_current_user
 from app.core.database import get_db
 from app.copilot.engine import CopilotEngine
+from app.ingestion.adapters import AIModelAdapter, ProviderUnavailableError, parse_paisa_amount
 from app.persistence.models import (
     CopilotMessageModel,
     CopilotSessionModel,
@@ -44,6 +45,7 @@ class MessageResponseDTO(BaseModel):
     readiness: Optional[str] = None
     citations: List[Dict[str, Any]] = []
     action_draft_id: Optional[str] = None
+    audio_metadata: Optional[Dict[str, Any]] = None
     created_at: Optional[str] = None
 
 
@@ -133,6 +135,7 @@ def get_session_detail(
                 readiness=m.readiness,
                 citations=json.loads(m.citations_json) if m.citations_json else [],
                 action_draft_id=m.action_draft_id,
+                audio_metadata=json.loads(m.audio_metadata_json) if m.audio_metadata_json else None,
                 created_at=m.created_at.isoformat() if m.created_at else None,
             )
             for m in messages
@@ -149,6 +152,8 @@ def send_copilot_message(
 ):
     """Routes query, executes scoped intent, and returns sourced response with confidence score."""
     engine = CopilotEngine(db, current_user.tenant_id)
+    if engine.classify_intent(req.query) == "action_draft" and not parse_paisa_amount(req.query):
+        raise HTTPException(status_code=422, detail="Provide an explicit positive payment amount before preparing a draft.")
     try:
         result = engine.process_query(
             session_id=session_id,
@@ -173,12 +178,21 @@ async def send_copilot_voice(
     if not session:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Session not found")
 
-    audio_bytes = await file.read()
-    result = engine.process_voice_input(
-        session_id=session_id,
-        audio_bytes=audio_bytes,
-        filename=file.filename or "voice_input.mp3",
-        mime_type=file.content_type or "audio/mp3",
-        user_id=current_user.id,
-    )
+    if not AIModelAdapter().is_configured():
+        raise HTTPException(status_code=503, detail="Voice transcription provider is not configured. Your recording has not been transcribed.")
+    if not (file.content_type or "").startswith("audio/"):
+        raise HTTPException(status_code=415, detail="An audio file is required.")
+    audio_bytes = await file.read(20 * 1024 * 1024 + 1)
+    if not audio_bytes or len(audio_bytes) > 20 * 1024 * 1024:
+        raise HTTPException(status_code=413, detail="Audio must be non-empty and under 20 MB.")
+    try:
+        result = engine.process_voice_input(
+            session_id=session_id,
+            audio_bytes=audio_bytes,
+            filename=file.filename or "voice_input.webm",
+            mime_type=file.content_type,
+            user_id=current_user.id,
+        )
+    except ProviderUnavailableError:
+        raise HTTPException(status_code=503, detail="Voice provider is unavailable. Keep your recording and retry.")
     return result

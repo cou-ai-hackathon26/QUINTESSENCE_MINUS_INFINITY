@@ -6,6 +6,7 @@ Supports multimodal audio, image, and PDF ingestion via Google Gemini API with o
 """
 from __future__ import annotations
 import base64
+from decimal import Decimal, InvalidOperation
 import json
 import logging
 import os
@@ -40,14 +41,14 @@ def parse_paisa_amount(text: str) -> Optional[int]:
         return None
     normalized = normalize_bengali_digits(text)
     # Match patterns like: "25,000", "25000", "25000.50", "৳ 25,000"
-    match = re.search(r"(?:৳|tk|taka|টাকা)?\s*([0-9]{1,3}(?:,[0-9]{3})*(?:\.[0-9]{1,2})?|[0-9]+(?:\.[0-9]{1,2})?)", normalized, re.IGNORECASE)
+    match = re.search(r"(?<![0-9.])(?:৳|tk|taka|টাকা)?\s*([0-9]{1,3}(?:,[0-9]{3})+(?:\.[0-9]{1,2})?|[0-9]+(?:\.[0-9]{1,2})?)(?![0-9.])", normalized, re.IGNORECASE)
     if not match:
         return None
     raw_num = match.group(1).replace(",", "")
     try:
-        val = float(raw_num)
-        return int(round(val * 100))
-    except (ValueError, OverflowError):
+        val = Decimal(raw_num)
+        return int(val * 100)
+    except (ValueError, OverflowError, InvalidOperation):
         return None
 
 

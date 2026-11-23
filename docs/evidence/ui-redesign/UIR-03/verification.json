@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-23",
+  "scope": "Voice capture, conversation history, evidence ingestion/review, source links and approval queue",
+  "build": "passed",
+  "api_checks": {
+    "tests": 6,
+    "result": "passed",
+    "includes": [
+      "missing amount cannot draft",
+      "unconfigured STT returns 503",
+      "case version invalidates approval/execution",
+      "unconnected executor cannot report success",
+      "exact Bengali/decimal amount parsing"
+    ]
+  },
+  "browser": "evidence/browser-report.json",
+  "limitations": [
+    "Browser uses a fake microphone device to verify capture, not speech inference",
+    "Live Gemini audio and external execution are not verified",
+    "Legacy copilot confidence values are withheld because they have no verified evidence-policy assessment",
+    "Agent backend is recorded synchronous history; true live multi-agent transport is a separate capability"
+  ]
+}

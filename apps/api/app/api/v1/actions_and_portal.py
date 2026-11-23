@@ -18,6 +18,7 @@ from app.domain.money import Money
 from app.persistence.models import (
     AccountModel,
     ActionModel,
+    CaseModel,
     CustomerPortalTokenModel,
     JournalEntryModel,
     PartyModel,
@@ -37,6 +38,14 @@ def is_expired(dt: Optional[datetime]) -> bool:
     now = datetime.now(timezone.utc)
     target = dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
     return now > target
+
+
+def validate_action_source(action, db):
+    payload = json.loads(action.payload_json) if action.payload_json else {}
+    if payload.get("case_id"):
+        case = db.query(CaseModel).filter(CaseModel.id == payload["case_id"], CaseModel.tenant_id == action.tenant_id).first()
+        if not case or case.current_version != payload.get("case_version"):
+            raise HTTPException(status_code=409, detail="The source case has changed. Reassess and prepare a new draft.")
 
 
 # --- DTOs ---
@@ -86,6 +95,8 @@ def list_actions(
             "expires_at": a.expires_at.isoformat() if a.expires_at else None,
             "executed_at": a.executed_at.isoformat() if a.executed_at else None,
             "created_at": a.created_at.isoformat(),
+            "payload": json.loads(a.payload_json) if a.payload_json else None,
+            "execution_capability": "unavailable",
         }
         for a in actions
     ]
@@ -148,6 +159,10 @@ def approve_action(
     if action.amount_paisa and action.amount_paisa > 0 and current_user.role == "cashier":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Cashier is not authorized to approve payments.")
 
+    if is_expired(action.expires_at):
+        raise HTTPException(status_code=410, detail="Action has expired.")
+    validate_action_source(action, db)
+
     action.status = "approved"
     action.approved_by_user_id = current_user.id
     db.commit()
@@ -178,12 +193,9 @@ def execute_action(
         db.commit()
         raise HTTPException(status_code=status.HTTP_410_GONE, detail="Action has expired.")
 
-    # Execute action
-    action.status = "completed"
-    action.executed_at = now_utc()
-    action.outcome_json = json.dumps({"result": "executed_successfully", "timestamp": now_utc().isoformat()})
-    db.commit()
-    return {"status": "completed", "action_id": action.id, "executed_at": action.executed_at.isoformat()}
+    validate_action_source(action, db)
+    # No dispatcher or verified external receipt exists for this generic boundary.
+    raise HTTPException(status_code=503, detail="Execution adapter is not connected. Approval is recorded; no payment, message or stock movement was executed.")
 
 
 @actions_router.post("/actions/{action_id}/cancel")

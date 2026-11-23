@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-23T14:10:58.168Z",
+  "mode": "main_react_foundation_judge",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Judge sample has separate collection and sale, explicitly synthetic",
+    "Browser fake microphone captured to reviewable blob; judge rejects pretending to transcribe and retains clip",
+    "Approval requires explicit confirmation and remains separate from execution"
+  ],
+  "screenshots": [
+    "voice-1440.png",
+    "voice-768.png",
+    "voice-360.png",
+    "approval-360.png",
+    "evidence-360.png"
+  ],
+  "errors": [],
+  "passed": true
+}

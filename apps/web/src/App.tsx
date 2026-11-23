@@ -17,6 +17,9 @@ import DemoPage from './pages/DemoPage';
 import {AuthProvider,Protected} from './workbench/Auth';
 import {AppShell} from './workbench/Layout';
 import AuthPage from './workbench/AuthPages';
+import VoiceCopilot from './workbench/VoiceCopilot';
+import Evidence from './workbench/Evidence';
+import Actions from './workbench/Actions';
 
 export default function App() {
   return (
@@ -32,6 +35,10 @@ export default function App() {
         <Route path="/app/cases/:caseId" element={<CaseDetail/>}/>
         <Route path="/app/agents/:runId" element={<AgentPage/>}/>
         <Route path="/app/scenarios" element={<Scenarios/>}/>
+        <Route path="/app/copilot" element={<VoiceCopilot/>}/>
+        <Route path="/app/evidence" element={<Evidence/>}/>
+        <Route path="/app/evidence/:evidenceId" element={<Evidence/>}/>
+        <Route path="/app/actions" element={<Actions/>}/>
         <Route path="/app/stock" element={<StockPage />} />
         <Route path="/app/reports" element={<ReportsPage />} />
         <Route path="/app/money" element={<MoneyPage />} />

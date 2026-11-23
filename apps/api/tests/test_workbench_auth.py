@@ -82,3 +82,36 @@ def test_cashflow_uses_tenant_owned_postings_and_excludes_internal_transfer_gros
     assert sum(flow.json()['incoming_paisa'])==1200000
     assert sum(flow.json()['outgoing_paisa'])==0
     assert len(flow.json()['dates'])==7
+
+
+def test_copilot_requires_amount_and_transcription_provider(client, monkeypatch):
+    from app.core.config import settings
+    from app.ingestion.adapters import parse_paisa_amount
+    c, factory = client
+    c.post('/api/v1/auth/register', json=payload())
+    c.headers['Origin'] = 'http://testserver'
+    session_id = c.post('/api/v1/copilot/sessions', json={}).json()['id']
+    assert c.post(f'/api/v1/copilot/sessions/{session_id}/messages', json={'query':'draft payment to supplier'}).status_code == 422
+    assert c.get('/api/v1/actions').json() == []
+    monkeypatch.setattr(settings, 'GEMINI_API_KEY', '')
+    response = c.post(f'/api/v1/copilot/sessions/{session_id}/voice', files={'file':('note.webm', b'real-audio-not-a-fixture', 'audio/webm')})
+    assert response.status_code == 503
+    assert c.get('/api/v1/actions').json() == []
+    assert parse_paisa_amount('5000.25 টাকা') == 500025
+    assert parse_paisa_amount('২৫,০০০ টাকা') == 2500000
+
+
+def test_case_action_version_guard_and_no_fake_external_execution(client):
+    from app.persistence.models import CaseModel
+    c, factory = client
+    identity = c.post('/api/v1/auth/judge-session',json={}).json()
+    c.headers['Origin'] = 'http://testserver'
+    action_id = c.post('/api/v1/actions',json={'action_type':'supplier_payment','recipient':'Synthetic supplier','amount_paisa':1800000,'payload':{'case_id':identity['case_id'],'case_version':1}}).json()['action_id']
+    assert c.post(f'/api/v1/actions/{action_id}/approve').status_code == 200
+    assert c.post(f'/api/v1/actions/{action_id}/execute').status_code == 503
+    assert c.get('/api/v1/actions').json()[0]['status'] == 'approved'
+    with factory() as db:
+        case = db.query(CaseModel).filter(CaseModel.id==identity['case_id']).one()
+        case.current_version += 1
+        db.commit()
+    assert c.post(f'/api/v1/actions/{action_id}/execute').status_code == 409

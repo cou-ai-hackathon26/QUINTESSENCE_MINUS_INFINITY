@@ -149,16 +149,9 @@ class CopilotEngine:
                     )
                     .first()
                 )
-                wallet_account = (
-                    self.db.query(AccountModel)
-                    .filter(
-                        AccountModel.tenant_id == self.tenant_id,
-                        AccountModel.code.in_([StandardAccount.MOBILE_BKASH.value, StandardAccount.MOBILE_NAGAD.value]),
-                    )
-                    .first()
-                )
+                wallets = self.db.query(AccountModel).filter(AccountModel.tenant_id == self.tenant_id, AccountModel.code.in_([StandardAccount.MOBILE_BKASH.value, StandardAccount.MOBILE_NAGAD.value])).all()
                 cash_bal = (cash_account.current_balance_paisa / 100.0) if cash_account else 0.0
-                wallet_bal = (wallet_account.current_balance_paisa / 100.0) if wallet_account else 0.0
+                wallet_bal = sum(a.current_balance_paisa for a in wallets) / 100.0
                 total_cash = cash_bal + wallet_bal
 
                 assistant_content = (
@@ -181,7 +174,7 @@ class CopilotEngine:
                     .all()
                 )
                 if products:
-                    prod_lines = [f"{p.name}: {p.current_stock_quantity} {p.unit}" for p in products]
+                    prod_lines = [f"{p.name}: {p.quantity_on_hand} {p.unit}" for p in products]
                     assistant_content = f"বর্তমান স্টক স্থিতি:\n" + "\n".join(prod_lines)
                     citations = [{"source_type": "inventory_item", "sku": p.sku, "name": p.name, "as_of": as_of_iso} for p in products]
                     score = 95
@@ -259,7 +252,7 @@ class CopilotEngine:
                     for r in pack.results
                 ]
                 score = int(min(95, max(70, top_match.rrf_score * 80)))
-                band = "strong" if score >= 80 else "review"
+                band = "strong" if score >= 85 else "review"
                 readiness = "ready_for_review"
             else:
                 assistant_content = (

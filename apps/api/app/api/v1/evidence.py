@@ -12,6 +12,7 @@ from app.core.database import get_db
 from app.core.permissions import require_role
 from app.ingestion.adapters import AIModelAdapter, NativePdfParser
 from app.ingestion.storage import storage
+from app.ingestion.schemas import StructuredClaimExtraction
 from app.persistence.models import EvidenceModel, ExtractedClaimModel, UserModel
 
 evidence_router = APIRouter(prefix="/api/v1/evidence", tags=["Evidence"])
@@ -66,7 +67,10 @@ async def upload_evidence(
 
     adapter = AIModelAdapter()
     try:
-        claim_extraction = adapter.parse_bangla_document(
+        if not adapter.is_configured():
+            claim_extraction = StructuredClaimExtraction(party_name=None, invoice_ref=None, amount_paisa=None, claim_date=None, payment_method=None, confidence=0.0, raw_snippet=extracted_text)
+        else:
+            claim_extraction = adapter.parse_bangla_document(
             text_or_content=extracted_text,
             source_type=source_type,
             raw_bytes=content,
@@ -97,7 +101,7 @@ async def upload_evidence(
         raw_model_response=claim_extraction.raw_snippet,
     )
     db.add(claim)
-    evidence.status = "extracted"
+    evidence.status = "extracted" if adapter.is_configured() and claim.amount_paisa is not None else "needs_review"
     db.commit()
 
     return {
