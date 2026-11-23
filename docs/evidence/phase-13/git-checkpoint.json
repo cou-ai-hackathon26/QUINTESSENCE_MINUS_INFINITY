@@ -1,0 +1,16 @@
+{
+  "phase": "13",
+  "name": "establish the real upgrade baseline",
+  "timestamp_utc": "2026-11-23T08:55:20Z",
+  "remote": "origin",
+  "branch": "main",
+  "milestone_sha": "b0ea80f845a76c8cffccf3b79da9d07945d9e5be",
+  "status": "published",
+  "verified_gates": [
+    "P13-T01: Comprehensive baseline audit authored (docs/BASELINE_AUDIT.md)",
+    "P13-T02: Honest verification runners with explicit 0/1/2 exit codes and stubs registered",
+    "P13-T03: Registration role escalation vulnerability patched and regression tested in test_phase11_security_and_concurrency.py",
+    "P13-T03: Full baseline test suite passed (34 golden contracts, 80 API tests, 8 web tests, typecheck, build)",
+    "P13-T04: Progress and extension trackers reconciled and published"
+  ]
+}
