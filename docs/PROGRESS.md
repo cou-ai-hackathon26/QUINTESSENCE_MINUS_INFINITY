@@ -25,8 +25,9 @@ Source review at `8d4c122`: configured `AIModelAdapter` raises without a provide
 | 14 | Genuine evidence inference and original reconciliation | complete | Work verified; Gemini boundary, multimodal audio/image/PDF, Bengali numeral normalization, reconciliation API /api/v1/reconciliation, eval-ai runner |
 | 15 | Cases, provenance and confidence | complete | Work verified; migration 007, evidence-support-v1 policy (11/11 cases matched), Case APIs, accessible ConfidenceBadge UI component |
 | 16 | Hybrid merchant memory | complete | Work verified; migration 008, DocumentChunkModel, HybridRetriever with RRF (k=60), exact-ID priority bonus, cross-tenant isolation |
+| 17 | Bounded collaboration and visible teamwork | complete | Work verified; migration 009, AgentOrchestrator, Coordinator/Terms/Reconciliation/Skeptic roles, budget enforcement, AgentTimeline UI, test_agents suite |
 
-**Next action:** P17-T01: bounded collaboration and visible teamwork under EXTENSION_PLAN.md.
+**Next action:** P18-T01: copilot and compound voice transaction review under EXTENSION_PLAN.md.
 
 **Next implementation task:** P13-T01, followed by the actual next unblocked task from the additive extension contract. Genuine inference still needs provider implementation, image/audio routing and actual evaluation; adding a key alone is insufficient. External blockers permit only section J's explicitly independent local tasks.
 
@@ -34,6 +35,7 @@ Source review at `8d4c122`: configured `AIModelAdapter` raises without a provide
 
 **Session log**
 
+- 23 November 2026: Phase 17 completed and verified. Bounded multi-agent collaboration: migration 009_agent_workspace (agent_runs, agent_tasks, agent_events), AgentOrchestrator coordinating Coordinator, TermsEvidenceSpecialist, ReconciliationSpecialist, and SkepticSpecialist with deterministic tool calls and budget limits (budget_calls_max). Query optimization skipping heavy agents on factual queries. Agent collaboration API endpoints (/api/v1/agents/runs, /events, /cancel), accessible bilingual AgentTimeline web UI component with Bengali numerals, and comprehensive pytest and vitest suites passing. Offline verification gates passed.
 - 23 November 2026: prepared EXTENSION_PLAN.md, START_EXTENSION.md, extension tracking and independent confidence-policy fixtures for the user's approved expansion. New confidence is an evidence-support index with critical blockers and actual behavior routing; no calibrated probability or application execution is claimed by this handoff. Every verified phase still requires commit, push and receipt publication.
 
 - 23 November 2026: Research-only product/AI review at `8d4c122`; added `research/2026-11-23-product-innovation-review.md` with current primary sources, proposed buying/receiving/credit/demand workflows, bounded multi-agent design and fair evaluation gates. Reopened unsupported inference/evaluation claims from source inspection; no application runtime, merchant adoption, model quality or new feature completion claimed.

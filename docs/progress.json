@@ -2,8 +2,8 @@
   "schema_version": 3,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "16",
-  "next_task": "P17-T01",
+  "current_phase": "17",
+  "next_task": "P18-T01",
   "application_started": true,
   "phases": [
     {
@@ -889,7 +889,7 @@
     {
       "id": "17",
       "name": "bounded collaboration and visible teamwork",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "14",
         "15",
@@ -898,32 +898,40 @@
       "tasks": [
         {
           "id": "P17-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-17/agent-collaboration-report.md"
+          ],
+          "notes": "Coordinator plan, role definitions, and deterministic tool execution implemented."
         },
         {
           "id": "P17-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-17/agent-collaboration-report.md"
+          ],
+          "notes": "Skeptic auditor checks candidate claims without proposer narrative bias."
         },
         {
           "id": "P17-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-17/agent-collaboration-report.md"
+          ],
+          "notes": "Agent timeline UI component with Bengali numerals, budget display, and cancellation control."
         },
         {
           "id": "P17-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-17/agent-collaboration-report.md"
+          ],
+          "notes": "Comprehensive agent collaboration test suite and offline gates passing."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending_milestone",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,

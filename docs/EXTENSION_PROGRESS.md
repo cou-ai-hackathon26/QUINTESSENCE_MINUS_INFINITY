@@ -12,9 +12,7 @@ Contract: [EXTENSION_PLAN.md](../EXTENSION_PLAN.md). Start/resume: [START_EXTENS
 | 14 | genuine evidence inference and original reconciliation | complete | P14-T01 |
 | 15 | cases, provenance and confidence | complete | P15-T01 |
 | 16 | hybrid merchant memory | complete | P16-T01 |
-| 17 | bounded collaboration and visible teamwork | not_started | P17-T01 |
-| 16 | hybrid merchant memory | not_started | P16-T01 |
-| 17 | bounded collaboration and visible teamwork | not_started | P17-T01 |
+| 17 | bounded collaboration and visible teamwork | complete | P17-T01 |
 | 18 | copilot and compound voice transaction review | not_started | P18-T01 |
 | 19 | Buying Desk | not_started | P19-T01 |
 | 20 | Receiving, returns and credit recovery | not_started | P20-T01 |

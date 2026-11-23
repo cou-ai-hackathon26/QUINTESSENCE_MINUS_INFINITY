@@ -441,4 +441,46 @@ class DocumentChunkModel(Base):
     created_at = Column(DateTime, nullable=False, default=now_utc)
 
 
+class AgentRunModel(Base):
+    __tablename__ = "agent_runs"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    case_id = Column(String(36), ForeignKey("cases.id", ondelete="SET NULL"), nullable=True, index=True)
+    status = Column(String(32), nullable=False, default="queued")  # queued, running, waiting_user, completed, failed, cancelled
+    budget_calls_max = Column(Integer, nullable=False, default=8)
+    budget_calls_used = Column(Integer, nullable=False, default=0)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+    completed_at = Column(DateTime, nullable=True)
+
+
+class AgentTaskModel(Base):
+    __tablename__ = "agent_tasks"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    run_id = Column(String(36), ForeignKey("agent_runs.id", ondelete="CASCADE"), nullable=False, index=True)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    role = Column(String(64), nullable=False)  # coordinator, terms_evidence, stock_demand, reconciliation, skeptic
+    business_question = Column(String(255), nullable=False)
+    status = Column(String(32), nullable=False, default="queued")  # queued, running, waiting_tool, succeeded, failed, cancelled, skipped
+    result_summary = Column(Text, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+    completed_at = Column(DateTime, nullable=True)
+
+
+class AgentEventModel(Base):
+    __tablename__ = "agent_events"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    run_id = Column(String(36), ForeignKey("agent_runs.id", ondelete="CASCADE"), nullable=False, index=True)
+    task_id = Column(String(36), ForeignKey("agent_tasks.id", ondelete="SET NULL"), nullable=True, index=True)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    event_seq = Column(Integer, nullable=False)
+    role = Column(String(64), nullable=False)
+    event_type = Column(String(64), nullable=False)  # plan_created, tool_called, tool_receipt, clarification_requested, skeptic_critique, task_completed
+    payload_json = Column(Text, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
+
 
