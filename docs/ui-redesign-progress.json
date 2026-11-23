@@ -89,7 +89,12 @@
     {
       "id": "UIR-08",
       "name": "Help, connections, portal and settings",
-      "status": "verified_pending_publication"
+      "status": "complete",
+      "git_checkpoint": {
+        "status": "milestone_published",
+        "milestone_sha": "91c6f5595c6adb9362d39be9641f32de2a2fa964",
+        "receipt": "docs/evidence/ui-redesign/UIR-08/git-checkpoint.json"
+      }
     },
     {
       "id": "UIR-09",
