@@ -7,6 +7,7 @@ and reviewable purchase order draft creation without unauthorized financial muta
 from __future__ import annotations
 import json
 import uuid
+from decimal import Decimal,ROUND_HALF_UP
 from typing import Any, Dict, List, Optional
 from sqlalchemy.orm import Session
 
@@ -53,7 +54,7 @@ class BuyingDeskEngine:
         if bonus_condition:
             is_verified = bonus_condition.get("is_verified", False)
             bonus_sku = bonus_condition.get("bonus_sku")
-            if not is_verified or not bonus_sku:
+            if not is_verified or bonus_sku!=sku or type(bonus_condition.get('buy_qty')) is not int or bonus_condition['buy_qty']<=0 or type(bonus_condition.get('bonus_qty')) is not int or bonus_condition['bonus_qty']<0:
                 # Critical blocker: unconfirmed bonus eligibility or SKU
                 has_critical_blocker = True
                 confidence_score = 59
@@ -119,15 +120,15 @@ class BuyingDeskEngine:
             )
             .first()
         )
-        wallet_acc = (
+        wallet_accounts = (
             self.db.query(AccountModel)
             .filter(
                 AccountModel.tenant_id == self.tenant_id,
                 AccountModel.code.in_([StandardAccount.MOBILE_BKASH.value, StandardAccount.MOBILE_NAGAD.value]),
             )
-            .first()
+            .all()
         )
-        liquid_cash_paisa = (cash_acc.current_balance_paisa if cash_acc else 0) + (wallet_acc.current_balance_paisa if wallet_acc else 0)
+        liquid_cash_paisa = (cash_acc.current_balance_paisa if cash_acc else 0) + sum(account.current_balance_paisa for account in wallet_accounts)
 
         offer_evaluations = []
         overall_feasibility = "feasible_cash"
@@ -137,28 +138,29 @@ class BuyingDeskEngine:
 
             # 1. Total Landed Cost Arithmetic
             gross_cost_paisa = off.base_unit_price_paisa * required_quantity
-            discount_paisa = int(gross_cost_paisa * (off.cash_discount_percent / 100.0))
+            discount_paisa = int((Decimal(gross_cost_paisa)*Decimal(str(off.cash_discount_percent))/100).quantize(Decimal('1'),rounding=ROUND_HALF_UP))
             subtotal_paisa = gross_cost_paisa - discount_paisa
             total_landed_paisa = subtotal_paisa + off.delivery_fee_paisa
 
             # 2. Bonus Condition Handling
             bonus_units = 0
             bonus_condition = json.loads(off.bonus_condition_json) if off.bonus_condition_json else None
-            if bonus_condition and bonus_condition.get("is_verified"):
+            if bonus_condition and bonus_condition.get("is_verified") and bonus_condition.get('bonus_sku')==off.sku:
                 buy_qty = bonus_condition.get("buy_qty", 10)
                 bonus_qty = bonus_condition.get("bonus_qty", 1)
-                bonus_units = (required_quantity // buy_qty) * bonus_qty
+                if type(buy_qty) is int and buy_qty>0 and type(bonus_qty) is int and bonus_qty>=0:bonus_units = (required_quantity // buy_qty) * bonus_qty
 
             effective_units = (required_quantity + bonus_units) * off.pack_size
             effective_unit_cost_paisa = total_landed_paisa // effective_units if effective_units > 0 else total_landed_paisa
 
             # 3. Cash Constraint Feasibility
             is_cash_only = off.payment_method_required == "cash" or off.credit_period_days == 0
-            has_sufficient_cash = liquid_cash_paisa >= total_landed_paisa
+            capacity=(cash_acc.current_balance_paisa if cash_acc else 0) if off.payment_method_required=='cash' else next((a.current_balance_paisa for a in wallet_accounts if a.code=='asset:wallet:'+off.payment_method_required),0) if off.payment_method_required in ('bkash','nagad') else liquid_cash_paisa
+            has_sufficient_cash = capacity >= total_landed_paisa
 
             if is_cash_only and not has_sufficient_cash:
                 feasibility = "infeasible_insufficient_cash"
-                shortfall_paisa = total_landed_paisa - liquid_cash_paisa
+                shortfall_paisa = total_landed_paisa - capacity
             elif has_sufficient_cash:
                 feasibility = "feasible_cash"
                 shortfall_paisa = 0
@@ -184,7 +186,8 @@ class BuyingDeskEngine:
             })
 
         # Rank offers: prioritize feasible offers, then lowest effective unit cost
-        feasible_offers = [o for o in offer_evaluations if o["feasibility"] != "infeasible_insufficient_cash"]
+        eligible_offers=[o for o in offer_evaluations if o['meets_moq'] and not o['has_critical_blocker']]
+        feasible_offers = [o for o in eligible_offers if o["feasibility"] != "infeasible_insufficient_cash"]
         if feasible_offers:
             feasible_offers.sort(key=lambda x: x["effective_unit_cost_paisa"])
             best_offer = feasible_offers[0]
@@ -245,8 +248,14 @@ class BuyingDeskEngine:
         if not offer:
             raise ValueError("Offer not found or unauthorized")
 
+        comparison=self.db.query(BuyingComparisonModel).filter_by(id=comparison_id,tenant_id=self.tenant_id).first()
+        if not comparison or comparison.target_sku!=offer.sku or comparison.required_quantity!=quantity:raise ValueError('Comparison is missing, belongs to another shop/SKU or uses a different quantity. Compare again.')
+        if quantity<offer.min_order_quantity:raise ValueError('Quantity is below the supplier minimum order.')
+        if offer.has_critical_blocker:raise ValueError('Resolve critical offer terms before preparing this order.')
+        if offer.id not in {row['offer_id'] for row in json.loads(comparison.comparison_summary_json)['offers']}:raise ValueError('Offer was not part of this comparison.')
+
         gross_paisa = offer.base_unit_price_paisa * quantity
-        discount_paisa = int(gross_paisa * (offer.cash_discount_percent / 100.0))
+        discount_paisa = int((Decimal(gross_paisa)*Decimal(str(offer.cash_discount_percent))/100).quantize(Decimal('1'),rounding=ROUND_HALF_UP))
         total_paisa = gross_paisa - discount_paisa + offer.delivery_fee_paisa
 
         action_draft = ActionModel(

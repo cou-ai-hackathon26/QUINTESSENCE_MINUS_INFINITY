@@ -35,8 +35,21 @@
     },
     {
       "id": "JR-04",
-      "status": "not_started",
-      "scope": "End-to-end workflow and integration verification"
+      "status": "verified_partial_pending_publication",
+      "scope": "End-to-end workflow and integration verification",
+      "verified_local_scope": [
+        "guarded daily posting and retry keys",
+        "balanced opening party dues",
+        "registered-SKU receiving and original-source credit acceptance",
+        "safe extraction retry and actual capabilities",
+        "21 routes and actual portal/registration workflows"
+      ],
+      "deferred": [
+        "Online payment transport and genuine sandbox verification: owner has no sandbox account; explicitly deferred",
+        "Message sender/delivery and phone verification/recovery provider",
+        "Cloud Bangla TTS / installed-language playback",
+        "Production durable worker/database/storage/deployment verification"
+      ]
     }
   ],
   "provider": {
@@ -46,5 +59,6 @@
     "semantic": "Actual pinned multilingual E5 ONNX CPU inference verified for Bangla/English synthetic paraphrases",
     "agents": "Three genuine Groq calls plus exact reconciliation; sequential persisted tasks with live polling"
   },
-  "next_task": "Publish verified JR-03 specialist/semantic/reviewed-proposal work, then audit remaining daily transaction and external capability boundaries in JR-04."
+  "next_task": "Publish verified JR-04 local scope as a partial checkpoint; preserve deferred external gates. Resume actual payment transport only when sandbox setup is available, without weakening fail-closed behavior.",
+  "handoff": "docs/REAL_WORKFLOW_HANDOFF.md"
 }

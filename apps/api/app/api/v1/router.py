@@ -43,6 +43,8 @@ class AuthResponse(BaseModel):
 @api_router.post("/auth/demo-session", response_model=AuthResponse, tags=["Auth"])
 def get_demo_session(db: Session = Depends(get_db)):
     """Provides a synthetic demo session strictly isolated in demo tenancy."""
+    from app.core.config import settings
+    if not settings.ALLOW_LEGACY_TEST_AUTH:raise HTTPException(410,'Shared test sessions are disabled. Use the isolated judge account entry.')
     tenant, user = get_or_create_demo_tenant(db)
     token = create_access_token(user.id, tenant.id, user.role, is_demo=True)
     return AuthResponse(
@@ -61,7 +63,7 @@ def login(req: LoginRequest, db: Session = Depends(get_db)):
     In local dev mode, OTP '123456' is accepted for registered numbers or creates initial owner.
     """
     from app.core.config import settings
-    if settings.ENVIRONMENT == 'production':
+    if not settings.ALLOW_LEGACY_TEST_AUTH or settings.ENVIRONMENT == 'production':
         raise HTTPException(status_code=503, detail='OTP sender is not configured. Use the credential sign-in flow.')
     if req.otp != "123456":
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid OTP code.")
@@ -141,7 +143,7 @@ def list_accounts(
 @api_router.post("/ledger/post", tags=["Ledger"])
 def post_journal_entry(
     req: JournalPostRequest,
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(require_role(['owner','accountant'])),
     db: Session = Depends(get_db),
 ):
     """
@@ -219,17 +221,12 @@ def post_journal_entry(
         )
         db.add(posting_record)
 
-        # Update balance
-        if account.type in ["asset", "expense"]:
-            if p.direction == "debit":
-                account.current_balance_paisa += p.amount_paisa
-            else:
-                account.current_balance_paisa -= p.amount_paisa
-        else:
-            if p.direction == "credit":
-                account.current_balance_paisa += p.amount_paisa
-            else:
-                account.current_balance_paisa -= p.amount_paisa
+        normal_debit=account.type in ['asset','expense'] or account.code=='equity:owner_draw'
+        delta=p.amount_paisa if (p.direction=='debit')==normal_debit else -p.amount_paisa
+        update=db.query(AccountModel).filter_by(id=account.id,tenant_id=current_user.tenant_id)
+        if delta<0 and account.type=='asset':update=update.filter(AccountModel.current_balance_paisa>=-delta)
+        if update.update({AccountModel.current_balance_paisa:AccountModel.current_balance_paisa+delta},synchronize_session=False)!=1:
+            db.rollback();raise HTTPException(422,'This entry exceeds the verified asset balance; nothing was posted.')
 
     db.commit()
     return {"status": "posted", "entry_id": entry.id, "entry_number": entry.entry_number}

@@ -92,6 +92,7 @@ def test_credit_sale_and_party_due(client, auth_headers):
 
 
 def test_split_sale_workflow(client, auth_headers):
+    customer=client.post('/api/v1/merchant/parties',headers=auth_headers,json={'name':'Synthetic split customer','party_type':'customer'}).json()
     # Split sale: total 32,000, cash received 20,000, credit 12,000
     res = client.post(
         "/api/v1/merchant/sales",
@@ -100,6 +101,7 @@ def test_split_sale_workflow(client, auth_headers):
             "sale_type": "split",
             "total_amount_paisa": 32000,
             "cash_received_paisa": 20000,
+            "party_id":customer['id'],
         },
     )
     assert res.status_code == 200
@@ -135,6 +137,9 @@ def test_debt_collection_does_not_inflate_revenue(client, auth_headers):
 
 
 def test_wallet_transfer_with_fee(client, auth_headers):
+    # The source wallet must genuinely hold principal + fee before cash-out is recorded.
+    opening=client.post('/api/v1/ledger/post',headers=auth_headers,json={'description':'Synthetic verified wallet funds','event_id':'test-wallet-opening','postings':[{'account_code':'asset:wallet:nagad','direction':'debit','amount_paisa':102000},{'account_code':'equity:owner_capital','direction':'credit','amount_paisa':102000}]})
+    assert opening.status_code==200
     # Transfer 100,000 paisa (BDT 1000) from Nagad to Cash with fee 2,000 paisa (BDT 20)
     res = client.post(
         "/api/v1/merchant/transfer",

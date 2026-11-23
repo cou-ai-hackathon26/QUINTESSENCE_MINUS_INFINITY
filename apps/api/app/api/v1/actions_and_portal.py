@@ -9,7 +9,6 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
-from app.adapters.sslcommerz import SSLCommerzAdapter
 from app.core.auth import get_current_user
 from app.core.database import get_db
 from app.domain.ledger import StandardAccount
@@ -320,32 +319,6 @@ def initiate_customer_payment(
         raise HTTPException(status_code=410, detail="This invoice link has expired.")
     raise HTTPException(status_code=503, detail="Online payment initiation is not connected to a verified gateway provider. No payment was initiated.")
 
-    party = db.query(PartyModel).filter(PartyModel.id == pt.party_id).first()
-    cus_name = party.name if party else "Customer"
-    cus_phone = party.phone if party and party.phone else "01700000000"
-
-    adapter = SSLCommerzAdapter()
-    tran_id = f"TX-{pt.id[:8].upper()}-{secrets.token_hex(4).upper()}"
-
-    res = adapter.init_payment_session(
-        tran_id=tran_id,
-        total_amount_paisa=pt.amount_paisa,
-        cus_name=cus_name,
-        cus_phone=cus_phone,
-        success_url="/api/v1/payments/sslcommerz/success",
-        fail_url="/api/v1/payments/sslcommerz/fail",
-        cancel_url="/api/v1/payments/sslcommerz/cancel",
-        ipn_url="/api/v1/payments/sslcommerz/ipn",
-    )
-
-    return {
-        "status": "initiated",
-        "gateway_url": res.gateway_url,
-        "tran_id": tran_id,
-        "amount_bdt": res.amount_bdt,
-    }
-
-
 @actions_router.post("/payments/sslcommerz/ipn")
 async def sslcommerz_ipn(
     request: Request,
@@ -357,73 +330,3 @@ async def sslcommerz_ipn(
     Atomically records ledger posting and reduces customer due.
     """
     raise HTTPException(status_code=503, detail="Gateway server-to-server validation is not implemented. Unverified callbacks cannot post money.")
-    try:
-        body = await request.json()
-    except Exception:
-        body = dict(await request.form())
-
-    tran_id = body.get("tran_id")
-    token_str = body.get("token")
-
-    pt = None
-    if token_str:
-        pt = db.query(CustomerPortalTokenModel).filter(CustomerPortalTokenModel.token == token_str).first()
-
-    if not pt and tran_id:
-        # Search by tran_id in actions or existing events
-        existing_entry = db.query(JournalEntryModel).filter(JournalEntryModel.event_id == tran_id).first()
-        if existing_entry:
-            return {"status": "duplicate", "message": "Transaction already verified and posted."}
-
-    expected_paisa = pt.amount_paisa if pt else int(float(body.get("amount", 0)) * 100)
-
-    adapter = SSLCommerzAdapter()
-    val_result = adapter.validate_callback(
-        callback_data=body,
-        expected_amount_paisa=expected_paisa,
-        expected_currency="BDT",
-    )
-
-    if not val_result.is_valid:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"SSLCOMMERZ Validation Failed: {val_result.error_message}",
-        )
-
-    # Idempotency check on journal entry
-    existing_entry = db.query(JournalEntryModel).filter(JournalEntryModel.event_id == tran_id).first()
-    if existing_entry:
-        return {"status": "already_processed", "entry_id": existing_entry.id}
-
-    tenant_id = pt.tenant_id if pt else (db.query(TenantModel).first().id if db.query(TenantModel).first() else "tenant-01")
-
-    # Record balanced journal entry:
-    # Debit Pending Gateway Settlement (or Bank), Credit Customer Receivables
-    cash_acc = MerchantService.get_or_create_account(db, tenant_id, StandardAccount.PENDING_GATEWAY.value, "Pending Gateway Settlement", "asset")
-    rec_acc = MerchantService.get_or_create_account(db, tenant_id, StandardAccount.RECEIVABLES.value, "Customer Dues", "asset")
-
-    entry = JournalEntryModel(
-        tenant_id=tenant_id,
-        entry_number=f"PAY-{generate_uuid()[:8].upper()}",
-        description=f"SSLCOMMERZ Verified Payment: {val_result.val_id}",
-        event_id=tran_id,
-    )
-    db.add(entry)
-    db.flush()
-
-    p_gateway = PostingModel(journal_entry_id=entry.id, account_id=cash_acc.id, direction="debit", amount_paisa=val_result.amount_paisa)
-    p_rec = PostingModel(journal_entry_id=entry.id, account_id=rec_acc.id, direction="credit", amount_paisa=val_result.amount_paisa)
-    db.add(p_gateway)
-    db.add(p_rec)
-
-    cash_acc.current_balance_paisa += val_result.amount_paisa
-    rec_acc.current_balance_paisa -= val_result.amount_paisa
-
-    if pt:
-        pt.is_paid = True
-        party = db.query(PartyModel).filter(PartyModel.id == pt.party_id, PartyModel.tenant_id == tenant_id).first()
-        if party:
-            party.current_due_paisa -= val_result.amount_paisa
-
-    db.commit()
-    return {"status": "verified_and_posted", "entry_id": entry.id, "tran_id": tran_id}

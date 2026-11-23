@@ -65,6 +65,7 @@ def tenant_b(client):
 
 def test_record_receipt_with_shortage_and_damage(client, tenant_a):
     """Usable stock is (received - damaged); shortage and damage create a credit note."""
+    assert client.post('/api/v1/merchant/products',headers={'Authorization':tenant_a['Authorization']},json={'name':'Synthetic juice','sku':'PRAN-MANGO-JUICE-250','selling_price_paisa':15000,'quantity_on_hand':0}).status_code==200
     res = client.post(
         "/api/v1/receiving/receipts",
         headers={"Authorization": tenant_a["Authorization"]},
@@ -90,6 +91,7 @@ def test_record_receipt_with_shortage_and_damage(client, tenant_a):
 
 def test_exactly_once_credit_application(client, tenant_a):
     """Credit notes can be applied to an invoice exactly once; second attempt is rejected."""
+    assert client.post('/api/v1/merchant/products',headers={'Authorization':tenant_a['Authorization']},json={'name':'Synthetic water','sku':'MEGHNA-WATER-500','selling_price_paisa':2500,'quantity_on_hand':0}).status_code==200
     # 1. Create a receipt with discrepancy
     rcpt_res = client.post(
         "/api/v1/receiving/receipts",
@@ -139,6 +141,7 @@ def test_exactly_once_credit_application(client, tenant_a):
 
 def test_cross_tenant_isolation(client, tenant_a, tenant_b):
     """Tenant B cannot access or apply Tenant A's credit notes."""
+    assert client.post('/api/v1/merchant/products',headers={'Authorization':tenant_a['Authorization']},json={'name':'Synthetic chips','sku':'PRAN-CHIPS','selling_price_paisa':1500,'quantity_on_hand':0}).status_code==200
     rcpt_res = client.post(
         "/api/v1/receiving/receipts",
         headers={"Authorization": tenant_a["Authorization"]},

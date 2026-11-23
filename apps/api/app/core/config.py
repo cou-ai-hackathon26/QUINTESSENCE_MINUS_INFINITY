@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "Shongoti API"
     APP_VERSION: str = "0.1.0"
     ENVIRONMENT: str = "development"
+    ALLOW_LEGACY_TEST_AUTH:bool=False
     PORT: int = 8000
     HOST: str = "127.0.0.1"
     

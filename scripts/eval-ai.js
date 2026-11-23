@@ -1,20 +1,10 @@
 #!/usr/bin/env node
-/**
- * AI Provider Evaluation Runner.
- * Executes actual multimodal extraction scoring across text, audio, and image cases.
- * Reports mode: live_gemini (when GEMINI_API_KEY is configured) or offline_test_double.
- */
-const { spawnSync } = require('child_process');
-const path = require('path');
-
-const rootDir = path.resolve(__dirname, '..');
-
-console.log('=== Running Shongoti Multimodal AI Evaluation Runner ===\n');
-
-const res = spawnSync('node', ['scripts/run-python.js', 'scripts/eval_ai.py'], {
-  cwd: rootDir,
-  stdio: 'inherit',
-  shell: true,
-});
-
-process.exit(res.status || 0);
+// Execute offline provider contracts; --live checks actual unseen sources through the running app.
+const {spawnSync}=require('node:child_process');
+const path=require('node:path');
+const live=process.argv.includes('--live');
+console.log(live?'Actual configured provider/application verification; bounded synthetic requests may incur usage.':'Offline contract tests with explicit provider doubles; no live-provider or benchmark claim.');
+const args=live?["scripts/verify-groq-live.py"]:["-m","pytest","apps/api/tests/test_groq_provider.py","apps/api/tests/test_evidence_retry.py","-q","-p","no:cacheprovider"];
+const result=spawnSync(process.execPath,['scripts/run-python.js',...args],{cwd:path.resolve(__dirname,'..'),stdio:'inherit',windowsHide:true});
+if(result.error)console.error('Runner failed to start.');
+process.exit(Number.isInteger(result.status)?result.status:1);

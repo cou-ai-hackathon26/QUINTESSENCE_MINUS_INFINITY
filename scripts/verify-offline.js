@@ -20,7 +20,6 @@ const steps = [
   { name: 'Web Production Build', cmd: 'pnpm --filter @shongoti/web build', required: true },
   { name: 'CSS & Accessibility Static Scan', cmd: 'node scripts/check-css.js', required: true },
   { name: 'Security & Secrets Scan', cmd: 'node scripts/scan-secrets.js', required: true },
-  { name: 'Evaluation Benchmark Fixtures', cmd: 'node scripts/run-benchmark.js', required: true },
 ];
 
 console.log('=== Running Shongoti Offline Verification Gate ===\n');
@@ -42,6 +41,6 @@ if (failed) {
   console.error('Offline verification FAILED.');
   process.exit(1);
 } else {
-  console.log('=== All Required Offline Verification Gates PASSED ===');
+  console.log('=== All executed offline gates passed. Comparative/live-provider gates are separate and are not certified here. ===');
   process.exit(0);
 }

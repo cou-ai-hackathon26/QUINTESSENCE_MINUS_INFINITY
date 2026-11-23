@@ -4,19 +4,23 @@ from fastapi import APIRouter,Depends,Query
 from sqlalchemy.orm import Session
 from app.core.auth import get_current_user
 from app.core.database import get_db
-from app.persistence.models import AccountModel,JournalEntryModel,PostingModel,UserModel
-from app.ingestion.adapters import AIModelAdapter
+from app.persistence.models import AccountModel,JournalEntryModel,PostingModel,UserModel,ProviderReceiptModel
+from app.groq_provider import configured
+from app.retrieval.semantic import status as semantic_status
 workbench_router=APIRouter(prefix='/api/v1/workbench',tags=['Workbench data'])
 @workbench_router.get('/capabilities')
-def capabilities(user:UserModel=Depends(get_current_user)):
+def capabilities(user:UserModel=Depends(get_current_user),db:Session=Depends(get_db)):
+    receipt=db.query(ProviderReceiptModel).filter_by(tenant_id=user.tenant_id,provider='groq',status='succeeded').order_by(ProviderReceiptModel.created_at.desc()).first()
+    semantic=semantic_status()
     return {'checked_at':datetime.now(timezone.utc).isoformat(),'capabilities':[
-        {'id':'inference','title':'Document & voice inference','state':'configured_not_verified' if AIModelAdapter().is_configured() else 'not_configured','detail':'Configured credentials are not a successful inference receipt.'},
-        {'id':'agents','title':'Agent workflow','state':'recorded_history','detail':'Synchronous tool workflow. Recorded events and explicit replay; no live parallel streaming claim.'},
-        {'id':'retrieval','title':'Shop memory search','state':'lexical_vector_test_boundary','detail':'Keyword plus deterministic lexical-vector retrieval; learned dense embedding quality has not been verified.'},
-        {'id':'payments','title':'Online payment execution','state':'unavailable','detail':'Gateway adapter does not perform verified provider session/validation requests.'},
-        {'id':'messages','title':'SMS / WhatsApp dispatch','state':'unavailable','detail':'No verified delivery provider or receipt.'},
-        {'id':'files','title':'CSV import / export','state':'available','detail':'Selected-file review and tenant-scoped exports.'},
-        {'id':'legal','title':'Business document references','state':'reference_only','detail':'Seeded source references are not current jurisdiction-specific legal verification.'}
+        {'id':'inference','title':'Groq document, voice and chat inference','state':'observed_receipt' if receipt else 'configured' if configured() else 'not_configured','detail':('Actual successful request observed in this account: '+receipt.model) if receipt else 'New uploads use real configured inference; success is shown only after an actual request.'},
+        {'id':'agents','title':'Agent investigation','state':'available' if configured() else 'not_configured','detail':'Background evidence reader, exact reconciliation, independent skeptic and report. Three actual model requests; polled task progress and persisted receipts.'},
+        {'id':'retrieval','title':'Shop memory search','state':'hybrid_bm25_dense' if semantic['available'] else 'model_prepared' if semantic['enabled'] and semantic['prepared'] else 'keyword_only','detail':'Actual local multilingual E5 + BM25 + RRF when enabled/prepared; keyword-only fallback is disclosed. Similarity is not confidence.'},
+        {'id':'payments','title':'Online payment execution','state':'unavailable','detail':'Needs SSLCOMMERZ sandbox credentials, public HTTPS callbacks and actual provider session/validation verification. Bookkeeping does not transfer wallet funds.'},
+        {'id':'messages','title':'SMS / WhatsApp dispatch','state':'unavailable','detail':'No delivery provider or verified receipt. A reviewed reminder remains a draft.'},
+        {'id':'voice_playback','title':'Spoken answers and briefs','state':'browser_voice_dependent','detail':'User-triggered browser speech requires an installed matching-language voice. Groq Whisper is transcription; Bangla TTS is not configured.'},
+        {'id':'files','title':'Private documents and exports','state':'available','detail':'Tenant-scoped original files, reviewed corrections and actual exports.'},
+        {'id':'legal','title':'Business document references','state':'reference_only','detail':'Document summaries and cited references; current jurisdiction-specific legal applicability is not verified.'}
     ]}
 @workbench_router.get('/cashflow')
 def cashflow(days:int=Query(7,ge=1,le=31),user:UserModel=Depends(get_current_user),db:Session=Depends(get_db)):

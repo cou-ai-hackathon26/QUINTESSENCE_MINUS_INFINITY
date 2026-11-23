@@ -3,8 +3,8 @@ Merchant Workflow API Router.
 Exposes daily sales, debt collections, transfers, stock tracking, and today's summary.
 """
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel, Field
+from fastapi import APIRouter, Depends, HTTPException, Header, status
+from pydantic import BaseModel, Field,StrictInt
 from sqlalchemy.orm import Session
 
 from app.core.auth import get_current_user
@@ -18,6 +18,7 @@ from app.persistence.models import (
     ProductItemModel,
     UserModel,
     now_utc,
+    JournalEntryModel,PostingModel,
 )
 
 merchant_router = APIRouter(prefix="/api/v1/merchant", tags=["Merchant Workflow"])
@@ -27,64 +28,64 @@ merchant_router = APIRouter(prefix="/api/v1/merchant", tags=["Merchant Workflow"
 
 class SaleItemDTO(BaseModel):
     product_id: str
-    quantity: int = Field(..., gt=0)
+    quantity: StrictInt = Field(..., gt=0)
 
 
 class SaleRequestDTO(BaseModel):
     sale_type: str = Field(..., pattern="^(cash|credit|split)$")
-    total_amount_paisa: int = Field(..., gt=0)
-    cash_received_paisa: int = Field(0, ge=0)
+    total_amount_paisa: StrictInt = Field(..., gt=0)
+    cash_received_paisa: StrictInt = Field(0, ge=0)
     party_id: Optional[str] = None
     items: Optional[List[SaleItemDTO]] = None
 
 
 class DebtCollectionDTO(BaseModel):
     party_id: str
-    amount_paisa: int = Field(..., gt=0)
+    amount_paisa: StrictInt = Field(..., gt=0)
 
 
 class TransferDTO(BaseModel):
     from_channel: str
     to_channel: str = "cash"
-    principal_paisa: int = Field(..., gt=0)
-    fee_paisa: int = Field(0, ge=0)
+    principal_paisa: StrictInt = Field(..., gt=0)
+    fee_paisa: StrictInt = Field(0, ge=0)
 
 
 class CashCloseDTO(BaseModel):
     snapshot_date: str  # YYYY-MM-DD
-    actual_drawer_cash_paisa: int = Field(..., ge=0)
+    actual_drawer_cash_paisa: StrictInt = Field(..., ge=0)
 
 
 class ExpenseCreateDTO(BaseModel):
-    amount_paisa: int = Field(..., gt=0)
+    amount_paisa: StrictInt = Field(..., gt=0)
     description: str
     category: str = "operating"
 
 
 class WithdrawalCreateDTO(BaseModel):
-    amount_paisa: int = Field(..., gt=0)
+    amount_paisa: StrictInt = Field(..., gt=0)
 
 
 class SupplierPaymentDTO(BaseModel):
     party_id: Optional[str] = None
-    amount_paisa: int = Field(..., gt=0)
+    amount_paisa: StrictInt = Field(..., gt=0)
     channel: str = "cash"
 
 
 class PartyCreateDTO(BaseModel):
     name: str
     phone: Optional[str] = None
-    party_type: str = "customer"
-    initial_due_paisa: int = Field(0, ge=0)
+    party_type: str = Field('customer',pattern='^(customer|supplier)$')
+    initial_due_paisa: StrictInt = Field(0, ge=0)
 
 
 class ProductCreateDTO(BaseModel):
     name: str
     sku: Optional[str] = None
     unit: str = "pcs"
-    quantity_on_hand: int = Field(0, ge=0)
+    quantity_on_hand: StrictInt = Field(0, ge=0)
     cost_price_paisa: Optional[int] = Field(None, ge=0)
-    selling_price_paisa: int = Field(..., ge=0)
+    selling_price_paisa: StrictInt = Field(..., ge=0)
 
 
 # --- Endpoints ---
@@ -126,6 +127,7 @@ def create_sale(
     req: SaleRequestDTO,
     current_user: UserModel = Depends(get_current_user),
     db: Session = Depends(get_db),
+    request_key:Optional[str]=Header(None,alias="Idempotency-Key"),
 ):
     items_dict = [{"product_id": it.product_id, "quantity": it.quantity} for it in req.items] if req.items else None
     entry = MerchantService.record_sale(
@@ -136,6 +138,7 @@ def create_sale(
         cash_received_paisa=req.cash_received_paisa,
         party_id=req.party_id,
         items=items_dict,
+        request_key=request_key,
     )
     return {"status": "success", "sale_id": entry.id, "entry_number": entry.entry_number}
 
@@ -145,12 +148,14 @@ def collect_due(
     req: DebtCollectionDTO,
     current_user: UserModel = Depends(get_current_user),
     db: Session = Depends(get_db),
+    request_key:Optional[str]=Header(None,alias="Idempotency-Key"),
 ):
     entry = MerchantService.record_debt_collection(
         db=db,
         tenant_id=current_user.tenant_id,
         party_id=req.party_id,
         amount_paisa=req.amount_paisa,
+        request_key=request_key,
     )
     return {"status": "success", "entry_id": entry.id}
 
@@ -160,6 +165,7 @@ def transfer_funds(
     req: TransferDTO,
     current_user: UserModel = Depends(get_current_user),
     db: Session = Depends(get_db),
+    request_key:Optional[str]=Header(None,alias="Idempotency-Key"),
 ):
     entry = MerchantService.record_wallet_transfer(
         db=db,
@@ -168,6 +174,7 @@ def transfer_funds(
         to_channel=req.to_channel,
         principal_paisa=req.principal_paisa,
         fee_paisa=req.fee_paisa,
+        request_key=request_key,
     )
     return {"status": "success", "transfer_id": entry.id}
 
@@ -198,6 +205,7 @@ def create_expense(
     req: ExpenseCreateDTO,
     current_user: UserModel = Depends(get_current_user),
     db: Session = Depends(get_db),
+    request_key:Optional[str]=Header(None,alias="Idempotency-Key"),
 ):
     entry = MerchantService.record_expense(
         db=db,
@@ -205,6 +213,7 @@ def create_expense(
         amount_paisa=req.amount_paisa,
         description=req.description,
         category=req.category,
+        request_key=request_key,
     )
     return {"status": "success", "expense_id": entry.id}
 
@@ -214,6 +223,7 @@ def create_withdrawal(
     req: WithdrawalCreateDTO,
     current_user: UserModel = Depends(get_current_user),
     db: Session = Depends(get_db),
+    request_key:Optional[str]=Header(None,alias="Idempotency-Key"),
 ):
     try:
         entry = MerchantService.record_owner_withdrawal(
@@ -221,6 +231,7 @@ def create_withdrawal(
             tenant_id=current_user.tenant_id,
             amount_paisa=req.amount_paisa,
             user_role=current_user.role,
+        request_key=request_key,
         )
         return {"status": "success", "withdrawal_id": entry.id}
     except PermissionError as e:
@@ -232,6 +243,7 @@ def pay_supplier(
     req: SupplierPaymentDTO,
     current_user: UserModel = Depends(get_current_user),
     db: Session = Depends(get_db),
+    request_key:Optional[str]=Header(None,alias="Idempotency-Key"),
 ):
     entry = MerchantService.record_supplier_payment(
         db=db,
@@ -239,6 +251,7 @@ def pay_supplier(
         party_id=req.party_id,
         amount_paisa=req.amount_paisa,
         channel=req.channel,
+        request_key=request_key,
     )
     return {"status": "success", "payment_id": entry.id}
 
@@ -275,6 +288,18 @@ def create_party(
         current_due_paisa=req.initial_due_paisa,
     )
     db.add(party)
+    db.flush()
+    if req.initial_due_paisa:
+        # Opening party due must also exist in the ledger; it is not new revenue/expense.
+        due_code=StandardAccount.RECEIVABLES.value if req.party_type=='customer' else StandardAccount.PAYABLES.value
+        due=MerchantService.get_or_create_account(db,current_user.tenant_id,due_code,'Opening party dues','asset' if req.party_type=='customer' else 'liability')
+        capital=MerchantService.get_or_create_account(db,current_user.tenant_id,StandardAccount.OWNER_CAPITAL.value,'Owner capital','equity')
+        entry=JournalEntryModel(tenant_id=current_user.tenant_id,entry_number='OPEN-'+party.id[:8],event_id='party-opening:'+party.id,description='Verified opening '+req.party_type+' due')
+        db.add(entry);db.flush()
+        db.add_all([PostingModel(journal_entry_id=entry.id,account_id=due.id,direction='debit' if req.party_type=='customer' else 'credit',amount_paisa=req.initial_due_paisa),PostingModel(journal_entry_id=entry.id,account_id=capital.id,direction='credit' if req.party_type=='customer' else 'debit',amount_paisa=req.initial_due_paisa)])
+        db.query(AccountModel).filter_by(id=due.id).update({AccountModel.current_balance_paisa:AccountModel.current_balance_paisa+req.initial_due_paisa},synchronize_session=False)
+        capital_delta=req.initial_due_paisa if req.party_type=='customer' else -req.initial_due_paisa
+        db.query(AccountModel).filter_by(id=capital.id).update({AccountModel.current_balance_paisa:AccountModel.current_balance_paisa+capital_delta},synchronize_session=False)
     db.commit()
     return {"id": party.id, "name": party.name, "current_due_paisa": party.current_due_paisa}
 

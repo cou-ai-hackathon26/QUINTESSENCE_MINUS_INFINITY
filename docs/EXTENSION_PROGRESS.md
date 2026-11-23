@@ -1,3 +1,5 @@
+**Current verified real workflow (23 November 2026):** Read [REAL_WORKFLOW_HANDOFF.md](REAL_WORKFLOW_HANDOFF.md), [real-workflow-progress.json](real-workflow-progress.json), and [JR-04 local verification](evidence/real-workflow/JR-04/REPORT.md). JR-01/02/03 are published: persistent Judge APIs, genuine Groq document/PDF/Whisper/chat, actual specialists, multilingual semantic retrieval and reviewed accounting. JR-04 verifies local daily workflows; external payment, messaging and cloud Bangla playback remain deferred. Historical statements below are preserved history, not current provider status.
+
 # Shongoti extension progress
 
 Prepared 23 November 2026. This is a build handoff, not a completed product expansion.

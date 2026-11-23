@@ -1,3 +1,5 @@
+**Current working-app status:** [Real workflow handoff](docs/REAL_WORKFLOW_HANDOFF.md) documents actual Groq OCR/PDF/voice/chat, polled agent tasks, multilingual hybrid search, reviewed accounting and verified local workflows. [Current tracker](docs/real-workflow-progress.json) separates these from deferred external payment/messaging/Bangla cloud speech and historical phase reports.
+
 # Shongoti (সংগতি)
 
 **UI redesign, 23 November 2026:** The approved landing design and connected workbench are integrated on `main`. Start with [the current UI handoff](docs/UI_REDESIGN_HANDOFF.md), [UI progress](docs/UI_REDESIGN_PROGRESS.md), and [verification evidence](docs/evidence/ui-redesign/UIR-09/). Historical delivery claims below are not a certification of live AI, payments or legal applicability.

@@ -1,3 +1,5 @@
+**Current real-workflow repair:** Read `docs/REAL_WORKFLOW_HANDOFF.md`, `docs/REAL_WORKFLOW_PLAN.md` and `docs/real-workflow-progress.json` before relying on historical Phase/UI completion claims. Judge tenants and merchant tenants share actual APIs and inference. Preserve the approved UI and financial contracts. External payment setup is explicitly deferred by the owner; do not fabricate provider success.
+
 **Shongoti build rules — read before modifying this repository**
 
 **Current extension handoff:** Read `EXTENSION_PLAN.md`, `START_EXTENSION.md` and `docs/EXTENSION_PROGRESS.md` together with the original plan/trackers. The user approved extending the existing product through Phase 13–26, including visible real agent teamwork, hybrid RAG, copilot, notifications/voice, business help and confidence-driven behavior. `EXTENSION_PLAN.md` is the additive extension execution contract; preserve `plan.md` for original domain rules and Phase 00–12. Its section J explicitly governs independent local tasks when external gates are blocked. Do not restart the application or treat the new handoff as implemented features.

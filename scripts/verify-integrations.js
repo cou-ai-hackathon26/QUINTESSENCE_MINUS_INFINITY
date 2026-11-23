@@ -1,55 +1,10 @@
 #!/usr/bin/env node
-/**
- * Integration verification runner.
- * Reports configured real sandbox/live integration gates.
- * Explicitly separates:
- * - configured (credentials present and verified)
- * - blocked (credentials missing or provider unavailable)
- *
- * Mode:
- *   --strict: Exits with code 2 if any required integration is blocked.
- *   Default (inventory mode): Exits with code 0 while explicitly reporting blocked status.
- */
-const isStrict = process.argv.includes('--strict');
-
-console.log('=== Shongoti Integration Capabilities Verification ===\n');
-
-const checks = [
-  {
-    name: 'Gemini AI Multimodal Provider',
-    envKey: 'GEMINI_API_KEY',
-    status: process.env.GEMINI_API_KEY ? 'configured' : 'blocked',
-    reason: 'GEMINI_API_KEY not configured. Offline mock boundaries are active.',
-  },
-  {
-    name: 'SSLCOMMERZ Payment Gateway',
-    envKey: 'SSLCOMMERZ_STORE_ID',
-    status: process.env.SSLCOMMERZ_STORE_ID ? 'configured' : 'blocked',
-    reason: 'SSLCOMMERZ credentials not configured. Synthetic payment double active.',
-  },
-  {
-    name: 'Transactional SMS/Email Gateway',
-    envKey: 'SMS_PROVIDER_KEY',
-    status: process.env.SMS_PROVIDER_KEY ? 'configured' : 'blocked',
-    reason: 'SMS/Email provider not configured.',
-  },
-];
-
-let allConfigured = true;
-
-for (const c of checks) {
-  const badge = c.status === 'configured' ? '[CONFIGURED]' : '[BLOCKED]   ';
-  console.log(`${badge} ${c.name}`);
-  if (c.status === 'blocked') {
-    console.log(`            Reason: ${c.reason}`);
-    allConfigured = false;
-  }
-}
-
-if (!allConfigured && isStrict) {
-  console.log('\nStatus: Strict mode enabled and one or more integrations are BLOCKED.');
-  process.exit(2);
-} else {
-  console.log('\nStatus: Inventory verified. External live integrations explicitly tracked.');
-  process.exit(0);
-}
+// Configuration inventory only. A credential is never proof of a successful provider request.
+const fs=require('node:fs');
+const path=require('node:path');
+const root=path.resolve(__dirname,'..'),file=path.join(root,'.env');
+const local=fs.existsSync(file)?fs.readFileSync(file,'utf8'):'';
+function present(key){const match=local.match(new RegExp('^'+key+'=(.*)$','m'));const value=process.env[key]??match?.[1]??'';return !['',"''",'""'].includes(value.trim());}
+const checks=[{name:'Groq inference',state:present('GROQ_API_KEY')?'configured_not_probed':'not_configured',detail:'Genuine task receipts are separate from this read-only inventory.'},{name:'Multilingual local encoder',state:fs.existsSync(path.join(root,'apps/api/data/models/multilingual-e5-small/manifest.json'))?'prepared_not_probed':'not_prepared',detail:'Artifact presence is not observed inference.'},{name:'Online payments',state:'not_connected',detail:'Real gateway transport and sandbox validation remain deferred; credentials alone cannot enable them.'},{name:'SMS / WhatsApp delivery',state:'not_connected',detail:'No verified sender/dispatcher.'},{name:'Cloud Bangla speech playback',state:'not_connected',detail:'Browser playback depends on installed language voices.'}];
+console.log(JSON.stringify({mode:'local_configuration_inventory_only',checks,secrets_displayed:false},null,2));
+process.exit(process.argv.includes('--strict')&&checks.some(c=>c.state==='not_connected'||c.state==='not_configured')?2:0);

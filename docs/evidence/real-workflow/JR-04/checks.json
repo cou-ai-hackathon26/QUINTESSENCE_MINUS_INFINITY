@@ -1,0 +1,81 @@
+{
+  "date": "2026-11-23T16:52:32.793Z",
+  "base_revision": "afed0ba42dad4ee3332c75c4d32acaa7a046f296",
+  "scope": "Verified JR-04 local working tree; external gates explicitly deferred by owner",
+  "checks": [
+    {
+      "command": "node scripts/run-python.js -m pytest apps/api/tests/ -q -p no:cacheprovider",
+      "exit_code": 0,
+      "passed": 176
+    },
+    {
+      "command": "pnpm.cmd test:web",
+      "exit_code": 0,
+      "passed": 31
+    },
+    {
+      "command": "pnpm.cmd build",
+      "exit_code": 0
+    },
+    {
+      "command": "node scripts/check-real-workflows-browser.mjs",
+      "exit_code": 0,
+      "checks": 6,
+      "screenshots": 6,
+      "route_viewport_checks": 63
+    },
+    {
+      "command": "node scripts/eval-workflows.js",
+      "exit_code": 0,
+      "actual_tests": 42
+    },
+    {
+      "command": "node scripts/eval-ai.js",
+      "exit_code": 0,
+      "actual_tests": 12
+    },
+    {
+      "command": "node scripts/eval-agents.js",
+      "exit_code": 0,
+      "actual_tests": 8
+    },
+    {
+      "command": "node scripts/eval-rag.js",
+      "exit_code": 0,
+      "actual_tests": 7
+    },
+    {
+      "command": "node scripts/eval-confidence.js",
+      "exit_code": 0,
+      "actual_tests": 11
+    },
+    {
+      "command": "node scripts/verify-integrations.js",
+      "exit_code": 0,
+      "mode": "Configuration inventory, not provider verification"
+    },
+    {
+      "command": "node scripts/run-benchmark.js",
+      "reported_shell_exit_code": 1,
+      "status": "not_run",
+      "reason": "Comparative architecture benchmark absent; intentionally nonzero, no generated scores"
+    },
+    {
+      "command": "Actual restarted API HTTP smoke",
+      "health_status": 200,
+      "legacy_otp_status": 503,
+      "shared_demo_status": 410
+    }
+  ],
+  "secret_scan": {
+    "checked_files": 59,
+    "credential_pattern_hits": 0
+  },
+  "not_certified": [
+    "External payment transport/sandbox delivery",
+    "SMS/WhatsApp delivery, phone verification/recovery",
+    "Cloud Bangla TTS and Bengali speech quality",
+    "Production deployment/durable jobs/PostgreSQL race validation",
+    "Comparative benchmark, real merchant outcomes, comprehensive bill-linked credit posting"
+  ]
+}

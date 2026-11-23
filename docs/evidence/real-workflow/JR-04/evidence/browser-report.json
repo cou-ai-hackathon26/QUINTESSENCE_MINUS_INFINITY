@@ -1,0 +1,340 @@
+{
+  "date": "2026-11-23T16:46:00.928Z",
+  "mode": "real_daily_workflows_no_fixture_interception",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Actual sale confirmation sends an idempotency key; replay returns the existing record without a duplicate balance change",
+    "New real Groq text extraction and retry reuse the original source ID and preserve actual provider receipts",
+    "Supplier acceptance uses a genuine newly uploaded source and explicit owner review; suspected claims do not automatically become accepted",
+    "Twenty-one actual routed workspaces checked at 360/768/1440px without document overflow or runtime failures",
+    "Generated public invoice loads real scoped data and persists the customer review note",
+    "Real registration creates an empty isolated merchant account that survives reload"
+  ],
+  "screenshots": [
+    "actual-extraction-retry-1440.png",
+    "source-backed-credit-1440.png",
+    "current-receiving-1440.png",
+    "current-money-1440.png",
+    "current-connections-1440.png",
+    "actual-public-invoice-1440.png"
+  ],
+  "errors": [],
+  "passed": true,
+  "routeChecks": [
+    {
+      "route": "/app",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/cases",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/cases",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/cases",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/agents",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/agents",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/agents",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/copilot",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/copilot",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/copilot",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/sales",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/sales",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/sales",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/people",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/people",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/people",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/buying",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/buying",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/buying",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/receiving",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/receiving",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/receiving",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/stock",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/stock",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/stock",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/demand",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/demand",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/demand",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/money",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/money",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/money",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/planner",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/planner",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/planner",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/inbox",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/inbox",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/inbox",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/actions",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/actions",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/actions",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/reports",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/reports",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/reports",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/operations",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/operations",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/operations",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/help",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/help",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/help",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/connections",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/connections",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/connections",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/settings",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/settings",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/settings",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/evidence",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/evidence",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/evidence",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/scenarios",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/scenarios",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/scenarios",
+      "width": 1440,
+      "overflow": false
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-**Current real-workflow repair (23 November 2026):** See [REAL_WORKFLOW_PLAN.md](REAL_WORKFLOW_PLAN.md), [real-workflow-progress.json](real-workflow-progress.json), and [actual Groq verification](evidence/real-workflow/JR-02/REPORT.md). Seeded judge accounts use persistent APIs. Groq document/image/PDF/voice and grounded chat have genuine task evidence. Historical phase reports below do not certify unfinished agent, semantic retrieval, payment or messaging integrations.
+**Current verified real workflow (23 November 2026):** Read [REAL_WORKFLOW_HANDOFF.md](REAL_WORKFLOW_HANDOFF.md), [real-workflow-progress.json](real-workflow-progress.json), and [JR-04 local verification](evidence/real-workflow/JR-04/REPORT.md). JR-01/02/03 are published: persistent Judge APIs, genuine Groq document/PDF/Whisper/chat, actual specialists, multilingual semantic retrieval and reviewed accounting. JR-04 verifies local daily workflows; external payment, messaging and cloud Bangla playback remain deferred. Historical statements below are preserved history, not current provider status.
 
 **Known gaps and blockers**
 
@@ -8,8 +8,8 @@
 |---|---|---|---|
 | K001 | resolved | No application source/runtime yet | Resolved in Phases 01-10; complete FastAPI backend, PostgreSQL/SQLite schemas, and React/Vite frontend implemented and tested |
 | K002 | open | No real merchant access or consented records | Keep fixtures synthetic; customer adoption and savings remain unvalidated in real world |
-| K003 | open | Genuine AI provider path not implemented; configured branch raises without a request | Implement P04-T04 and actual image/audio routing; isolate test doubles; then verify unseen synthetic requests with approved provider access. A key alone is insufficient. Source-reviewed 23 November at `8d4c122`. |
-| K004 | open | No payment live production credentials | Configured SSLCommerz sandbox connector lifecycle verified; production merchant credentials require merchant onboarding |
+| K003 | resolved for verified local scope | Actual Groq document/image/PDF/Whisper/chat paths now exist and have genuine unseen synthetic task receipts | See real-workflow JR-02/03/04 evidence; broad task accuracy is not claimed. |
+| K004 | deferred by owner | No payment sandbox account; real gateway session/validation remains unimplemented and unverified | Provider setup plus actual transport and callback verification are required; never infer completion from credentials. |
 | K005 | open | Forecast evaluation description exceeds implementation | Source-reviewed 23 November: final-seven-observation single holdout is labeled rolling-origin; prediction plus/minus MAE has no demonstrated coverage. Correct descriptions and implement relevant temporal validation before stronger claims; cold-start guard alone does not validate a model. |
 | K006 | resolved | No browser layout/accessibility QA | Resolved in Phase 10; responsive 360/768/1440px layouts, focus indicators, and touch targets verified via test-e2e.js |
 | K007 | open | No hosting/deployment and health observation | Configure actual runtime/storage, migrate and smoke-test deployed workflow (Phase 12) |

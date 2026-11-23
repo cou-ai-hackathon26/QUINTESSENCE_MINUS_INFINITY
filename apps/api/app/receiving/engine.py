@@ -5,7 +5,8 @@ usable inventory stock updates, credit note lifecycles, and
 strictly exactly-once credit application to invoices.
 """
 from __future__ import annotations
-import uuid
+import uuid,json,hashlib
+from sqlalchemy.exc import IntegrityError
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 from sqlalchemy.orm import Session
@@ -16,6 +17,7 @@ from app.persistence.models import (
     PartyModel,
     ProductItemModel,
     StockMovementModel,
+    AuditLogModel,EvidenceModel,ActionModel,
     now_utc,
 )
 
@@ -37,12 +39,34 @@ class ReceivingEngine:
         batch_number: Optional[str] = None,
         expiry_date: Optional[str] = None,
         return_window_days: int = 7,
+        request_key:Optional[str]=None,
     ) -> Dict[str, Any]:
         """
         Records delivery receipt.
         - Usable inventory stock is increased strictly by (received - damaged).
         - Discrepancies (shortage or damage) create a suspected CreditNoteModel.
         """
+        if damaged_quantity>received_quantity:raise ValueError('Damaged quantity cannot exceed received quantity.')
+        if purchase_draft_id and not self.db.query(ActionModel).filter_by(id=purchase_draft_id,tenant_id=self.tenant_id,action_type='stock_reorder').first():raise ValueError('Purchase draft not found in this shop.')
+        audit=None
+        if request_key:
+            if len(request_key)>100:raise ValueError('Idempotency key exceeds 100 characters.')
+            audit_id=str(uuid.uuid5(uuid.NAMESPACE_URL,self.tenant_id+'/receiving/'+request_key))
+            fingerprint=hashlib.sha256(json.dumps({'supplier':supplier_name,'sku':sku,'ordered':ordered_quantity,'received':received_quantity,'damaged':damaged_quantity,'unit_price':unit_price_paisa,'draft':purchase_draft_id,'batch':batch_number,'expiry':expiry_date,'window':return_window_days},sort_keys=True).encode()).hexdigest()
+            def existing():
+                previous=self.db.query(AuditLogModel).filter_by(id=audit_id,tenant_id=self.tenant_id).first()
+                if not previous:return None
+                stored=json.loads(previous.details)
+                if stored['fingerprint']!=fingerprint:raise ValueError('This idempotency key belongs to different delivery details.')
+                return stored['response']
+            replay=existing()
+            if replay:return replay
+            audit=AuditLogModel(id=audit_id,tenant_id=self.tenant_id,action='delivery_recorded',details='{}');self.db.add(audit)
+            try:self.db.flush()
+            except IntegrityError:
+                self.db.rollback();replay=existing()
+                if replay:return replay
+                raise ValueError('A concurrent delivery changed; refresh before retrying.')
         shortage = max(0, ordered_quantity - received_quantity)
         usable_quantity = max(0, received_quantity - damaged_quantity)
 
@@ -75,8 +99,10 @@ class ReceivingEngine:
                 ProductItemModel.tenant_id == self.tenant_id,
                 ProductItemModel.sku == sku,
             )
-            .first()
+            .with_for_update().first()
         )
+        if not product:
+            self.db.rollback();raise ValueError('Create this SKU in Stock before receiving it. No stock or delivery was recorded.')
         if product:
             previous_quantity = product.quantity_on_hand
             product.quantity_on_hand += usable_quantity
@@ -114,9 +140,7 @@ class ReceivingEngine:
             )
             self.db.add(credit_note)
 
-        self.db.commit()
-
-        return {
+        response={
             "receipt_id": receipt.id,
             "status": receipt.status,
             "usable_quantity_added": usable_quantity,
@@ -125,6 +149,9 @@ class ReceivingEngine:
             "credit_note_id": credit_note.id if credit_note else None,
             "claim_amount_bdt": (credit_note.amount_paisa / 100.0) if credit_note else 0.0,
         }
+        if audit:audit.details=json.dumps({'fingerprint':fingerprint,'response':response})
+        self.db.commit()
+        return response
 
     def list_receipts(self) -> List[GoodsReceiptModel]:
         return (
@@ -165,10 +192,10 @@ class ReceivingEngine:
         if cn.status != "accepted_by_supplier":
             raise ValueError("Supplier acceptance must be established before applying this credit.")
 
-        cn.status = "applied_to_bill"
-        cn.applied_invoice_ref = invoice_ref
-        cn.applied_at = now_utc()
+        changed=self.db.query(CreditNoteModel).filter_by(id=cn.id,tenant_id=self.tenant_id,status='accepted_by_supplier').update({'status':'applied_to_bill','applied_invoice_ref':invoice_ref,'applied_at':now_utc()},synchronize_session=False)
+        if changed!=1:self.db.rollback();raise ValueError('Credit state changed; refresh before applying it again.')
         self.db.commit()
+        self.db.refresh(cn)
 
         return {
             "credit_note_id": cn.id,
@@ -176,4 +203,16 @@ class ReceivingEngine:
             "applied_invoice_ref": cn.applied_invoice_ref,
             "amount_bdt": cn.amount_paisa / 100.0,
             "applied_at": cn.applied_at.isoformat() if cn.applied_at else None,
+            "scope":"Owner-recorded application reference. No cash movement or automatic payable journal posting.",
         }
+
+    def accept_credit(self,credit_note_id,source_evidence_id,user_id):
+        note=self.db.query(CreditNoteModel).filter_by(id=credit_note_id,tenant_id=self.tenant_id).first()
+        proof=self.db.query(EvidenceModel).filter_by(id=source_evidence_id,tenant_id=self.tenant_id).first()
+        if not note or not proof:raise ValueError('Credit or original acceptance source not found in this shop.')
+        if note.status=='applied_to_bill':raise ValueError('Applied credit cannot be reinterpreted.')
+        if note.status=='accepted_by_supplier':return {'id':note.id,'status':note.status}
+        changed=self.db.query(CreditNoteModel).filter_by(id=note.id,tenant_id=self.tenant_id,status=note.status).update({'status':'accepted_by_supplier'},synchronize_session=False)
+        if changed!=1:self.db.rollback();raise ValueError('Credit changed; reopen its review.')
+        self.db.add(AuditLogModel(tenant_id=self.tenant_id,user_id=user_id,action='supplier_credit_acceptance_reviewed',details=__import__('json').dumps({'credit_note_id':note.id,'source_evidence_id':proof.id,'source_sha256':proof.content_sha256,'amount_paisa':note.amount_paisa,'scope':'Owner verified explicit supplier acceptance; does not establish prior invoice deduction or spendable cash.'})))
+        self.db.commit();return {'id':note.id,'status':'accepted_by_supplier','source_evidence_id':proof.id}

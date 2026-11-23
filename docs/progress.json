@@ -1472,5 +1472,8 @@
     "handoff_status": "validated_documentation_only",
     "application_features_implemented_by_handoff": false,
     "validation_evidence": "docs/evidence/extension-handoff-validation.json"
-  }
+  },
+  "current_real_workflow_tracker": "docs/real-workflow-progress.json",
+  "current_real_workflow_handoff": "docs/REAL_WORKFLOW_HANDOFF.md",
+  "historical_phase_claims_require_current_source_and_evidence": true
 }

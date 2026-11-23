@@ -5,6 +5,7 @@ and daily factual executive briefing with audio-ready scripts.
 """
 from __future__ import annotations
 import uuid
+from decimal import Decimal
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 from sqlalchemy.orm import Session
@@ -163,7 +164,8 @@ class NotificationEngine:
             .first()
         )
         wallet_accounts = self.db.query(AccountModel).filter(AccountModel.tenant_id == self.tenant_id, AccountModel.code.like('asset:wallet:%')).all()
-        cash_bdt = ((cash_acc.current_balance_paisa if cash_acc else 0) + sum(a.current_balance_paisa for a in wallet_accounts)) / 100.0
+        cash_paisa=(cash_acc.current_balance_paisa if cash_acc else 0)+sum(a.current_balance_paisa for a in wallet_accounts)
+        cash_bdt=Decimal(cash_paisa)/100
 
         open_notifs = self.list_notifications()
         high_priority = [n for n in open_notifs if n.priority == "high" and n.status not in ("resolved", "snoozed")]
@@ -176,17 +178,23 @@ class NotificationEngine:
             )
             .all()
         )
-        total_credit_bdt = sum(cn.amount_paisa for cn in unapplied_credits) / 100.0
+        total_credit_bdt=Decimal(sum(cn.amount_paisa for cn in unapplied_credits))/100
+        accepted_credit_paisa=sum(cn.amount_paisa for cn in unapplied_credits if cn.status=="accepted_by_supplier")
+        unconfirmed_credit_paisa=sum(cn.amount_paisa for cn in unapplied_credits if cn.status!="accepted_by_supplier")
 
         voice_script_bn = (
             f"শুভ সকাল। আপনার দোকানে বর্তমানে মোট লিকুইড ক্যাশ রয়েছে ৳{cash_bdt:,.2f}। "
             f"আজকের জন্য {len(high_priority)}টি জরুরী সতর্কতা রয়েছে। "
-            f"সরবরাহকারীদের থেকে মোট ৳{total_credit_bdt:,.2f} মূল্যের দাবিযোগ্য ক্রেডিট বাকি রয়েছে।"
+            f"সরবরাহকারীদের থেকে মোট ৳{total_credit_bdt:,.2f} মূল্যের credit claim এখনও নিষ্পত্তি হয়নি। সব দাবি supplier স্বীকার করেননি; এগুলো নগদ টাকা নয়।"
         )
 
         return {
             "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             "liquid_cash_bdt": cash_bdt,
+            "liquid_cash_paisa":cash_paisa,
+            "accepted_unapplied_credit_paisa":accepted_credit_paisa,
+            "unconfirmed_credit_claim_paisa":unconfirmed_credit_paisa,
+            "credit_scope":"Pending claims are not spendable funds; only explicit supplier acceptance establishes accepted credit.",
             "open_notifications_count": len(open_notifs),
             "high_priority_count": len(high_priority),
             "unapplied_credit_amount_bdt": total_credit_bdt,

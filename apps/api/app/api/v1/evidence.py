@@ -74,7 +74,12 @@ def upload_evidence(
     db.add(evidence)
     db.flush()
 
-    # Perform initial parse
+    return process_stored_evidence(evidence,content,current_user,db)
+
+
+def process_stored_evidence(evidence,content,current_user,db):
+    source_type=evidence.source_type;storage_path=evidence.storage_path
+    # Parse original stored bytes; never create a second document for a retry.
     extracted_text = ""
     if source_type == "pdf":
         extracted_text = NativePdfParser.extract_text(storage_path)
@@ -99,7 +104,7 @@ def upload_evidence(
             text_or_content=extracted_text,
             source_type=source_type,
             raw_bytes=content,
-            mime_type=file.content_type,
+            mime_type=evidence.mime_type,
             file_path=storage_path,
         )
     except Exception as exc:
@@ -142,6 +147,22 @@ def upload_evidence(
         "extraction_error":extraction_error,
         "provider_receipts":[receipt_dict(receipt) for receipt in receipts],
     }
+
+
+@evidence_router.post('/{evidence_id}/reprocess')
+def reprocess_evidence(evidence_id:str,current_user:UserModel=Depends(require_role(['owner','manager'])),db:Session=Depends(get_db)):
+    evidence=db.query(EvidenceModel).filter_by(id=evidence_id,tenant_id=current_user.tenant_id).with_for_update().first()
+    if not evidence:raise HTTPException(404,'Evidence not found.')
+    if any(claim.is_reviewed for claim in evidence.claims):raise HTTPException(409,'Human-reviewed claims are preserved. Upload a new revision instead of replacing this review.')
+    path=Path(evidence.storage_path).resolve();root=(Path(storage.base_dir)/current_user.tenant_id).resolve()
+    if not path.is_relative_to(root) or not path.is_file():raise HTTPException(404,'Original source is unavailable.')
+    content=path.read_bytes()
+    if len(content)>10*1024*1024:raise HTTPException(413,'Original source exceeds the current upload limit.')
+    import hashlib
+    if hashlib.sha256(content).hexdigest()!=evidence.content_sha256:raise HTTPException(409,'The stored source checksum changed. Re-upload and review the original.')
+    for claim in list(evidence.claims):db.delete(claim)
+    db.flush()
+    return process_stored_evidence(evidence,content,current_user,db)
 
 
 @evidence_router.get("/{evidence_id}")
