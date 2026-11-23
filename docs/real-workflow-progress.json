@@ -5,8 +5,13 @@
   "phases": [
     {
       "id": "JR-01",
-      "status": "verified_pending_publication",
-      "scope": "Persistent judge/API contract repair"
+      "status": "complete",
+      "scope": "Persistent judge/API contract repair",
+      "git_checkpoint": {
+        "status": "published",
+        "milestone_sha": "fc9557a0fc8f83de2d30c2b39c82c263f14c218f",
+        "receipt": "docs/evidence/real-workflow/JR-01/git-checkpoint.json"
+      }
     },
     {
       "id": "JR-02",
