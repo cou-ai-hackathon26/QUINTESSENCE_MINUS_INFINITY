@@ -94,7 +94,7 @@ class DemandEngine:
             )
             .first()
         )
-        current_stock = product.current_stock_quantity if product else 0
+        current_stock = product.quantity_on_hand if product else 0
 
         # Calculate total unmet demand for this SKU
         unmet_records = self.list_unmet_demands(sku=sku)
@@ -112,7 +112,7 @@ class DemandEngine:
                 )
                 .all()
             )
-        total_sales_units = sum(abs(m.quantity) for m in movements)
+        total_sales_units = sum(abs(m.quantity_change) for m in movements)
         # Average daily velocity (if no sales, conservative baseline is 1 unit/day)
         daily_velocity = max(1.0, total_sales_units / 7.0 if movements else 1.0)
         stock_cover_days = current_stock / daily_velocity if daily_velocity > 0 else 0.0

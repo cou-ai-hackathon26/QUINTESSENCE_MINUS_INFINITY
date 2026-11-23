@@ -78,13 +78,17 @@ class ReceivingEngine:
             .first()
         )
         if product:
-            product.current_stock_quantity += usable_quantity
+            previous_quantity = product.quantity_on_hand
+            product.quantity_on_hand += usable_quantity
+            if usable_quantity and (product.cost_price_paisa is not None or previous_quantity == 0):
+                total_cost = (product.cost_price_paisa or 0) * previous_quantity + unit_price_paisa * usable_quantity
+                product.cost_price_paisa = (total_cost + product.quantity_on_hand // 2) // product.quantity_on_hand
             # Record stock movement
             movement = StockMovementModel(
                 tenant_id=self.tenant_id,
                 product_id=product.id,
-                movement_type="purchase_receive",
-                quantity=usable_quantity,
+                movement_type="purchase_addition",
+                quantity_change=usable_quantity,
                 reference_id=receipt.id,
             )
             self.db.add(movement)
@@ -157,6 +161,9 @@ class ReceivingEngine:
 
         if cn.status == "applied_to_bill":
             raise ValueError(f"Credit note {credit_note_id} has already been applied to invoice {cn.applied_invoice_ref}. Duplicate credit application is prohibited.")
+
+        if cn.status != "accepted_by_supplier":
+            raise ValueError("Supplier acceptance must be established before applying this credit.")
 
         cn.status = "applied_to_bill"
         cn.applied_invoice_ref = invoice_ref

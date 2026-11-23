@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-23T14:23:55.454Z",
+  "mode": "main_react_foundation_judge",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Quote comparison excludes unverified bonus from executable drafts",
+    "Pending supplier credit cannot be applied in the UI",
+    "Stock and demand review routes function within the mobile viewport"
+  ],
+  "screenshots": [
+    "buying-1440.png",
+    "buying-768.png",
+    "buying-360.png",
+    "receiving-360.png",
+    "inventory-360.png",
+    "demand-360.png"
+  ],
+  "errors": [],
+  "passed": true
+}

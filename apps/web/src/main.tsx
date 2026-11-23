@@ -16,3 +16,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 );
 
 import './workbench/business.css';
+import './workbench/inventory.css';

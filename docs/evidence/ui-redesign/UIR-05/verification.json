@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-23",
+  "browser": "evidence/browser-report.json",
+  "api": "test_receiving_only_usable_units_and_pending_credit_cannot_apply: passed",
+  "scope": [
+    "Purchasing comparison/draft",
+    "Single receiving write boundary",
+    "Inventory count/cost/reorder register and selected-file CSV preview",
+    "Unmet demand and reorder scenario"
+  ],
+  "corrections": [
+    "Receiving uses real quantity_on_hand and quantity_change models",
+    "Only usable quantities increase stock",
+    "Pending supplier credit application blocked",
+    "Demand stock lookup uses actual model fields"
+  ],
+  "limits": [
+    "Credit acceptance itself needs an evidence-backed supplier confirmation workflow; suspected credits remain blocked",
+    "CSV preview is an explicit raw-file review, not a speculative row diff",
+    "Demand engine minimum velocity is labeled as an assumption, not a learned prediction",
+    "Legacy offer support scores withheld; terms blockers retained"
+  ]
+}

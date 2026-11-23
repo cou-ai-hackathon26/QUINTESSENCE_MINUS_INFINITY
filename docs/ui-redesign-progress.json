@@ -4,7 +4,7 @@
   "branch": "main",
   "owner_authorized_execution": true,
   "preview_merge_sha": "436f4490fe523a060515c6db8d6a515d7bf8c705",
-  "current_phase": "UIR-04",
+  "current_phase": "UIR-05",
   "phases": [
     {
       "id": "UIR-00",
@@ -59,7 +59,7 @@
     {
       "id": "UIR-05",
       "name": "Buying, receiving, stock and demand",
-      "status": "not_started"
+      "status": "verified_pending_publication"
     },
     {
       "id": "UIR-06",

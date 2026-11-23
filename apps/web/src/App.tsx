@@ -4,7 +4,6 @@ import LandingPage from './workbench/Landing';
 import TodayDashboard,{Scenarios} from './workbench/Home';
 import FuturePlannerPage from './pages/FuturePlannerPage';
 import CustomerPortalPage from './pages/CustomerPortalPage';
-import StockPage from './pages/StockPage';
 import ReportsPage from './pages/ReportsPage';
 import Cases,{CaseDetail} from './workbench/Cases';
 import AgentPage from './workbench/Agents';
@@ -17,6 +16,7 @@ import VoiceCopilot from './workbench/VoiceCopilot';
 import Evidence from './workbench/Evidence';
 import Actions from './workbench/Actions';
 import {Sales,People,Money,Setup} from './workbench/Commerce';
+import {Buying,Receiving,Stock,Demand} from './workbench/Inventory';
 
 export default function App() {
   return (
@@ -36,7 +36,7 @@ export default function App() {
         <Route path="/app/evidence" element={<Evidence/>}/>
         <Route path="/app/evidence/:evidenceId" element={<Evidence/>}/>
         <Route path="/app/actions" element={<Actions/>}/>
-        <Route path="/app/stock" element={<StockPage />} />
+        <Route path="/app/buying" element={<Buying/>}/><Route path="/app/receiving" element={<Receiving/>}/><Route path="/app/demand" element={<Demand/>}/><Route path="/app/stock" element={<Stock/>} />
         <Route path="/app/reports" element={<ReportsPage />} />
         <Route path="/app/money" element={<Money/>} />
         <Route path="/app/sales" element={<Sales/>} />

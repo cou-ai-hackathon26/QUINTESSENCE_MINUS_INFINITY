@@ -41,6 +41,8 @@ def record_goods_receipt(
     db: Session = Depends(get_db),
 ):
     """Records delivery receipt, updates usable stock, and detects discrepancies."""
+    if req.damaged_quantity > req.received_quantity:
+        raise HTTPException(status_code=422, detail="Damaged quantity cannot exceed received quantity.")
     engine = ReceivingEngine(db, current_user.tenant_id)
     result = engine.record_receipt(
         supplier_name=req.supplier_name,

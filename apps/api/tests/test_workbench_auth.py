@@ -135,3 +135,22 @@ def test_merchant_sale_collection_transfer_and_opening_receipts(client):
     balances = {a['code']:a['current_balance_paisa'] for a in c.get('/api/v1/ledger/accounts').json()}
     assert balances['asset:cash'] == 115000
     assert balances['asset:wallet:bkash'] == 39815
+
+
+def test_receiving_only_usable_units_and_pending_credit_cannot_apply(client):
+    c, factory = client
+    identity = c.post('/api/v1/auth/register',json=payload()).json()
+    c.headers['Origin'] = 'http://testserver'
+    product = c.post('/api/v1/stock/products',json={'name':'Synthetic rice','sku':'TEST-RICE','quantity_on_hand':0,'selling_price_paisa':12000}).json()
+    receipt = c.post('/api/v1/receiving/receipts',json={'supplier_name':'Synthetic supplier','sku':'TEST-RICE','ordered_quantity':10,'received_quantity':8,'damaged_quantity':1,'unit_price_paisa':10000})
+    assert receipt.status_code == 201
+    assert receipt.json()['usable_quantity_added'] == 7
+    stock = c.get('/api/v1/stock/products').json()['products'][0]
+    assert stock['quantity_on_hand'] == 7 and stock['cost_price_paisa'] == 10000
+    credit = c.get('/api/v1/receiving/credits').json()[0]
+    assert credit['amount_bdt'] == 300 and credit['status'] == 'suspected'
+    assert c.post('/api/v1/receiving/credits/'+credit['id']+'/apply',json={'invoice_ref':'TEST-INV'}).status_code >= 400
+    assert c.get('/api/v1/receiving/credits').json()[0]['status'] == 'suspected'
+    assert c.post('/api/v1/demand/unmet',json={'requested_product':'Synthetic rice','sku':'TEST-RICE','quantity':2}).status_code == 201
+    analysis = c.get('/api/v1/demand/analysis/TEST-RICE')
+    assert analysis.status_code == 200 and analysis.json()['current_stock'] == 7
