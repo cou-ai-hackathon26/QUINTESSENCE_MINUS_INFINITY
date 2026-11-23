@@ -15,8 +15,13 @@
     },
     {
       "id": "JR-02",
-      "status": "verified_pending_publication",
-      "scope": "Real Groq multimodal inference and grounded chat"
+      "status": "complete",
+      "scope": "Real Groq multimodal inference and grounded chat",
+      "git_checkpoint": {
+        "status": "published",
+        "milestone_sha": "bd8a59946a5beb267c6054dace3fc6d0008fc81b",
+        "receipt": "docs/evidence/real-workflow/JR-02/git-checkpoint.json"
+      }
     },
     {
       "id": "JR-03",
