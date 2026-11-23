@@ -17,6 +17,7 @@
     "test:agents": "node scripts/run-python.js -m pytest apps/api/tests/test_agents.py -v",
     "test:copilot": "node scripts/run-python.js -m pytest apps/api/tests/test_copilot.py -v",
     "test:buying": "node scripts/run-python.js -m pytest apps/api/tests/test_buying_desk.py -v",
+    "test:receiving": "node scripts/run-python.js -m pytest apps/api/tests/test_receiving_and_returns.py -v",
     "test:workflows": "node scripts/runner-stub.js test:workflows 19",
     "test:business-help": "node scripts/runner-stub.js test:business-help 24",
     "eval:rag": "node scripts/runner-stub.js eval:rag 25",

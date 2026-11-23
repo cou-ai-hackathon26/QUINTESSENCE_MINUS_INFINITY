@@ -19,6 +19,7 @@ from app.api.v1.search import search_router
 from app.api.v1.agents import agents_router
 from app.api.v1.copilot import copilot_router
 from app.api.v1.buying import buying_router
+from app.api.v1.receiving import receiving_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -47,6 +48,7 @@ app.include_router(search_router)
 app.include_router(agents_router)
 app.include_router(copilot_router)
 app.include_router(buying_router)
+app.include_router(receiving_router)
 
 
 @app.get("/health", status_code=status.HTTP_200_OK, tags=["System"])

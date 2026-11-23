@@ -1,5 +1,5 @@
 {
-  "benchmark_timestamp_utc": "2026-11-23T10:19:51.974Z",
+  "benchmark_timestamp_utc": "2026-11-23T10:27:53.931Z",
   "fixture": "tests/fixtures/evaluation/paired_stories_benchmark.json",
   "systems": {
     "rules_reasoning": {

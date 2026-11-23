@@ -15,7 +15,7 @@ Contract: [EXTENSION_PLAN.md](../EXTENSION_PLAN.md). Start/resume: [START_EXTENS
 | 17 | bounded collaboration and visible teamwork | complete | P17-T01 |
 | 18 | copilot and compound voice transaction review | complete | P18-T01 |
 | 19 | Buying Desk | complete | P19-T01 |
-| 20 | Receiving, returns and credit recovery | not_started | P20-T01 |
+| 20 | Receiving, returns and credit recovery | complete | P20-T01 |
 | 21 | Demand Memory and supported future impact | not_started | P21-T01 |
 | 22 | notifications, voice alerts and briefs | not_started | P22-T01 |
 | 23 | additional everyday operations | not_started | P23-T01 |

@@ -2,8 +2,8 @@
   "schema_version": 3,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "19",
-  "next_task": "P20-T01",
+  "current_phase": "20",
+  "next_task": "P21-T01",
   "application_started": true,
   "phases": [
     {
@@ -1046,7 +1046,7 @@
     {
       "id": "20",
       "name": "Receiving, returns and credit recovery",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "19",
         "05"
@@ -1054,38 +1054,48 @@
       "tasks": [
         {
           "id": "P20-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-20/receiving-returns-report.md"
+          ],
+          "notes": "Physical delivery intake and usable stock updates based on physical count."
         },
         {
           "id": "P20-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-20/receiving-returns-report.md"
+          ],
+          "notes": "Shortage and damaged stock detection formulating suspected claims."
         },
         {
           "id": "P20-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-20/receiving-returns-report.md"
+          ],
+          "notes": "Strictly exactly-once credit application to invoices with duplicate rejection."
         },
         {
           "id": "P20-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-20/receiving-returns-report.md"
+          ],
+          "notes": "Return window deadline calculation and credit note lifecycle management."
         },
         {
           "id": "P20-T05",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-20/receiving-returns-report.md"
+          ],
+          "notes": "Complete operational journey verification and ReceivingTracker UI component."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending_milestone",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,

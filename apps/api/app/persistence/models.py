@@ -549,5 +549,39 @@ class BuyingComparisonModel(Base):
     created_at = Column(DateTime, nullable=False, default=now_utc)
 
 
+class GoodsReceiptModel(Base):
+    __tablename__ = "goods_receipts"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    purchase_draft_id = Column(String(36), nullable=True)
+    supplier_name = Column(String(255), nullable=False)
+    sku = Column(String(64), nullable=False, index=True)
+    ordered_quantity = Column(Integer, nullable=False)
+    received_quantity = Column(Integer, nullable=False)
+    damaged_quantity = Column(Integer, nullable=False, default=0)
+    shortage_quantity = Column(Integer, nullable=False, default=0)
+    batch_number = Column(String(64), nullable=True)
+    expiry_date = Column(String(32), nullable=True)
+    status = Column(String(32), nullable=False, default="complete")  # partial, complete, discrepant
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
+class CreditNoteModel(Base):
+    __tablename__ = "credit_notes"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    receipt_id = Column(String(36), ForeignKey("goods_receipts.id", ondelete="SET NULL"), nullable=True)
+    supplier_name = Column(String(255), nullable=False)
+    claim_reason = Column(String(64), nullable=False)  # shortage, damaged, price_discrepancy
+    amount_paisa = Column(Integer, nullable=False)
+    status = Column(String(32), nullable=False, default="suspected")  # suspected, reviewed, accepted_by_supplier, applied_to_bill, rejected
+    applied_invoice_ref = Column(String(64), nullable=True)
+    applied_at = Column(DateTime, nullable=True)
+    return_window_deadline = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
 
 
