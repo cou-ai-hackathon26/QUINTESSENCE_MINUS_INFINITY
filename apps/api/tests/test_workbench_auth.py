@@ -191,3 +191,30 @@ def test_inbox_and_reservation_actions_do_not_post_money(client):
     assert c.post('/api/v1/operations/reservations/'+reservation['id']+'/pick').json()['status'] == 'picked'
     assert c.get('/api/v1/merchant/today').json() == before
     assert c.get('/api/v1/notifications/brief').json()['liquid_cash_bdt'] == 12000
+
+
+def test_public_invoice_is_scoped_and_unverified_payments_cannot_post(client):
+    from datetime import datetime,timedelta
+    from app.persistence.models import CustomerPortalTokenModel
+    c, factory = client
+    c.post('/api/v1/auth/judge-session',json={})
+    c.headers['Origin'] = 'http://testserver'
+    capability = c.get('/api/v1/workbench/capabilities').json()
+    assert next(r for r in capability['capabilities'] if r['id']=='payments')['state'] == 'unavailable'
+    party = next(p for p in c.get('/api/v1/merchant/parties').json() if p['party_type']=='customer')
+    link = c.post('/api/v1/portal/generate-link',json={'party_id':party['id'],'invoice_number':'TEST-ONLY','amount_paisa':10000}).json()
+    token = link['token']
+    before = c.get('/api/v1/merchant/today').json()
+    invoice = c.get('/api/v1/portal/'+token).json()
+    assert invoice['invoice_number']=='TEST-ONLY' and invoice['amount_paisa']==10000
+    assert 'tenant_id' not in invoice and 'phone' not in invoice and 'accounts' not in invoice
+    assert c.post('/api/v1/portal/'+token+'/pay').status_code == 503
+    assert c.post('/api/v1/payments/sslcommerz/ipn',json={'status':'VALID','amount':'100','currency':'BDT','tran_id':'UNVERIFIED','token':token}).status_code == 503
+    assert c.get('/api/v1/merchant/today').json() == before
+    assert c.post('/api/v1/portal/'+token+'/dispute',json={'dispute_note':'Synthetic mismatch'}).status_code == 200
+    with factory() as db:
+        row=db.query(CustomerPortalTokenModel).filter_by(token=token).one()
+        row.expires_at=datetime.utcnow()-timedelta(days=1)
+        db.commit()
+    assert c.get('/api/v1/portal/'+token).status_code == 410
+    assert c.post('/api/v1/portal/'+token+'/dispute',json={'dispute_note':'Expired note'}).status_code == 410

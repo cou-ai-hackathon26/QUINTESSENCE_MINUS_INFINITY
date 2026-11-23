@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-23T14:43:22.919Z",
+  "mode": "main_react_foundation_judge",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Preferences explicitly persist in this browser, with reduced-motion choice",
+    "Capabilities distinguish synthetic, unavailable and recorded states",
+    "Public invoice has no merchant navigation and no pretend online payment"
+  ],
+  "screenshots": [
+    "help-1440.png",
+    "help-360.png",
+    "settings-360.png",
+    "connections-360.png",
+    "public-invoice-360.png"
+  ],
+  "errors": [],
+  "passed": true
+}

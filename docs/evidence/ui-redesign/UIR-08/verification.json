@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-23",
+  "build": "passed",
+  "browser": "evidence/browser-report.json",
+  "api": "test_public_invoice_is_scoped_and_unverified_payments_cannot_post: passed",
+  "scope": [
+    "Document metadata/checklist/reference help",
+    "Read-only actual capability report",
+    "Browser-local language/motion/voice preferences and opt-in notification test",
+    "Public scoped invoice/dispute, expired/error states, explicit synthetic sample",
+    "One-click judge entry uses actual isolated auth endpoint"
+  ],
+  "corrections": [
+    "Public invoice request bypasses authenticated judge fixtures and omits merchant credentials",
+    "Expired invoice cannot accept dispute",
+    "Unimplemented provider session/validation endpoints fail closed rather than fabricating payment success"
+  ],
+  "limits": [
+    "No current legal applicability is certified",
+    "No SMS, WhatsApp, background push, verified online payment or synchronized account preferences are claimed",
+    "Online payment remains disabled until real provider session and server validation exist"
+  ]
+}

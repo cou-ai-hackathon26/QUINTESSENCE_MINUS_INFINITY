@@ -2,11 +2,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './i18n/LanguageContext';
 import LandingPage from './workbench/Landing';
 import TodayDashboard,{Scenarios} from './workbench/Home';
-import CustomerPortalPage from './pages/CustomerPortalPage';
 import Cases,{CaseDetail} from './workbench/Cases';
 import AgentPage from './workbench/Agents';
-import ConnectionsPage from './pages/ConnectionsPage';
-import DemoPage from './pages/DemoPage';
 import {AuthProvider,Protected} from './workbench/Auth';
 import {AppShell} from './workbench/Layout';
 import AuthPage from './workbench/AuthPages';
@@ -17,6 +14,7 @@ import {Sales,People,Money,Setup} from './workbench/Commerce';
 import {Buying,Receiving,Stock,Demand} from './workbench/Inventory';
 import {Planner,Reports} from './workbench/Planning';
 import {Inbox,Operations} from './workbench/Operations';
+import {Help,Connections,Settings,Portal} from './workbench/SupportPages';
 
 export default function App() {
   return (
@@ -43,10 +41,10 @@ export default function App() {
         <Route path="/app/reconciliation" element={<Navigate to="/app/cases" replace/>} />
         <Route path="/app/planner" element={<Planner/>} />
         <Route path="/app/people" element={<People/>} />
-        <Route path="/app/connections" element={<ConnectionsPage />} />
+        <Route path="/app/help" element={<Help/>}/><Route path="/app/settings" element={<Settings/>}/><Route path="/app/connections" element={<Connections/>} />
         </Route>
-        <Route path="/pay/:token" element={<CustomerPortalPage />} />
-        <Route path="/demo" element={<DemoPage />} />
+        <Route path="/pay/:token" element={<Portal/>} />
+        <Route path="/demo" element={<AuthPage/>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes></AuthProvider>
     </LanguageProvider>

@@ -297,6 +297,9 @@ def submit_portal_dispute(
     if not pt or pt.is_revoked:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid invoice link.")
 
+    if is_expired(pt.expires_at):
+        raise HTTPException(status_code=410, detail="This invoice link has expired.")
+
     pt.dispute_note = req.dispute_note
     db.commit()
     return {"status": "success", "message": "Dispute note submitted to merchant."}
@@ -312,6 +315,10 @@ def initiate_customer_payment(
     pt = db.query(CustomerPortalTokenModel).filter(CustomerPortalTokenModel.token == token).first()
     if not pt or pt.is_revoked or pt.is_paid:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invoice is already paid or invalid.")
+
+    if is_expired(pt.expires_at):
+        raise HTTPException(status_code=410, detail="This invoice link has expired.")
+    raise HTTPException(status_code=503, detail="Online payment initiation is not connected to a verified gateway provider. No payment was initiated.")
 
     party = db.query(PartyModel).filter(PartyModel.id == pt.party_id).first()
     cus_name = party.name if party else "Customer"
@@ -349,6 +356,7 @@ async def sslcommerz_ipn(
     Validates amount, currency, merchant store, and duplicate transaction.
     Atomically records ledger posting and reduces customer due.
     """
+    raise HTTPException(status_code=503, detail="Gateway server-to-server validation is not implemented. Unverified callbacks cannot post money.")
     try:
         body = await request.json()
     except Exception:

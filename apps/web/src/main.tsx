@@ -20,3 +20,6 @@ import './workbench/inventory.css';
 import './workbench/planning.css';
 
 import './workbench/operations.css';
+
+import './workbench/support.css';
+document.documentElement.dataset.motion=localStorage.getItem('shongoti_motion')||'system';

@@ -5,7 +5,19 @@ from sqlalchemy.orm import Session
 from app.core.auth import get_current_user
 from app.core.database import get_db
 from app.persistence.models import AccountModel,JournalEntryModel,PostingModel,UserModel
+from app.ingestion.adapters import AIModelAdapter
 workbench_router=APIRouter(prefix='/api/v1/workbench',tags=['Workbench data'])
+@workbench_router.get('/capabilities')
+def capabilities(user:UserModel=Depends(get_current_user)):
+    return {'checked_at':datetime.now(timezone.utc).isoformat(),'capabilities':[
+        {'id':'inference','title':'Document & voice inference','state':'configured_not_verified' if AIModelAdapter().is_configured() else 'not_configured','detail':'Configured credentials are not a successful inference receipt.'},
+        {'id':'agents','title':'Agent workflow','state':'recorded_history','detail':'Synchronous tool workflow. Recorded events and explicit replay; no live parallel streaming claim.'},
+        {'id':'retrieval','title':'Shop memory search','state':'lexical_vector_test_boundary','detail':'Keyword plus deterministic lexical-vector retrieval; learned dense embedding quality has not been verified.'},
+        {'id':'payments','title':'Online payment execution','state':'unavailable','detail':'Gateway adapter does not perform verified provider session/validation requests.'},
+        {'id':'messages','title':'SMS / WhatsApp dispatch','state':'unavailable','detail':'No verified delivery provider or receipt.'},
+        {'id':'files','title':'CSV import / export','state':'available','detail':'Selected-file review and tenant-scoped exports.'},
+        {'id':'legal','title':'Business document references','state':'reference_only','detail':'Seeded source references are not current jurisdiction-specific legal verification.'}
+    ]}
 @workbench_router.get('/cashflow')
 def cashflow(days:int=Query(7,ge=1,le=31),user:UserModel=Depends(get_current_user),db:Session=Depends(get_db)):
     dhaka=timezone(timedelta(hours=6));today=datetime.now(dhaka).date()
