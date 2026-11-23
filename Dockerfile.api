@@ -15,7 +15,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy source code and alembic migrations
 COPY apps/api ./apps/api
-RUN pip install --no-cache-dir ./apps/api
+RUN pip install --no-cache-dir -r apps/api/requirements.lock && \
+    pip install --no-cache-dir --no-deps ./apps/api
 
 # Create non-root system user
 RUN useradd -m -u 1000 appuser && \

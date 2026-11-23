@@ -20,7 +20,7 @@ def provider(monkeypatch):
         if body['response_format']['json_schema']['name']=='AgentConclusion':
             result={'answer':'Source facts need confirmation.','cited_source_ids':[source],'missing_facts':[],'proposed_operations':[],'suggested_page':'cases','case_facts':facts,'payable_options_paisa':context['specialist_outputs'].get('reconciliation',{}).get('expected_payables',[])}
         else:
-            result={'summary':'Explicit test model read the supplied original inputs.','case_facts':facts,'findings':[{'source_id':source,'claim':'Inclusion is not yet established.','quote':'Source inputs'}],'missing_facts':[],'questions':[]}
+            result={'summary':'Explicit test model read the supplied original inputs.','case_facts':facts,'findings':[{'source_id':source,'claim':'Inclusion is not yet established.','quote':context['structured_source_texts'][source]}],'missing_facts':[],'questions':[]}
         if state.get('mutate'):state['mutate'](result,context)
         return httpx.Response(200,json={'id':'explicit-model-double-'+str(state['calls']),'choices':[{'message':{'content':json.dumps(result)}}],'usage':{'prompt_tokens':20,'completion_tokens':12}})
     original=GroqProvider.__init__

@@ -14,12 +14,12 @@
     },
     {
       "id": "AJ-02",
-      "status": "not_started",
+      "status": "in_progress",
       "scope": "Security, grounding, dependencies and CI"
     },
     {
       "id": "AJ-03",
-      "status": "not_started",
+      "status": "in_progress",
       "scope": "Integrated regression and current handoff"
     }
   ],
@@ -28,5 +28,5 @@
     "Payment integration owner-deferred",
     "No new comparative accuracy or adoption claim"
   ],
-  "next_task": "AJ-02 security and grounding guards"
+  "next_task": "AJ-02 publication then AJ-03 browser/evidence handoff"
 }

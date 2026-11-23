@@ -810,7 +810,7 @@ def import_products_csv(
     if current_user.role == "cashier":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Cashier cannot import catalog.")
 
-    reader = csv.DictReader(io.StringIO(req.csv_content.strip()))
+    reader = csv.DictReader(io.StringIO(req.csv_content.lstrip('\ufeff').strip()))
     if not reader.fieldnames or 'name' not in reader.fieldnames:
         raise HTTPException(422, 'CSV requires a name column.')
     created_count = 0
@@ -822,6 +822,9 @@ def import_products_csv(
     for row_idx, row in enumerate(reader, start=1):
         if row_idx > 5000:
             raise HTTPException(422, 'Import at most 5000 products per file.')
+        if None in row or any(value is None for value in row.values()):
+            errors.append(f'Row {row_idx}: column count does not match the header.')
+            continue
         name = row.get("name", "").strip()
         if not name:
             errors.append(f"Row {row_idx}: 'name' is required.")

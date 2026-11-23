@@ -4,6 +4,8 @@ Shongoti Main FastAPI Application
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from starlette.middleware.trustedhost import TrustedHostMiddleware
+from app.core.limits import BodyLimitMiddleware
 
 from app.core.config import settings
 from app.core.database import check_db_connection
@@ -34,6 +36,8 @@ app = FastAPI(
     version=settings.APP_VERSION,
     description="Bangla-first MSME financial workspace backend API",
 )
+app.add_middleware(BodyLimitMiddleware, maximum=settings.API_MAX_BODY_BYTES)
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=[host.strip() for host in settings.ALLOWED_HOSTS.split(',') if host.strip()])
 
 # CORS configuration
 app.add_middleware(

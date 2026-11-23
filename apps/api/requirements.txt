@@ -1,13 +1,2 @@
-fastapi==0.115.5
-uvicorn[standard]==0.32.1
-pydantic==2.10.2
-pydantic-settings==2.6.1
-sqlalchemy==2.0.36
-alembic==1.14.0
-pytest==8.3.3
-httpx==0.28.0
-python-multipart==0.0.17
-psycopg[binary]==3.2.3
-pyjwt==2.10.1
-bcrypt==4.2.1
-pypdf==5.1.0
+# Compatibility entry point; the complete cross-platform lock is authoritative.
+-r requirements.lock

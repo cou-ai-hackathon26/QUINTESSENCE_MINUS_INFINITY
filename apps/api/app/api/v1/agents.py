@@ -28,7 +28,7 @@ agents_router = APIRouter(prefix="/api/v1/agents", tags=["Agents"])
 class StartRunRequestDTO(BaseModel):
     case_type: str = Field(default="reconciliation")
     case_id: Optional[str] = None
-    query: str = Field(..., min_length=1)
+    query: str = Field(..., min_length=1, max_length=8000)
     budget_max: int = Field(default=DEFAULT_BUDGET_MAX, ge=1, le=20)
 
 
@@ -83,6 +83,10 @@ def start_agent_run(
 ):
     """Starts bounded multi-agent collaboration investigation under tenant isolation."""
     orchestrator = AgentOrchestrator(db=db, tenant_id=current_user.tenant_id)
+    from app.core.limits import admit
+    admit('agents:' + current_user.tenant_id, 10)
+    active=db.query(AgentRunModel).filter(AgentRunModel.tenant_id==current_user.tenant_id,AgentRunModel.status.in_(['queued','running'])).count()
+    if active>=2:raise HTTPException(429,'Two investigations are already active. Wait or cancel one before starting another.')
     if req.case_type not in ('stock_check','cash_query') and not configured():raise HTTPException(503,'Configure Groq inference before starting model specialists.')
     try:run = orchestrator.create_run(
         case_type=req.case_type,

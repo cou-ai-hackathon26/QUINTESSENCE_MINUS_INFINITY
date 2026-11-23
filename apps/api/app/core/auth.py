@@ -9,7 +9,7 @@ from fastapi import Depends, HTTPException, status, Request
 import hashlib
 import secrets
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
@@ -56,7 +56,7 @@ def decode_access_token(token: str) -> TokenData:
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Session expired. Please log in again.",
         )
-    except (jwt.InvalidTokenError, KeyError):
+    except (jwt.InvalidTokenError, KeyError, ValidationError, TypeError):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid authentication credentials.",

@@ -3,6 +3,8 @@ import base64
 import hashlib
 import json
 import time
+from datetime import datetime, timedelta, timezone
+from threading import BoundedSemaphore
 from copy import deepcopy
 from typing import TypeVar
 import httpx
@@ -11,6 +13,7 @@ from app.core.config import settings
 from app.persistence.models import ProviderReceiptModel
 
 T=TypeVar('T',bound=BaseModel)
+_inference_slots = BoundedSemaphore(2)
 
 class InferenceUnavailable(Exception):
     def __init__(self,code='provider_unavailable',status=503):
@@ -42,6 +45,15 @@ class GroqProvider:
 
     def _call(self,endpoint,model,capability,payload=None,files=None,data=None):
         if not configured():raise InferenceUnavailable('not_configured')
+        if self.db and self.tenant_id:
+            from app.core.limits import admit
+            admit('inference:' + self.tenant_id, 40)
+            start = datetime.now(timezone.utc) - timedelta(days=1)
+            recent = self.db.query(ProviderReceiptModel).filter(ProviderReceiptModel.created_at >= start)
+            if recent.count() >= settings.AI_GLOBAL_DAILY_CALLS or recent.filter(ProviderReceiptModel.tenant_id == self.tenant_id).count() >= settings.AI_TENANT_DAILY_CALLS:
+                raise InferenceUnavailable('daily_call_limit', 429)
+        if not _inference_slots.acquire(blocking=False):
+            raise InferenceUnavailable('inference_busy', 429)
         started=time.monotonic();status='failed';body={};error=None
         fingerprint_input={'payload':payload or data,'files':{name:hashlib.sha256(value[1]).hexdigest() for name,value in (files or {}).items()}}
         fingerprint=hashlib.sha256(json.dumps(fingerprint_input,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
@@ -62,6 +74,7 @@ class GroqProvider:
         except (httpx.HTTPError,ValueError):
             error='connection_or_response_error';raise InferenceUnavailable(error)
         finally:
+            _inference_slots.release()
             receipt=ProviderReceiptModel(tenant_id=self.tenant_id,entity_type=self.entity_type,entity_id=self.entity_id,capability=capability,provider='groq',model=model,status=status,request_fingerprint=fingerprint,provider_request_id=body.get('id') or body.get('x_groq',{}).get('id'),input_tokens=body.get('usage',{}).get('prompt_tokens'),output_tokens=body.get('usage',{}).get('completion_tokens'),latency_ms=int((time.monotonic()-started)*1000),error_code=error)
             if self.db and self.tenant_id:self.db.add(receipt);self.db.flush()
             self.receipts.append(receipt)

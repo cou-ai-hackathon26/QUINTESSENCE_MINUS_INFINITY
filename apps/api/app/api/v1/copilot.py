@@ -38,7 +38,7 @@ class CreateSessionDTO(BaseModel):
 
 
 class SendMessageDTO(BaseModel):
-    query: str = Field(..., min_length=1)
+    query: str = Field(..., min_length=1, max_length=8000)
 
 
 class MessageResponseDTO(BaseModel):

@@ -215,7 +215,7 @@ def correct_claim(
     evidence_id: str,
     claim_id: str,
     req: ClaimCorrectionRequest,
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(require_role(['owner', 'manager', 'accountant'])),
     db: Session = Depends(get_db),
 ):
     """Human review and correction: allows editing amounts or parties."""

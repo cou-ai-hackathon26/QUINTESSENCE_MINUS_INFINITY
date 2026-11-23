@@ -25,6 +25,7 @@ try {
 }
 
 const secretRules = [
+  { name: 'Groq API Key', pattern: /gsk_[A-Za-z0-9]{35,}/ },
   { name: 'Private Key Block', pattern: /-----BEGIN (RSA|EC|PGP|OPENSSH|DSA)? ?PRIVATE KEY-----/ },
   { name: 'Google API Key', pattern: /AIza[0-9A-Za-z\\-_]{35}/ },
   { name: 'GitHub Personal Access Token', pattern: /gh[pousr]_[A-Za-z0-9_]{36,}/ },

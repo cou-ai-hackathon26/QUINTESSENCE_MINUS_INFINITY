@@ -14,7 +14,7 @@ import re
 import time
 from typing import Any, Dict, List, Optional, Tuple
 import httpx
-import pypdf
+import pymupdf
 from pydantic import ValidationError
 
 from app.core.config import settings
@@ -60,13 +60,18 @@ class NativePdfParser:
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"PDF file not found: {file_path}")
         try:
-            reader = pypdf.PdfReader(file_path)
-            extracted = []
-            for page in reader.pages:
-                text = page.extract_text()
-                if text:
+            with pymupdf.open(file_path) as reader:
+                if reader.needs_pass or len(reader) > settings.PDF_MAX_OCR_PAGES:
+                    return ''
+                extracted = []
+                size = 0
+                for page in reader:
+                    text = page.get_text()[:40000 - size]
                     extracted.append(text)
-            return "\n".join(extracted)
+                    size += len(text)
+                    if size >= 40000:
+                        break
+                return '\n'.join(extracted)
         except Exception:
             return ""
 

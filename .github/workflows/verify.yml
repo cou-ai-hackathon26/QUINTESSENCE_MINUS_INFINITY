@@ -1,0 +1,33 @@
+name: Verify application
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      AI_PROVIDER: none
+      GEMINI_API_KEY: ''
+      GROQ_API_KEY: ''
+      SEMANTIC_ENABLED: 'false'
+      ALLOW_LEGACY_TEST_AUTH: 'false'
+      DATABASE_URL: sqlite:///./tmp/ci.db
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm install -g pnpm@12.16.1
+      - run: pnpm install --frozen-lockfile
+      - run: python -m venv apps/api/.venv
+      - run: apps/api/.venv/bin/python -m pip install -r apps/api/requirements.lock
+      - run: apps/api/.venv/bin/python -m pip install --no-deps -e apps/api
+      - run: pnpm db:migrate
+      - run: pnpm test:api
+      - run: pnpm test:web
+      - run: pnpm build
+      - run: node scripts/scan-secrets.js

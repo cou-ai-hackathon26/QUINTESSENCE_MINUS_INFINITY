@@ -14,6 +14,7 @@ import {
   Radio
 } from 'lucide-react';
 import { useResource } from './ui';
+import { workspaceFetch } from './api';
 import { useLanguage } from '../i18n/LanguageContext';
 import './voice-orb.css';
 
@@ -65,6 +66,8 @@ export function VoiceNotificationOrb() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playbackSessionRef = useRef<number>(0);
   const isOpenRef = useRef<boolean>(isOpen);
+  const audioUrlRef = useRef<string | null>(null);
+  const audioRequestRef = useRef<AbortController | null>(null);
 
   // Keep isOpenRef synchronized and immediately silence audio when modal closes
   useEffect(() => {
@@ -171,6 +174,12 @@ export function VoiceNotificationOrb() {
   const stopAudio = () => {
     // Invalidate any ongoing asynchronous audio callbacks
     playbackSessionRef.current += 1;
+    audioRequestRef.current?.abort();
+    audioRequestRef.current = null;
+    if (audioUrlRef.current) {
+      URL.revokeObjectURL(audioUrlRef.current);
+      audioUrlRef.current = null;
+    }
 
     if (audioRef.current) {
       const el = audioRef.current;
@@ -209,7 +218,7 @@ export function VoiceNotificationOrb() {
   }, [isOpen]);
 
   // Play natural neural audio for a specific text with single-instance enforcement
-  const playVoice = (text: string, currentVoice: VoiceKey = voice, currentSpeed: string = speed) => {
+  const playVoice = async (text: string, currentVoice: VoiceKey = voice, currentSpeed: string = speed) => {
     // 1. Force stop and clear ANY prior audio instance immediately!
     stopAudio();
     if (!dataReady) return;
@@ -219,9 +228,25 @@ export function VoiceNotificationOrb() {
     // 2. Capture the fresh session ID after stopAudio incremented it
     const thisSessionId = playbackSessionRef.current;
 
-    const encodedText = encodeURIComponent(text);
-    const url = `/api/v1/voice/speak?text=${encodedText}&voice=${currentVoice}&rate=${currentSpeed}`;
-
+    const controller = new AbortController();
+    audioRequestRef.current = controller;
+    let url: string;
+    try {
+      const response = await workspaceFetch('/api/v1/voice/speak', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({text, voice: currentVoice, rate: currentSpeed}), signal: controller.signal,
+      });
+      if (!response.ok) throw new Error('Speech unavailable');
+      const blob = await response.blob();
+      if (controller.signal.aborted || thisSessionId !== playbackSessionRef.current || !isOpenRef.current) return;
+      url = URL.createObjectURL(blob);
+      audioUrlRef.current = url;
+    } catch {
+      if (controller.signal.aborted || thisSessionId !== playbackSessionRef.current) return;
+      setPlaybackError(isEnglish ? 'Speech is unavailable. You can read the transcript below.' : 'ভয়েস পাওয়া যায়নি। নিচের লেখা পড়তে পারবেন।');
+      setAudioLoading(false);
+      return;
+    }
     const audio = new Audio(url);
     audioRef.current = audio;
 
@@ -310,10 +335,7 @@ export function VoiceNotificationOrb() {
     refreshBrief();
     refreshNotifications();
     setIsOpen(true);
-    // Autoplay the default overview on opening HUD
-    const details = getCategoryDetails(activeCategory, isEnglish);
     // Refresh first; an old financial snapshot must not autoplay as current.
-    void details;
   };
 
   const handleCloseModal = () => {

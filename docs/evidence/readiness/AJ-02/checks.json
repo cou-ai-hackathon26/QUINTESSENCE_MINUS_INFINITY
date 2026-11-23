@@ -1,0 +1,40 @@
+{
+  "baseline": "52de9de",
+  "scope": "Targeted offline boundary checks, not live inference",
+  "checks": [
+    {
+      "command": "node scripts/run-python.js -m pytest apps/api/tests/test_readiness_repairs.py apps/api/tests/test_agents.py apps/api/tests/test_groq_provider.py apps/api/tests/test_workbench_auth.py -q -p no:cacheprovider",
+      "exit_code": 0,
+      "passed": 38
+    },
+    {
+      "command": "node scripts/run-python.js -m pytest apps/api/tests/test_readiness_security.py -q -p no:cacheprovider",
+      "exit_code": 0,
+      "passed": 5
+    },
+    {
+      "command": "pnpm.cmd --filter @shongoti/web test src/tests/VoiceNotificationOrb.test.tsx",
+      "exit_code": 0,
+      "passed": 6
+    },
+    {
+      "command": "pnpm.cmd typecheck",
+      "exit_code": 0
+    },
+    {
+      "command": "uv pip check --python apps/api/.venv/Scripts/python.exe",
+      "exit_code": 0,
+      "result": "72 compatible packages"
+    },
+    {
+      "command": "pnpm.cmd audit --json",
+      "exit_code": 0
+    },
+    {
+      "command": "pip-audit -r apps/api/requirements.lock --no-deps --disable-pip",
+      "exit_code": 0,
+      "result": "No known vulnerabilities found"
+    }
+  ],
+  "final_regression": "AJ-03 will execute after the final changes to grounding and config."
+}

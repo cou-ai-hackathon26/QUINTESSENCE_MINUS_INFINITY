@@ -8,6 +8,7 @@ from app.retrieval.engine import HybridRetriever
 from app.groq_provider import GroqProvider,InferenceUnavailable,configured,receipt_dict
 from app.agents.contracts import SpecialistFinding,AgentConclusion
 from app.domain.money import Money
+from app.domain.grounding import validate_money_mentions
 from app.domain.reconciliation import ReconciliationEngine,DemandFact,PaymentFact,ReturnFact
 
 DEFAULT_BUDGET_MAX=4
@@ -46,19 +47,21 @@ class AgentOrchestrator:
         if run.budget_calls_used>=run.budget_calls_max:raise InferenceUnavailable('budget_exhausted')
         run.budget_calls_used+=1
         self._event(task.role,'model_requested',{'call_number':run.budget_calls_used},task);self.db.commit()
+        instruction += '\nFor every finding, copy an exact non-empty quote from sources[].text or structured_source_texts[source_id]. Never paraphrase inside a quote.'
         provider=GroqProvider(self.db,self.tenant_id,'agent_run',self.run_id)
         try:result=provider.generate(SYSTEM+'\n'+instruction,json.dumps(context,ensure_ascii=False),output,capability='agent_'+task.role)
         finally:self.db.commit()
         self._check();self._event(task.role,'provider_receipt',{'receipts':[receipt_dict(r) for r in provider.receipts]},task)
         return result
 
-    def _validate_facts(self,result,inputs,sources):
+    def _validate_facts(self,result,inputs,sources,structured_sources=None):
         if inputs:
             expected={key:inputs.get(key) for key in ('payment_applicable','return_accepted','payment_included','return_included')}
             if result.case_facts is None or result.case_facts.model_dump()!=expected:raise InferenceUnavailable('agent_case_fact_mismatch')
         text_by_id={s['source_id']:s['text'] for s in sources}
+        text_by_id.update(structured_sources or {})
         for finding in getattr(result,'findings',[]):
-            if finding.source_id in text_by_id and ' '.join(finding.quote.split()) not in ' '.join(text_by_id[finding.source_id].split()):raise InferenceUnavailable('agent_quote_not_in_source')
+            if finding.source_id not in text_by_id or not finding.quote.strip() or ' '.join(finding.quote.split()) not in ' '.join(text_by_id[finding.source_id].split()):raise InferenceUnavailable('agent_quote_not_in_source')
 
     def execute(self):
         task=None
@@ -78,6 +81,8 @@ class AgentOrchestrator:
             stock=self.db.query(ProductItemModel).filter_by(tenant_id=self.tenant_id).limit(100).all()
             context={'question':query,'case':{'source_id':source_id,'version':version,'inputs':inputs} if case else None,'sources':sources,'ledger':{'source_id':'ledger/current','as_of':now_utc().isoformat(),'accounts':[{'code':a.code,'balance_paisa':a.current_balance_paisa} for a in accounts],'liquid_cash_paisa':sum(a.current_balance_paisa for a in accounts if a.code=='asset:cash' or a.code.startswith('asset:wallet:'))},'stock':{'source_id':'stock/current','items':[{'name':p.name,'quantity':p.quantity_on_hand,'unit':p.unit} for p in stock]},'allocation_audit':'A complete cross-invoice allocation audit was not performed. Do not claim no duplicate credits.'}
             if inputs:context['confirmed_case_fact_states']={key:('unknown' if inputs.get(key) is None else 'confirmed_true' if inputs[key] else 'confirmed_false') for key in ('payment_applicable','return_accepted','payment_included','return_included')}
+            structured_sources={value['source_id']:json.dumps(value,ensure_ascii=False,sort_keys=True) for key,value in context.items() if key in ('case','ledger','stock') and value}
+            context['structured_source_texts']=structured_sources
             allowed={s['source_id'] for s in sources}|{'ledger/current','stock/current'}
             if source_id:allowed.add(source_id)
             outputs={};missing=[]
@@ -101,7 +106,8 @@ class AgentOrchestrator:
                     if task.role=='report':
                         answer=self._model(task,{**context,'specialist_outputs':outputs},AgentConclusion,'Synthesize independent findings. Include ALL exact payable alternatives from reconciliation.expected_payables in payable_options_paisa and explain them in the answer. Copy confirmed flags accurately. Ask only unresolved critical facts. Never select one amount from unresolved alternatives. Operations are proposals.')
                         if set(answer.cited_source_ids)-allowed:raise InferenceUnavailable('unrecognized_agent_citation')
-                        self._validate_facts(answer,inputs,sources)
+                        self._validate_facts(answer,inputs,sources,structured_sources)
+                        validate_money_mentions(answer.answer, {**context, 'exact_tool_result': outputs.get('reconciliation', {})})
                         if sorted(answer.payable_options_paisa)!=sorted(outputs.get('reconciliation',{}).get('expected_payables',[])):raise InferenceUnavailable('agent_payable_mismatch')
                         result=answer.model_dump();missing.extend(answer.missing_facts);summary=answer.answer
                     else:
@@ -109,7 +115,7 @@ class AgentOrchestrator:
                         model_context={**context,'deterministic_result':outputs.get('reconciliation')} if task.role=='skeptic' else context
                         finding=self._model(task,model_context,SpecialistFinding,'Independently audit originals for unsupported inclusion, acceptance, uncertainty and conflicts.' if task.role=='skeptic' else 'Read originals. Identify supported statements and missing facts. Receipt presence alone cannot establish prior deduction.')
                         if {f.source_id for f in finding.findings}-allowed:raise InferenceUnavailable('unrecognized_agent_citation')
-                        self._validate_facts(finding,inputs,sources)
+                        self._validate_facts(finding,inputs,sources,structured_sources)
                         result=finding.model_dump();missing.extend(finding.missing_facts);summary=finding.summary
                     outputs[task.role]=result
                     self._event(task.role,'skeptic_critique' if task.role=='skeptic' else 'finding_recorded',result,task)
