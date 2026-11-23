@@ -15,6 +15,7 @@ from app.api.v1.actions_and_portal import actions_router
 from app.api.v1.stock_and_reports import stock_reports_router
 from app.api.v1.reconciliation import reconciliation_router
 from app.api.v1.cases import cases_router
+from app.api.v1.search import search_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -39,6 +40,7 @@ app.include_router(actions_router)
 app.include_router(stock_reports_router)
 app.include_router(reconciliation_router)
 app.include_router(cases_router)
+app.include_router(search_router)
 
 
 @app.get("/health", status_code=status.HTTP_200_OK, tags=["System"])

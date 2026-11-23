@@ -424,3 +424,21 @@ class ConfidenceAssessmentModel(Base):
     assessment_details_json = Column(Text, nullable=True)
 
 
+class DocumentChunkModel(Base):
+    __tablename__ = "document_chunks"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    document_id = Column(String(36), nullable=True, index=True)
+    chunk_index = Column(Integer, nullable=False, default=0)
+    source_type = Column(String(32), nullable=False)  # invoice, bill, offer, note, audio_transcript, return_terms
+    content = Column(Text, nullable=False)
+    normalized_content = Column(Text, nullable=False)
+    metadata_json = Column(Text, nullable=True)
+    embedding_json = Column(Text, nullable=True)
+    model_version = Column(String(64), nullable=False, default="text-embedding-004")
+    is_revoked = Column(Boolean, nullable=False, default=False)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
+

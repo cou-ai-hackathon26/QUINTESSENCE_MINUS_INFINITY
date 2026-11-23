@@ -2,8 +2,8 @@
   "schema_version": 3,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "15",
-  "next_task": "P16-T01",
+  "current_phase": "16",
+  "next_task": "P17-T01",
   "application_started": true,
   "phases": [
     {
@@ -833,7 +833,7 @@
     {
       "id": "16",
       "name": "hybrid merchant memory",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "14",
         "15"
@@ -841,32 +841,45 @@
       "tasks": [
         {
           "id": "P16-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "apps/api/alembic/versions/008_hybrid_memory.py",
+            "apps/api/app/persistence/models.py",
+            "docs/evidence/phase-16/hybrid-retrieval-report.md"
+          ],
+          "notes": "Added migration 008_hybrid_memory and DocumentChunkModel for source-preserving chunks across all commercial types."
         },
         {
           "id": "P16-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "apps/api/app/retrieval/engine.py",
+            "docs/evidence/phase-16/hybrid-retrieval-report.md"
+          ],
+          "notes": "Implemented HybridRetriever combining exact entity filters, lexical tokens, dense vector similarity, and RRF (k=60)."
         },
         {
           "id": "P16-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "apps/api/app/retrieval/engine.py",
+            "apps/api/app/api/v1/search.py"
+          ],
+          "notes": "Implemented EvidencePack with citations, locators, sufficiency detection, and conflict detection."
         },
         {
           "id": "P16-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "apps/api/tests/test_retrieval.py",
+            "docs/evidence/phase-16/hybrid-retrieval-report.md"
+          ],
+          "notes": "Tested exact-ID priority (Invoice 41 vs 38), Bengali numerals, reviewed Banglish aliases, cross-tenant isolation, and revocation."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending_receipt",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
