@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-23",
+  "build": "passed",
+  "browser": "evidence/browser-report.json",
+  "api": "test_inbox_and_reservation_actions_do_not_post_money: passed",
+  "scope": [
+    "Inbox source deep-links/read/snooze/resolve",
+    "User-triggered browser speech and always-visible briefing transcript",
+    "Reservation/pick, returnable container/deposit reference, handover and scoped supplier change forms"
+  ],
+  "limits": [
+    "Browser speech needs an installed matching BN/EN voice; unavailable falls back to transcript",
+    "No background push or automatic audio is claimed",
+    "Reservation/pick is an operational note, not atomic stock allocation or a sale",
+    "Deposit references do not automatically post cash",
+    "Handover variance suggestions are hypotheses, never misconduct conclusions"
+  ]
+}

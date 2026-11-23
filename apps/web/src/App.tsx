@@ -16,6 +16,7 @@ import Actions from './workbench/Actions';
 import {Sales,People,Money,Setup} from './workbench/Commerce';
 import {Buying,Receiving,Stock,Demand} from './workbench/Inventory';
 import {Planner,Reports} from './workbench/Planning';
+import {Inbox,Operations} from './workbench/Operations';
 
 export default function App() {
   return (
@@ -34,7 +35,7 @@ export default function App() {
         <Route path="/app/copilot" element={<VoiceCopilot/>}/>
         <Route path="/app/evidence" element={<Evidence/>}/>
         <Route path="/app/evidence/:evidenceId" element={<Evidence/>}/>
-        <Route path="/app/actions" element={<Actions/>}/>
+        <Route path="/app/inbox" element={<Inbox/>}/><Route path="/app/operations" element={<Operations/>}/><Route path="/app/actions" element={<Actions/>}/>
         <Route path="/app/buying" element={<Buying/>}/><Route path="/app/receiving" element={<Receiving/>}/><Route path="/app/demand" element={<Demand/>}/><Route path="/app/stock" element={<Stock/>} />
         <Route path="/app/reports" element={<Reports/>} />
         <Route path="/app/money" element={<Money/>} />

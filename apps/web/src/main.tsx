@@ -18,3 +18,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 import './workbench/business.css';
 import './workbench/inventory.css';
 import './workbench/planning.css';
+
+import './workbench/operations.css';

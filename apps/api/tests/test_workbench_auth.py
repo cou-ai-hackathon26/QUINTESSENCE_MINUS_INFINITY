@@ -176,3 +176,18 @@ def test_planner_has_no_fabricated_baseline_and_report_uses_real_accounts(client
     assert c.get('/api/v1/merchant/today').json() == before
     report = c.get('/api/v1/reports/operating-summary').json()
     assert report['cash_statement']['total_liquid_cash_paisa'] == 1200000
+
+
+def test_inbox_and_reservation_actions_do_not_post_money(client):
+    c, _ = client
+    c.post('/api/v1/auth/judge-session',json={})
+    c.headers['Origin'] = 'http://testserver'
+    before = c.get('/api/v1/merchant/today').json()
+    notification = c.post('/api/v1/notifications/emit',json={'title':'Synthetic alert','message':'Review receipt','category':'unresolved_receipt'}).json()
+    assert c.post('/api/v1/notifications/'+notification['id']+'/snooze',json={'hours':4}).status_code == 200
+    assert c.post('/api/v1/notifications/'+notification['id']+'/resolve').status_code == 200
+    reservation = c.post('/api/v1/operations/reservations',json={'customer_name':'Synthetic customer','items':[{'sku':'RICE-025','quantity':1,'unit_price_paisa':10000}]}).json()
+    assert reservation['status'] == 'reserved'
+    assert c.post('/api/v1/operations/reservations/'+reservation['id']+'/pick').json()['status'] == 'picked'
+    assert c.get('/api/v1/merchant/today').json() == before
+    assert c.get('/api/v1/notifications/brief').json()['liquid_cash_bdt'] == 12000

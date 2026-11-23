@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-23T14:38:40.630Z",
+  "mode": "main_react_foundation_judge",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Inbox read state changes after an explicit API operation",
+    "Reservation review creates a note without claiming a sale or payment"
+  ],
+  "screenshots": [
+    "inbox-1440.png",
+    "inbox-360.png",
+    "operations-360.png"
+  ],
+  "errors": [],
+  "passed": true
+}

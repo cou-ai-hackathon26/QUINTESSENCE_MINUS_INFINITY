@@ -162,18 +162,11 @@ class NotificationEngine:
             )
             .first()
         )
-        wallet_acc = (
-            self.db.query(AccountModel)
-            .filter(
-                AccountModel.tenant_id == self.tenant_id,
-                AccountModel.code.in_([StandardAccount.MOBILE_BKASH.value, StandardAccount.MOBILE_NAGAD.value]),
-            )
-            .first()
-        )
-        cash_bdt = ((cash_acc.current_balance_paisa if cash_acc else 0) + (wallet_acc.current_balance_paisa if wallet_acc else 0)) / 100.0
+        wallet_accounts = self.db.query(AccountModel).filter(AccountModel.tenant_id == self.tenant_id, AccountModel.code.like('asset:wallet:%')).all()
+        cash_bdt = ((cash_acc.current_balance_paisa if cash_acc else 0) + sum(a.current_balance_paisa for a in wallet_accounts)) / 100.0
 
         open_notifs = self.list_notifications()
-        high_priority = [n for n in open_notifs if n.priority == "high"]
+        high_priority = [n for n in open_notifs if n.priority == "high" and n.status not in ("resolved", "snoozed")]
 
         unapplied_credits = (
             self.db.query(CreditNoteModel)
