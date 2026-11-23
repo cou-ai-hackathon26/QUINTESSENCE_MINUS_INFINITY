@@ -54,8 +54,9 @@ def test_evidence_upload_and_sha256(client, auth_headers):
     assert "evidence_id" in data
     assert len(data["content_sha256"]) == 64
     assert data["source_type"] == "text"
-    assert data["proposed_party"] == "মেসার্স হক ট্রেডার্স"
-    assert data["proposed_amount_paisa"] == 2500000
+    assert data["proposed_party"] is None
+    assert data["proposed_amount_paisa"] is None
+    assert data["status"] == "needs_review"
 
 
 def test_evidence_file_size_limit():

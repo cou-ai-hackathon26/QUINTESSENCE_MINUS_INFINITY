@@ -220,8 +220,7 @@ def test_voice_compound_transaction_parsing(client, tenant_a):
         headers={"Authorization": tenant_a["Authorization"]},
         files={"file": ("rahim_note.mp3", fake_audio_file, "audio/mp3")},
     )
-    assert voice_res.status_code == 200
-    vdata = voice_res.json()
-    assert "transcription" in vdata
-    assert len(vdata["compound_operations"]) >= 1
-    assert vdata["confidence_score"] >= 80
+    assert voice_res.status_code == 503
+    assert "not configured" in voice_res.json()["detail"]
+    messages=client.get(f"/api/v1/copilot/sessions/{session_id}",headers={"Authorization":tenant_a["Authorization"]}).json()["messages"]
+    assert messages == []  # Arbitrary synthetic bytes must not become a claimed real transcript.

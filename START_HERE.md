@@ -1,5 +1,7 @@
 # Start or resume Shongoti
 
+**Current UI work:** Read [docs/UI_REDESIGN_HANDOFF.md](docs/UI_REDESIGN_HANDOFF.md) and [docs/ui-redesign-progress.json](docs/ui-redesign-progress.json) before choosing a task. UIR checkpoints are separate from historical Phase 00–26 claims. The approved landing and main workbench are implemented; verify the current source and evidence before resuming. No new project or second ledger is needed.
+
 Open this `Shongoti` folder itself. The application already contains work: do not create a new project or restart completed features.
 
 Use the current **[Antigravity starting/resume prompt in START_EXTENSION.md](START_EXTENSION.md)**. The same prompt detects actual progress and resumes the next unblocked task.

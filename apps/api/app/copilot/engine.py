@@ -333,14 +333,17 @@ class CopilotEngine:
         has_collection = any(k in norm_text for k in ["বাকি", "পাওনা", "টাকা দিছে", "কালেকশন", "পরিশোধ"])
         has_new_sale = any(k in norm_text for k in ["মাল নিছে", "নতুন বিক্রি", "মাল নিল", "নতুন পণ্য"])
 
-        if has_collection and has_new_sale:
+        if not claim_result.party_name or not claim_result.amount_paisa:
+            is_ambiguous = True
+            clarification_prompt = "প্রাপক বা টাকার পরিমাণ স্পষ্ট নয়। আলাদা করে সঠিক প্রাপক ও টাকা জানান। কোনো খসড়া তৈরি হয়নি।"
+        elif has_collection and has_new_sale:
             # Compound transaction detected
             # Extract amounts
-            amounts = [int(s) for s in re.findall(r"\b\d+\b", norm_text)]
-            if len(amounts) >= 2:
-                col_amt = amounts[0] * 100
-                sale_amt = amounts[1] * 100
-                party = claim_result.party_name or "রহিম ট্রেডার্স"
+            amounts = [parse_paisa_amount(s) for s in re.findall(r"(\d[\d,]*(?:\.\d{1,2})?)\s*(?:টাকা|taka|tk)", norm_text)]
+            if len(amounts) == 2 and all(amounts):
+                col_amt = amounts[0]
+                sale_amt = amounts[1]
+                party = claim_result.party_name
 
                 # Operation 1: Debt Collection draft
                 draft_col = ActionModel(
@@ -375,8 +378,8 @@ class CopilotEngine:
                 clarification_prompt = "ভয়েস নোটে বাকি পরিশোধ এবং নতুন বিক্রির উল্লেখ রয়েছে, কিন্তু টাকার সঠিক বিভাজন স্পষ্ট নয়। অনুগ্রহ করে উভয়ের টাকার পরিমাণ আলাদা করে জানান।"
         else:
             # Single event
-            party = claim_result.party_name or "গ্রাহক"
-            amt = claim_result.amount_paisa or 100000
+            party = claim_result.party_name
+            amt = claim_result.amount_paisa
             draft_single = ActionModel(
                 tenant_id=self.tenant_id,
                 action_type="customer_reminder",

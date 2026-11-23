@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-23T15:06:25.246Z",
+  "mode": "main_react_foundation_judge",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Self-contained actual-frame recording opens, decodes and plays at captured intervals"
+  ],
+  "screenshots": [
+    "recording-player-1440.png"
+  ],
+  "errors": [],
+  "passed": true
+}

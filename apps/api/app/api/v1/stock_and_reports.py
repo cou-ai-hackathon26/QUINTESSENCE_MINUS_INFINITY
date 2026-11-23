@@ -576,21 +576,21 @@ def get_operating_summary(
     bkash_balance = 0
     bank_balance = 0
     for acc in accounts:
-        if acc.code == StandardAccount.CASH.value:
+        if acc.code in (StandardAccount.CASH.value, "1001"):
             cash_in_hand = acc.current_balance_paisa
-        elif acc.code.startswith("asset:wallet:"):
+        elif (acc.code.startswith("asset:wallet:") or acc.code == "1002"):
             bkash_balance += acc.current_balance_paisa
-        elif acc.code.startswith("asset:bank:"):
+        elif (acc.code.startswith("asset:bank:") or acc.code == "1003"):
             bank_balance += acc.current_balance_paisa
     total_liquid_cash = cash_in_hand + bkash_balance + bank_balance
 
     # 2. Accrual Profit & Loss
     # Revenue: Account 4001 Sales Revenue credit balance
-    rev_acc = next((a for a in accounts if a.code == StandardAccount.SALES_REVENUE.value), None)
+    rev_acc = next((a for a in accounts if a.code in (StandardAccount.SALES_REVENUE.value, "4001")), None)
     total_revenue_paisa = rev_acc.current_balance_paisa if rev_acc else 0
 
     # Operating Expenses: Account 5001 Expenses debit balance
-    exp_acc = next((a for a in accounts if a.code == StandardAccount.OPERATING_EXPENSE.value), None)
+    exp_acc = next((a for a in accounts if a.code in (StandardAccount.OPERATING_EXPENSE.value, "5001")), None)
     total_expenses_paisa = exp_acc.current_balance_paisa if exp_acc else 0
 
     # Calculate COGS from stock movements

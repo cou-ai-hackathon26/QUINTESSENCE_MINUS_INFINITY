@@ -80,8 +80,8 @@ def test_action_draft_approval_and_execution_workflow(client, auth_headers, cash
 
     # 4. Execute action
     exec_res = client.post(f"/api/v1/actions/{action_id}/execute", headers=headers)
-    assert exec_res.status_code == 200
-    assert exec_res.json()["status"] == "completed"
+    assert exec_res.status_code == 503
+    assert "not connected" in exec_res.json()["detail"].lower()
 
 
 def test_action_cancellation_and_idempotency(client, auth_headers):
@@ -165,107 +165,20 @@ def test_scoped_customer_portal_and_dispute(client, auth_headers):
 
 
 def test_sslcommerz_initiate_and_tampered_amount_rejection(client, auth_headers):
-    # Create customer and portal link for 40,000 paisa (BDT 400)
-    party = client.post(
-        "/api/v1/merchant/parties",
-        headers=auth_headers,
-        json={"name": "সজিব রায়", "initial_due_paisa": 40000},
-    ).json()
-
-    portal = client.post(
-        "/api/v1/portal/generate-link",
-        headers=auth_headers,
-        json={"party_id": party["id"], "invoice_number": "INV-TAMPER-01", "amount_paisa": 40000},
-    ).json()
-    token = portal["token"]
-
-    # Initiate payment session
-    init_res = client.post(f"/api/v1/portal/{token}/pay")
-    assert init_res.status_code == 200
-    tran_id = init_res.json()["tran_id"]
-
-    # Attack attempt: Tampered amount callback (trying to pay BDT 10 instead of BDT 400)
-    bad_cb = client.post(
-        "/api/v1/payments/sslcommerz/ipn",
-        json={
-            "token": token,
-            "tran_id": tran_id,
-            "status": "VALID",
-            "amount": "10.00",
-            "currency": "BDT",
-        },
-    )
-    assert bad_cb.status_code == 400
-    assert "Tampered amount detected" in bad_cb.json()["detail"]
-
-    # Attack attempt: Tampered currency callback (USD instead of BDT)
-    bad_curr = client.post(
-        "/api/v1/payments/sslcommerz/ipn",
-        json={
-            "token": token,
-            "tran_id": tran_id,
-            "status": "VALID",
-            "amount": "400.00",
-            "currency": "USD",
-        },
-    )
-    assert bad_curr.status_code == 400
-    assert "Currency mismatch" in bad_curr.json()["detail"]
+    party=client.post('/api/v1/merchant/parties',headers=auth_headers,json={'name':'Synthetic customer','party_type':'customer','initial_due_paisa':100000}).json()
+    portal=client.post('/api/v1/portal/generate-link',headers=auth_headers,json={'party_id':party['id'],'invoice_number':'TEST-BLOCKED','amount_paisa':100000}).json()
+    assert client.post('/api/v1/portal/'+portal['token']+'/pay').status_code == 503
+    for amount in ['10.00','1000.00']:
+        assert client.post('/api/v1/payments/sslcommerz/ipn',json={'token':portal['token'],'tran_id':'UNVERIFIED','amount':amount,'currency':'BDT','status':'VALID'}).status_code == 503
+    assert client.get('/api/v1/portal/'+portal['token']).json()['is_paid'] is False
 
 
-def test_sslcommerz_valid_payment_posts_to_ledger_and_reduces_due(client, auth_headers):
-    # Customer owing 75,000 paisa (BDT 750)
-    party = client.post(
-        "/api/v1/merchant/parties",
-        headers=auth_headers,
-        json={"name": "হাবিবুর রহমান", "initial_due_paisa": 75000},
-    ).json()
-
-    portal = client.post(
-        "/api/v1/portal/generate-link",
-        headers=auth_headers,
-        json={"party_id": party["id"], "invoice_number": "INV-SETTLE-01", "amount_paisa": 75000},
-    ).json()
-    token = portal["token"]
-
-    init_res = client.post(f"/api/v1/portal/{token}/pay")
-    tran_id = init_res.json()["tran_id"]
-
-    # 1. Valid callback
-    valid_res = client.post(
-        "/api/v1/payments/sslcommerz/ipn",
-        json={
-            "token": token,
-            "tran_id": tran_id,
-            "val_id": f"VAL-{tran_id}",
-            "status": "VALID",
-            "amount": "750.00",
-            "currency": "BDT",
-            "card_type": "BKASH-BKash",
-        },
-    )
-    assert valid_res.status_code == 200
-    assert valid_res.json()["status"] == "verified_and_posted"
-
-    # 2. Portal is now marked paid
-    portal_data = client.get(f"/api/v1/portal/{token}").json()
-    assert portal_data["is_paid"] is True
-
-    # 3. Customer party due balance is decreased to 0
-    parties = client.get("/api/v1/merchant/parties", headers=auth_headers).json()
-    updated_party = next(p for p in parties if p["id"] == party["id"])
-    assert updated_party["current_due_paisa"] == 0
-
-    # 4. Duplicate callback does not double post
-    dup_cb = client.post(
-        "/api/v1/payments/sslcommerz/ipn",
-        json={
-            "token": token,
-            "tran_id": tran_id,
-            "status": "VALID",
-            "amount": "750.00",
-            "currency": "BDT",
-        },
-    )
-    assert dup_cb.status_code == 200
-    assert dup_cb.json()["status"] in ["duplicate", "already_processed"]
+def test_unverified_payment_callback_cannot_reduce_due(client, auth_headers):
+    party=client.post('/api/v1/merchant/parties',headers=auth_headers,json={'name':'Synthetic unsettled customer','party_type':'customer','initial_due_paisa':75000}).json()
+    portal=client.post('/api/v1/portal/generate-link',headers=auth_headers,json={'party_id':party['id'],'invoice_number':'TEST-UNVERIFIED','amount_paisa':75000}).json()
+    callback={'token':portal['token'],'tran_id':'TEST-REPLAY','status':'VALID','amount':'750.00','currency':'BDT'}
+    for _ in range(2):
+        assert client.post('/api/v1/payments/sslcommerz/ipn',json=callback).status_code == 503
+    assert client.get('/api/v1/portal/'+portal['token']).json()['is_paid'] is False
+    updated=next(p for p in client.get('/api/v1/merchant/parties',headers=auth_headers).json() if p['id']==party['id'])
+    assert updated['current_due_paisa'] == 75000

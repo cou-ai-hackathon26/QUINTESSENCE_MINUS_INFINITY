@@ -3,6 +3,8 @@ Evidence and Claim Ingestion Router.
 Handles file upload, claim extraction, human review, and corrections.
 """
 from typing import List, Optional
+from pathlib import Path
+from fastapi.responses import FileResponse
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
@@ -16,6 +18,18 @@ from app.ingestion.schemas import StructuredClaimExtraction
 from app.persistence.models import EvidenceModel, ExtractedClaimModel, UserModel
 
 evidence_router = APIRouter(prefix="/api/v1/evidence", tags=["Evidence"])
+
+
+@evidence_router.get("/{evidence_id}/content")
+def download_evidence(evidence_id: str, current_user: UserModel = Depends(get_current_user), db: Session = Depends(get_db)):
+    evidence=db.query(EvidenceModel).filter(EvidenceModel.id==evidence_id,EvidenceModel.tenant_id==current_user.tenant_id).first()
+    if not evidence:
+        raise HTTPException(404,"Evidence not found.")
+    path=Path(evidence.storage_path).resolve()
+    root=(Path(storage.base_dir)/current_user.tenant_id).resolve()
+    if not path.is_relative_to(root) or not path.is_file():
+        raise HTTPException(404,"Evidence content is unavailable.")
+    return FileResponse(path,media_type='application/octet-stream',filename=evidence.filename,headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Content-Security-Policy':"default-src 'none'; sandbox"})
 
 
 class ClaimCorrectionRequest(BaseModel):
@@ -86,7 +100,7 @@ async def upload_evidence(
             claim_date=None,
             payment_method=None,
             confidence=0.0,
-            raw_snippet=f"Extraction failure: {exc}",
+            raw_snippet="Extraction unavailable. Original source remains stored for human review.",
         )
 
     claim = ExtractedClaimModel(

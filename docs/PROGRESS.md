@@ -1,3 +1,5 @@
+**Current UI handoff (23 November 2026):** [UI_REDESIGN_HANDOFF.md](UI_REDESIGN_HANDOFF.md), [UI progress](UI_REDESIGN_PROGRESS.md), and [UI tracker](ui-redesign-progress.json) cover the integrated main-branch redesign. The original phase history below is preserved and does not certify live integrations.
+
 **Shongoti progress — evidence controls completion**
 
 **Current build entry:** [EXTENSION_PLAN.md](../EXTENSION_PLAN.md) adds approved Phase 13–26 on the existing application. Start/resume with [START_EXTENSION.md](../START_EXTENSION.md) and [EXTENSION_PROGRESS.md](EXTENSION_PROGRESS.md). All 14 new phases / 59 tasks are initially not_started; this handoff implements no application feature.

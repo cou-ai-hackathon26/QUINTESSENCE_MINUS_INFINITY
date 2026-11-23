@@ -1,5 +1,7 @@
 **Known gaps and blockers**
 
+**UI redesign review, 23 November 2026:** See [UI_REDESIGN_HANDOFF.md](UI_REDESIGN_HANDOFF.md) and [the final UI review](evidence/ui-redesign/UIR-09/REVIEW.md). These current boundaries supersede optimistic historical integration descriptions below: real provider inference is not verified; generic action execution and gateway session/callback posting fail closed; live concurrent agent transport and learned dense retrieval are not established. UI/browser completion does not resolve merchant adoption, universal transaction idempotency, sale-time cost completeness, legal applicability or deployment. Phone verification/recovery and background push are unavailable. The legacy stock test now uses per-test in-memory storage; its six task-created default-development-database fixtures were restored without changing other records.
+
 | ID | State | Gap | Required resolution |
 |---|---|---|---|
 | K001 | resolved | No application source/runtime yet | Resolved in Phases 01-10; complete FastAPI backend, PostgreSQL/SQLite schemas, and React/Vite frontend implemented and tested |

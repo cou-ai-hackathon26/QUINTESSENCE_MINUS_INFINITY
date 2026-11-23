@@ -218,3 +218,26 @@ def test_public_invoice_is_scoped_and_unverified_payments_cannot_post(client):
         db.commit()
     assert c.get('/api/v1/portal/'+token).status_code == 410
     assert c.post('/api/v1/portal/'+token+'/dispute',json={'dispute_note':'Expired note'}).status_code == 410
+
+
+def test_original_evidence_download_is_private_and_unknown_voice_creates_no_draft(client,monkeypatch):
+    from app.copilot.engine import CopilotEngine
+    from app.ingestion.adapters import AIModelAdapter
+    from app.ingestion.schemas import StructuredClaimExtraction
+    from app.persistence.models import ActionModel
+    c,factory=client
+    identity=c.post('/api/v1/auth/register',json=payload()).json()
+    c.headers['Origin']='http://testserver'
+    evidence=c.post('/api/v1/evidence/upload',files={'file':('synthetic-source.txt',b'Synthetic source with unknown amount','text/plain')}).json()
+    original=c.get('/api/v1/evidence/'+evidence['evidence_id']+'/content')
+    assert original.status_code==200 and original.content==b'Synthetic source with unknown amount'
+    assert original.headers['cache-control']=='no-store'
+    monkeypatch.setattr(AIModelAdapter,'parse_bangla_document',lambda *args,**kwargs:StructuredClaimExtraction(raw_snippet='Unclear synthetic audio'))
+    with factory() as db:
+        engine=CopilotEngine(db,identity['tenant_id'])
+        session=engine.create_session('Explicit mocked provider boundary')
+        result=engine.process_voice_input(session.id,b'explicit test double',user_id=identity['user_id'])
+        assert result['is_ambiguous'] is True and result['compound_operations']==[]
+        assert db.query(ActionModel).filter_by(tenant_id=identity['tenant_id']).count()==0
+    c.post('/api/v1/auth/judge-session',json={})
+    assert c.get('/api/v1/evidence/'+evidence['evidence_id']+'/content').status_code==404

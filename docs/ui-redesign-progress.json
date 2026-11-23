@@ -4,7 +4,7 @@
   "branch": "main",
   "owner_authorized_execution": true,
   "preview_merge_sha": "436f4490fe523a060515c6db8d6a515d7bf8c705",
-  "current_phase": "UIR-08",
+  "current_phase": "UIR-09",
   "phases": [
     {
       "id": "UIR-00",
@@ -99,14 +99,14 @@
     {
       "id": "UIR-09",
       "name": "Browser, accessibility, regression and handoff",
-      "status": "not_started"
+      "status": "verified_pending_publication"
     }
   ],
   "capabilities": {
-    "provider_inference": "not_reverified",
+    "provider_inference": "configured_path_exists; no_live_receipt_verified",
     "agent_transport": "synchronous_recorded_history",
-    "voice_capture": "to_implement",
+    "voice_capture": "implemented_browser_capture; provider_inference_not_verified",
     "judge_mode": "explicit_synthetic_only"
   },
-  "next_task": "Build shared React workbench, authentication and scoped data adapters."
+  "next_task": "Owner review of the integrated UI; then separately scoped real provider, retrieval, transport, payment and financial-concurrency prerequisites under the handoff."
 }

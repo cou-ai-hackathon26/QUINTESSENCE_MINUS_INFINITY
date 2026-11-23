@@ -1,0 +1,625 @@
+{
+  "date": "2026-11-23T14:56:38.985Z",
+  "mode": "main_react_foundation_judge",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Twenty routed workspaces checked at 360/390/768/1024/1440 with no document overflow or unnamed visible main buttons",
+    "Agent replay has an explicit active step, can be paused and remains labeled recorded history",
+    "Actual registration opens isolated authenticated setup rather than synthetic judge balances",
+    "Real missing-amount API failure preserves the unsent question and does not fabricate a payment draft"
+  ],
+  "screenshots": [
+    "app-1440.png",
+    "app-cases-1440.png",
+    "app-copilot-1440.png",
+    "app-sales-1440.png",
+    "app-people-1440.png",
+    "app-buying-1440.png",
+    "app-receiving-1440.png",
+    "app-stock-1440.png",
+    "app-demand-1440.png",
+    "app-money-1440.png",
+    "app-planner-1440.png",
+    "app-inbox-1440.png",
+    "app-actions-1440.png",
+    "app-reports-1440.png",
+    "app-operations-1440.png",
+    "app-help-1440.png",
+    "app-connections-1440.png",
+    "app-settings-1440.png",
+    "app-evidence-1440.png",
+    "app-scenarios-1440.png",
+    "settings-360.png",
+    "voice-360.png",
+    "agent-review-360.png",
+    "real-account-missing-amount-360.png",
+    "invoice-invalid-360.png"
+  ],
+  "errors": [],
+  "passed": true,
+  "routeChecks": [
+    {
+      "route": "/app",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/cases",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/cases",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/cases",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/cases",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/cases",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/copilot",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/copilot",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/copilot",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/copilot",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/copilot",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/sales",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/sales",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/sales",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/sales",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/sales",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/people",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/people",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/people",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/people",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/people",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/buying",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/buying",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/buying",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/buying",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/buying",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/receiving",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/receiving",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/receiving",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/receiving",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/receiving",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/stock",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/stock",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/stock",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/stock",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/stock",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/demand",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/demand",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/demand",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/demand",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/demand",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/money",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/money",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/money",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/money",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/money",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/planner",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/planner",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/planner",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/planner",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/planner",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/inbox",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/inbox",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/inbox",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/inbox",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/inbox",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/actions",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/actions",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/actions",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/actions",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/actions",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/reports",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/reports",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/reports",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/reports",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/reports",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/operations",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/operations",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/operations",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/operations",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/operations",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/help",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/help",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/help",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/help",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/help",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/connections",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/connections",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/connections",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/connections",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/connections",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/settings",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/settings",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/settings",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/settings",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/settings",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/evidence",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/evidence",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/evidence",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/evidence",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/evidence",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/app/scenarios",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/app/scenarios",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/app/scenarios",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/app/scenarios",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/app/scenarios",
+      "width": 1440,
+      "overflow": false
+    }
+  ],
+  "controlChecks": [
+    {
+      "route": "/app",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/cases",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/copilot",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/sales",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/people",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/buying",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/receiving",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/stock",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/demand",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/money",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/planner",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/inbox",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/actions",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/reports",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/operations",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/help",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/connections",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/settings",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/evidence",
+      "unnamedButtons": []
+    },
+    {
+      "route": "/app/scenarios",
+      "unnamedButtons": []
+    }
+  ],
+  "recording": "evidence/agent-replay-recording.html"
+}

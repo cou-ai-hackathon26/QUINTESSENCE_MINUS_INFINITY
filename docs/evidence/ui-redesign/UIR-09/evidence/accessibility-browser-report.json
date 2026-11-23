@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-23T15:00:50.934Z",
+  "mode": "main_react_foundation_judge",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "English copilot, source dialog keyboard containment, Escape and source focus restoration verified",
+    "User reduced-motion preference disables route animation without removing status content",
+    "Final heading/source polish verified in English at mobile width"
+  ],
+  "screenshots": [
+    "settings-english-reduced-motion-1440.png",
+    "planner-heading-english-360.png"
+  ],
+  "errors": [],
+  "passed": true
+}

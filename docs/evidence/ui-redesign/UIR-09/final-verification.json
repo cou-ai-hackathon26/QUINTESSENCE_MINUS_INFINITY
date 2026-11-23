@@ -1,0 +1,121 @@
+{
+  "date": "2026-11-23",
+  "base_revision": "2f995fe2d8c8848e78f984d10e82b1bc3c9c15ce",
+  "scope": "Main-branch UI redesign; local functionality, browser presentation and explicit integration boundaries",
+  "api": {
+    "tests": 140,
+    "result": "passed",
+    "log": "api-checks.log"
+  },
+  "web": {
+    "tests": 30,
+    "result": "passed",
+    "log": "web-final-checks.log"
+  },
+  "production_build": {
+    "command": "pnpm.cmd --filter @shongoti/web build",
+    "exit_code": 0,
+    "main_entry": "index-CVFfhQL0.js",
+    "main_js_bytes": 249669,
+    "main_js_gzip_bytes": 79121,
+    "performance_claim": "Build size only; production Core Web Vitals not measured"
+  },
+  "browser": {
+    "report": "evidence/browser-report.json",
+    "viewports": [
+      360,
+      390,
+      768,
+      1024,
+      1440
+    ],
+    "routes": 20,
+    "layout_checks": 100,
+    "screenshots": 25,
+    "passed": true
+  },
+  "keyboard_language_motion": {
+    "report": "evidence/accessibility-browser-report.json",
+    "passed": true,
+    "full_wcag_certification": false
+  },
+  "recording": "evidence/agent-replay-recording.html",
+  "financial_golden_contract_changes": "",
+  "source_sha256": {
+    "apps/web/src/workbench/Actions.tsx": "80f8ed3f8ddb2b84d08ca2ddc3519430a9486f92a24e2b97bd74624c0a811b73",
+    "apps/web/src/workbench/Agents.tsx": "d8656a8af8b82e117f3ee26c2032112bbb31312911c1c8de10813ec5fbef1e6f",
+    "apps/web/src/workbench/api.ts": "5005e0b2d5e2990b970f0119853e38b15c0d196c3a83237a9267496331b74b79",
+    "apps/web/src/workbench/Auth.tsx": "df8bd92b99182bbe0b09353e0fbb1901fe5cae6f1f8c652dae9199f2d7d17496",
+    "apps/web/src/workbench/AuthPages.tsx": "f67ca24bc9da790fe7018fdda6393fe924634145433805f19aebe60a21fb8731",
+    "apps/web/src/workbench/business.css": "2757c8d16c68ebfd2d829cd6855b3ccac651b5c2a3e6032766a4b48007db3c42",
+    "apps/web/src/workbench/BusinessUI.tsx": "75e9d131e35b1a3632c3ac304de6ebbd09f57e6ed689d4f8be2ebb6b4a121de8",
+    "apps/web/src/workbench/Cases.tsx": "68a5881bd70018e1369d44f98f51cdf210a3eacc04126c247a2463896c9cf510",
+    "apps/web/src/workbench/Charts.tsx": "46df22551f5a737109eb3629434c214995957cb8881d5848a9badc6f3835a9e1",
+    "apps/web/src/workbench/Commerce.tsx": "d4da21c8ff6f02a6ae72513cb3ff3dc8889132eb0325a594b21cbadc71227d35",
+    "apps/web/src/workbench/core.css": "59ca8284b73d8d7bde5255bb5e50454e69db5d7ea46593dc2dd3f1ce6fecb4bf",
+    "apps/web/src/workbench/demo.ts": "2246f36a4b5ed29ab450a750db72a68e4f8b9ef73b33303a235aa5b2b0978e5a",
+    "apps/web/src/workbench/events.ts": "8e97964406b2a157af85d53252288fb01634737a9543f3ad4e8b68fa299d0983",
+    "apps/web/src/workbench/Evidence.tsx": "102f1ee8680c0b4a9b1a35a62ba0eda416e98c3a4cde983c84b41a2417772368",
+    "apps/web/src/workbench/experience.css": "f619015fe5727d397cfe054689f6754472d312b794483671d3693146511587ef",
+    "apps/web/src/workbench/Home.tsx": "daf22e36ebbd70df597b888cbb4255f4ccd01838bc8b1eba3ce528ae9a3acf39",
+    "apps/web/src/workbench/inventory.css": "cca6733d19c630404fc0804e8cc89aba16ab151e77d0f8a174e4f8b57cb739da",
+    "apps/web/src/workbench/Inventory.tsx": "5bf400e6fdda9069cd1e3b422c72c2c7d45b098bf8c121aca1fc8bb399a22a36",
+    "apps/web/src/workbench/landing/assets.d.ts": "6618bfe5e17af94b59c38517723aa6c751ed281ad8e93de8d6ef23c62e1229ec",
+    "apps/web/src/workbench/landing/landing-runtime.d.ts": "7f161b1dc44ab934857e900c01d56187b9a8aee6c97790b6146b73aea90d29a2",
+    "apps/web/src/workbench/landing/landing.css": "4084c15d29a9126831016d598ef3634e2d2af928994d824d0c7e541c71ef2118",
+    "apps/web/src/workbench/Landing.tsx": "2debe3229d91dfef928eef38c6c26ad5a8dfd111f5c6082924b534a9f23ce7b0",
+    "apps/web/src/workbench/Layout.tsx": "df425e268bd3ea0cb58ec27f4c1d7cd9ff0cd139857d1f570f350d953db4a40b",
+    "apps/web/src/workbench/operations.css": "5d704f4d06a26f7831473115667b05e4e1db7327d646bf5137a6eb9e001a5118",
+    "apps/web/src/workbench/Operations.tsx": "a08c3e149df8e1df1315621e50081f0407b1073ff74207001e9cb89821593a0a",
+    "apps/web/src/workbench/planning.css": "c273ef155149f5ef79d2b44748447efa8135eb746d6143ca69041b5c22cb1a7b",
+    "apps/web/src/workbench/Planning.tsx": "cbcf2f4bac8905e29fabb0c152041655ca45f8f1791800023e5af3f6634ce502",
+    "apps/web/src/workbench/polish.css": "f3ee9004f9eb5cc34a9c48f3c44a244ab613a80474859d35dfd18b0011f9914c",
+    "apps/web/src/workbench/support.css": "6af28f987ba23c7604ad6a5279bc4aa13929470bd99d9fde1b9cdcc3110adc18",
+    "apps/web/src/workbench/SupportPages.tsx": "f08016921ddd87031662e955a4e161e44455a617ef4ce749bb6e9b15ab170167",
+    "apps/web/src/workbench/ui.tsx": "5fb333bff81233b2500129cda4e0dee06ff9d75b4069644d39efe809ea30ec0a",
+    "apps/web/src/workbench/voice.css": "b5ae10788aeb581797a0ab6156c93ce3b25f00c20d8712190f7a95ff7a982d51",
+    "apps/web/src/workbench/VoiceCopilot.tsx": "85b9ec435910d1f0860903f68a737df12b0c0acbc9859ba7f810ba418f886ded",
+    "apps/api/app/api/v1/actions_and_portal.py": "f3b8abe547625fda0d0fd4c6867c2034228f33725d8ac32f41caf850b27cdb98",
+    "apps/api/app/api/v1/agents.py": "b04ff76c82fa4b3f6c545afe24fdb1acdd0002635efba94238d10822848ae53c",
+    "apps/api/app/api/v1/buying.py": "47ac8f5bebfc53766ec0dc5ea0b19c98bf89d0a1209e002a166761b875c9c905",
+    "apps/api/app/api/v1/cases.py": "53c72f2c6d7b4706ce9809f861fd3f3d76523e6a95f49b7aea4c9a20e3bb2b86",
+    "apps/api/app/api/v1/copilot.py": "bda1c174dc9c63be8708687de4f104328c35ccd994e77293ca6b0db3f98351db",
+    "apps/api/app/api/v1/demand.py": "8afcae5047400bd3633204da8a5566d2bb9c91b6d063499a426d722cc263b532",
+    "apps/api/app/api/v1/evidence.py": "c8cd25fd61e8587492cb8b5b3f1c80a8f2ededf1b8a2ecc62c1662be7bcbf91f",
+    "apps/api/app/api/v1/helpdesk.py": "2db51368a9f2d93abf59889ee9ebb9081b9b1b2183c7fbd529f1232e0a18f5da",
+    "apps/api/app/api/v1/merchant.py": "d75a518773aac016e13f43d6a72a9ce3b44c500ba367fafdb6dca04c9fb78fa1",
+    "apps/api/app/api/v1/notifications.py": "c6610c0e9bb4be9554b56a9d5c4cbcbb3649e94c1abe8f81c8928b7761279622",
+    "apps/api/app/api/v1/operations.py": "a6a12090b2c5f6af5549700b72dd141e523b30e6036ba3caeac80db1e97d417b",
+    "apps/api/app/api/v1/receiving.py": "9bdfdb54eb42d38971408ca7b86955534b0127a2e87c9a22e9aa26b7e3416ba8",
+    "apps/api/app/api/v1/reconciliation.py": "dd7c0bde81be77263b4b49749d4b9e51bdac50758f78524cbff834ea9fe0d6d5",
+    "apps/api/app/api/v1/router.py": "d359e3ecf6f467a4b4db08f03702e1bde5424889fa94145e211532bab8041973",
+    "apps/api/app/api/v1/scenarios.py": "30f71a7d4370a2856e43f80450281ef0a84bf087d84f49076009722856f4c762",
+    "apps/api/app/api/v1/search.py": "9df383a0a1557babcb662950d97ddc4cf861f209ce0f09e399166db394df71c5",
+    "apps/api/app/api/v1/stock_and_reports.py": "f482f6e614ef8fbdcec58ff96e6c93aec4269c9fc1c45ac0044e875bec7b9e36",
+    "apps/api/app/api/v1/workbench_auth.py": "c8ab2d04a269c8ad6abdcfb3722917b527a0c3888a8daa314cbccf3a3db0785b",
+    "apps/api/app/api/v1/workbench_data.py": "a1582ab96ae7378c407570273b46ca5f1a03db1f51bae03fbf1a6499544b8fa4",
+    "apps/web/src/App.tsx": "e5f8f2a3a1c152b6c610a779dc00f377e2bd95d74d39cf69310027fc04963bcf"
+  },
+  "follow_up_checks": [
+    "Final CSS heading/source polish: accessibility browser pass and production build pass",
+    "Missing-source-account withdrawal guard: dedicated UI failure test pass, final web suite and production build pass"
+  ],
+  "limitations_document": "../../../UI_REDESIGN_HANDOFF.md",
+  "recording_playback": {
+    "report": "evidence/recording-browser-report.json",
+    "passed": true
+  },
+  "secrets_check": {
+    "report": "secrets-check.json",
+    "files_scanned": 424,
+    "findings": 0
+  },
+  "synthetic_test_restoration": {
+    "task_created_tenants": 6,
+    "accounts": 48,
+    "users": 12,
+    "other_records_changed": 0,
+    "backup_location": "ignored tmp/",
+    "default_database_reset": false
+  }
+}

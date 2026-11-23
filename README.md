@@ -1,5 +1,7 @@
 # Shongoti (সংগতি)
 
+**UI redesign, 23 November 2026:** The approved landing design and connected workbench are integrated on `main`. Start with [the current UI handoff](docs/UI_REDESIGN_HANDOFF.md), [UI progress](docs/UI_REDESIGN_PROGRESS.md), and [verification evidence](docs/evidence/ui-redesign/UIR-09/). Historical delivery claims below are not a certification of live AI, payments or legal applicability.
+
 **Current development handoff:** Extend the existing application using [EXTENSION_PLAN.md](EXTENSION_PLAN.md), [START_EXTENSION.md](START_EXTENSION.md) and [extension progress](docs/EXTENSION_PROGRESS.md). New Phase 13–26 covers the approved product/AI expansion. Existing AI/evaluation/browser completion claims require reconciliation; new features are not implemented by this handoff.
 
 **A Bilingual (Bangla/English) Financial Workspace for Small Businesses & MSMEs**

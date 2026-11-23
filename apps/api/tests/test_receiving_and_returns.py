@@ -105,7 +105,19 @@ def test_exactly_once_credit_application(client, tenant_a):
     credit_note_id = rcpt_res.json()["credit_note_id"]
     assert credit_note_id is not None
 
-    # 2. First application -> Success
+    # A suspected claim must first be accepted by the supplier.
+    pending=client.post(f"/api/v1/receiving/credits/{credit_note_id}/apply",headers={"Authorization":tenant_a["Authorization"]},json={"invoice_ref":"INV-2026-041"})
+    assert pending.status_code == 400
+    generator=app.dependency_overrides[get_db]()
+    db=next(generator)
+    try:
+        note=db.query(CreditNoteModel).filter_by(id=credit_note_id).one()
+        note.status='accepted_by_supplier'  # Explicit synthetic acceptance fixture, not inferred by the API.
+        db.commit()
+    finally:
+        generator.close()
+
+    # 2. First accepted application -> Success
     apply_res_1 = client.post(
         f"/api/v1/receiving/credits/{credit_note_id}/apply",
         headers={"Authorization": tenant_a["Authorization"]},

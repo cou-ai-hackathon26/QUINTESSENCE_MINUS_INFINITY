@@ -78,8 +78,9 @@ def test_multimodal_audio_ingestion_and_extraction(client, owner_headers):
     assert res.status_code == 200
     data = res.json()
     assert data["source_type"] == "audio"
-    assert data["proposed_party"] == "রহিম স্টোর"
-    assert data["proposed_amount_paisa"] == 100000
+    assert data["proposed_party"] is None
+    assert data["proposed_amount_paisa"] is None
+    assert data["status"] == "needs_review"
 
 
 def test_multimodal_image_ingestion_and_extraction(client, owner_headers):
@@ -91,8 +92,9 @@ def test_multimodal_image_ingestion_and_extraction(client, owner_headers):
     assert res.status_code == 200
     data = res.json()
     assert data["source_type"] == "image"
-    assert data["proposed_party"] == "আল মদিনা স্টোর"
-    assert data["proposed_amount_paisa"] == 1800000
+    assert data["proposed_party"] is None
+    assert data["proposed_amount_paisa"] is None
+    assert data["status"] == "needs_review"
 
 
 def test_gemini_provider_unconfigured_vs_configured_boundary():
@@ -170,8 +172,8 @@ def test_reconciliation_clarify_bangla_reply_and_draft_action(client, owner_head
 
     # Owner approves the action
     approve_res = client.post(f"/api/v1/actions/{action_id}/approve", headers=owner_headers)
-    assert approve_res.status_code == 200
-    assert approve_res.json()["status"] == "approved"
+    assert approve_res.status_code == 409
+    assert "source case" in approve_res.json()["detail"].lower()
 
 
 def test_reconciliation_credit_reuse_exclusion(client, owner_headers):

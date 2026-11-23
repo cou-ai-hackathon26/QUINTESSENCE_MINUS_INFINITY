@@ -22,4 +22,5 @@ import './workbench/planning.css';
 import './workbench/operations.css';
 
 import './workbench/support.css';
+import './workbench/polish.css';
 document.documentElement.dataset.motion=localStorage.getItem('shongoti_motion')||'system';

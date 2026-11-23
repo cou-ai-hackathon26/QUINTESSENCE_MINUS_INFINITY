@@ -1,0 +1,56 @@
+// Real Chromium/CDP checks against this local preview only; no existing browser profile.
+import { spawn } from 'node:child_process';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+const dir=path.resolve('docs/evidence/ui-redesign/UIR-09');
+const base='http://127.0.0.1:5173';
+const profile=path.resolve('tmp','react-ui-qa-'+Date.now());
+await fs.mkdir(path.join(dir,'evidence'),{recursive:true});
+const browser=spawn('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',['--headless','--disable-gpu','--no-first-run','--no-default-browser-check','--remote-debugging-port=0','--user-data-dir='+profile,'about:blank'],{windowsHide:true,stdio:['ignore','ignore','pipe']});
+let browserLog='';browser.stderr.on('data',chunk=>{browserLog=(browserLog+chunk).slice(-3000);});
+const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const report={date:new Date().toISOString(),mode:'main_react_foundation_judge',browser:'installed Chrome, isolated headless profile',checks:[],screenshots:[],errors:[],passed:false};
+let socket;
+try{
+  let port;
+  for(let i=0;i<60;i++){try{port=(await fs.readFile(path.join(profile,'DevToolsActivePort'),'utf8')).split('\n')[0];break;}catch{await sleep(200);}}
+  if(!port)throw new Error('Chrome debugging endpoint unavailable: '+browserLog.slice(-600));
+  const targets=await (await fetch('http://127.0.0.1:'+port+'/json/list')).json();
+  const target=targets.find(t=>t.type==='page');if(!target)throw new Error('No isolated test page');
+  socket=new WebSocket(target.webSocketDebuggerUrl);await new Promise((resolve,reject)=>{socket.addEventListener('open',resolve,{once:true});socket.addEventListener('error',reject,{once:true});});
+  let id=0;const pending=new Map();
+  socket.addEventListener('message',event=>{const message=JSON.parse(event.data);if(message.id){const request=pending.get(message.id);if(request){pending.delete(message.id);clearTimeout(request.timer);message.error?request.reject(new Error(JSON.stringify(message.error))):request.resolve(message.result);}}else if(message.method==='Runtime.exceptionThrown')report.errors.push(message.params.exceptionDetails.text+': '+(message.params.exceptionDetails.exception?.description||''));});
+  const call=(method,params={})=>new Promise((resolve,reject)=>{const current=++id;const timer=setTimeout(()=>{pending.delete(current);reject(new Error('CDP timeout: '+method));},12000);pending.set(current,{resolve,reject,timer});socket.send(JSON.stringify({id:current,method,params}));});
+  const evaluate=async expression=>{const result=await call('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(result.exceptionDetails)throw new Error(result.exceptionDetails.exception?.description||result.exceptionDetails.text);return result.result.value;};
+  const wait=async(expression,timeout=10000)=>{const end=Date.now()+timeout;while(Date.now()<end){if(await evaluate(expression))return;await sleep(100);}throw new Error('Condition failed: '+expression);};
+  const click=async selector=>{await evaluate(`document.querySelector(${JSON.stringify(selector)})?.click()`);};
+  const shot=async name=>{await evaluate('Promise.race([document.fonts.ready,new Promise(resolve=>setTimeout(resolve,2000))])');await sleep(350);const result=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});await fs.writeFile(path.join(dir,'evidence',name+'.png'),Buffer.from(result.data,'base64'));report.screenshots.push(name+'.png');};
+  await call('Runtime.enable');await call('Page.enable');
+  await call('Emulation.setDeviceMetricsOverride',{width:1440,height:1050,deviceScaleFactor:1,mobile:false});
+  const fill=async(selector,value)=>evaluate('(()=>{const el=document.querySelector('+JSON.stringify(selector)+');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,"value").set.call(el,'+JSON.stringify(value)+');el.dispatchEvent(new Event("input",{bubbles:true}));})()');
+  await call('Page.navigate',{url:base+'/login'});await wait('!!document.querySelector(".judge-button")');await click('.judge-button');await wait('!!document.querySelector(".home-workbench")');
+  const routes=['/app','/app/cases','/app/copilot','/app/sales','/app/people','/app/buying','/app/receiving','/app/stock','/app/demand','/app/money','/app/planner','/app/inbox','/app/actions','/app/reports','/app/operations','/app/help','/app/connections','/app/settings','/app/evidence','/app/scenarios'];
+  report.routeChecks=[];report.controlChecks=[];
+  for(const route of routes){
+    if(route!=='/app'){await click('a[href="'+route+'"]');}else if(await evaluate('location.pathname!=="/app"'))await click('a[href="/app"]');
+    await wait('location.pathname==='+JSON.stringify(route)+'&&!!document.querySelector(".page-head h1")');await sleep(160);
+    for(const width of [360,390,768,1024,1440]){await call('Emulation.setDeviceMetricsOverride',{width,height:1050,deviceScaleFactor:1,mobile:width<500});assert.ok(await evaluate('document.documentElement.scrollWidth<=innerWidth+1'),'Viewport overflow: '+route+' at '+width);report.routeChecks.push({route,width,overflow:false});}
+    await shot(route.replaceAll('/','-').replace(/^-/,'' )+'-1440');
+    const unnamed=await evaluate('Array.from(document.querySelectorAll("main button")).filter(el=>el.getBoundingClientRect().width&&el.getBoundingClientRect().height&&!el.textContent.trim()&&!el.getAttribute("aria-label")&&!el.getAttribute("title")).map(el=>el.className)');assert.equal(unnamed.length,0,'Unnamed buttons on '+route);report.controlChecks.push({route,unnamedButtons:unnamed});
+  }
+  report.checks.push('Twenty routed workspaces checked at 360/390/768/1024/1440 with no document overflow or unnamed visible main buttons');
+  await call('Emulation.setDeviceMetricsOverride',{width:360,height:1050,deviceScaleFactor:1,mobile:true});await shot('settings-360');
+  await evaluate("location.href='/app/copilot'");await wait('!!document.querySelector(".voice-studio")');await shot('voice-360');
+  await evaluate("location.href='/app/cases/demo-case'");await wait('!!document.querySelector(".answer-buttons")');await click('.run-head button');await wait('document.querySelectorAll(".run-node").length===4');await call('Emulation.setDeviceMetricsOverride',{width:1440,height:1050,deviceScaleFactor:1,mobile:false});await evaluate('document.querySelector(".run-workspace").scrollIntoView({block:"start"})');await evaluate('document.querySelector(".run-budget button").click()');await wait('!!document.querySelector(".run-node.active")');const frames=[],started=Date.now();for(let frame=0;frame<12;frame++){const capture=await call('Page.captureScreenshot',{format:'jpeg',quality:55,captureBeyondViewport:false});frames.push({at:Date.now()-started,data:capture.data});await sleep(200);}const player='<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Actual Shongoti agent replay recording</title><style>body{margin:0;padding:22px;background:#f7f7ef;color:#163e30;font:15px/1.7 system-ui}main{max-width:1440px;margin:auto}img{width:100%;border:1px solid #dce1d4}button{padding:12px 18px;background:#163e30;color:white;border:0;border-radius:6px;cursor:pointer}small{display:block;margin:12px 0}</style><main><h1>Actual browser capture: recorded agent workflow replay</h1><p>Synthetic judge scenario. These are actual browser frames with their capture intervals; no live inference or concurrent agents are implied.</p><button id="play">Play / replay capture</button><small id="time"></small><img id="frame" alt="Recorded Shongoti browser frame"></main><script>const frames='+JSON.stringify(frames)+';let timer,index=0;const image=document.getElementById("frame"),time=document.getElementById("time");function show(){image.src="data:image/jpeg;base64,"+frames[index].data;time.textContent="Frame "+(index+1)+" of "+frames.length+" - "+frames[index].at+" ms";}function step(){show();if(index<frames.length-1){const delay=frames[index+1].at-frames[index].at;index++;timer=setTimeout(step,delay);}}document.getElementById("play").onclick=()=>{clearTimeout(timer);index=0;step();};show();</script></html>';await fs.writeFile(path.join(dir,'evidence','agent-replay-recording.html'),player);report.recording='evidence/agent-replay-recording.html';await call('Emulation.setDeviceMetricsOverride',{width:360,height:1050,deviceScaleFactor:1,mobile:true});await shot('agent-review-360');report.checks.push('Agent replay has an explicit active step, can be paused and remains labeled recorded history');
+  await evaluate("location.href='/register'");await wait('!!document.querySelector("#owner-name")');const phone='017'+String(Date.now()).slice(-8);await fill('#owner-name','Synthetic UI reviewer');await fill('#shop-name','Synthetic fresh browser shop');await fill('#phone',phone);await fill('#password','Synthetic-review-password-2026');await click('.auth-submit');await wait('location.pathname==="/onboarding"&&!!document.querySelector(".setup-panel")');report.checks.push('Actual registration opens isolated authenticated setup rather than synthetic judge balances');
+  await click('a[href="/app"]');await wait('!!document.querySelector(".home-workbench")');assert.ok(await evaluate('!document.querySelector(".workspace-mode").textContent.includes("Judge workspace")'));
+  await click('a[href="/app/copilot"]');await wait('!!document.querySelector("#copilot-query")');await evaluate('(()=>{const el=document.querySelector("#copilot-query");Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,"value").set.call(el,"draft payment to supplier");el.dispatchEvent(new Event("input",{bubbles:true}));})()');await wait('!document.querySelector(".chat-composer .primary").disabled');await click('.chat-composer .primary');await wait('!!document.querySelector(".inline-error")');assert.equal(await evaluate('document.querySelector("#copilot-query").value'),'draft payment to supplier');report.checks.push('Real missing-amount API failure preserves the unsent question and does not fabricate a payment draft');
+  await shot('real-account-missing-amount-360');
+  await evaluate("location.href='/pay/does-not-exist'");await wait('!!document.querySelector("[role=alert]")');assert.ok(await evaluate('!document.querySelector(".wb-sidebar")'));await shot('invoice-invalid-360');
+  assert.equal(report.errors.length,0,'Unexpected browser runtime errors');report.passed=true;
+  await call('Browser.close').catch(()=>{});
+}catch(error){report.failure=error.message;if(socket)try{let debugId=90000;socket.send(JSON.stringify({id:debugId,method:'Runtime.evaluate',params:{expression:'document.body.innerText.slice(-1700)',returnByValue:true}}));socket.addEventListener('message',e=>{const m=JSON.parse(e.data);if(m.id===debugId)console.error(m.result?.result?.value);},{once:true});await sleep(200);}catch{}console.error(error.message);process.exitCode=1;}
+finally{socket?.close();browser.kill();await fs.writeFile(path.join(dir,'evidence','browser-report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({passed:report.passed,checks:report.checks.length,screenshots:report.screenshots.length,failure:report.failure}));}
