@@ -34,4 +34,4 @@ export function AppShell() {
         <VoiceNotificationOrb />
     </div>;
 }
-export function PublicHeader() { const t = useCopy(), { toggleLanguage, language } = useLanguage(); return <header className="public-header"><Brand /><nav><Link to="/#how">{t('যেভাবে কাজ করে', 'How it works')}</Link><Link to="/login">{t('লগইন', 'Sign in')}</Link><button onClick={toggleLanguage}>{language === 'bn' ? 'EN' : 'বাংলা'}</button><Link className="button primary compact" to="/register">{t('শুরু করুন', 'Get started')}</Link></nav></header>; }
+export function PublicHeader() { const t = useCopy(), { toggleLanguage, language } = useLanguage(); return <header className="public-header"><Brand /><nav><Link to="/#how">{t('যেভাবে কাজ করে', 'How it works')}</Link><Link to="/pricing">{t('মূল্য তালিকা', 'Pricing')}</Link><Link to="/login">{t('লগইন', 'Sign in')}</Link><button onClick={toggleLanguage}>{language === 'bn' ? 'EN' : 'বাংলা'}</button><Link className="button primary compact" to="/register">{t('শুরু করুন', 'Get started')}</Link></nav></header>; }

@@ -22,6 +22,7 @@ const Setup = lazy(() => import('./workbench/Commerce').then(module => ({ defaul
 const CaseDetail = lazy(() => import('./workbench/Cases').then(module => ({ default: module.CaseDetail })));
 const Scenarios = lazy(() => import('./workbench/Home').then(module => ({ default: module.Scenarios })));
 const LandingPage = lazy(() => import('./workbench/Landing'));
+const PricingPage = lazy(() => import('./pages/PricingPage'));
 const TodayDashboard = lazy(() => import('./workbench/Home'));
 const Cases = lazy(() => import('./workbench/Cases'));
 const AgentPage = lazy(() => import('./workbench/Agents'));
@@ -43,6 +44,7 @@ export default function App() {
     return (<LanguageProvider>
       <AuthProvider><RouteError><Suspense fallback={<div className="route-loading" role="status"><i className="spinner"/> Workspace আসছে / Loading workspace…</div>}><Routes>
         <Route path="/" element={<LandingPage />}/>
+        <Route path="/pricing" element={<PricingPage />}/>
         <Route path="/login" element={<AuthPage />}/>
         <Route path="/register" element={<AuthPage register/>}/>
 
