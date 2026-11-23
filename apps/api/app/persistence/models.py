@@ -512,5 +512,42 @@ class CopilotMessageModel(Base):
     created_at = Column(DateTime, nullable=False, default=now_utc)
 
 
+class SupplierOfferModel(Base):
+    __tablename__ = "supplier_offers"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    supplier_name = Column(String(255), nullable=False)
+    title = Column(String(255), nullable=False)
+    sku = Column(String(64), nullable=False, index=True)
+    pack_size = Column(Integer, nullable=False, default=1)
+    pack_unit = Column(String(32), nullable=False, default="পিস")
+    base_unit_price_paisa = Column(Integer, nullable=False)
+    min_order_quantity = Column(Integer, nullable=False, default=1)
+    bonus_condition_json = Column(Text, nullable=True)
+    cash_discount_percent = Column(Float, nullable=False, default=0.0)
+    credit_period_days = Column(Integer, nullable=False, default=0)
+    delivery_fee_paisa = Column(Integer, nullable=False, default=0)
+    payment_method_required = Column(String(32), nullable=False, default="any")  # cash, credit, any
+    source_type = Column(String(32), nullable=False, default="manual")  # pdf, message, manual
+    source_doc_id = Column(String(36), nullable=True)
+    confidence_score = Column(Integer, nullable=False, default=80)
+    has_critical_blocker = Column(Boolean, nullable=False, default=False)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
+class BuyingComparisonModel(Base):
+    __tablename__ = "buying_comparisons"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    target_sku = Column(String(64), nullable=False, index=True)
+    required_quantity = Column(Integer, nullable=False)
+    best_offer_id = Column(String(36), ForeignKey("supplier_offers.id", ondelete="SET NULL"), nullable=True)
+    comparison_summary_json = Column(Text, nullable=False)
+    feasibility_status = Column(String(64), nullable=False, default="feasible_cash")  # feasible_cash, feasible_credit, infeasible_insufficient_cash
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
 
 

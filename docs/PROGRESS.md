@@ -27,8 +27,9 @@ Source review at `8d4c122`: configured `AIModelAdapter` raises without a provide
 | 16 | Hybrid merchant memory | complete | Work verified; migration 008, DocumentChunkModel, HybridRetriever with RRF (k=60), exact-ID priority bonus, cross-tenant isolation |
 | 17 | Bounded collaboration and visible teamwork | complete | Work verified; migration 009, AgentOrchestrator, Coordinator/Terms/Reconciliation/Skeptic roles, budget enforcement, AgentTimeline UI, test_agents suite |
 | 18 | Copilot and compound voice transaction review | complete | Work verified; migration 010, CopilotEngine, scoped sessions, canonical/hybrid/draft intent routing, confidence score 59 cap on missing evidence, compound voice parsing, CopilotChat UI |
+| 19 | Buying Desk | complete | Work verified; migration 011, BuyingDeskEngine, supplier offers, landed unit cost arithmetic, bonus condition confidence gating, cash feasibility check, BuyingDesk UI, test_buying_desk suite |
 
-**Next action:** P19-T01: Buying Desk under EXTENSION_PLAN.md.
+**Next action:** P20-T01: Receiving, returns and credit recovery under EXTENSION_PLAN.md.
 
 **Next implementation task:** P13-T01, followed by the actual next unblocked task from the additive extension contract. Genuine inference still needs provider implementation, image/audio routing and actual evaluation; adding a key alone is insufficient. External blockers permit only section J's explicitly independent local tasks.
 
@@ -36,6 +37,7 @@ Source review at `8d4c122`: configured `AIModelAdapter` raises without a provide
 
 **Session log**
 
+- 23 November 2026: Phase 19 completed and verified. Buying Desk: migration 011_buying_desk (supplier_offers, buying_comparisons), BuyingDeskEngine with deterministic landed cost arithmetic (integer paisa), bonus condition validation (confidence score 59 cap on unverified bonus), cash liquidity feasibility check against liquid cash/wallet accounts, purchase order drafting (status draft), bilingual BuyingDesk web UI component, and test_buying_desk suite passing. Offline verification gates passed.
 - 23 November 2026: Phase 18 completed and verified. Copilot and compound voice transaction review: migration 010_copilot_workspace (copilot_sessions, copilot_messages), CopilotEngine with intent routing across canonical ledger queries (cash balance), hybrid terms retrieval (confidence capped at 59 on missing evidence), reviewable action drafts (status draft without direct ledger writes), and compound voice audio parsing (splitting collection vs sale). Bilingual CopilotChat web UI component and test_copilot suite passing. Offline verification gates passed.
 - 23 November 2026: Phase 17 completed and verified. Bounded multi-agent collaboration: migration 009_agent_workspace (agent_runs, agent_tasks, agent_events), AgentOrchestrator coordinating Coordinator, TermsEvidenceSpecialist, ReconciliationSpecialist, and SkepticSpecialist with deterministic tool calls and budget limits (budget_calls_max). Query optimization skipping heavy agents on factual queries. Agent collaboration API endpoints (/api/v1/agents/runs, /events, /cancel), accessible bilingual AgentTimeline web UI component with Bengali numerals, and comprehensive pytest and vitest suites passing. Offline verification gates passed.
 - 23 November 2026: prepared EXTENSION_PLAN.md, START_EXTENSION.md, extension tracking and independent confidence-policy fixtures for the user's approved expansion. New confidence is an evidence-support index with critical blockers and actual behavior routing; no calibrated probability or application execution is claimed by this handoff. Every verified phase still requires commit, push and receipt publication.

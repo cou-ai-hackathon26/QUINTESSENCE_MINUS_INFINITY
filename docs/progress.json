@@ -2,8 +2,8 @@
   "schema_version": 3,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "18",
-  "next_task": "P19-T01",
+  "current_phase": "19",
+  "next_task": "P20-T01",
   "application_started": true,
   "phases": [
     {
@@ -994,7 +994,7 @@
     {
       "id": "19",
       "name": "Buying Desk",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "18",
         "06",
@@ -1003,32 +1003,40 @@
       "tasks": [
         {
           "id": "P19-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-19/buying-desk-report.md"
+          ],
+          "notes": "Offer ingestion with bonus conditions, SKU/pack conversion, and confidence score gating."
         },
         {
           "id": "P19-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-19/buying-desk-report.md"
+          ],
+          "notes": "Bonus condition validation capping score at 59 when bonus eligibility is unverified."
         },
         {
           "id": "P19-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-19/buying-desk-report.md"
+          ],
+          "notes": "Deterministic landed unit cost comparison in integer paisa and cash constraint feasibility."
         },
         {
           "id": "P19-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-19/buying-desk-report.md"
+          ],
+          "notes": "BuyingDesk UI component and purchase order draft creation without unauthorized financial mutation."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending_milestone",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
