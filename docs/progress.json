@@ -2,8 +2,8 @@
   "schema_version": 3,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "24",
-  "next_task": "P25-T01",
+  "current_phase": "25",
+  "next_task": "P26-T01",
   "application_started": true,
   "phases": [
     {
@@ -1312,7 +1312,7 @@
     {
       "id": "25",
       "name": "fair evaluation, confidence validation and browser verification",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "19",
         "20",
@@ -1324,38 +1324,48 @@
       "tasks": [
         {
           "id": "P25-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-25/fair-evaluation-report.md"
+          ],
+          "notes": "30 new paired families / 60 cases extension benchmark fixture."
         },
         {
           "id": "P25-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-25/fair-evaluation-report.md"
+          ],
+          "notes": "RAG and hybrid retrieval ablation (eval:rag) with exact ID bonus."
         },
         {
           "id": "P25-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-25/fair-evaluation-report.md"
+          ],
+          "notes": "Evidence-support confidence validation (eval:confidence) with critical cap at 59."
         },
         {
           "id": "P25-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-25/fair-evaluation-report.md"
+          ],
+          "notes": "Bounded agent orchestration evaluation (eval:agents) with budget enforcement."
         },
         {
           "id": "P25-T05",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-25/fair-evaluation-report.md"
+          ],
+          "notes": "End-to-end integrated operational workflows runner (test:workflows)."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "in_progress",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,

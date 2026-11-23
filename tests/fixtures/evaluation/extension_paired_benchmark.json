@@ -1,0 +1,1236 @@
+{
+  "benchmark_name": "Shongoti Extension 30 Paired Families / 60 Cases Evaluation Benchmark",
+  "version": "1.0.0",
+  "created_at_utc": "2026-11-23T18:00:00Z",
+  "total_story_families": 30,
+  "total_cases": 60,
+  "splits": {
+    "development": {
+      "families": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42
+      ],
+      "cases_count": 36
+    },
+    "held_out": {
+      "families": [
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ],
+      "cases_count": 24
+    }
+  },
+  "cases": [
+    {
+      "id": "CASE_25A",
+      "family_id": 25,
+      "family_name": "bonus_carton_condition",
+      "split": "development",
+      "title": "Verified 10 carton bonus",
+      "ambiguity_label": "clean",
+      "input": {
+        "sku": "SKU-SOAP",
+        "qty": 10,
+        "bonus_sku": "SKU-SOAP",
+        "bonus_qty": 1
+      },
+      "expected": {
+        "title": "Verified 10 carton bonus",
+        "input": {
+          "sku": "SKU-SOAP",
+          "qty": 10,
+          "bonus_sku": "SKU-SOAP",
+          "bonus_qty": 1
+        },
+        "expected_cost_paisa": 9090,
+        "confidence_cap": 95
+      }
+    },
+    {
+      "id": "CASE_25B",
+      "family_id": 25,
+      "family_name": "bonus_carton_condition",
+      "split": "development",
+      "title": "Unverified bonus terms",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "sku": "SKU-SOAP",
+        "qty": 10,
+        "bonus_sku": null,
+        "bonus_qty": 1
+      },
+      "expected": {
+        "title": "Unverified bonus terms",
+        "input": {
+          "sku": "SKU-SOAP",
+          "qty": 10,
+          "bonus_sku": null,
+          "bonus_qty": 1
+        },
+        "expected_cost_paisa": 10000,
+        "confidence_cap": 59
+      }
+    },
+    {
+      "id": "CASE_26A",
+      "family_id": 26,
+      "family_name": "pack_size_mismatch",
+      "split": "development",
+      "title": "Standard 500ml pack",
+      "ambiguity_label": "clean",
+      "input": {
+        "sku": "SKU-OIL-500ML",
+        "pack_units": 1
+      },
+      "expected": {
+        "title": "Standard 500ml pack",
+        "input": {
+          "sku": "SKU-OIL-500ML",
+          "pack_units": 1
+        },
+        "matched": true,
+        "confidence_cap": 90
+      }
+    },
+    {
+      "id": "CASE_26B",
+      "family_id": 26,
+      "family_name": "pack_size_mismatch",
+      "split": "development",
+      "title": "Collapsed pack size without conversion",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "sku": "SKU-OIL-1L",
+        "pack_units": 2
+      },
+      "expected": {
+        "title": "Collapsed pack size without conversion",
+        "input": {
+          "sku": "SKU-OIL-1L",
+          "pack_units": 2
+        },
+        "matched": false,
+        "confidence_cap": 59
+      }
+    },
+    {
+      "id": "CASE_27A",
+      "family_id": 27,
+      "family_name": "cash_liquidity_feasibility",
+      "split": "development",
+      "title": "Sufficient liquid cash for offer",
+      "ambiguity_label": "clean",
+      "input": {
+        "order_paisa": 500000,
+        "liquid_cash_paisa": 1000000
+      },
+      "expected": {
+        "title": "Sufficient liquid cash for offer",
+        "input": {
+          "order_paisa": 500000,
+          "liquid_cash_paisa": 1000000
+        },
+        "feasible": true,
+        "confidence_cap": 100
+      }
+    },
+    {
+      "id": "CASE_27B",
+      "family_id": 27,
+      "family_name": "cash_liquidity_feasibility",
+      "split": "development",
+      "title": "Insufficient liquid cash shortfall",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "order_paisa": 1500000,
+        "liquid_cash_paisa": 1000000
+      },
+      "expected": {
+        "title": "Insufficient liquid cash shortfall",
+        "input": {
+          "order_paisa": 1500000,
+          "liquid_cash_paisa": 1000000
+        },
+        "feasible": false,
+        "shortfall_paisa": 500000,
+        "confidence_cap": 100
+      }
+    },
+    {
+      "id": "CASE_28A",
+      "family_id": 28,
+      "family_name": "negotiation_draft_vs_deal",
+      "split": "development",
+      "title": "Accepted purchase order",
+      "ambiguity_label": "clean",
+      "input": {
+        "status": "confirmed_by_supplier"
+      },
+      "expected": {
+        "title": "Accepted purchase order",
+        "input": {
+          "status": "confirmed_by_supplier"
+        },
+        "is_binding": true,
+        "confidence_cap": 95
+      }
+    },
+    {
+      "id": "CASE_28B",
+      "family_id": 28,
+      "family_name": "negotiation_draft_vs_deal",
+      "split": "development",
+      "title": "Draft negotiation question",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "status": "draft_negotiation"
+      },
+      "expected": {
+        "title": "Draft negotiation question",
+        "input": {
+          "status": "draft_negotiation"
+        },
+        "is_binding": false,
+        "confidence_cap": 59
+      }
+    },
+    {
+      "id": "CASE_29A",
+      "family_id": 29,
+      "family_name": "minimum_order_quantity",
+      "split": "development",
+      "title": "Order meets MOQ",
+      "ambiguity_label": "clean",
+      "input": {
+        "moq": 50,
+        "ordered": 60
+      },
+      "expected": {
+        "title": "Order meets MOQ",
+        "input": {
+          "moq": 50,
+          "ordered": 60
+        },
+        "valid": true,
+        "confidence_cap": 90
+      }
+    },
+    {
+      "id": "CASE_29B",
+      "family_id": 29,
+      "family_name": "minimum_order_quantity",
+      "split": "development",
+      "title": "Order below MOQ",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "moq": 50,
+        "ordered": 30
+      },
+      "expected": {
+        "title": "Order below MOQ",
+        "input": {
+          "moq": 50,
+          "ordered": 30
+        },
+        "valid": false,
+        "confidence_cap": 59
+      }
+    },
+    {
+      "id": "CASE_30A",
+      "family_id": 30,
+      "family_name": "delivery_shortage_deduction",
+      "split": "development",
+      "title": "Full delivery received",
+      "ambiguity_label": "clean",
+      "input": {
+        "ordered": 100,
+        "received": 100,
+        "damaged": 0
+      },
+      "expected": {
+        "title": "Full delivery received",
+        "input": {
+          "ordered": 100,
+          "received": 100,
+          "damaged": 0
+        },
+        "usable_stock": 100,
+        "claim_paisa": 0
+      }
+    },
+    {
+      "id": "CASE_30B",
+      "family_id": 30,
+      "family_name": "delivery_shortage_deduction",
+      "split": "development",
+      "title": "Shortage with 10 missing",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "ordered": 100,
+        "received": 90,
+        "damaged": 0
+      },
+      "expected": {
+        "title": "Shortage with 10 missing",
+        "input": {
+          "ordered": 100,
+          "received": 90,
+          "damaged": 0
+        },
+        "usable_stock": 90,
+        "claim_paisa": 10000
+      }
+    },
+    {
+      "id": "CASE_31A",
+      "family_id": 31,
+      "family_name": "damaged_goods_isolation",
+      "split": "development",
+      "title": "Zero damaged items",
+      "ambiguity_label": "clean",
+      "input": {
+        "received": 50,
+        "damaged": 0
+      },
+      "expected": {
+        "title": "Zero damaged items",
+        "input": {
+          "received": 50,
+          "damaged": 0
+        },
+        "usable_stock": 50,
+        "credit_status": "none"
+      }
+    },
+    {
+      "id": "CASE_31B",
+      "family_id": 31,
+      "family_name": "damaged_goods_isolation",
+      "split": "development",
+      "title": "Damaged goods excluded from usable stock",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "received": 50,
+        "damaged": 8
+      },
+      "expected": {
+        "title": "Damaged goods excluded from usable stock",
+        "input": {
+          "received": 50,
+          "damaged": 8
+        },
+        "usable_stock": 42,
+        "credit_status": "suspected"
+      }
+    },
+    {
+      "id": "CASE_32A",
+      "family_id": 32,
+      "family_name": "credit_note_reuse_prevention",
+      "split": "development",
+      "title": "First time credit note application",
+      "ambiguity_label": "clean",
+      "input": {
+        "credit_id": "CR-01",
+        "status": "accepted_by_supplier"
+      },
+      "expected": {
+        "title": "First time credit note application",
+        "input": {
+          "credit_id": "CR-01",
+          "status": "accepted_by_supplier"
+        },
+        "permitted": true
+      }
+    },
+    {
+      "id": "CASE_32B",
+      "family_id": 32,
+      "family_name": "credit_note_reuse_prevention",
+      "split": "development",
+      "title": "Attempted reuse of applied credit note",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "credit_id": "CR-01",
+        "status": "applied_to_bill"
+      },
+      "expected": {
+        "title": "Attempted reuse of applied credit note",
+        "input": {
+          "credit_id": "CR-01",
+          "status": "applied_to_bill"
+        },
+        "permitted": false
+      }
+    },
+    {
+      "id": "CASE_33A",
+      "family_id": 33,
+      "family_name": "return_window_deadline",
+      "split": "development",
+      "title": "Return within 7-day cutoff",
+      "ambiguity_label": "clean",
+      "input": {
+        "days_since_delivery": 4,
+        "cutoff_days": 7
+      },
+      "expected": {
+        "title": "Return within 7-day cutoff",
+        "input": {
+          "days_since_delivery": 4,
+          "cutoff_days": 7
+        },
+        "returnable": true
+      }
+    },
+    {
+      "id": "CASE_33B",
+      "family_id": 33,
+      "family_name": "return_window_deadline",
+      "split": "development",
+      "title": "Return after cutoff expired",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "days_since_delivery": 10,
+        "cutoff_days": 7
+      },
+      "expected": {
+        "title": "Return after cutoff expired",
+        "input": {
+          "days_since_delivery": 10,
+          "cutoff_days": 7
+        },
+        "returnable": false
+      }
+    },
+    {
+      "id": "CASE_34A",
+      "family_id": 34,
+      "family_name": "unreplied_supplier_claim",
+      "split": "development",
+      "title": "Supplier accepted credit claim",
+      "ambiguity_label": "clean",
+      "input": {
+        "reply": "agreed",
+        "credit_amount": 5000
+      },
+      "expected": {
+        "title": "Supplier accepted credit claim",
+        "input": {
+          "reply": "agreed",
+          "credit_amount": 5000
+        },
+        "claim_status": "accepted_by_supplier"
+      }
+    },
+    {
+      "id": "CASE_34B",
+      "family_id": 34,
+      "family_name": "unreplied_supplier_claim",
+      "split": "development",
+      "title": "Supplier unreplied dispute remains unresolved",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "reply": null,
+        "credit_amount": 5000
+      },
+      "expected": {
+        "title": "Supplier unreplied dispute remains unresolved",
+        "input": {
+          "reply": null,
+          "credit_amount": 5000
+        },
+        "claim_status": "suspected"
+      }
+    },
+    {
+      "id": "CASE_35A",
+      "family_id": 35,
+      "family_name": "unmet_demand_no_revenue_booking",
+      "split": "development",
+      "title": "Observed customer request logged",
+      "ambiguity_label": "clean",
+      "input": {
+        "product": "Horlicks 500g",
+        "count": 2
+      },
+      "expected": {
+        "title": "Observed customer request logged",
+        "input": {
+          "product": "Horlicks 500g",
+          "count": 2
+        },
+        "revenue_booked_paisa": 0,
+        "receivable_paisa": 0
+      }
+    },
+    {
+      "id": "CASE_35B",
+      "family_id": 35,
+      "family_name": "unmet_demand_no_revenue_booking",
+      "split": "development",
+      "title": "Stockout request repeated mention",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "product": "Horlicks 500g",
+        "count": 2,
+        "repeat": true
+      },
+      "expected": {
+        "title": "Stockout request repeated mention",
+        "input": {
+          "product": "Horlicks 500g",
+          "count": 2,
+          "repeat": true
+        },
+        "revenue_booked_paisa": 0,
+        "receivable_paisa": 0
+      }
+    },
+    {
+      "id": "CASE_36A",
+      "family_id": 36,
+      "family_name": "stockout_window_zero_sales",
+      "split": "development",
+      "title": "Item in stock with 0 sales",
+      "ambiguity_label": "clean",
+      "input": {
+        "available_stock": 15,
+        "sales": 0
+      },
+      "expected": {
+        "title": "Item in stock with 0 sales",
+        "input": {
+          "available_stock": 15,
+          "sales": 0
+        },
+        "is_true_zero_demand": true
+      }
+    },
+    {
+      "id": "CASE_36B",
+      "family_id": 36,
+      "family_name": "stockout_window_zero_sales",
+      "split": "development",
+      "title": "Stockout item 0 sales is not 0 demand",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "available_stock": 0,
+        "sales": 0
+      },
+      "expected": {
+        "title": "Stockout item 0 sales is not 0 demand",
+        "input": {
+          "available_stock": 0,
+          "sales": 0
+        },
+        "is_true_zero_demand": false
+      }
+    },
+    {
+      "id": "CASE_37A",
+      "family_id": 37,
+      "family_name": "cold_start_factual_scenarios",
+      "split": "development",
+      "title": "Store history >= 14 days",
+      "ambiguity_label": "clean",
+      "input": {
+        "history_days": 21
+      },
+      "expected": {
+        "title": "Store history >= 14 days",
+        "input": {
+          "history_days": 21
+        },
+        "provides_probability": false,
+        "mode": "evaluated_rolling"
+      }
+    },
+    {
+      "id": "CASE_37B",
+      "family_id": 37,
+      "family_name": "cold_start_factual_scenarios",
+      "split": "development",
+      "title": "Store history < 14 days factual counts only",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "history_days": 6
+      },
+      "expected": {
+        "title": "Store history < 14 days factual counts only",
+        "input": {
+          "history_days": 6
+        },
+        "provides_probability": false,
+        "mode": "observed_factual_scenario"
+      }
+    },
+    {
+      "id": "CASE_38A",
+      "family_id": 38,
+      "family_name": "reorder_pack_rounding",
+      "split": "development",
+      "title": "Exact carton multiple reorder",
+      "ambiguity_label": "clean",
+      "input": {
+        "needed_units": 48,
+        "pack_size": 24
+      },
+      "expected": {
+        "title": "Exact carton multiple reorder",
+        "input": {
+          "needed_units": 48,
+          "pack_size": 24
+        },
+        "order_packs": 2
+      }
+    },
+    {
+      "id": "CASE_38B",
+      "family_id": 38,
+      "family_name": "reorder_pack_rounding",
+      "split": "development",
+      "title": "Fractional need rounds up to whole pack",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "needed_units": 50,
+        "pack_size": 24
+      },
+      "expected": {
+        "title": "Fractional need rounds up to whole pack",
+        "input": {
+          "needed_units": 50,
+          "pack_size": 24
+        },
+        "order_packs": 3
+      }
+    },
+    {
+      "id": "CASE_39A",
+      "family_id": 39,
+      "family_name": "demand_alias_deduplication",
+      "split": "development",
+      "title": "Standard SKU name request",
+      "ambiguity_label": "clean",
+      "input": {
+        "raw": "তীর সয়াবিন ১ লিটার"
+      },
+      "expected": {
+        "title": "Standard SKU name request",
+        "input": {
+          "raw": "তীর সয়াবিন ১ লিটার"
+        },
+        "resolved_sku": "SKU-SOYABEAN-1L"
+      }
+    },
+    {
+      "id": "CASE_39B",
+      "family_id": 39,
+      "family_name": "demand_alias_deduplication",
+      "split": "development",
+      "title": "Colloquial alias request",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "raw": "তীরের তেল এক বোতল"
+      },
+      "expected": {
+        "title": "Colloquial alias request",
+        "input": {
+          "raw": "তীরের তেল এক বোতল"
+        },
+        "resolved_sku": "SKU-SOYABEAN-1L"
+      }
+    },
+    {
+      "id": "CASE_40A",
+      "family_id": 40,
+      "family_name": "split_collection_and_sale",
+      "split": "development",
+      "title": "Single cash sale utterance",
+      "ambiguity_label": "clean",
+      "input": {
+        "transcript": "৫০০ টাকার চিনি নগদ বিক্রি"
+      },
+      "expected": {
+        "title": "Single cash sale utterance",
+        "input": {
+          "transcript": "৫০০ টাকার চিনি নগদ বিক্রি"
+        },
+        "drafts_count": 1,
+        "revenue_paisa": 50000
+      }
+    },
+    {
+      "id": "CASE_40B",
+      "family_id": 40,
+      "family_name": "split_collection_and_sale",
+      "split": "development",
+      "title": "Compound collection and sale",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "transcript": "করিমের বকেয়া ৫০০ পেলাম আর ২০০ টাকার ডাল বিক্রি"
+      },
+      "expected": {
+        "title": "Compound collection and sale",
+        "input": {
+          "transcript": "করিমের বকেয়া ৫০০ পেলাম আর ২০০ টাকার ডাল বিক্রি"
+        },
+        "drafts_count": 2,
+        "revenue_paisa": 20000
+      }
+    },
+    {
+      "id": "CASE_41A",
+      "family_id": 41,
+      "family_name": "cash_close_shift_variance",
+      "split": "development",
+      "title": "Exact matched shift close",
+      "ambiguity_label": "clean",
+      "input": {
+        "declared": 500000,
+        "system": 500000
+      },
+      "expected": {
+        "title": "Exact matched shift close",
+        "input": {
+          "declared": 500000,
+          "system": 500000
+        },
+        "variance_paisa": 0,
+        "hypotheses_count": 0
+      }
+    },
+    {
+      "id": "CASE_41B",
+      "family_id": 41,
+      "family_name": "cash_close_shift_variance",
+      "split": "development",
+      "title": "Discrepant shift close with hypotheses",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "declared": 480000,
+        "system": 500000
+      },
+      "expected": {
+        "title": "Discrepant shift close with hypotheses",
+        "input": {
+          "declared": 480000,
+          "system": 500000
+        },
+        "variance_paisa": -20000,
+        "hypotheses_count": 1
+      }
+    },
+    {
+      "id": "CASE_42A",
+      "family_id": 42,
+      "family_name": "container_deposit_separation",
+      "split": "development",
+      "title": "Goods sale without containers",
+      "ambiguity_label": "clean",
+      "input": {
+        "goods_paisa": 30000,
+        "container_deposit": 0
+      },
+      "expected": {
+        "title": "Goods sale without containers",
+        "input": {
+          "goods_paisa": 30000,
+          "container_deposit": 0
+        },
+        "deposit_held": 0
+      }
+    },
+    {
+      "id": "CASE_42B",
+      "family_id": 42,
+      "family_name": "container_deposit_separation",
+      "split": "development",
+      "title": "Goods sale with returnable crates",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "goods_paisa": 30000,
+        "container_deposit": 10000
+      },
+      "expected": {
+        "title": "Goods sale with returnable crates",
+        "input": {
+          "goods_paisa": 30000,
+          "container_deposit": 10000
+        },
+        "deposit_held": 10000
+      }
+    },
+    {
+      "id": "CASE_43A",
+      "family_id": 43,
+      "family_name": "supplier_order_scoped_change",
+      "split": "held_out",
+      "title": "Supplier confirm agreed price",
+      "ambiguity_label": "clean",
+      "input": {
+        "price_diff": 0
+      },
+      "expected": {
+        "title": "Supplier confirm agreed price",
+        "input": {
+          "price_diff": 0
+        },
+        "review_required": false
+      }
+    },
+    {
+      "id": "CASE_43B",
+      "family_id": 43,
+      "family_name": "supplier_order_scoped_change",
+      "split": "held_out",
+      "title": "Supplier proposed price hike for PO",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "price_diff": 200
+      },
+      "expected": {
+        "title": "Supplier proposed price hike for PO",
+        "input": {
+          "price_diff": 200
+        },
+        "review_required": true,
+        "scope": "scoped_to_order_only"
+      }
+    },
+    {
+      "id": "CASE_44A",
+      "family_id": 44,
+      "family_name": "action_draft_status_guard",
+      "split": "held_out",
+      "title": "Action draft reviewed and approved",
+      "ambiguity_label": "clean",
+      "input": {
+        "status": "approved"
+      },
+      "expected": {
+        "title": "Action draft reviewed and approved",
+        "input": {
+          "status": "approved"
+        },
+        "posts_to_ledger": true
+      }
+    },
+    {
+      "id": "CASE_44B",
+      "family_id": 44,
+      "family_name": "action_draft_status_guard",
+      "split": "held_out",
+      "title": "Action draft in draft status",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "status": "draft"
+      },
+      "expected": {
+        "title": "Action draft in draft status",
+        "input": {
+          "status": "draft"
+        },
+        "posts_to_ledger": false
+      }
+    },
+    {
+      "id": "CASE_45A",
+      "family_id": 45,
+      "family_name": "critical_evidence_missing_cap",
+      "split": "held_out",
+      "title": "Complete document evidence",
+      "ambiguity_label": "clean",
+      "input": {
+        "missing_critical": false
+      },
+      "expected": {
+        "title": "Complete document evidence",
+        "input": {
+          "missing_critical": false
+        },
+        "max_confidence": 100
+      }
+    },
+    {
+      "id": "CASE_45B",
+      "family_id": 45,
+      "family_name": "critical_evidence_missing_cap",
+      "split": "held_out",
+      "title": "Missing critical document fact caps at 59",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "missing_critical": true
+      },
+      "expected": {
+        "title": "Missing critical document fact caps at 59",
+        "input": {
+          "missing_critical": true
+        },
+        "max_confidence": 59
+      }
+    },
+    {
+      "id": "CASE_46A",
+      "family_id": 46,
+      "family_name": "canonical_ledger_fact_score",
+      "split": "held_out",
+      "title": "Reconciled ledger cash query",
+      "ambiguity_label": "clean",
+      "input": {
+        "type": "canonical_ledger"
+      },
+      "expected": {
+        "title": "Reconciled ledger cash query",
+        "input": {
+          "type": "canonical_ledger"
+        },
+        "confidence": 100
+      }
+    },
+    {
+      "id": "CASE_46B",
+      "family_id": 46,
+      "family_name": "canonical_ledger_fact_score",
+      "split": "held_out",
+      "title": "Unreconciled draft estimate",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "type": "draft_estimate"
+      },
+      "expected": {
+        "title": "Unreconciled draft estimate",
+        "input": {
+          "type": "draft_estimate"
+        },
+        "confidence": 50
+      }
+    },
+    {
+      "id": "CASE_47A",
+      "family_id": 47,
+      "family_name": "hybrid_rrf_priority_bonus",
+      "split": "held_out",
+      "title": "Exact ID keyword and semantic match",
+      "ambiguity_label": "clean",
+      "input": {
+        "exact_id": "INV-9901",
+        "semantic": "invoice payment"
+      },
+      "expected": {
+        "title": "Exact ID keyword and semantic match",
+        "input": {
+          "exact_id": "INV-9901",
+          "semantic": "invoice payment"
+        },
+        "top_rank": 1
+      }
+    },
+    {
+      "id": "CASE_47B",
+      "family_id": 47,
+      "family_name": "hybrid_rrf_priority_bonus",
+      "split": "held_out",
+      "title": "Semantic similarity without exact ID",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "exact_id": null,
+        "semantic": "invoice payment"
+      },
+      "expected": {
+        "title": "Semantic similarity without exact ID",
+        "input": {
+          "exact_id": null,
+          "semantic": "invoice payment"
+        },
+        "top_rank": 2
+      }
+    },
+    {
+      "id": "CASE_48A",
+      "family_id": 48,
+      "family_name": "agent_orchestration_budget_limit",
+      "split": "held_out",
+      "title": "Simple query skips heavy specialist agents",
+      "ambiguity_label": "clean",
+      "input": {
+        "query_type": "factual"
+      },
+      "expected": {
+        "title": "Simple query skips heavy specialist agents",
+        "input": {
+          "query_type": "factual"
+        },
+        "agent_calls": 1
+      }
+    },
+    {
+      "id": "CASE_48B",
+      "family_id": 48,
+      "family_name": "agent_orchestration_budget_limit",
+      "split": "held_out",
+      "title": "Complex reconciliation halts at budget max",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "query_type": "complex_dispute",
+        "max_budget": 8
+      },
+      "expected": {
+        "title": "Complex reconciliation halts at budget max",
+        "input": {
+          "query_type": "complex_dispute",
+          "max_budget": 8
+        },
+        "agent_calls": 8
+      }
+    },
+    {
+      "id": "CASE_49A",
+      "family_id": 49,
+      "family_name": "cross_tenant_evidence_isolation",
+      "split": "held_out",
+      "title": "Tenant A queries own evidence",
+      "ambiguity_label": "clean",
+      "input": {
+        "tenant": "A",
+        "query": "my documents"
+      },
+      "expected": {
+        "title": "Tenant A queries own evidence",
+        "input": {
+          "tenant": "A",
+          "query": "my documents"
+        },
+        "matches_count": 1
+      }
+    },
+    {
+      "id": "CASE_49B",
+      "family_id": 49,
+      "family_name": "cross_tenant_evidence_isolation",
+      "split": "held_out",
+      "title": "Tenant B cannot retrieve Tenant A chunks",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "tenant": "B",
+        "query": "Tenant A documents"
+      },
+      "expected": {
+        "title": "Tenant B cannot retrieve Tenant A chunks",
+        "input": {
+          "tenant": "B",
+          "query": "Tenant A documents"
+        },
+        "matches_count": 0
+      }
+    },
+    {
+      "id": "CASE_50A",
+      "family_id": 50,
+      "family_name": "trade_license_annual_cutoff",
+      "split": "held_out",
+      "title": "Trade license renewed before 30 September",
+      "ambiguity_label": "clean",
+      "input": {
+        "renewal_date": "2026-08-15"
+      },
+      "expected": {
+        "title": "Trade license renewed before 30 September",
+        "input": {
+          "renewal_date": "2026-08-15"
+        },
+        "is_expired": false
+      }
+    },
+    {
+      "id": "CASE_50B",
+      "family_id": 50,
+      "family_name": "trade_license_annual_cutoff",
+      "split": "held_out",
+      "title": "Trade license un-renewed past cutoff",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "renewal_date": "2026-10-15"
+      },
+      "expected": {
+        "title": "Trade license un-renewed past cutoff",
+        "input": {
+          "renewal_date": "2026-10-15"
+        },
+        "is_expired": true
+      }
+    },
+    {
+      "id": "CASE_51A",
+      "family_id": 51,
+      "family_name": "vat_turnover_threshold_rule",
+      "split": "held_out",
+      "title": "Turnover < 50 Lakh BDT no mandatory VAT",
+      "ambiguity_label": "clean",
+      "input": {
+        "annual_turnover_paisa": 400000000
+      },
+      "expected": {
+        "title": "Turnover < 50 Lakh BDT no mandatory VAT",
+        "input": {
+          "annual_turnover_paisa": 400000000
+        },
+        "mandatory_vat": false
+      }
+    },
+    {
+      "id": "CASE_51B",
+      "family_id": 51,
+      "family_name": "vat_turnover_threshold_rule",
+      "split": "held_out",
+      "title": "Turnover >= 50 Lakh BDT turnover tax applies",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "annual_turnover_paisa": 600000000
+      },
+      "expected": {
+        "title": "Turnover >= 50 Lakh BDT turnover tax applies",
+        "input": {
+          "annual_turnover_paisa": 600000000
+        },
+        "mandatory_vat": true
+      }
+    },
+    {
+      "id": "CASE_52A",
+      "family_id": 52,
+      "family_name": "income_tax_tin_and_return_deadline",
+      "split": "held_out",
+      "title": "Tax return filed before 30 November",
+      "ambiguity_label": "clean",
+      "input": {
+        "filing_date": "2026-11-20"
+      },
+      "expected": {
+        "title": "Tax return filed before 30 November",
+        "input": {
+          "filing_date": "2026-11-20"
+        },
+        "compliant": true
+      }
+    },
+    {
+      "id": "CASE_52B",
+      "family_id": 52,
+      "family_name": "income_tax_tin_and_return_deadline",
+      "split": "held_out",
+      "title": "Tax return past 30 November penalty risk",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "filing_date": "2026-12-05"
+      },
+      "expected": {
+        "title": "Tax return past 30 November penalty risk",
+        "input": {
+          "filing_date": "2026-12-05"
+        },
+        "compliant": false
+      }
+    },
+    {
+      "id": "CASE_53A",
+      "family_id": 53,
+      "family_name": "out_of_scope_statutory_escalation",
+      "split": "held_out",
+      "title": "MSME shop lease inquiry",
+      "ambiguity_label": "clean",
+      "input": {
+        "query": "দোকান ভাড়া চুক্তি বিধিমালা"
+      },
+      "expected": {
+        "title": "MSME shop lease inquiry",
+        "input": {
+          "query": "দোকান ভাড়া চুক্তি বিধিমালা"
+        },
+        "escalation_required": false
+      }
+    },
+    {
+      "id": "CASE_53B",
+      "family_id": 53,
+      "family_name": "out_of_scope_statutory_escalation",
+      "split": "held_out",
+      "title": "Criminal or boundary dispute inquiry",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "query": "প্রতিবেশীর সাথে মারামারি ফৌজদারি মামলা"
+      },
+      "expected": {
+        "title": "Criminal or boundary dispute inquiry",
+        "input": {
+          "query": "প্রতিবেশীর সাথে মারামারি ফৌজদারি মামলা"
+        },
+        "escalation_required": true
+      }
+    },
+    {
+      "id": "CASE_54A",
+      "family_id": 54,
+      "family_name": "no_hallucinated_legal_section",
+      "split": "held_out",
+      "title": "Query mapped to verified statute",
+      "ambiguity_label": "clean",
+      "input": {
+        "query": "ভ্যাট আইন ২০১২"
+      },
+      "expected": {
+        "title": "Query mapped to verified statute",
+        "input": {
+          "query": "ভ্যাট আইন ২০১২"
+        },
+        "citation_valid": true
+      }
+    },
+    {
+      "id": "CASE_54B",
+      "family_id": 54,
+      "family_name": "no_hallucinated_legal_section",
+      "split": "held_out",
+      "title": "Obscure query avoids invented section number",
+      "ambiguity_label": "boundary_ambiguous",
+      "input": {
+        "query": "অজানা পৌর কর নিয়ম"
+      },
+      "expected": {
+        "title": "Obscure query avoids invented section number",
+        "input": {
+          "query": "অজানা পৌর কর নিয়ম"
+        },
+        "citation_valid": false,
+        "escalation_required": true
+      }
+    }
+  ]
+}
