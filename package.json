@@ -22,7 +22,7 @@
     "test:notifications": "node scripts/run-python.js -m pytest apps/api/tests/test_notifications.py -v",
     "test:operations": "node scripts/run-python.js -m pytest apps/api/tests/test_operations.py -v",
     "test:workflows": "node scripts/runner-stub.js test:workflows 19",
-    "test:business-help": "node scripts/runner-stub.js test:business-help 24",
+    "test:business-help": "node scripts/run-python.js -m pytest apps/api/tests/test_business_help.py -v",
     "eval:rag": "node scripts/runner-stub.js eval:rag 25",
     "eval:agents": "node scripts/runner-stub.js eval:agents 25",
     "eval:confidence": "node scripts/runner-stub.js eval:confidence 25",

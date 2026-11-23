@@ -675,6 +675,42 @@ class ShiftHandoverModel(Base):
     created_at = Column(DateTime, nullable=False, default=now_utc)
 
 
+class BusinessDocumentModel(Base):
+    __tablename__ = "business_documents"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    doc_type = Column(String(64), nullable=False)  # trade_license, tin_certificate, vat_bin_certificate, lease_agreement, fire_license
+    title = Column(String(255), nullable=False)
+    file_path = Column(String(512), nullable=True)
+    issuing_authority = Column(String(255), nullable=False)
+    issue_date = Column(String(32), nullable=True)
+    expiry_date = Column(String(32), nullable=True)
+    status = Column(String(32), nullable=False, default="valid")  # valid, expiring_soon, expired, pending_verification
+    metadata_json = Column(Text, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+    updated_at = Column(DateTime, nullable=False, default=now_utc, onupdate=now_utc)
+
+
+class RegulatoryCorpusModel(Base):
+    __tablename__ = "regulatory_corpus"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    jurisdiction = Column(String(32), nullable=False, default="BD")
+    topic = Column(String(64), nullable=False, index=True)  # trade_license, vat_bin, income_tax, commercial_lease
+    title = Column(String(255), nullable=False)
+    citation_reference = Column(String(255), nullable=False)
+    effective_date = Column(String(32), nullable=False)
+    last_reviewed_date = Column(String(32), nullable=False)
+    authority_name = Column(String(255), nullable=False)
+    official_portal_url = Column(String(512), nullable=False)
+    content_text = Column(Text, nullable=False)
+    applicability_rules_json = Column(Text, nullable=False)
+    is_active = Column(Boolean, nullable=False, default=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
+
 
 
 

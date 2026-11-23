@@ -23,6 +23,7 @@ from app.api.v1.receiving import receiving_router
 from app.api.v1.demand import demand_router
 from app.api.v1.notifications import notifications_router
 from app.api.v1.operations import operations_router
+from app.api.v1.helpdesk import helpdesk_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -55,6 +56,7 @@ app.include_router(receiving_router)
 app.include_router(demand_router)
 app.include_router(notifications_router)
 app.include_router(operations_router)
+app.include_router(helpdesk_router)
 
 
 @app.get("/health", status_code=status.HTTP_200_OK, tags=["System"])
