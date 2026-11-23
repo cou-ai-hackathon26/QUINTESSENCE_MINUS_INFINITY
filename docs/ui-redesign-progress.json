@@ -59,7 +59,12 @@
     {
       "id": "UIR-05",
       "name": "Buying, receiving, stock and demand",
-      "status": "verified_pending_publication"
+      "status": "complete",
+      "git_checkpoint": {
+        "status": "milestone_published",
+        "milestone_sha": "0d149a165c84eab662929820bd7db902deaa5281",
+        "receipt": "docs/evidence/ui-redesign/UIR-05/git-checkpoint.json"
+      }
     },
     {
       "id": "UIR-06",
