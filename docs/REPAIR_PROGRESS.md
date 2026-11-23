@@ -4,7 +4,7 @@ Baseline: `c8a57ff`. User authorized fixes with existing successful workflows/UI
 
 | Phase | Scope | State |
 |---|---|---|
-| AJ-01 | Exact/atomic CSV, honest voice missing-data states, declared optional speech dependency, deployment recipe corrections | Verified local changes; Git publication pending |
+| AJ-01 | Exact/atomic CSV, honest voice missing-data states, declared optional speech dependency, deployment recipe corrections | Complete local scope; milestone `1c00a2d` published |
 | AJ-02 | Speech/privacy/auth limits, production secret/claim guards, grounding, compatible dependency maintenance and CI | Not started |
 | AJ-03 | Final full regression, bounded real/browser smoke checks, current disclosures and handoff | Not started |
 
@@ -12,4 +12,4 @@ Observed AJ-01 checks: 13 backend CSV/stock tests passed; 5 voice UI tests passe
 
 Preserve real Groq/Whisper/E5 and sequential specialist workflows, original financial goldens, owner approval and isolated Judge accounts. External payments remain owner-deferred. Large comparative benchmarks and wholesale refactoring are outside this urgent repair pass; never claim unmeasured accuracy or production readiness.
 
-Next: publish AJ-01's verified local checkpoint, then implement independent AJ-02 guards. Final regression is required after the last code change.
+Next: implement AJ-02 security, grounding and dependency guards. Final regression is required after the last code change.

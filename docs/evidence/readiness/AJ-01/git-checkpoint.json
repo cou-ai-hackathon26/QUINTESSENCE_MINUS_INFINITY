@@ -1,0 +1,10 @@
+{
+  "phase_id": "AJ-01",
+  "status": "published",
+  "remote": "https://github.com/sakibul-shovon/Shongoti.git",
+  "branch": "main",
+  "milestone_sha": "1c00a2dc039d732d8abdb65a60da1d2405808d94",
+  "verified_remote_tip_at_milestone": "1c00a2dc039d732d8abdb65a60da1d2405808d94",
+  "verified_at_utc": "2026-11-23T22:17:21.663161+00:00",
+  "verification": "Normal push followed by ls-remote confirmed exact milestone. Scope is local repairs; container daemon unavailable."
+}
