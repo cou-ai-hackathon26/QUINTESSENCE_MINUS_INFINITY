@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-23",
+  "branch": "main",
+  "objective": "Seeded judge merchant account using the same persistent workflows and actual providers as real accounts",
+  "phases": [
+    {
+      "id": "JR-01",
+      "status": "verified_pending_publication",
+      "scope": "Persistent judge/API contract repair"
+    },
+    {
+      "id": "JR-02",
+      "status": "not_started",
+      "scope": "Real Groq multimodal inference and grounded chat"
+    },
+    {
+      "id": "JR-03",
+      "status": "not_started",
+      "scope": "Real agent workflow and evidence retrieval"
+    },
+    {
+      "id": "JR-04",
+      "status": "not_started",
+      "scope": "End-to-end workflow and integration verification"
+    }
+  ],
+  "provider": {
+    "name": "groq",
+    "models_access": "verified_http_200",
+    "task_inference": "not_yet_verified"
+  },
+  "next_task": "Connect configured Groq text/vision/Whisper inference, document indexing and task receipts; verify unseen synthetic requests."
+}

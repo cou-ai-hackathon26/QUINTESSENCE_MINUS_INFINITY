@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-23",
+  "scope": "Persistent isolated judge merchant account; no frontend fixture interception",
+  "checks": {
+    "api": {
+      "result": "passed",
+      "tests": 14,
+      "files": [
+        "test_workbench_auth.py",
+        "test_judge_real_workflow.py"
+      ]
+    },
+    "web": {
+      "result": "passed",
+      "tests": 7,
+      "files": [
+        "JudgeApi.test.ts",
+        "Workflows.test.tsx"
+      ]
+    },
+    "build": "passed",
+    "browser": "evidence/browser-report.json"
+  },
+  "verified": [
+    "New file upload reaches HTTP backend and persists across reload",
+    "Original scoped evidence downloadable",
+    "Actual case input/version update and assessment; stale inputs rejected",
+    "Actual sale changes account balances and survives reload",
+    "Separate judge accounts cannot read each other sources"
+  ],
+  "next": "Groq multimodal inference and actual provider receipts"
+}

@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-23T15:26:48.121Z",
+  "mode": "main_react_foundation_judge",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Persisted judge case sources are loaded from the API and actual clarification resolves 18,000",
+    "Case inputs and assessment survive actual browser reload",
+    "New judge upload reaches the real API, is downloadable and survives reload",
+    "Judge sale posts an actual ledger entry and the updated balance survives reload"
+  ],
+  "screenshots": [
+    "persistent-case-1440.png",
+    "uploaded-judge-file-1440.png",
+    "persistent-money-1440.png",
+    "persistent-money-768.png",
+    "persistent-money-360.png"
+  ],
+  "errors": [],
+  "passed": true
+}

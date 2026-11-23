@@ -17,6 +17,7 @@ from app.persistence.models import (
     CaseVersionModel,
     ConfidenceAssessmentModel,
     EvidenceClaimModel,
+    EvidenceModel,
     UserModel,
     now_utc,
 )
@@ -43,6 +44,42 @@ class AssessCaseRequest(BaseModel):
     unavailable_reason: Optional[str] = None
     blocking_validation_failure: bool = False
     model_self_confidence: Optional[float] = None
+
+
+class ReconciliationInputsDTO(BaseModel):
+    demand_paisa: int = Field(...,gt=0)
+    payment_paisa: int = Field(...,gt=0)
+    return_paisa: int = Field(...,gt=0)
+    supplier: str = Field(...,min_length=1,max_length=255)
+    source_refs: List[str] = Field(...,min_length=3,max_length=3)
+    source_ids: List[Optional[str]] = Field(default_factory=list,max_length=3)
+    payment_applicable: bool
+    return_accepted: bool
+    payment_included: Optional[bool] = None
+    return_included: Optional[bool] = None
+    expected_version: int = Field(...,ge=1)
+
+
+@cases_router.put('/{case_id}/inputs')
+def save_reconciliation_inputs(case_id:str, req:ReconciliationInputsDTO, current_user:UserModel=Depends(get_current_user),db:Session=Depends(get_db)):
+    case=db.query(CaseModel).filter_by(id=case_id,tenant_id=current_user.tenant_id).first()
+    if not case: raise HTTPException(404,'Case not found.')
+    if case.current_version!=req.expected_version: raise HTTPException(409,'The case changed. Refresh before saving your review.')
+    if any(not ref.strip() for ref in req.source_refs): raise HTTPException(422,'Each fact needs a source reference.')
+    for source_id in req.source_ids:
+        if source_id and not db.query(EvidenceModel).filter_by(id=source_id,tenant_id=current_user.tenant_id).first(): raise HTTPException(404,'Source evidence not found in this workspace.')
+    values=req.model_dump(exclude={'expected_version'})
+    definitions=[('payment_applicable','supported' if req.payment_applicable else 'unknown',1,{'amount_paisa':req.payment_paisa}),('return_acceptance_and_prior_inclusion','supported' if req.return_accepted and req.return_included is not None else 'unknown',2,{'accepted':req.return_accepted,'prior_included':req.return_included}),('payment_prior_inclusion','supported' if req.payment_included is not None else 'unknown',0,{'included':req.payment_included})]
+    for key,state,index,value in definitions:
+        claim=db.query(EvidenceClaimModel).filter_by(tenant_id=current_user.tenant_id,case_id=case.id,claim_key=key).first()
+        if not claim:
+            claim=EvidenceClaimModel(tenant_id=current_user.tenant_id,case_id=case.id,claim_key=key,is_critical=True,weight=3)
+            db.add(claim)
+        claim.state=state;claim.claim_value_json=json.dumps(value);claim.evaluator_type='human';claim.source_locator_json=json.dumps({'reference':req.source_refs[index],'evidence_id':req.source_ids[index] if len(req.source_ids)>index else None});claim.reasons_json=json.dumps(['Owner-confirmed source interpretation; unknown inclusion remains unknown'])
+    case.current_version+=1;case.status='waiting_user';case.updated_at=now_utc()
+    db.add(CaseVersionModel(tenant_id=current_user.tenant_id,case_id=case.id,version_num=case.current_version,state_snapshot_json=json.dumps({'inputs':values})))
+    db.commit()
+    return {'case_id':case.id,'current_version':case.current_version,'inputs':values}
 
 
 @cases_router.post("", status_code=status.HTTP_201_CREATED)
@@ -72,12 +109,15 @@ def create_case(
     db.commit()
     db.refresh(case)
 
+    snapshot=db.query(CaseVersionModel).filter_by(case_id=case.id,version_num=case.current_version,tenant_id=current_user.tenant_id).first()
+    inputs=json.loads(snapshot.state_snapshot_json or '{}').get('inputs') if snapshot else None
     return {
         "id": case.id,
         "case_type": case.case_type,
         "title": case.title,
         "status": case.status,
         "current_version": case.current_version,
+        "inputs": inputs,
     }
 
 
@@ -127,17 +167,19 @@ def get_case_details(
 
     latest_assessment = (
         db.query(ConfidenceAssessmentModel)
-        .filter(ConfidenceAssessmentModel.case_id == case_id, ConfidenceAssessmentModel.tenant_id == current_user.tenant_id)
+        .filter(ConfidenceAssessmentModel.case_id == case_id, ConfidenceAssessmentModel.tenant_id == current_user.tenant_id, ConfidenceAssessmentModel.case_version == case.current_version)
         .order_by(ConfidenceAssessmentModel.case_version.desc(), ConfidenceAssessmentModel.assessed_at.desc())
         .first()
     )
 
+    current_snapshot=db.query(CaseVersionModel).filter_by(case_id=case.id,version_num=case.current_version,tenant_id=current_user.tenant_id).first()
     return {
         "id": case.id,
         "case_type": case.case_type,
         "title": case.title,
         "status": case.status,
         "current_version": case.current_version,
+        "inputs": json.loads(current_snapshot.state_snapshot_json or '{}').get('inputs') if current_snapshot else None,
         "claims": [
             {
                 "id": cl.id,

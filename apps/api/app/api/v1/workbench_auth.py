@@ -15,6 +15,7 @@ from app.core.auth import create_access_token, get_current_user
 from app.core.database import get_db
 from app.domain.ledger import StandardAccount
 from app.core.config import settings
+from app.judge_seed import seed_judge_workflows
 from app.persistence.models import UserModel, TenantModel, UserCredentialModel, AccountModel, ProductItemModel, PartyModel, CaseModel, CaseVersionModel, JournalEntryModel, PostingModel, RevokedSessionModel
 
 workbench_auth_router = APIRouter(prefix='/api/v1/auth', tags=['Workbench identity'])
@@ -57,7 +58,8 @@ def response(user, db, http_response=None):
     credential = db.get(UserCredentialModel, user.id)
     token=create_access_token(user.id,user.tenant_id,user.role,bool(user.tenant.is_demo))
     if http_response is not None: http_response.set_cookie('shongoti_session',token,httponly=True,samesite='strict',secure=settings.ENVIRONMENT=='production',max_age=86400,path='/')
-    return {'access_token':token, 'token_type':'bearer', 'user_id':user.id, 'tenant_id':user.tenant_id, 'role':user.role, 'is_demo':bool(user.tenant.is_demo), 'phone_verified':False, 'name':credential.display_name if credential else 'Judge', 'shop_name':user.tenant.name}
+    judge_case=db.query(CaseModel).filter(CaseModel.tenant_id==user.tenant_id,CaseModel.case_type=='reconciliation').order_by(CaseModel.created_at.asc()).first() if user.tenant.is_demo else None
+    return {'access_token':token, 'token_type':'bearer', 'user_id':user.id, 'tenant_id':user.tenant_id, 'role':user.role, 'is_demo':bool(user.tenant.is_demo), 'phone_verified':False, 'name':credential.display_name if credential else 'Judge', 'shop_name':user.tenant.name, 'case_id':judge_case.id if judge_case else None,'execution_mode':'persistent_api'}
 
 @workbench_auth_router.post('/register', status_code=201)
 def register(payload:Register, request:Request, http_response:Response, db:Session=Depends(get_db)):
@@ -99,7 +101,7 @@ def judge(request:Request,http_response:Response,db:Session=Depends(get_db)):
     if previous:
         digest=hashlib.sha256(previous.encode()).hexdigest()
         if not db.get(RevokedSessionModel,digest): db.add(RevokedSessionModel(token_hash=digest))
-    tenant=TenantModel(name='মীনা স্টোর · Judge demo',is_demo=True)
+    tenant=TenantModel(name='মীনা স্টোর · Judge workspace',is_demo=True)
     db.add(tenant);db.flush()
     user=UserModel(tenant_id=tenant.id,phone='judge-'+secrets.token_hex(8),role='owner',is_active=True)
     db.add(user);db.flush()
@@ -111,9 +113,10 @@ def judge(request:Request,http_response:Response,db:Session=Depends(get_db)):
         db.add(account);db.flush();db.add(PostingModel(journal_entry_id=entry.id,account_id=account.id,direction=direction,amount_paisa=amount))
     db.add_all([PartyModel(tenant_id=tenant.id,name='রহমান ট্রেডার্স',party_type='supplier',current_due_paisa=2500000),PartyModel(tenant_id=tenant.id,name='করিম',party_type='customer',current_due_paisa=1850000),ProductItemModel(tenant_id=tenant.id,name='মিনিকেট চাল ২৫ কেজি',sku='RICE-025',unit='bag',quantity_on_hand=4,cost_price_paisa=119000,selling_price_paisa=130000)])
     case=CaseModel(tenant_id=tenant.id,case_type='reconciliation',title='Synthetic supplier prior-inclusion investigation',status='waiting_user',current_version=1)
-    db.add(case);db.flush();db.add(CaseVersionModel(tenant_id=tenant.id,case_id=case.id,version_num=1,state_snapshot_json='{"mode":"synthetic_judge"}'))
+    db.add(case);db.flush();db.add(CaseVersionModel(tenant_id=tenant.id,case_id=case.id,version_num=1,state_snapshot_json='{"origin":"seeded_example"}'));db.flush()
+    seed_judge_workflows(db,tenant,case)
     db.commit()
-    return {**response(user,db,http_response),'case_id':case.id,'mode':'synthetic_judge'}
+    return {**response(user,db,http_response),'case_id':case.id,'mode':'seeded_merchant_account'}
 
 @workbench_auth_router.post('/logout')
 def logout(request:Request,http_response:Response,user:UserModel=Depends(get_current_user),db:Session=Depends(get_db)):

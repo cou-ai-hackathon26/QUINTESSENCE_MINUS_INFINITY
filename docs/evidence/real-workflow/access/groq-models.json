@@ -1,0 +1,20 @@
+{
+  "checked_at": "2026-11-23T15:18:58.840Z",
+  "provider": "groq",
+  "operation": "GET /openai/v1/models",
+  "http_status": 200,
+  "models": [
+    "meta-llama/llama-prompt-guard-2-22m",
+    "canopylabs/orpheus-arabic-saudi",
+    "allam-2-7b",
+    "canopylabs/orpheus-v1-english",
+    "openai/gpt-oss-120b",
+    "whisper-large-v3",
+    "openai/gpt-oss-safeguard-20b",
+    "openai/gpt-oss-20b",
+    "meta-llama/llama-prompt-guard-2-86m",
+    "whisper-large-v3-turbo",
+    "qwen/qwen3.8-27b"
+  ],
+  "error_code": null
+}
