@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-23T14:16:58.016Z",
+  "mode": "main_react_foundation_judge",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Cash sale review requires explicit confirmation and returns a record",
+    "Wallet to cash principal and explicit fee respect separate accounts",
+    "People and money layouts remain within mobile viewport"
+  ],
+  "screenshots": [
+    "money-1440.png",
+    "money-768.png",
+    "money-360.png",
+    "people-360.png"
+  ],
+  "errors": [],
+  "passed": true
+}

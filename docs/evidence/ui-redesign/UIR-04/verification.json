@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-23",
+  "build": "passed",
+  "browser": "evidence/browser-report.json",
+  "api": "test_merchant_sale_collection_transfer_and_opening_receipts: passed",
+  "checked": [
+    "Balanced opening and duplicate opening rejection",
+    "Credit sale versus collection revenue distinction",
+    "Persisted account-specific transfer principal and fee",
+    "Review dialog confirmation and exact paisa display"
+  ],
+  "limitations": [
+    "Merchant mutation endpoints do not yet provide server-enforced idempotency keys; UI prevents concurrent submission but an uncertain network result must be reconciled before retry",
+    "Opening dues are not entered through unbalanced party balances; new parties start at zero",
+    "No real MFS transfer or payment is performed"
+  ]
+}

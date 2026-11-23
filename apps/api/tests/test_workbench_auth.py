@@ -115,3 +115,23 @@ def test_case_action_version_guard_and_no_fake_external_execution(client):
         case.current_version += 1
         db.commit()
     assert c.post(f'/api/v1/actions/{action_id}/execute').status_code == 409
+
+
+def test_merchant_sale_collection_transfer_and_opening_receipts(client):
+    c, _ = client
+    identity = c.post('/api/v1/auth/register', json=payload()).json()
+    c.headers['Origin'] = 'http://testserver'
+    opening = {'description':'Verified synthetic opening','event_id':'opening-'+identity['tenant_id'],'postings':[{'account_code':'asset:cash','direction':'debit','amount_paisa':100000},{'account_code':'asset:wallet:bkash','direction':'debit','amount_paisa':50000},{'account_code':'equity:owner_capital','direction':'credit','amount_paisa':150000}]}
+    assert c.post('/api/v1/ledger/post',json=opening).status_code == 200
+    assert c.post('/api/v1/ledger/post',json=opening).status_code == 409
+    customer = c.post('/api/v1/merchant/parties',json={'name':'Synthetic customer','party_type':'customer'}).json()['id']
+    sale = c.post('/api/v1/merchant/sales',json={'sale_type':'credit','total_amount_paisa':10025,'party_id':customer})
+    assert sale.status_code == 200 and sale.json()['sale_id']
+    assert c.post('/api/v1/merchant/collect-due',json={'party_id':customer,'amount_paisa':5000}).json()['entry_id']
+    assert c.get('/api/v1/merchant/today').json()['total_revenue_paisa'] == 10025
+    assert c.get('/api/v1/merchant/parties').json()[0]['current_due_paisa'] == 5025
+    transfer = c.post('/api/v1/merchant/transfer',json={'from_channel':'bkash','to_channel':'cash','principal_paisa':10000,'fee_paisa':185})
+    assert transfer.status_code == 200 and transfer.json()['transfer_id']
+    balances = {a['code']:a['current_balance_paisa'] for a in c.get('/api/v1/ledger/accounts').json()}
+    assert balances['asset:cash'] == 115000
+    assert balances['asset:wallet:bkash'] == 39815
