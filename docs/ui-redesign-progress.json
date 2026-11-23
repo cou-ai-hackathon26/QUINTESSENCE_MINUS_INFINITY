@@ -29,7 +29,12 @@
     {
       "id": "UIR-02",
       "name": "Landing, Today and case vertical slice",
-      "status": "verified_pending_publication"
+      "status": "complete",
+      "git_checkpoint": {
+        "status": "milestone_published",
+        "milestone_sha": "2e50944df833872d3a8523824343c46d26b9c8cf",
+        "receipt": "docs/evidence/ui-redesign/UIR-02/git-checkpoint.json"
+      }
     },
     {
       "id": "UIR-03",
