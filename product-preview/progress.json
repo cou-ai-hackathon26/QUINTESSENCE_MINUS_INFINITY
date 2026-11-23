@@ -35,7 +35,10 @@
     "live_ai_payment_rag": "not_run"
   },
   "git_checkpoint": {
-    "status": "pending"
+    "status": "milestone_published",
+    "milestone_sha": "095f935c4b48ccdfc163a8c51969bc0383602034",
+    "receipt": "evidence/git-checkpoint.json",
+    "receipt_publication": "verify_from_remote_history"
   },
   "next_task": "Collect owner feedback on the revised workbench and judge entry; production rollout remains unapproved."
 }

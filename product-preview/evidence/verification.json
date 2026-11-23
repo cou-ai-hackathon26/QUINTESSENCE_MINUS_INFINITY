@@ -25,7 +25,7 @@
     {
       "command": "node scripts/scan-secrets.js",
       "exit_code": 0,
-      "tracked_files_scanned": 330,
+      "tracked_files_scanned": 331,
       "limits": "Pattern scan, not an exhaustive security audit"
     }
   ],

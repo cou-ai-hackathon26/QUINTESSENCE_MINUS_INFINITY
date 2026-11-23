@@ -1,0 +1,11 @@
+{
+  "checkpoint_id": "preview-01",
+  "status": "milestone_published",
+  "remote": "https://github.com/sakibul-shovon/Shongoti.git",
+  "branch": "design/product-preview",
+  "milestone_sha": "095f935c4b48ccdfc163a8c51969bc0383602034",
+  "verified_remote_tip_at_milestone": "095f935c4b48ccdfc163a8c51969bc0383602034",
+  "verified_at_utc": "2026-11-23T13:05:02.839Z",
+  "verification": "Normal push succeeded; git ls-remote observed exact milestone at refs/heads/design/product-preview.",
+  "scope": "Isolated product design review; no full redesign phase marked complete; design awaiting owner feedback."
+}
