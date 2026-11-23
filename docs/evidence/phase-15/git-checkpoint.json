@@ -1,0 +1,15 @@
+{
+  "phase": "15",
+  "name": "cases, provenance and confidence",
+  "timestamp_utc": "2026-11-23T09:26:00Z",
+  "remote": "origin",
+  "branch": "main",
+  "milestone_sha": "cb1220658fa99173f2730cefb49bf41d40866504",
+  "status": "published",
+  "verified_gates": [
+    "P15-T01: Migration 007_cases_and_confidence created and upgraded for cases, case_versions, evidence_claims, and confidence_assessments",
+    "P15-T02: Deterministic evidence-support-v1 policy implemented with critical cap at 59 and readiness routing",
+    "P15-T03: Accessible ConfidenceBadge component created with Bengali numerals and claims drawer",
+    "P15-T04: All 11 cases from confidence-policy-v1.json fixtures verified, Case API lifecycle verified, and cross-tenant isolation tested"
+  ]
+}
