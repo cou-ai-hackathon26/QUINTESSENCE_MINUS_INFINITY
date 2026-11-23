@@ -23,8 +23,9 @@ Source review at `8d4c122`: configured `AIModelAdapter` raises without a provide
 | 12 | Deployment, release documentation and handover | complete | Work verified; milestone `54256a2`; see `evidence/phase-12/git-checkpoint.json` |
 | 13 | Establish the real upgrade baseline | complete | Work verified; audit report docs/BASELINE_AUDIT.md, honest runners, security escalation patch, baseline report docs/evidence/phase-13/baseline-verification-report.md |
 | 14 | Genuine evidence inference and original reconciliation | complete | Work verified; Gemini boundary, multimodal audio/image/PDF, Bengali numeral normalization, reconciliation API /api/v1/reconciliation, eval-ai runner |
+| 15 | Cases, provenance and confidence | complete | Work verified; migration 007, evidence-support-v1 policy (11/11 cases matched), Case APIs, accessible ConfidenceBadge UI component |
 
-**Next action:** P15-T01: cases, provenance and confidence policy under EXTENSION_PLAN.md.
+**Next action:** P16-T01: hybrid merchant memory under EXTENSION_PLAN.md.
 
 **Next implementation task:** P13-T01, followed by the actual next unblocked task from the additive extension contract. Genuine inference still needs provider implementation, image/audio routing and actual evaluation; adding a key alone is insufficient. External blockers permit only section J's explicitly independent local tasks.
 

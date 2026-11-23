@@ -12,6 +12,7 @@ from sqlalchemy import (
     Boolean,
     Column,
     DateTime,
+    Float,
     ForeignKey,
     Integer,
     String,
@@ -355,4 +356,71 @@ class RecurringCommitmentModel(Base):
     created_at = Column(DateTime, nullable=False, default=now_utc)
 
     party = relationship("PartyModel")
+
+
+class CaseModel(Base):
+    __tablename__ = "cases"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    case_type = Column(String(64), nullable=False)  # reconciliation, offer, receiving, claim, chat, business_help
+    title = Column(String(255), nullable=False)
+    status = Column(String(32), nullable=False, default="open")  # open, waiting_user, ready_for_review, approved, closed, rejected
+    current_version = Column(Integer, nullable=False, default=1)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+    updated_at = Column(DateTime, nullable=False, default=now_utc, onupdate=now_utc)
+
+
+class CaseVersionModel(Base):
+    __tablename__ = "case_versions"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    case_id = Column(String(36), ForeignKey("cases.id", ondelete="CASCADE"), nullable=False, index=True)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    version_num = Column(Integer, nullable=False)
+    state_snapshot_json = Column(Text, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+    __table_args__ = (
+        UniqueConstraint("case_id", "version_num", name="uq_case_version"),
+    )
+
+
+class EvidenceClaimModel(Base):
+    __tablename__ = "evidence_claims"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    case_id = Column(String(36), ForeignKey("cases.id", ondelete="SET NULL"), nullable=True, index=True)
+    claim_key = Column(String(64), nullable=False)
+    is_critical = Column(Boolean, nullable=False, default=False)
+    state = Column(String(32), nullable=False, default="unknown")  # supported, unknown, conflicted, unsupported
+    weight = Column(Integer, nullable=False, default=1)
+    source_locator_json = Column(Text, nullable=True)
+    claim_value_json = Column(Text, nullable=True)
+    evaluator_type = Column(String(32), nullable=False, default="deterministic")  # deterministic, model_rubric, human
+    reasons_json = Column(Text, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
+class ConfidenceAssessmentModel(Base):
+    __tablename__ = "confidence_assessments"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    case_id = Column(String(36), ForeignKey("cases.id", ondelete="CASCADE"), nullable=False, index=True)
+    case_version = Column(Integer, nullable=False)
+    policy_version = Column(String(32), nullable=False, default="evidence-support-v1")
+    kind = Column(String(32), nullable=False, default="evidence_support_index")
+    base_score = Column(Integer, nullable=True)
+    score = Column(Integer, nullable=True)
+    band = Column(String(32), nullable=False)  # strong, review, limited, unavailable
+    readiness = Column(String(32), nullable=False)  # ready_for_review, needs_review, needs_clarification, blocked, unavailable
+    can_execute_without_approval = Column(Boolean, nullable=False, default=False)
+    blocking_validation_failure = Column(Boolean, nullable=False, default=False)
+    unavailable_reason = Column(String(64), nullable=True)
+    model_self_confidence = Column(Float, nullable=True)
+    assessed_at = Column(DateTime, nullable=False, default=now_utc)
+    assessment_details_json = Column(Text, nullable=True)
+
 

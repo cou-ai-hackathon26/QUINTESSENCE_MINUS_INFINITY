@@ -12,7 +12,7 @@
     "check:css": "node scripts/check-css.js",
     "test:e2e": "node scripts/test-e2e.js",
     "test:extension": "node scripts/runner-stub.js test:extension 14",
-    "test:confidence": "node scripts/runner-stub.js test:confidence 15",
+    "test:confidence": "node scripts/run-python.js -m pytest apps/api/tests/test_confidence_and_cases.py -v",
     "test:retrieval": "node scripts/runner-stub.js test:retrieval 16",
     "test:agents": "node scripts/runner-stub.js test:agents 17",
     "test:workflows": "node scripts/runner-stub.js test:workflows 19",

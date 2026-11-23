@@ -2,8 +2,8 @@
   "schema_version": 3,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "14",
-  "next_task": "P15-T01",
+  "current_phase": "15",
+  "next_task": "P16-T01",
   "application_started": true,
   "phases": [
     {
@@ -777,7 +777,7 @@
     {
       "id": "15",
       "name": "cases, provenance and confidence",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "13",
         "14"
@@ -785,32 +785,45 @@
       "tasks": [
         {
           "id": "P15-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "apps/api/alembic/versions/007_cases_and_confidence.py",
+            "apps/api/app/persistence/models.py",
+            "docs/evidence/phase-15/confidence-policy-report.md"
+          ],
+          "notes": "Added migration 007_cases_and_confidence for cases, case_versions, evidence_claims, and confidence_assessments tables."
         },
         {
           "id": "P15-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "apps/api/app/confidence/policy.py",
+            "docs/evidence/phase-15/confidence-policy-report.md"
+          ],
+          "notes": "Implemented evidence-support-v1 scoring policy: critical cap at 59, readiness routing, zero probability claim."
         },
         {
           "id": "P15-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "apps/web/src/components/ConfidenceBadge.tsx",
+            "apps/web/src/tests/ConfidenceBadge.test.tsx"
+          ],
+          "notes": "Built ConfidenceBadge component with Bengali numerals, provenance drawer, and owner authorization requirement."
         },
         {
           "id": "P15-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "apps/api/tests/test_confidence_and_cases.py",
+            "tests/fixtures/extension-handoff/confidence-policy-v1.json"
+          ],
+          "notes": "Asserted all 11 cases from confidence-policy-v1.json fixture; verified case lifecycle, state changes, and tenant isolation."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "pending_receipt",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
