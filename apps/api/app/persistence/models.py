@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from typing import List, Optional
 
 from sqlalchemy import (
+    BigInteger,
     Boolean,
     Column,
     DateTime,
@@ -624,6 +625,55 @@ class NotificationModel(Base):
     snoozed_until = Column(DateTime, nullable=True)
     created_at = Column(DateTime, nullable=False, default=now_utc)
     updated_at = Column(DateTime, nullable=False, default=now_utc, onupdate=now_utc)
+
+
+class CustomerReservationModel(Base):
+    __tablename__ = "customer_reservations"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    customer_name = Column(String(255), nullable=True)
+    customer_phone = Column(String(64), nullable=True)
+    items_json = Column(Text, nullable=False)  # JSON list of {sku, name, quantity, unit_price_paisa}
+    status = Column(String(32), nullable=False, default="reserved")  # reserved, picked, completed, expired, cancelled
+    total_estimated_paisa = Column(BigInteger, nullable=False, default=0)
+    deposit_paisa = Column(BigInteger, nullable=False, default=0)
+    expires_at = Column(DateTime, nullable=False)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+
+class ReturnableContainerModel(Base):
+    __tablename__ = "returnable_containers"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    container_type = Column(String(64), nullable=False)  # crate, bottle, drum, bag
+    party_id = Column(String(36), ForeignKey("parties.id", ondelete="SET NULL"), nullable=True)
+    party_name = Column(String(255), nullable=False)
+    issued_count = Column(Integer, nullable=False, default=0)
+    returned_count = Column(Integer, nullable=False, default=0)
+    outstanding_count = Column(Integer, nullable=False, default=0)
+    deposit_per_unit_paisa = Column(BigInteger, nullable=False, default=0)
+    total_deposit_held_paisa = Column(BigInteger, nullable=False, default=0)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+    updated_at = Column(DateTime, nullable=False, default=now_utc, onupdate=now_utc)
+
+
+class ShiftHandoverModel(Base):
+    __tablename__ = "shift_handovers"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    shift_name = Column(String(64), nullable=False)  # Morning, Evening, Night
+    opened_by = Column(String(255), nullable=False)
+    closed_by = Column(String(255), nullable=False)
+    declared_cash_paisa = Column(BigInteger, nullable=False, default=0)
+    system_cash_paisa = Column(BigInteger, nullable=False, default=0)
+    variance_paisa = Column(BigInteger, nullable=False, default=0)
+    notes = Column(Text, nullable=True)
+    possible_reasons_json = Column(Text, nullable=True)  # JSON list of plausible hypotheses
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
 
 
 

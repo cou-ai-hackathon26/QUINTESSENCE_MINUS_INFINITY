@@ -2,8 +2,8 @@
   "schema_version": 3,
   "prepared_date": "2026-11-22",
   "timezone": "Asia/Dhaka",
-  "current_phase": "22",
-  "next_task": "P23-T01",
+  "current_phase": "23",
+  "next_task": "P24-T01",
   "application_started": true,
   "phases": [
     {
@@ -1209,7 +1209,7 @@
     {
       "id": "23",
       "name": "additional everyday operations",
-      "status": "not_started",
+      "status": "complete",
       "depends_on": [
         "18",
         "20",
@@ -1218,32 +1218,40 @@
       "tasks": [
         {
           "id": "P23-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-23/everyday-operations-report.md"
+          ],
+          "notes": "Customer order reservation and picking lists without revenue mutation."
         },
         {
           "id": "P23-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-23/everyday-operations-report.md"
+          ],
+          "notes": "Shift handover cash discrepancy and non-accusatory hypotheses."
         },
         {
           "id": "P23-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-23/everyday-operations-report.md"
+          ],
+          "notes": "Scoped supplier change advisory without global order rewriting."
         },
         {
           "id": "P23-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": "Approved extension requirement only; implement and verify under EXTENSION_PLAN.md. No application completion claimed by this handoff."
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-23/everyday-operations-report.md"
+          ],
+          "notes": "Returnable containers and refundable deposit tracking isolated from sales."
         }
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "in_progress",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
