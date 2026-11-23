@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-23T16:30:26.698Z",
+  "base_revision": "d6c37bd3c76dd87de6c360845a03a55c6a93bfea",
+  "scope": "JR-03 working tree; milestone receipt recorded separately",
+  "checks": [
+    {
+      "command": "node scripts/run-python.js -m pytest apps/api/tests/ -q -p no:cacheprovider",
+      "exit_code": 0,
+      "passed": 166
+    },
+    {
+      "command": "pnpm.cmd test:web",
+      "exit_code": 0,
+      "passed": 31
+    },
+    {
+      "command": "pnpm.cmd build",
+      "exit_code": 0
+    },
+    {
+      "command": "node scripts/run-python.js scripts/verify-semantic-local.py",
+      "exit_code": 0,
+      "actual_semantic_queries": 2
+    },
+    {
+      "command": "node scripts/run-python.js scripts/verify-real-agents.py",
+      "exit_code": 0,
+      "actual_groq_specialist_calls": 3
+    },
+    {
+      "command": "node scripts/check-real-agent-browser.mjs",
+      "exit_code": 0,
+      "checks": 5,
+      "screenshots": 6
+    }
+  ],
+  "secret_scan": {
+    "checked_files": 44,
+    "credential_pattern_hits": 0
+  }
+}

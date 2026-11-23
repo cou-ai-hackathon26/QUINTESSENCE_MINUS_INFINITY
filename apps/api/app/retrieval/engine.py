@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 
 from app.ingestion.adapters import normalize_bengali_digits
 from app.persistence.models import DocumentChunkModel
+from app.retrieval import semantic
 
 # Reviewed MSME product and merchant aliases for semantic normalization
 REVIEWED_ALIASES: Dict[str, str] = {
@@ -36,9 +37,8 @@ RRF_K = 60
 def normalize_search_query(query: str) -> str:
     """Normalizes Bengali digits and reviewed Banglish/English product aliases."""
     normalized = normalize_bengali_digits(query.lower().strip())
-    for alias, replacement in REVIEWED_ALIASES.items():
-        if alias in normalized:
-            normalized = normalized.replace(alias, replacement)
+    for alias, replacement in sorted(REVIEWED_ALIASES.items(),key=lambda item:-len(item[0])):
+        normalized=re.sub(r'(?<!\w)'+re.escape(alias)+r'(?!\w)',replacement,normalized)
     return normalized
 
 
@@ -52,22 +52,6 @@ def compute_cosine_similarity(vec1: List[float], vec2: List[float]) -> float:
     if norm1 == 0 or norm2 == 0:
         return 0.0
     return dot / (norm1 * norm2)
-
-
-def generate_lexical_embedding_double(text: str, dim: int = 16) -> List[float]:
-    """
-    Deterministic test double embedding generator based on token hashing.
-    Used for local testing where remote Google text-embedding-004 is unconfigured.
-    """
-    vec = [0.0] * dim
-    words = re.findall(r"\w+", text.lower())
-    for w in words:
-        h = hash(w) % dim
-        vec[h] += 1.0
-    norm = math.sqrt(sum(v * v for v in vec))
-    if norm > 0:
-        vec = [v / norm for v in vec]
-    return vec
 
 
 class RetrievalResult:
@@ -130,6 +114,9 @@ class EvidencePack:
             "has_conflicts": self.has_conflicts,
             "missing_reasons": self.missing_reasons,
             "top_citations": [r.to_dict() for r in self.results[:5]],
+            "results": [r.to_dict() for r in self.results],
+            "retrieval_mode": getattr(self,"retrieval_mode","keyword_only"),
+            "semantic": semantic.status(),
         }
 
 
@@ -167,91 +154,57 @@ class HybridRetriever:
         if not candidates:
             return EvidencePack(query=query, results=[], is_sufficient=False, missing_reasons=["No active chunks found for tenant."])
 
-        # Generate query vector if not passed
-        effective_query_vec = query_embedding or generate_lexical_embedding_double(norm_query)
+        # Real local inference only. Existing hash vectors have no matching model identity and are ignored.
+        vectors,identity=semantic.encode([query],query=True)
+        effective_query_vec=vectors[0] if vectors else None
+        missing=[c for c in candidates if not c.embedding_json or json.loads(c.metadata_json or '{}').get('embedding_model')!=identity]
+        if identity and missing:
+            generated,generated_identity=semantic.encode([c.content for c in missing[:64]])
+            if generated:
+                for chunk,vector in zip(missing[:64],generated):
+                    meta=json.loads(chunk.metadata_json or '{}');meta.update({'embedding_model':generated_identity,'embedding_dimension':len(vector),'embedding_status':'generated'})
+                    chunk.embedding_json=json.dumps(vector);chunk.metadata_json=json.dumps(meta)
+                self.db.flush()
 
-        # 2. Score keyword matches
-        keyword_scores: List[Tuple[DocumentChunkModel, float, bool]] = []
+        # Unicode whitespace tokens preserve Bengali combining marks. BM25 uses actual corpus counts.
+        def tokens(text):return re.findall(r'[^\s,;:.!?()\[\]"।]+',text.lower())
+        query_tokens=[t for t in tokens(norm_query) if t not in {'the','a','an','is','my','what','were','are','of','for','and','to','how','do','i'}]
+        corpus={c.id:tokens(c.normalized_content or normalize_search_query(c.content)) for c in candidates}
+        mean_length=sum(map(len,corpus.values()))/max(1,len(candidates))
+        keyword_scores=[];exact_matches={}
         for c in candidates:
-            score = 0.0
-            exact_match = False
-            meta = json.loads(c.metadata_json) if c.metadata_json else {}
-
-            # Exact invoice identity match boost
-            c_invoice = str(meta.get("invoice_ref", ""))
-            if target_ref_norm and c_invoice and normalize_bengali_digits(c_invoice) == target_ref_norm:
-                exact_match = True
-                score += 10.0
-            elif target_ref_norm and target_ref_norm in c.normalized_content:
-                exact_match = True
-                score += 5.0
-
-            # Lexical token matching
-            q_tokens = re.findall(r"\w+", norm_query)
-            for t in q_tokens:
-                if t in c.normalized_content:
-                    score += 1.0
-
-            keyword_scores.append((c, score, exact_match))
-
-        # Sort keyword rank (1-indexed)
-        keyword_sorted = sorted(keyword_scores, key=lambda x: x[1], reverse=True)
-        keyword_rank_map = {item[0].id: (idx + 1, item[2]) for idx, item in enumerate(keyword_sorted)}
-
-        # 3. Score dense vector similarities
-        dense_scores: List[Tuple[DocumentChunkModel, float]] = []
+            meta=json.loads(c.metadata_json or '{}');ref=normalize_bengali_digits(str(meta.get('invoice_ref',''))).lower()
+            exact=bool(target_ref_norm and ref==target_ref_norm.lower())
+            if target_ref_norm and target_ref_norm.lower() in (c.normalized_content or '').lower():exact=True
+            exact_matches[c.id]=exact
+            words=corpus[c.id];score=0.0
+            for token in set(query_tokens):
+                frequency=words.count(token)
+                if not frequency:continue
+                documents=sum(token in values for values in corpus.values())
+                idf=math.log(1+(len(candidates)-documents+0.5)/(documents+0.5))
+                score+=idf*(frequency*2.2)/(frequency+1.2*(0.25+0.75*len(words)/max(1,mean_length)))
+            if score>0 or exact:keyword_scores.append((c,score))
+        keyword_scores.sort(key=lambda row:row[1],reverse=True)
+        keyword_rank={row[0].id:index+1 for index,row in enumerate(keyword_scores)}
+        dense_scores=[]
         for c in candidates:
-            vec = json.loads(c.embedding_json) if c.embedding_json else generate_lexical_embedding_double(c.normalized_content)
-            sim = compute_cosine_similarity(effective_query_vec, vec)
-            dense_scores.append((c, sim))
-
-        dense_sorted = sorted(dense_scores, key=lambda x: x[1], reverse=True)
-        dense_rank_map = {item[0].id: idx + 1 for idx, item in enumerate(dense_sorted)}
-
-        # 4. Reciprocal Rank Fusion (RRF)
-        scored_results: List[RetrievalResult] = []
+            meta=json.loads(c.metadata_json or '{}')
+            if not effective_query_vec or meta.get('embedding_model')!=identity or not c.embedding_json:continue
+            similarity=compute_cosine_similarity(effective_query_vec,json.loads(c.embedding_json))
+            if similarity>=0.78:dense_scores.append((c,similarity))
+        dense_scores.sort(key=lambda row:row[1],reverse=True)
+        dense_rank={row[0].id:index+1 for index,row in enumerate(dense_scores)}
+        scored=[]
         for c in candidates:
-            k_rank, is_exact = keyword_rank_map[c.id]
-            d_rank = dense_rank_map[c.id]
-
-            # Standard RRF formula
-            rrf = (1.0 / (RRF_K + k_rank)) + (1.0 / (RRF_K + d_rank))
-            # Exact invoice ID priority invariant: exact matches must outrank purely semantic look-alikes
-            if is_exact:
-                rrf += 1.0
-
-            meta = json.loads(c.metadata_json) if c.metadata_json else {}
-            scored_results.append(
-                RetrievalResult(
-                    chunk_id=c.id,
-                    document_id=c.document_id,
-                    content=c.content,
-                    source_type=c.source_type,
-                    rrf_score=rrf,
-                    keyword_rank=k_rank,
-                    dense_rank=d_rank,
-                    metadata=meta,
-                    exact_id_match=is_exact,
-                )
-            )
-
-        scored_results.sort(key=lambda r: r.rrf_score, reverse=True)
-        top_results = scored_results[:top_k]
-
-        is_sufficient = len(top_results) > 0 and (top_results[0].exact_id_match or top_results[0].rrf_score > 0.02)
-        has_conflicts = False
-
-        # Detect conflicting terms (e.g. conflicting payment terms for same invoice)
-        invoice_terms = set()
-        for r in top_results:
-            if "terms" in r.metadata:
-                invoice_terms.add(r.metadata["terms"])
-        if len(invoice_terms) > 1:
-            has_conflicts = True
-
-        return EvidencePack(
-            query=query,
-            results=top_results,
-            is_sufficient=is_sufficient,
-            has_conflicts=has_conflicts,
-        )
+            kr=keyword_rank.get(c.id,0);dr=dense_rank.get(c.id,0);exact=exact_matches[c.id]
+            if not kr and not dr and not exact:continue
+            score=(1/(RRF_K+kr) if kr else 0)+(1/(RRF_K+dr) if dr else 0)+(1 if exact else 0)
+            scored.append(RetrievalResult(c.id,c.document_id,c.content,c.source_type,score,kr,dr,json.loads(c.metadata_json or '{}'),exact))
+        scored.sort(key=lambda row:row.rrf_score,reverse=True)
+        top=scored[:top_k]
+        terms={str(r.metadata.get('terms')) for r in top if 'terms' in r.metadata}
+        conflicts=len(terms)>1
+        pack=EvidencePack(query,top,bool(top) and not conflicts,conflicts,[] if top else ['No matching active evidence.'])
+        pack.retrieval_mode='hybrid_bm25_dense_rrf' if effective_query_vec else 'keyword_only'
+        return pack

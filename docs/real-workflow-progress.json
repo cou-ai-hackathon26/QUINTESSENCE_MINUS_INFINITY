@@ -25,7 +25,7 @@
     },
     {
       "id": "JR-03",
-      "status": "not_started",
+      "status": "verified_pending_publication",
       "scope": "Real agent workflow and evidence retrieval"
     },
     {
@@ -37,7 +37,9 @@
   "provider": {
     "name": "groq",
     "models_access": "verified_http_200",
-    "task_inference": "genuine_text_image_native_pdf_scanned_pdf_whisper_grounded_chat_verified"
+    "task_inference": "genuine_text_image_native_pdf_scanned_pdf_whisper_grounded_chat_verified",
+    "semantic": "Actual pinned multilingual E5 ONNX CPU inference verified for Bangla/English synthetic paraphrases",
+    "agents": "Three genuine Groq calls plus exact reconciliation; sequential persisted tasks with live polling"
   },
-  "next_task": "Finish JR-02 publication, then replace agent canned findings and lexical hash vectors with actual source-grounded execution and semantic retrieval."
+  "next_task": "Publish verified JR-03 specialist/semantic/reviewed-proposal work, then audit remaining daily transaction and external capability boundaries in JR-04."
 }

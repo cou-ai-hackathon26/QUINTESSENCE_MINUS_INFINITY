@@ -145,12 +145,14 @@ def test_hybrid_retrieval_and_confidence_capping(client, tenant_a):
     assert data["readiness"] == "needs_clarification"
     assert "কোনো নথিপত্র বা প্রমাণ মেমোরিতে খুঁজে পাওয়া যায়নি" in data["content"]
 
-    # Case 2: Index return terms document chunk
+    # Case 2: Index an actual tenant-owned source, never an invented document ID.
+    evidence=client.post('/api/v1/evidence/upload',headers={'Authorization':tenant_a['Authorization']},files={'file':('return-terms.txt','মেঘনা বেভারেজ ফেরত নীতি: পণ্য প্রাপ্তির ৭ দিনের মধ্যে অব্যবহৃত অবস্থায় ফেরত দিতে হবে।'.encode('utf-8'),'text/plain')})
+    assert evidence.status_code==200
     index_res = client.post(
         "/api/v1/search/index",
         headers={"Authorization": tenant_a["Authorization"]},
         json={
-            "document_id": "doc-terms-001",
+            "document_id": evidence.json()['evidence_id'],
             "source_type": "return_terms",
             "content": "মেঘনা বেভারেজ ফেরত নীতি: পণ্য প্রাপ্তির ৭ দিনের মধ্যে অব্যবহৃত অবস্থায় ফেরত দিতে হবে।",
         },

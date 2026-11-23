@@ -41,6 +41,8 @@ class Settings(BaseSettings):
     AI_TIMEOUT_SECONDS: float = 60.0
     AI_MAX_OUTPUT_TOKENS: int = 4096
     PDF_MAX_OCR_PAGES: int = 6
+    SEMANTIC_ENABLED: bool = False
+    SEMANTIC_MODEL_PATH: str = 'apps/api/data/models/multilingual-e5-small'
     SSLCOMMERZ_STORE_ID: str = ""
     SSLCOMMERZ_STORE_PASSWD: str = ""
     SSLCOMMERZ_IS_SANDBOX: bool = True

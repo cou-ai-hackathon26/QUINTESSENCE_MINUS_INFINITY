@@ -11,10 +11,10 @@ from sqlalchemy.orm import Session
 from app.core.auth import get_current_user
 from app.core.database import get_db
 from app.ingestion.adapters import normalize_bengali_digits
-from app.persistence.models import DocumentChunkModel, UserModel
+from app.persistence.models import DocumentChunkModel, EvidenceModel, UserModel
+from app.retrieval import semantic
 from app.retrieval.engine import (
     HybridRetriever,
-    generate_lexical_embedding_double,
     normalize_search_query,
 )
 
@@ -51,6 +51,7 @@ def hybrid_search(
         source_type_filter=req.source_type_filter,
         top_k=req.top_k,
     )
+    db.commit()
     return pack.to_dict()
 
 
@@ -61,8 +62,12 @@ def index_chunk(
     db: Session = Depends(get_db),
 ):
     """Indexes a document chunk with normalized content and embeddings."""
+    if req.document_id and not db.query(EvidenceModel).filter_by(id=req.document_id,tenant_id=current_user.tenant_id).first():raise HTTPException(404,'Source document not found.')
     norm_content = normalize_search_query(req.content)
-    embedding = req.embedding or generate_lexical_embedding_double(norm_content)
+    vectors,identity=semantic.encode([req.content])
+    embedding=vectors[0] if vectors else None
+    metadata=dict(req.metadata or {})
+    metadata.update({'embedding_model':identity,'embedding_status':'generated' if embedding else 'unavailable','embedding_dimension':len(embedding) if embedding else None})
 
     chunk = DocumentChunkModel(
         tenant_id=current_user.tenant_id,
@@ -70,8 +75,8 @@ def index_chunk(
         source_type=req.source_type,
         content=req.content,
         normalized_content=norm_content,
-        metadata_json=json.dumps(req.metadata) if req.metadata else None,
-        embedding_json=json.dumps(embedding),
+        metadata_json=json.dumps(metadata),
+        embedding_json=json.dumps(embedding) if embedding else None,
     )
     db.add(chunk)
     db.commit()

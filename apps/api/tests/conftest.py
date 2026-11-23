@@ -6,3 +6,4 @@ from app.core.config import settings
 def isolate_external_inference(monkeypatch):
     monkeypatch.setattr(settings,'GROQ_API_KEY','')
     monkeypatch.setattr(settings,'GEMINI_API_KEY','')
+    monkeypatch.setattr(settings,'SEMANTIC_ENABLED',False)

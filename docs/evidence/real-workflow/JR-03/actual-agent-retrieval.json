@@ -1,0 +1,651 @@
+{
+  "scope": "Actual local app HTTP, genuine Groq specialist requests, deterministic reconciliation, real local E5 retrieval",
+  "passed": true,
+  "poll_states": [
+    {
+      "status": "running",
+      "tasks": [
+        [
+          "terms_evidence",
+          "queued"
+        ],
+        [
+          "reconciliation",
+          "queued"
+        ],
+        [
+          "skeptic",
+          "queued"
+        ],
+        [
+          "report",
+          "queued"
+        ]
+      ]
+    },
+    {
+      "status": "running",
+      "tasks": [
+        [
+          "terms_evidence",
+          "running"
+        ],
+        [
+          "reconciliation",
+          "queued"
+        ],
+        [
+          "skeptic",
+          "queued"
+        ],
+        [
+          "report",
+          "queued"
+        ]
+      ]
+    },
+    {
+      "status": "running",
+      "tasks": [
+        [
+          "terms_evidence",
+          "succeeded"
+        ],
+        [
+          "reconciliation",
+          "succeeded"
+        ],
+        [
+          "skeptic",
+          "running"
+        ],
+        [
+          "report",
+          "queued"
+        ]
+      ]
+    },
+    {
+      "status": "running",
+      "tasks": [
+        [
+          "terms_evidence",
+          "succeeded"
+        ],
+        [
+          "reconciliation",
+          "succeeded"
+        ],
+        [
+          "skeptic",
+          "succeeded"
+        ],
+        [
+          "report",
+          "running"
+        ]
+      ]
+    },
+    {
+      "status": "waiting_user",
+      "tasks": [
+        [
+          "terms_evidence",
+          "succeeded"
+        ],
+        [
+          "reconciliation",
+          "succeeded"
+        ],
+        [
+          "skeptic",
+          "succeeded"
+        ],
+        [
+          "report",
+          "succeeded"
+        ]
+      ]
+    }
+  ],
+  "retrieval": {
+    "retrieval_mode": "hybrid_bm25_dense_rrf",
+    "semantic": {
+      "enabled": true,
+      "prepared": true,
+      "available": true,
+      "model": "intfloat/multilingual-e5-small@614241f622f53c4eeff9890bdc4f31cfecc418b3:dd476dd0c2514e9b9be83aeb3853fac0763e0bdf4a71645407587d77c48a2d88",
+      "error": null
+    },
+    "results": [
+      {
+        "chunk_id": "ebb79b9d-ebd4-4657-acbf-061b25e5093b",
+        "document_id": null,
+        "content": "Damaged goods may be returned within seven days of delivery. An invoice is required.",
+        "source_type": "note",
+        "rrf_score": 0.0164,
+        "keyword_rank": 0,
+        "dense_rank": 1,
+        "metadata": {
+          "embedding_model": "intfloat/multilingual-e5-small@614241f622f53c4eeff9890bdc4f31cfecc418b3:dd476dd0c2514e9b9be83aeb3853fac0763e0bdf4a71645407587d77c48a2d88",
+          "embedding_status": "generated",
+          "embedding_dimension": 384
+        },
+        "exact_id_match": false
+      }
+    ]
+  },
+  "start_http_ms": 93,
+  "run": {
+    "id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+    "tenant_id": "8e355287-e257-4f2c-ac1c-427b277ab9ab",
+    "case_id": "823861bb-ef7a-4ed8-869e-48abead4839c",
+    "status": "waiting_user",
+    "budget_calls_max": 4,
+    "budget_calls_used": 3,
+    "created_at": "2026-11-23T16:13:30.474659",
+    "completed_at": "2026-11-23T16:13:37.892766",
+    "tasks": [
+      {
+        "id": "836b4ff2-8c97-49e1-ba43-e209d0a4fbe5",
+        "role": "terms_evidence",
+        "business_question": "Read original evidence and identify what it establishes",
+        "status": "succeeded",
+        "result_summary": "সরবরাহকারী রাহমান ট্রেডার্সের জন্য ইনভয়েস INV-025-এ মোট চাহিদা BDT 25,000 (2,500,000 paisa)। রিটার্ন RETURN-003 (BDT 3,000) এখনও চাহিদা থেকে বাদ দেয়া হয়নি, তাই return_included = false নিশ্চিত। পেমেন্ট PAY-004 (BDT 4,000) প্রযোজ্য, তবে তা ইতিমধ্যে বাদ দেয়া হয়েছে কিনা কোনো নথিতে স্পষ্ট নয়; তাই payment_included অজানা রয়ে গেছে। ফলে বাকি পরিমাণ নির্ধারণের জন্য পেমেন্টের স্ট্যাটাস জানা প্রয়োজন।",
+        "created_at": "2026-11-23T16:13:30.484192",
+        "completed_at": "2026-11-23T16:13:33.374634"
+      },
+      {
+        "id": "7c741ef0-c351-466c-be1a-52b1c759ca48",
+        "role": "reconciliation",
+        "business_question": "Calculate payable alternatives from current explicit inputs",
+        "status": "succeeded",
+        "result_summary": "{\"source_id\": \"case/823861bb-ef7a-4ed8-869e-48abead4839c\", \"case_version\": 1, \"case_id\": \"823861bb-ef7a-4ed8-869e-48abead4839c\", \"expected_payables\": [1800000, 2200000], \"expected_state\": \"unresolved\", \"missing_fact\": \"whether source-payment is included in the current demand\", \"applied_credits_paisa\": 0}",
+        "created_at": "2026-11-23T16:13:30.484192",
+        "completed_at": "2026-11-23T16:13:33.527408"
+      },
+      {
+        "id": "b41c7a98-9cd4-474a-b92e-0a555bb57496",
+        "role": "skeptic",
+        "business_question": "Independently check original facts and missing evidence",
+        "status": "succeeded",
+        "result_summary": "Supplier Rahman Traders confirms the return of BDT 3,000 is accepted but not yet deducted (return_included = false). The invoice shows a current demand of BDT 25,000, and a payment of BDT 4,000 exists, yet none of the provided sources confirm that this payment has been applied to the demand (payment_included = unknown). Therefore, the return is definitively excluded, while the payment inclusion remains unknown. The net payable cannot be definitively calculated without resolving the payment inclusion; the missing fact is whether the BDT 4,000 payment should be subtracted from the BDT 25,000 demand.",
+        "created_at": "2026-11-23T16:13:30.484192",
+        "completed_at": "2026-11-23T16:13:35.528642"
+      },
+      {
+        "id": "67691b35-329e-49ae-b325-ce745dac900e",
+        "role": "report",
+        "business_question": "Synthesize findings and questions with citations",
+        "status": "succeeded",
+        "result_summary": "সরবরাহকারী রাহমান ট্রেডার্সের জন্য ইনভয়েস INV-025‑এ মোট চাহিদা BDT 25,000 (2,500,000 paisa)। রিটার্ন RETURN-003 (BDT 3,000) গ্রহণ করা হয়েছে কিন্তু এখনও চাহিদা থেকে বাদ দেয়া হয়নি (return_included = false)। পেমেন্ট PAY-004 (BDT 4,000) প্রযোজ্য, তবে কোনো নথি নিশ্চিত করে না যে এই পেমেন্টটি ইতিমধ্যে চাহিদা থেকে বাদ দেয়া হয়েছে (payment_included = অজানা)। তাই বাকি পরিমাণ নির্ধারণের জন্য পেমেন্টের স্ট্যাটাস জানা প্রয়োজন।\n\nবিলম্বিত তথ্যের ভিত্তিতে দুইটি সম্ভাব্য বাকি পরিমাণ আছে:\n- যদি পেমেন্টটি ইতিমধ্যে বাদ দেয়া হয়: 2,500,000 paisa – 300,000 paisa (রিটার্ন) = 2,200,000 paisa (BDT 22,000)\n- যদি পেমেন্টটি এখনও বাদ দেয়া না হয়: 2,500,000 paisa – 300,000 paisa – 400,000 paisa = 1,800,000 paisa (BDT 18,000)\n\nঅতএব, বর্তমান চাহিদা থেকে কত টাকা বাকি আছে তা নিশ্চিত করতে পেমেন্টের অন্তর্ভুক্তি (payment_included) যাচাই করা দরকার।",
+        "created_at": "2026-11-23T16:13:30.484192",
+        "completed_at": "2026-11-23T16:13:37.780389"
+      }
+    ],
+    "provider_receipts": [
+      {
+        "id": "443d4a6d-fd15-45f2-97a7-33d2f97c8b7e",
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "capability": "agent_terms_evidence",
+        "status": "succeeded",
+        "provider_request_id": "chatcmpl-98de1285-f793-437d-b321-a2e6ed26e7d2",
+        "input_tokens": 1546,
+        "output_tokens": 836,
+        "latency_ms": 2405,
+        "error_code": null
+      },
+      {
+        "id": "49ceeb91-9c89-41f6-8fa3-c45e913c0401",
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "capability": "agent_skeptic",
+        "status": "succeeded",
+        "provider_request_id": "chatcmpl-8be97450-e200-4625-96ae-51a1088810b2",
+        "input_tokens": 1661,
+        "output_tokens": 628,
+        "latency_ms": 1734,
+        "error_code": null
+      },
+      {
+        "id": "cd5c5826-e206-4cf3-b2d4-717f9b6bd53f",
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "capability": "agent_report",
+        "status": "succeeded",
+        "provider_request_id": "chatcmpl-ddef60c3-eb84-42e6-bdd3-a20bb875671d",
+        "input_tokens": 2980,
+        "output_tokens": 640,
+        "latency_ms": 1938,
+        "error_code": null
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": "2a1646ea-dd12-4ec5-9400-649833bff384",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": null,
+      "event_seq": 1,
+      "role": "coordinator",
+      "event_type": "plan_created",
+      "payload": {
+        "case_type": "reconciliation",
+        "query": "এই supplier-এর দাবি থেকে আগের payment আর return বাদ গেছে কি? কী নিশ্চিত, কী অজানা, আর কত দিতে হবে—প্রমাণসহ তদন্ত করো।",
+        "roles": [
+          "terms_evidence",
+          "reconciliation",
+          "skeptic",
+          "report"
+        ],
+        "mode": "actual_provider_and_tools",
+        "routing": "Deterministic bounded routing; provider requests counted separately."
+      },
+      "created_at": "2026-11-23T16:13:30.482180"
+    },
+    {
+      "id": "964bf0b3-968d-434b-aa3d-27a67a6bc8a4",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": null,
+      "event_seq": 2,
+      "role": "terms_evidence",
+      "event_type": "source_pack",
+      "payload": {
+        "retrieval_mode": "hybrid_bm25_dense_rrf",
+        "sources": [
+          {
+            "source_id": "chunk/1d8f9087-a07e-4c49-8c72-417a86ff399b",
+            "document_id": "ce48011c-66f5-4a57-a828-c7bb9b6d6555",
+            "text": "SEEDED EXAMPLE RECORD - not a real merchant document.\nSupplier accepted return RETURN-003 worth BDT 3,000 for invoice INV-025. Supplier confirms this return is not yet deducted from the current demand."
+          },
+          {
+            "source_id": "chunk/6dd49082-e102-412e-9e05-4f96c86b9955",
+            "document_id": "2cf94239-f34c-4f5a-a223-775adbf58db5",
+            "text": "SEEDED EXAMPLE RECORD - not a real merchant document.\nSupplier Rahman Traders. Invoice INV-025. Current demand BDT 25,000. Prior payment inclusion is not established."
+          },
+          {
+            "source_id": "chunk/1570636c-aff4-4d7e-8e04-8986b819fe10",
+            "document_id": "b6f02bb9-cd08-41b0-b27a-0b8600b69dbd",
+            "text": "SEEDED EXAMPLE RECORD - not a real merchant document.\nPayment PAY-004 of BDT 4,000 applies to invoice INV-025. This receipt does not establish whether the supplier already deducted it."
+          },
+          {
+            "source_id": "chunk/ebb79b9d-ebd4-4657-acbf-061b25e5093b",
+            "document_id": null,
+            "text": "Damaged goods may be returned within seven days of delivery. An invoice is required."
+          }
+        ],
+        "case_version": 1
+      },
+      "created_at": "2026-11-23T16:13:30.672446"
+    },
+    {
+      "id": "c995505c-4b1c-4824-8db1-b3929d49213f",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "836b4ff2-8c97-49e1-ba43-e209d0a4fbe5",
+      "event_seq": 3,
+      "role": "terms_evidence",
+      "event_type": "task_started",
+      "payload": {
+        "business_question": "Read original evidence and identify what it establishes"
+      },
+      "created_at": "2026-11-23T16:13:30.741286"
+    },
+    {
+      "id": "1802cb75-6c1d-4334-9d87-a91528e04837",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "836b4ff2-8c97-49e1-ba43-e209d0a4fbe5",
+      "event_seq": 4,
+      "role": "terms_evidence",
+      "event_type": "model_requested",
+      "payload": {
+        "call_number": 1
+      },
+      "created_at": "2026-11-23T16:13:30.798651"
+    },
+    {
+      "id": "094bb6ac-ac6e-4120-8adb-dfe00dfcd890",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "836b4ff2-8c97-49e1-ba43-e209d0a4fbe5",
+      "event_seq": 5,
+      "role": "terms_evidence",
+      "event_type": "provider_receipt",
+      "payload": {
+        "receipts": [
+          {
+            "id": "443d4a6d-fd15-45f2-97a7-33d2f97c8b7e",
+            "provider": "groq",
+            "model": "openai/gpt-oss-120b",
+            "capability": "agent_terms_evidence",
+            "status": "succeeded",
+            "provider_request_id": "chatcmpl-98de1285-f793-437d-b321-a2e6ed26e7d2",
+            "input_tokens": 1546,
+            "output_tokens": 836,
+            "latency_ms": 2405,
+            "error_code": null
+          }
+        ]
+      },
+      "created_at": "2026-11-23T16:13:33.361104"
+    },
+    {
+      "id": "ae57d105-b875-4cae-a347-dcdaa053668c",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "836b4ff2-8c97-49e1-ba43-e209d0a4fbe5",
+      "event_seq": 6,
+      "role": "terms_evidence",
+      "event_type": "finding_recorded",
+      "payload": {
+        "summary": "সরবরাহকারী রাহমান ট্রেডার্সের জন্য ইনভয়েস INV-025-এ মোট চাহিদা BDT 25,000 (2,500,000 paisa)। রিটার্ন RETURN-003 (BDT 3,000) এখনও চাহিদা থেকে বাদ দেয়া হয়নি, তাই return_included = false নিশ্চিত। পেমেন্ট PAY-004 (BDT 4,000) প্রযোজ্য, তবে তা ইতিমধ্যে বাদ দেয়া হয়েছে কিনা কোনো নথিতে স্পষ্ট নয়; তাই payment_included অজানা রয়ে গেছে। ফলে বাকি পরিমাণ নির্ধারণের জন্য পেমেন্টের স্ট্যাটাস জানা প্রয়োজন।",
+        "case_facts": {
+          "payment_applicable": true,
+          "return_accepted": true,
+          "payment_included": null,
+          "return_included": false
+        },
+        "findings": [
+          {
+            "source_id": "chunk/1d8f9087-a07e-4c49-8c72-417a86ff399b",
+            "claim": "Return RETURN-003 worth BDT 3,000 has not been deducted from the current demand.",
+            "quote": "Supplier accepted return RETURN-003 worth BDT 3,000 for invoice INV-025. Supplier confirms this return is not yet deducted from the current demand."
+          },
+          {
+            "source_id": "chunk/6dd49082-e102-412e-9e05-4f96c86b9955",
+            "claim": "Prior payment inclusion for invoice INV-025 is not established.",
+            "quote": "Current demand BDT 25,000. Prior payment inclusion is not established."
+          },
+          {
+            "source_id": "chunk/1570636c-aff4-4d7e-8e04-8986b819fe10",
+            "claim": "Payment PAY-004 of BDT 4,000 applies to invoice INV-025, but the receipt does not establish whether the supplier already deducted it.",
+            "quote": "Payment PAY-004 of BDT 4,000 applies to invoice INV-025. This receipt does not establish whether the supplier already deducted it."
+          }
+        ],
+        "missing_facts": [
+          "Whether the payment of BDT 4,000 (400,000 paisa) has already been deducted from the current demand."
+        ],
+        "questions": [
+          "বর্তমান চাহিদা থেকে কত টাকা বাকি আছে?"
+        ]
+      },
+      "created_at": "2026-11-23T16:13:33.373627"
+    },
+    {
+      "id": "9a06de74-bb8b-469c-be84-c68c50bcd909",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "836b4ff2-8c97-49e1-ba43-e209d0a4fbe5",
+      "event_seq": 7,
+      "role": "terms_evidence",
+      "event_type": "task_completed",
+      "payload": {
+        "summary": "সরবরাহকারী রাহমান ট্রেডার্সের জন্য ইনভয়েস INV-025-এ মোট চাহিদা BDT 25,000 (2,500,000 paisa)। রিটার্ন RETURN-003 (BDT 3,000) এখনও চাহিদা থেকে বাদ দেয়া হয়নি, তাই return_included = false নিশ্চিত। পেমেন্ট PAY-004 (BDT 4,000) প্রযোজ্য, তবে তা ইতিমধ্যে বাদ দেয়া হয়েছে কিনা কোনো নথিতে স্পষ্ট নয়; তাই payment_included অজানা রয়ে গেছে। ফলে বাকি পরিমাণ নির্ধারণের জন্য পেমেন্টের স্ট্যাটাস জানা প্রয়োজন।"
+      },
+      "created_at": "2026-11-23T16:13:33.376634"
+    },
+    {
+      "id": "b7b40575-0526-4a69-8cd4-d96fd8004ab5",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "7c741ef0-c351-466c-be1a-52b1c759ca48",
+      "event_seq": 8,
+      "role": "reconciliation",
+      "event_type": "task_started",
+      "payload": {
+        "business_question": "Calculate payable alternatives from current explicit inputs"
+      },
+      "created_at": "2026-11-23T16:13:33.442637"
+    },
+    {
+      "id": "db71572d-f367-4f9a-a5b0-e6689103f9f4",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "7c741ef0-c351-466c-be1a-52b1c759ca48",
+      "event_seq": 9,
+      "role": "reconciliation",
+      "event_type": "tool_receipt",
+      "payload": {
+        "tool": "ReconciliationEngine.evaluate",
+        "result": {
+          "source_id": "case/823861bb-ef7a-4ed8-869e-48abead4839c",
+          "case_version": 1,
+          "case_id": "823861bb-ef7a-4ed8-869e-48abead4839c",
+          "expected_payables": [
+            1800000,
+            2200000
+          ],
+          "expected_state": "unresolved",
+          "missing_fact": "whether source-payment is included in the current demand",
+          "applied_credits_paisa": 0
+        },
+        "execution": "actual deterministic code"
+      },
+      "created_at": "2026-11-23T16:13:33.525407"
+    },
+    {
+      "id": "733abfae-c772-4354-b91d-57ea698857af",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "7c741ef0-c351-466c-be1a-52b1c759ca48",
+      "event_seq": 10,
+      "role": "reconciliation",
+      "event_type": "task_completed",
+      "payload": {
+        "summary": "{\"source_id\": \"case/823861bb-ef7a-4ed8-869e-48abead4839c\", \"case_version\": 1, \"case_id\": \"823861bb-ef7a-4ed8-869e-48abead4839c\", \"expected_payables\": [1800000, 2200000], \"expected_state\": \"unresolved\", \"missing_fact\": \"whether source-payment is included in the current demand\", \"applied_credits_paisa\": 0}"
+      },
+      "created_at": "2026-11-23T16:13:33.530412"
+    },
+    {
+      "id": "b4c2f74b-0b62-4118-978e-92c3e7b0a8d1",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "b41c7a98-9cd4-474a-b92e-0a555bb57496",
+      "event_seq": 11,
+      "role": "skeptic",
+      "event_type": "task_started",
+      "payload": {
+        "business_question": "Independently check original facts and missing evidence"
+      },
+      "created_at": "2026-11-23T16:13:33.601236"
+    },
+    {
+      "id": "c3d0ee15-8139-4563-b8af-32ebccbcd7be",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "b41c7a98-9cd4-474a-b92e-0a555bb57496",
+      "event_seq": 12,
+      "role": "skeptic",
+      "event_type": "model_requested",
+      "payload": {
+        "call_number": 2
+      },
+      "created_at": "2026-11-23T16:13:33.667765"
+    },
+    {
+      "id": "eb5c23df-6ddf-4ce9-821f-1e3a5e890d15",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "b41c7a98-9cd4-474a-b92e-0a555bb57496",
+      "event_seq": 13,
+      "role": "skeptic",
+      "event_type": "provider_receipt",
+      "payload": {
+        "receipts": [
+          {
+            "id": "49ceeb91-9c89-41f6-8fa3-c45e913c0401",
+            "provider": "groq",
+            "model": "openai/gpt-oss-120b",
+            "capability": "agent_skeptic",
+            "status": "succeeded",
+            "provider_request_id": "chatcmpl-8be97450-e200-4625-96ae-51a1088810b2",
+            "input_tokens": 1661,
+            "output_tokens": 628,
+            "latency_ms": 1734,
+            "error_code": null
+          }
+        ]
+      },
+      "created_at": "2026-11-23T16:13:35.525639"
+    },
+    {
+      "id": "27ac2495-b468-4d7f-8af3-88aaef4db906",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "b41c7a98-9cd4-474a-b92e-0a555bb57496",
+      "event_seq": 14,
+      "role": "skeptic",
+      "event_type": "skeptic_critique",
+      "payload": {
+        "summary": "Supplier Rahman Traders confirms the return of BDT 3,000 is accepted but not yet deducted (return_included = false). The invoice shows a current demand of BDT 25,000, and a payment of BDT 4,000 exists, yet none of the provided sources confirm that this payment has been applied to the demand (payment_included = unknown). Therefore, the return is definitively excluded, while the payment inclusion remains unknown. The net payable cannot be definitively calculated without resolving the payment inclusion; the missing fact is whether the BDT 4,000 payment should be subtracted from the BDT 25,000 demand.",
+        "case_facts": {
+          "payment_applicable": true,
+          "return_accepted": true,
+          "payment_included": null,
+          "return_included": false
+        },
+        "findings": [
+          {
+            "source_id": "chunk/1d8f9087-a07e-4c49-8c72-417a86ff399b",
+            "claim": "Return RETURN-003 (BDT 3,000) is accepted but has NOT been deducted from the current demand.",
+            "quote": "Supplier accepted return RETURN-003 worth BDT 3,000 for invoice INV-025. Supplier confirms this return is not yet deducted from the current demand."
+          },
+          {
+            "source_id": "chunk/1570636c-aff4-4d7e-8e04-8986b819fe10",
+            "claim": "Prior payment of BDT 4,000 (PAY-004) is recorded, but the source does not establish that this payment has already been deducted from the current demand.",
+            "quote": "Payment PAY-004 of BDT 4,000 applies to invoice INV-025. This receipt does not establish whether the supplier already deducted it."
+          },
+          {
+            "source_id": "chunk/6dd49082-e102-412e-9e05-4f96c86b9955",
+            "claim": "Current demand for invoice INV-025 is BDT 25,000, but the source does not confirm inclusion of the prior payment.",
+            "quote": "Invoice INV-025. Current demand BDT 25,000. Prior payment inclusion is not established."
+          }
+        ],
+        "missing_facts": [
+          "Whether the prior payment of BDT 4,000 has already been deducted from the current demand."
+        ],
+        "questions": [
+          "Based on the confirmed facts, what is the net amount payable after accounting for the accepted return (which is not yet deducted) and the uncertain payment inclusion?"
+        ]
+      },
+      "created_at": "2026-11-23T16:13:35.527641"
+    },
+    {
+      "id": "233122da-bd7e-4608-a315-5fb8f749677f",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "b41c7a98-9cd4-474a-b92e-0a555bb57496",
+      "event_seq": 15,
+      "role": "skeptic",
+      "event_type": "task_completed",
+      "payload": {
+        "summary": "Supplier Rahman Traders confirms the return of BDT 3,000 is accepted but not yet deducted (return_included = false). The invoice shows a current demand of BDT 25,000, and a payment of BDT 4,000 exists, yet none of the provided sources confirm that this payment has been applied to the demand (payment_included = unknown). Therefore, the return is definitively excluded, while the payment inclusion remains unknown. The net payable cannot be definitively calculated without resolving the payment inclusion; the missing fact is whether the BDT 4,000 payment should be subtracted from the BDT 25,000 demand."
+      },
+      "created_at": "2026-11-23T16:13:35.530642"
+    },
+    {
+      "id": "56c84dac-5ca8-4754-b8af-faccfd5ae303",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "67691b35-329e-49ae-b325-ce745dac900e",
+      "event_seq": 16,
+      "role": "report",
+      "event_type": "task_started",
+      "payload": {
+        "business_question": "Synthesize findings and questions with citations"
+      },
+      "created_at": "2026-11-23T16:13:35.621547"
+    },
+    {
+      "id": "e228f83b-8d97-4863-a2d3-57d5e84ef9a2",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "67691b35-329e-49ae-b325-ce745dac900e",
+      "event_seq": 17,
+      "role": "report",
+      "event_type": "model_requested",
+      "payload": {
+        "call_number": 3
+      },
+      "created_at": "2026-11-23T16:13:35.701506"
+    },
+    {
+      "id": "038ce801-711d-4c0d-a9c7-9fb5bc632870",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "67691b35-329e-49ae-b325-ce745dac900e",
+      "event_seq": 18,
+      "role": "report",
+      "event_type": "provider_receipt",
+      "payload": {
+        "receipts": [
+          {
+            "id": "cd5c5826-e206-4cf3-b2d4-717f9b6bd53f",
+            "provider": "groq",
+            "model": "openai/gpt-oss-120b",
+            "capability": "agent_report",
+            "status": "succeeded",
+            "provider_request_id": "chatcmpl-ddef60c3-eb84-42e6-bdd3-a20bb875671d",
+            "input_tokens": 2980,
+            "output_tokens": 640,
+            "latency_ms": 1938,
+            "error_code": null
+          }
+        ]
+      },
+      "created_at": "2026-11-23T16:13:37.777388"
+    },
+    {
+      "id": "aa54cd31-ffbf-4c5f-8627-d85a4a0cc55b",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "67691b35-329e-49ae-b325-ce745dac900e",
+      "event_seq": 19,
+      "role": "report",
+      "event_type": "finding_recorded",
+      "payload": {
+        "answer": "সরবরাহকারী রাহমান ট্রেডার্সের জন্য ইনভয়েস INV-025‑এ মোট চাহিদা BDT 25,000 (2,500,000 paisa)। রিটার্ন RETURN-003 (BDT 3,000) গ্রহণ করা হয়েছে কিন্তু এখনও চাহিদা থেকে বাদ দেয়া হয়নি (return_included = false)। পেমেন্ট PAY-004 (BDT 4,000) প্রযোজ্য, তবে কোনো নথি নিশ্চিত করে না যে এই পেমেন্টটি ইতিমধ্যে চাহিদা থেকে বাদ দেয়া হয়েছে (payment_included = অজানা)। তাই বাকি পরিমাণ নির্ধারণের জন্য পেমেন্টের স্ট্যাটাস জানা প্রয়োজন।\n\nবিলম্বিত তথ্যের ভিত্তিতে দুইটি সম্ভাব্য বাকি পরিমাণ আছে:\n- যদি পেমেন্টটি ইতিমধ্যে বাদ দেয়া হয়: 2,500,000 paisa – 300,000 paisa (রিটার্ন) = 2,200,000 paisa (BDT 22,000)\n- যদি পেমেন্টটি এখনও বাদ দেয়া না হয়: 2,500,000 paisa – 300,000 paisa – 400,000 paisa = 1,800,000 paisa (BDT 18,000)\n\nঅতএব, বর্তমান চাহিদা থেকে কত টাকা বাকি আছে তা নিশ্চিত করতে পেমেন্টের অন্তর্ভুক্তি (payment_included) যাচাই করা দরকার।",
+        "cited_source_ids": [
+          "chunk/1d8f9087-a07e-4c49-8c72-417a86ff399b",
+          "chunk/6dd49082-e102-412e-9e05-4f96c86b9955",
+          "chunk/1570636c-aff4-4d7e-8e04-8986b819fe10"
+        ],
+        "missing_facts": [
+          "Whether the payment of BDT 4,000 (400,000 paisa) has already been deducted from the current demand."
+        ],
+        "proposed_operations": [],
+        "suggested_page": "money",
+        "case_facts": {
+          "payment_applicable": true,
+          "return_accepted": true,
+          "payment_included": null,
+          "return_included": false
+        },
+        "payable_options_paisa": [
+          1800000,
+          2200000
+        ]
+      },
+      "created_at": "2026-11-23T16:13:37.779390"
+    },
+    {
+      "id": "206e0381-a4ac-424f-9a5c-f3962f10a7c6",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": "67691b35-329e-49ae-b325-ce745dac900e",
+      "event_seq": 20,
+      "role": "report",
+      "event_type": "task_completed",
+      "payload": {
+        "summary": "সরবরাহকারী রাহমান ট্রেডার্সের জন্য ইনভয়েস INV-025‑এ মোট চাহিদা BDT 25,000 (2,500,000 paisa)। রিটার্ন RETURN-003 (BDT 3,000) গ্রহণ করা হয়েছে কিন্তু এখনও চাহিদা থেকে বাদ দেয়া হয়নি (return_included = false)। পেমেন্ট PAY-004 (BDT 4,000) প্রযোজ্য, তবে কোনো নথি নিশ্চিত করে না যে এই পেমেন্টটি ইতিমধ্যে চাহিদা থেকে বাদ দেয়া হয়েছে (payment_included = অজানা)। তাই বাকি পরিমাণ নির্ধারণের জন্য পেমেন্টের স্ট্যাটাস জানা প্রয়োজন।\n\nবিলম্বিত তথ্যের ভিত্তিতে দুইটি সম্ভাব্য বাকি পরিমাণ আছে:\n- যদি পেমেন্টটি ইতিমধ্যে বাদ দেয়া হয়: 2,500,000 paisa – 300,000 paisa (রিটার্ন) = 2,200,000 paisa (BDT 22,000)\n- যদি পেমেন্টটি এখনও বাদ দেয়া না হয়: 2,500,000 paisa – 300,000 paisa – 400,000 paisa = 1,800,000 paisa (BDT 18,000)\n\nঅতএব, বর্তমান চাহিদা থেকে কত টাকা বাকি আছে তা নিশ্চিত করতে পেমেন্টের অন্তর্ভুক্তি (payment_included) যাচাই করা দরকার।"
+      },
+      "created_at": "2026-11-23T16:13:37.782896"
+    },
+    {
+      "id": "bcedc32b-6a66-48ff-8e77-e31c3914abf5",
+      "run_id": "392bddbc-9a6c-4dbd-863a-043571a17bb7",
+      "task_id": null,
+      "event_seq": 21,
+      "role": "coordinator",
+      "event_type": "run_completed",
+      "payload": {
+        "status": "waiting_user",
+        "case_version": 1,
+        "missing_facts": [
+          "Whether the payment of BDT 4,000 (400,000 paisa) has already been deducted from the current demand.",
+          "whether source-payment is included in the current demand",
+          "Whether the prior payment of BDT 4,000 has already been deducted from the current demand.",
+          "Whether the payment of BDT 4,000 (400,000 paisa) has already been deducted from the current demand."
+        ],
+        "model_calls_used": 3,
+        "no_transactions_posted": true
+      },
+      "created_at": "2026-11-23T16:13:37.896282"
+    }
+  ],
+  "elapsed_ms": 7515
+}

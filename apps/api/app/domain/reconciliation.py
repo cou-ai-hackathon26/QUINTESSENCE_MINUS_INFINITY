@@ -147,6 +147,12 @@ class ReconciliationEngine:
                 missing_fact="whether accepted return is included in the current demand",
             )
 
+        if payment_included is True and return_included is None:
+            return ReconciliationResult(case_id=case_id,expected_payables=sorted([h2,h1]),expected_state='unresolved',missing_fact='whether accepted return is included in the current demand')
+
+        if payment_included is None and return_included is True:
+            return ReconciliationResult(case_id=case_id,expected_payables=sorted([h3,h1]),expected_state='unresolved',missing_fact=f'whether {eligible_payment.event_id} is included in the current demand')
+
         # Default fallback
         return ReconciliationResult(
             case_id=case_id,

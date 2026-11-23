@@ -17,6 +17,7 @@ dependencies = [
     "bcrypt>=4.2.1",
     "pypdf>=5.1.0",
     "pymupdf>=1.26,<2",
+    "fastembed>=0.9,<1",
 ]
 
 [build-system]

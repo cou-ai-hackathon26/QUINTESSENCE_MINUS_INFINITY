@@ -1,0 +1,26 @@
+{
+  "scope": "Actual CPU multilingual E5 ONNX inference on English passages and independent Bangla/English paraphrases",
+  "passed": true,
+  "model": "intfloat/multilingual-e5-small@614241f622f53c4eeff9890bdc4f31cfecc418b3:dd476dd0c2514e9b9be83aeb3853fac0763e0bdf4a71645407587d77c48a2d88",
+  "checks": [
+    {
+      "query": "নষ্ট পণ্য কত দিনের মধ্যে ফেরত দেওয়া যাবে?",
+      "scores": [
+        0.8513995248087666,
+        0.6991448104984708,
+        0.7279446073466842
+      ],
+      "top_document": 0
+    },
+    {
+      "query": "When can I bring back broken items?",
+      "scores": [
+        0.8508541168373147,
+        0.6908043971295483,
+        0.7378417745321019
+      ],
+      "top_document": 0
+    }
+  ],
+  "elapsed_ms": 3329
+}

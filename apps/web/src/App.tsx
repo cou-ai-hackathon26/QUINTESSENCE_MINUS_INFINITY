@@ -27,6 +27,7 @@ const Cases = lazy(() => import('./workbench/Cases'));
 const AgentPage = lazy(() => import('./workbench/Agents'));
 const AuthPage = lazy(() => import('./workbench/AuthPages'));
 const VoiceCopilot = lazy(() => import('./workbench/VoiceCopilot'));
+const ProposalReview = lazy(() => import('./workbench/ProposalReview'));
 const Evidence = lazy(() => import('./workbench/Evidence'));
 const Actions = lazy(() => import('./workbench/Actions'));
 class RouteError extends Component<{
@@ -50,8 +51,10 @@ export default function App() {
         <Route path="/app/cases" element={<Cases />}/>
         <Route path="/app/cases/:caseId" element={<CaseDetail />}/>
         <Route path="/app/agents/:runId" element={<AgentPage />}/>
+        <Route path="/app/agents" element={<AgentPage />}/>
         <Route path="/app/scenarios" element={<Scenarios />}/>
         <Route path="/app/copilot" element={<VoiceCopilot />}/>
+        <Route path="/app/copilot/review/:messageId/:operationIndex" element={<ProposalReview />}/>
         <Route path="/app/evidence" element={<Evidence />}/>
         <Route path="/app/evidence/:evidenceId" element={<Evidence />}/>
         <Route path="/app/inbox" element={<Inbox />}/><Route path="/app/operations" element={<Operations />}/><Route path="/app/actions" element={<Actions />}/>

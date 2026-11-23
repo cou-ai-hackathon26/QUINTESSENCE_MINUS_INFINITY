@@ -18,6 +18,7 @@ from app.api.v1.cases import cases_router
 from app.api.v1.search import search_router
 from app.api.v1.agents import agents_router
 from app.api.v1.copilot import copilot_router
+from app.api.v1.proposal_review import proposal_router
 from app.api.v1.buying import buying_router
 from app.api.v1.receiving import receiving_router
 from app.api.v1.demand import demand_router
@@ -53,6 +54,7 @@ app.include_router(cases_router)
 app.include_router(search_router)
 app.include_router(agents_router)
 app.include_router(copilot_router)
+app.include_router(proposal_router)
 app.include_router(buying_router)
 app.include_router(receiving_router)
 app.include_router(demand_router)

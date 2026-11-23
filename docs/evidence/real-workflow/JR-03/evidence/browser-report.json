@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-23T16:18:43.509Z",
+  "mode": "actual_agents_semantic_and_reviewed_voice",
+  "browser": "installed Chrome, isolated headless profile",
+  "checks": [
+    "Actual asynchronous task status drives active-node animation",
+    "Four real tasks expose deterministic alternatives and three genuine specialist model receipts",
+    "Agent URL restores the actual persisted investigation after reload",
+    "Real Whisper proposal requires verified registered customer and explicit owner confirmation before actual posting",
+    "Reviewed old-debt collection updates actual cash once and survives reload"
+  ],
+  "screenshots": [
+    "real-agent-running-1440.png",
+    "real-agent-results-1440.png",
+    "real-agent-results-768.png",
+    "real-agent-results-360.png",
+    "voice-review-before-confirm-360.png",
+    "voice-reviewed-ledger-360.png"
+  ],
+  "errors": [],
+  "passed": true
+}
