@@ -99,7 +99,12 @@
     {
       "id": "UIR-09",
       "name": "Browser, accessibility, regression and handoff",
-      "status": "verified_pending_publication"
+      "status": "complete",
+      "git_checkpoint": {
+        "status": "milestone_published",
+        "milestone_sha": "0b28d62a4dfe5a0a492521c9081714349971f931",
+        "receipt": "docs/evidence/ui-redesign/UIR-09/git-checkpoint.json"
+      }
     }
   ],
   "capabilities": {
