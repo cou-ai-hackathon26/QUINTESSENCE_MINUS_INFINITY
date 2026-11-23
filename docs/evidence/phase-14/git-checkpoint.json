@@ -1,0 +1,16 @@
+{
+  "phase": "14",
+  "name": "genuine evidence inference and original reconciliation",
+  "timestamp_utc": "2026-11-23T09:11:00Z",
+  "remote": "origin",
+  "branch": "main",
+  "milestone_sha": "8e3dd194ea7d704d2e2fa9d52033cff0ee4b5a22",
+  "status": "published",
+  "verified_gates": [
+    "P14-T01: AIModelAdapter Gemini REST integration via httpx with retry, timeout, schema validation, and offline test doubles",
+    "P14-T02: Multimodal audio, image, and PDF ingestion with Bengali numeral normalization and integer paisa arithmetic",
+    "P14-T03: Evidence upload wired with raw media bytes and failure handling returning explicit unknowns",
+    "P14-T04: Complete P04/P05 reconciliation journey (/api/v1/reconciliation) with 4 canonical hypotheses, Bangla reply parsing, and action approvals",
+    "P14-T05: scripts/eval-ai.js runner executed with 100% accuracy and receipt recorded in docs/evidence/phase-14/eval-ai-report.json"
+  ]
+}
