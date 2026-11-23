@@ -1,0 +1,15 @@
+{
+  "phase": "16",
+  "name": "hybrid merchant memory",
+  "timestamp_utc": "2026-11-23T09:32:00Z",
+  "remote": "origin",
+  "branch": "main",
+  "milestone_sha": "04ebe129c5fcb2a1a2e3cf14d6ea61864a66e609",
+  "status": "published",
+  "verified_gates": [
+    "P16-T01: Migration 008_hybrid_memory created and upgraded for document_chunks table",
+    "P16-T02: HybridRetriever implemented combining exact filters, lexical ranking, vector similarity, and RRF (k=60)",
+    "P16-T03: EvidencePack compiled with citations, locators, sufficiency detection, and conflict detection",
+    "P16-T04: Exact invoice ID priority verified over look-alikes, Bengali numerals normalized, Banglish aliases resolved, cross-tenant isolation tested, and revoked chunks excluded"
+  ]
+}
