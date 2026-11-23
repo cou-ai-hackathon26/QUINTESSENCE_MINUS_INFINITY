@@ -1,0 +1,1368 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-23",
+  "scope": "Static route/import/API-decorator inventory; hashes are snapshots, not correctness certification. No app or provider runtime exercised by this inventory.",
+  "baseline": "87ec050f6c852da7a12560e9fa2057a75382ff61",
+  "lockedLanding": {
+    "worktree": "E:/mu idea/Shongoti-landing-preview",
+    "branch": "design/landing-preview",
+    "commit": "4edb747027b7ec0a980d3377209b43d05b840723",
+    "directory": "landing-preview"
+  },
+  "routes": [
+    {
+      "route": "/",
+      "page": "LandingPage",
+      "source": "apps/web/src/pages/LandingPage.tsx"
+    },
+    {
+      "route": "/login",
+      "page": "LoginPage",
+      "source": "apps/web/src/pages/LoginPage.tsx"
+    },
+    {
+      "route": "/onboarding",
+      "page": "OnboardingPage",
+      "source": "apps/web/src/pages/OnboardingPage.tsx"
+    },
+    {
+      "route": "/app",
+      "page": "TodayDashboard",
+      "source": "apps/web/src/pages/TodayDashboard.tsx"
+    },
+    {
+      "route": "/app/stock",
+      "page": "StockPage",
+      "source": "apps/web/src/pages/StockPage.tsx"
+    },
+    {
+      "route": "/app/reports",
+      "page": "ReportsPage",
+      "source": "apps/web/src/pages/ReportsPage.tsx"
+    },
+    {
+      "route": "/app/money",
+      "page": "MoneyPage",
+      "source": "apps/web/src/pages/MoneyPage.tsx"
+    },
+    {
+      "route": "/app/sales",
+      "page": "SalesPage",
+      "source": "apps/web/src/pages/SalesPage.tsx"
+    },
+    {
+      "route": "/app/reconciliation",
+      "page": "ReconciliationPage",
+      "source": "apps/web/src/pages/ReconciliationPage.tsx"
+    },
+    {
+      "route": "/app/planner",
+      "page": "FuturePlannerPage",
+      "source": "apps/web/src/pages/FuturePlannerPage.tsx"
+    },
+    {
+      "route": "/app/people",
+      "page": "PeoplePage",
+      "source": "apps/web/src/pages/PeoplePage.tsx"
+    },
+    {
+      "route": "/app/connections",
+      "page": "ConnectionsPage",
+      "source": "apps/web/src/pages/ConnectionsPage.tsx"
+    },
+    {
+      "route": "/pay/:token",
+      "page": "CustomerPortalPage",
+      "source": "apps/web/src/pages/CustomerPortalPage.tsx"
+    },
+    {
+      "route": "/demo",
+      "page": "DemoPage",
+      "source": "apps/web/src/pages/DemoPage.tsx"
+    }
+  ],
+  "unmountedFeatureComponents": [
+    {
+      "component": "AgentTimeline",
+      "source": "apps/web/src/components/AgentTimeline.tsx",
+      "productionImports": []
+    },
+    {
+      "component": "CopilotChat",
+      "source": "apps/web/src/components/CopilotChat.tsx",
+      "productionImports": []
+    },
+    {
+      "component": "BuyingDesk",
+      "source": "apps/web/src/components/BuyingDesk.tsx",
+      "productionImports": []
+    },
+    {
+      "component": "ReceivingTracker",
+      "source": "apps/web/src/components/ReceivingTracker.tsx",
+      "productionImports": []
+    },
+    {
+      "component": "DemandTracker",
+      "source": "apps/web/src/components/DemandTracker.tsx",
+      "productionImports": []
+    },
+    {
+      "component": "ActionableInbox",
+      "source": "apps/web/src/components/ActionableInbox.tsx",
+      "productionImports": []
+    },
+    {
+      "component": "OperationsHub",
+      "source": "apps/web/src/components/OperationsHub.tsx",
+      "productionImports": []
+    },
+    {
+      "component": "BusinessHelpDesk",
+      "source": "apps/web/src/components/BusinessHelpDesk.tsx",
+      "productionImports": []
+    }
+  ],
+  "apiDeclarations": [
+    {
+      "method": "GET",
+      "path": "/api/v1/actions",
+      "source": "apps/api/app/api/v1/actions_and_portal.py",
+      "line": 67
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/actions",
+      "source": "apps/api/app/api/v1/actions_and_portal.py",
+      "line": 94
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/actions/{action_id}/approve",
+      "source": "apps/api/app/api/v1/actions_and_portal.py",
+      "line": 130
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/actions/{action_id}/execute",
+      "source": "apps/api/app/api/v1/actions_and_portal.py",
+      "line": 157
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/actions/{action_id}/cancel",
+      "source": "apps/api/app/api/v1/actions_and_portal.py",
+      "line": 189
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/portal/generate-link",
+      "source": "apps/api/app/api/v1/actions_and_portal.py",
+      "line": 213
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/portal/{token}",
+      "source": "apps/api/app/api/v1/actions_and_portal.py",
+      "line": 246
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/portal/{token}/dispute",
+      "source": "apps/api/app/api/v1/actions_and_portal.py",
+      "line": 278
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/portal/{token}/pay",
+      "source": "apps/api/app/api/v1/actions_and_portal.py",
+      "line": 295
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/payments/sslcommerz/ipn",
+      "source": "apps/api/app/api/v1/actions_and_portal.py",
+      "line": 330
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/agents/runs",
+      "source": "apps/api/app/api/v1/agents.py",
+      "line": 66
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/agents/runs/{run_id}",
+      "source": "apps/api/app/api/v1/agents.py",
+      "line": 83
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/agents/runs/{run_id}/events",
+      "source": "apps/api/app/api/v1/agents.py",
+      "line": 135
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/agents/runs/{run_id}/cancel",
+      "source": "apps/api/app/api/v1/agents.py",
+      "line": 178
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/buying/offers",
+      "source": "apps/api/app/api/v1/buying.py",
+      "line": 49
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/buying/offers",
+      "source": "apps/api/app/api/v1/buying.py",
+      "line": 84
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/buying/compare",
+      "source": "apps/api/app/api/v1/buying.py",
+      "line": 114
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/buying/orders/draft",
+      "source": "apps/api/app/api/v1/buying.py",
+      "line": 129
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/cases",
+      "source": "apps/api/app/api/v1/cases.py",
+      "line": 48
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/cases",
+      "source": "apps/api/app/api/v1/cases.py",
+      "line": 84
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/cases/{case_id}",
+      "source": "apps/api/app/api/v1/cases.py",
+      "line": 108
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/cases/{case_id}/claims",
+      "source": "apps/api/app/api/v1/cases.py",
+      "line": 167
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/cases/{case_id}/assess",
+      "source": "apps/api/app/api/v1/cases.py",
+      "line": 202
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/copilot/sessions",
+      "source": "apps/api/app/api/v1/copilot.py",
+      "line": 62
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/copilot/sessions",
+      "source": "apps/api/app/api/v1/copilot.py",
+      "line": 84
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/copilot/sessions/{session_id}",
+      "source": "apps/api/app/api/v1/copilot.py",
+      "line": 105
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/copilot/sessions/{session_id}/messages",
+      "source": "apps/api/app/api/v1/copilot.py",
+      "line": 143
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/copilot/sessions/{session_id}/voice",
+      "source": "apps/api/app/api/v1/copilot.py",
+      "line": 163
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/demand/unmet",
+      "source": "apps/api/app/api/v1/demand.py",
+      "line": 29
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/demand/unmet",
+      "source": "apps/api/app/api/v1/demand.py",
+      "line": 56
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/demand/analysis/{sku}",
+      "source": "apps/api/app/api/v1/demand.py",
+      "line": 80
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/evidence/upload",
+      "source": "apps/api/app/api/v1/evidence.py",
+      "line": 26
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/evidence/{evidence_id}",
+      "source": "apps/api/app/api/v1/evidence.py",
+      "line": 114
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/evidence/{evidence_id}/claims/{claim_id}",
+      "source": "apps/api/app/api/v1/evidence.py",
+      "line": 151
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/helpdesk/checklist",
+      "source": "apps/api/app/api/v1/helpdesk.py",
+      "line": 34
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/helpdesk/documents",
+      "source": "apps/api/app/api/v1/helpdesk.py",
+      "line": 50
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/helpdesk/documents",
+      "source": "apps/api/app/api/v1/helpdesk.py",
+      "line": 78
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/helpdesk/guidance",
+      "source": "apps/api/app/api/v1/helpdesk.py",
+      "line": 102
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/helpdesk/corpus",
+      "source": "apps/api/app/api/v1/helpdesk.py",
+      "line": 118
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/merchant/today",
+      "source": "apps/api/app/api/v1/merchant.py",
+      "line": 92
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/merchant/sales",
+      "source": "apps/api/app/api/v1/merchant.py",
+      "line": 124
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/merchant/collect-due",
+      "source": "apps/api/app/api/v1/merchant.py",
+      "line": 143
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/merchant/transfer",
+      "source": "apps/api/app/api/v1/merchant.py",
+      "line": 158
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/merchant/cash-close",
+      "source": "apps/api/app/api/v1/merchant.py",
+      "line": 175
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/merchant/expenses",
+      "source": "apps/api/app/api/v1/merchant.py",
+      "line": 196
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/merchant/withdrawals",
+      "source": "apps/api/app/api/v1/merchant.py",
+      "line": 212
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/merchant/supplier-payment",
+      "source": "apps/api/app/api/v1/merchant.py",
+      "line": 230
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/merchant/parties",
+      "source": "apps/api/app/api/v1/merchant.py",
+      "line": 246
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/merchant/parties",
+      "source": "apps/api/app/api/v1/merchant.py",
+      "line": 264
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/merchant/products",
+      "source": "apps/api/app/api/v1/merchant.py",
+      "line": 282
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/merchant/products",
+      "source": "apps/api/app/api/v1/merchant.py",
+      "line": 302
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/notifications/emit",
+      "source": "apps/api/app/api/v1/notifications.py",
+      "line": 34
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/notifications",
+      "source": "apps/api/app/api/v1/notifications.py",
+      "line": 60
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/notifications/{notification_id}/read",
+      "source": "apps/api/app/api/v1/notifications.py",
+      "line": 85
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/notifications/{notification_id}/snooze",
+      "source": "apps/api/app/api/v1/notifications.py",
+      "line": 99
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/notifications/{notification_id}/resolve",
+      "source": "apps/api/app/api/v1/notifications.py",
+      "line": 114
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/notifications/brief",
+      "source": "apps/api/app/api/v1/notifications.py",
+      "line": 128
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/operations/reservations",
+      "source": "apps/api/app/api/v1/operations.py",
+      "line": 63
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/operations/reservations",
+      "source": "apps/api/app/api/v1/operations.py",
+      "line": 95
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/operations/reservations/{reservation_id}/pick",
+      "source": "apps/api/app/api/v1/operations.py",
+      "line": 130
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/operations/containers/movement",
+      "source": "apps/api/app/api/v1/operations.py",
+      "line": 150
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/operations/containers",
+      "source": "apps/api/app/api/v1/operations.py",
+      "line": 183
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/operations/handovers",
+      "source": "apps/api/app/api/v1/operations.py",
+      "line": 209
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/operations/handovers",
+      "source": "apps/api/app/api/v1/operations.py",
+      "line": 241
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/operations/supplier-change-check",
+      "source": "apps/api/app/api/v1/operations.py",
+      "line": 269
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/receiving/receipts",
+      "source": "apps/api/app/api/v1/receiving.py",
+      "line": 37
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/receiving/receipts",
+      "source": "apps/api/app/api/v1/receiving.py",
+      "line": 60
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/receiving/credits",
+      "source": "apps/api/app/api/v1/receiving.py",
+      "line": 86
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/receiving/credits/{credit_note_id}/apply",
+      "source": "apps/api/app/api/v1/receiving.py",
+      "line": 110
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/reconciliation/evaluate",
+      "source": "apps/api/app/api/v1/reconciliation.py",
+      "line": 86
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/reconciliation/clarify",
+      "source": "apps/api/app/api/v1/reconciliation.py",
+      "line": 184
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/demo-session",
+      "source": "apps/api/app/api/v1/router.py",
+      "line": 43
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "source": "apps/api/app/api/v1/router.py",
+      "line": 57
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/ledger/accounts",
+      "source": "apps/api/app/api/v1/router.py",
+      "line": 111
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ledger/post",
+      "source": "apps/api/app/api/v1/router.py",
+      "line": 134
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/scenarios/simulate",
+      "source": "apps/api/app/api/v1/scenarios.py",
+      "line": 66
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/scenarios/save",
+      "source": "apps/api/app/api/v1/scenarios.py",
+      "line": 109
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/scenarios",
+      "source": "apps/api/app/api/v1/scenarios.py",
+      "line": 169
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/scenarios/baseline",
+      "source": "apps/api/app/api/v1/scenarios.py",
+      "line": 198
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/search",
+      "source": "apps/api/app/api/v1/search.py",
+      "line": 39
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/search/index",
+      "source": "apps/api/app/api/v1/search.py",
+      "line": 57
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/search/chunks/{chunk_id}/revoke",
+      "source": "apps/api/app/api/v1/search.py",
+      "line": 82
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/stock/products",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 89
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/stock/products",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 151
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/stock/purchase-drafts",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 175
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/stock/purchase-drafts",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 214
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/stock/purchase-drafts/{draft_id}/receive",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 245
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/stock/returns",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 320
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/stock/reorder-recommendations",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 408
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/commitments",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 471
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/commitments",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 500
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/commitments/{commitment_id}",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 528
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/reports/operating-summary",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 551
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/reports/daily-briefing",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 682
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/forecast/sales",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 735
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/reports/export/products.csv",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 756
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/reports/import/products.csv",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 794
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/reports/export/dues.csv",
+      "source": "apps/api/app/api/v1/stock_and_reports.py",
+      "line": 873
+    }
+  ],
+  "sourceManifest": [
+    {
+      "path": "apps/api/app/__init__.py",
+      "sha256": "c76157dc2f8ddc4c797ae0932c82989557230c521cf6258bc081800937b12abc",
+      "lines": 5
+    },
+    {
+      "path": "apps/api/app/adapters/forecast.py",
+      "sha256": "2c09ec7847055dd7fb5d6f04b7e489188b11c00d160ba65af2537851a355ddd8",
+      "lines": 109
+    },
+    {
+      "path": "apps/api/app/adapters/sslcommerz.py",
+      "sha256": "2a962c05b0e55dbafc39f5ba0e3acd8a23a198d3332273e1526a2657f3cd0680",
+      "lines": 173
+    },
+    {
+      "path": "apps/api/app/agents/orchestrator.py",
+      "sha256": "9f9875976a458238c82738522d3cee3d1d6466874c43db4070ae9635c2f8b301",
+      "lines": 277
+    },
+    {
+      "path": "apps/api/app/api/v1/actions_and_portal.py",
+      "sha256": "98fe72784b1475bc9a9df820fd4c779d039752131e6898f98465c6b79bc94bad",
+      "lines": 410
+    },
+    {
+      "path": "apps/api/app/api/v1/agents.py",
+      "sha256": "b04ff76c82fa4b3f6c545afe24fdb1acdd0002635efba94238d10822848ae53c",
+      "lines": 190
+    },
+    {
+      "path": "apps/api/app/api/v1/buying.py",
+      "sha256": "47ac8f5bebfc53766ec0dc5ea0b19c98bf89d0a1209e002a166761b875c9c905",
+      "lines": 154
+    },
+    {
+      "path": "apps/api/app/api/v1/cases.py",
+      "sha256": "5f50125c96ea39d0b7e5db42e220307a6203ac17cfc43b09f5ec0c3a3bd94e85",
+      "lines": 283
+    },
+    {
+      "path": "apps/api/app/api/v1/copilot.py",
+      "sha256": "45e0f7e57e05b75b36adcc442de3c33bf7ff743d428230f802af798e27cf55e0",
+      "lines": 185
+    },
+    {
+      "path": "apps/api/app/api/v1/demand.py",
+      "sha256": "8afcae5047400bd3633204da8a5566d2bb9c91b6d063499a426d722cc263b532",
+      "lines": 90
+    },
+    {
+      "path": "apps/api/app/api/v1/evidence.py",
+      "sha256": "75bfeb6105c58a49a4c819c701bc0941c25d3f7a6584fd9b7d67d2a08a5c0269",
+      "lines": 188
+    },
+    {
+      "path": "apps/api/app/api/v1/helpdesk.py",
+      "sha256": "2db51368a9f2d93abf59889ee9ebb9081b9b1b2183c7fbd529f1232e0a18f5da",
+      "lines": 138
+    },
+    {
+      "path": "apps/api/app/api/v1/merchant.py",
+      "sha256": "d75a518773aac016e13f43d6a72a9ce3b44c500ba367fafdb6dca04c9fb78fa1",
+      "lines": 320
+    },
+    {
+      "path": "apps/api/app/api/v1/notifications.py",
+      "sha256": "c6610c0e9bb4be9554b56a9d5c4cbcbb3649e94c1abe8f81c8928b7761279622",
+      "lines": 136
+    },
+    {
+      "path": "apps/api/app/api/v1/operations.py",
+      "sha256": "a6a12090b2c5f6af5549700b72dd141e523b30e6036ba3caeac80db1e97d417b",
+      "lines": 286
+    },
+    {
+      "path": "apps/api/app/api/v1/receiving.py",
+      "sha256": "3f30f89165a0ea42a2052f61f605a624eb35f19c676d25a977781c5b4be4c803",
+      "lines": 124
+    },
+    {
+      "path": "apps/api/app/api/v1/reconciliation.py",
+      "sha256": "dd7c0bde81be77263b4b49749d4b9e51bdac50758f78524cbff834ea9fe0d6d5",
+      "lines": 266
+    },
+    {
+      "path": "apps/api/app/api/v1/router.py",
+      "sha256": "2d613c6d1f3cfc171197fc7aab6517d62157fe27c44c8ea7eecb35ad22f41a75",
+      "lines": 229
+    },
+    {
+      "path": "apps/api/app/api/v1/scenarios.py",
+      "sha256": "e66f033db65323a9841fd30da6d5314490d2464b368e0e63b945453a298dda98",
+      "lines": 241
+    },
+    {
+      "path": "apps/api/app/api/v1/search.py",
+      "sha256": "9df383a0a1557babcb662950d97ddc4cf861f209ce0f09e399166db394df71c5",
+      "lines": 100
+    },
+    {
+      "path": "apps/api/app/api/v1/stock_and_reports.py",
+      "sha256": "1b82f2bc79e6c7651acb7acd0093e191a4bd9bef580ca3a56aeefabb723b3887",
+      "lines": 904
+    },
+    {
+      "path": "apps/api/app/buying/engine.py",
+      "sha256": "b35ca5c1919113243f143da88b2ae9abf1b9ec53901d4b3fe8b817d27a9472ee",
+      "lines": 272
+    },
+    {
+      "path": "apps/api/app/confidence/policy.py",
+      "sha256": "16c61c7cadb604c48f0fa5292cd58b96eb0a719d35f79694d8919fa7c77bdc53",
+      "lines": 139
+    },
+    {
+      "path": "apps/api/app/copilot/engine.py",
+      "sha256": "d861f2ada2bcfbea8d5b759fb96f498640b2d6bc97723009517dd89e5329c078",
+      "lines": 454
+    },
+    {
+      "path": "apps/api/app/core/auth.py",
+      "sha256": "ef01f3977b5ddbdce8c9915b7bca771fef27c99802a180d6c45ffc1bffaf9f66",
+      "lines": 113
+    },
+    {
+      "path": "apps/api/app/core/config.py",
+      "sha256": "b553a7f6515fbdc4773676d0b5747795b7a9decfc71494568c7eec6744b147a7",
+      "lines": 42
+    },
+    {
+      "path": "apps/api/app/core/database.py",
+      "sha256": "6ed5939342c37464204700f91540d9638e7a799116dad0cf23e41be1464ea975",
+      "lines": 46
+    },
+    {
+      "path": "apps/api/app/core/permissions.py",
+      "sha256": "1845e251fcd8d153e15b80144f4ad48a6d35954828743c8ac8f76052506a1f40",
+      "lines": 32
+    },
+    {
+      "path": "apps/api/app/demand/engine.py",
+      "sha256": "3c1b87b8355d151ca8cd2496d3cfa9588c31890c206eded652aa9369737f89e9",
+      "lines": 135
+    },
+    {
+      "path": "apps/api/app/domain/__init__.py",
+      "sha256": "6786fddd3a470ad87c54ac8baef6fd0ecf0a38e251d6ccb329001fb31ecbb31a",
+      "lines": 55
+    },
+    {
+      "path": "apps/api/app/domain/ledger.py",
+      "sha256": "b1dd8ec1e6594e93ce49a7eab8eb38687fd866f2b1d27df68de11f2a646fb058",
+      "lines": 205
+    },
+    {
+      "path": "apps/api/app/domain/liquidity.py",
+      "sha256": "023202bb7d3247253c4dbeace729187a80ec9e993b859b45eaae408e31938ba1",
+      "lines": 130
+    },
+    {
+      "path": "apps/api/app/domain/merchant.py",
+      "sha256": "9acb64ef47f46261626334b53605680185c830919856c665395515f8ae8d6d69",
+      "lines": 341
+    },
+    {
+      "path": "apps/api/app/domain/money.py",
+      "sha256": "466c5e97cefaa2e5e7d3dfb67b9c528a0229db8283ae00a01987707e56571088",
+      "lines": 108
+    },
+    {
+      "path": "apps/api/app/domain/reconciliation.py",
+      "sha256": "576a24f13a8a52e855cbb7c8234a9fe10ea5fd892ded59bbf38678f06186612a",
+      "lines": 156
+    },
+    {
+      "path": "apps/api/app/domain/scenarios.py",
+      "sha256": "520f9fdc9ebe8a79a76267f66d7522732fe6de3e8132d258eb1cd5023dfef7a5",
+      "lines": 83
+    },
+    {
+      "path": "apps/api/app/helpdesk/engine.py",
+      "sha256": "afcb7ac8971ac04d119b4f25ae293cd9ba04cc01fc529b0097630362ae87c2d2",
+      "lines": 325
+    },
+    {
+      "path": "apps/api/app/ingestion/adapters.py",
+      "sha256": "32072d5871c852f8e651d462143a077213202b84ec3d7c3af359a40e3799b83f",
+      "lines": 352
+    },
+    {
+      "path": "apps/api/app/ingestion/schemas.py",
+      "sha256": "7f703c4e123e23351f7ece3a60a903037d7579171dde1dcd683ad45f61702ee8",
+      "lines": 17
+    },
+    {
+      "path": "apps/api/app/ingestion/storage.py",
+      "sha256": "4406164aec5b3091674da62fa9eafc629a01a251c0fbe0f5c569da34306e7c82",
+      "lines": 66
+    },
+    {
+      "path": "apps/api/app/main.py",
+      "sha256": "1f7c1078566b9ca5a9cdb8d4d36fbb67fd6fb69e9637b55a2c659eb861f15ac6",
+      "lines": 113
+    },
+    {
+      "path": "apps/api/app/notifications/engine.py",
+      "sha256": "5ec63a7bf2799ed17a82353a4add4f92848f50763f975891f8fbb95415d9a783",
+      "lines": 203
+    },
+    {
+      "path": "apps/api/app/operations/engine.py",
+      "sha256": "930bafd7ec1ebdf6f1943480130b93ab34fa31db7aa2c1a1d8eaf8c27f885178",
+      "lines": 288
+    },
+    {
+      "path": "apps/api/app/persistence/models.py",
+      "sha256": "10c7511bb05dffaaca1e962d86f622440195abd123b264dd58148ea22be6f4fc",
+      "lines": 717
+    },
+    {
+      "path": "apps/api/app/receiving/engine.py",
+      "sha256": "cdb65dc30044d5f218a8b7fb527db68454795579f7f7642a5c689fc8a9a99048",
+      "lines": 173
+    },
+    {
+      "path": "apps/api/app/retrieval/engine.py",
+      "sha256": "fc358bc378f8a7246d8627a987ba97c43c417ad141070853183a3f2d112f99d4",
+      "lines": 258
+    },
+    {
+      "path": "apps/api/tests/test_actions_and_portal.py",
+      "sha256": "97ec27ba2758831b4665f101166ef0285dd640d70292bebb011d3bd948fe40c5",
+      "lines": 272
+    },
+    {
+      "path": "apps/api/tests/test_agents.py",
+      "sha256": "ec99712519dc193eec6c07fe5c2a8cfdd37d9cb6133e21c5bea2e8b009b66142",
+      "lines": 216
+    },
+    {
+      "path": "apps/api/tests/test_business_help.py",
+      "sha256": "6d324bcdda9b629f3846ac704c561cbde6a73e10d09d722364176ef01e698029",
+      "lines": 169
+    },
+    {
+      "path": "apps/api/tests/test_buying_desk.py",
+      "sha256": "e2f3eb2cd342eb05d2094bd71095df17385984ea552631e4cb2b4397a6eb8ed6",
+      "lines": 214
+    },
+    {
+      "path": "apps/api/tests/test_confidence_and_cases.py",
+      "sha256": "29f776d6f2aa7fbb18f496561edf935ce59430f83b7135604ac7e8e0f4748e03",
+      "lines": 147
+    },
+    {
+      "path": "apps/api/tests/test_copilot.py",
+      "sha256": "3645c02fbe8f88c9bc9f0825f7ba34e57ffdbd317b452e89330f268820311b88",
+      "lines": 228
+    },
+    {
+      "path": "apps/api/tests/test_demand_memory.py",
+      "sha256": "bbac46ac067c0432b71440ea49cfd3ff11f37ba12842e9df3c3b135c19d29577",
+      "lines": 152
+    },
+    {
+      "path": "apps/api/tests/test_domain_contracts.py",
+      "sha256": "dcc6bb79393e0440c369ed074908124a4eb49f175ce1f94c47834887eafe18fb",
+      "lines": 56
+    },
+    {
+      "path": "apps/api/tests/test_domain_golden.py",
+      "sha256": "cd7546b23adcea654e482efe568f3f0f08b2ff489d59436a0f3323a23736ad6b",
+      "lines": 369
+    },
+    {
+      "path": "apps/api/tests/test_evidence_ingestion.py",
+      "sha256": "5b6432c053d3bee9ff4212042b9dd3c7477e80f0a705fe332ea6472dc30c7de6",
+      "lines": 119
+    },
+    {
+      "path": "apps/api/tests/test_health.py",
+      "sha256": "4479f0d42a863296c609bdc0ce579b6eb76ce83d97647c023e4881a46c7005aa",
+      "lines": 34
+    },
+    {
+      "path": "apps/api/tests/test_merchant_workflow.py",
+      "sha256": "64a771d9ae810350cf3f3dd239a00f5ab9d706e6d899d0e1e68216c760f39a66",
+      "lines": 273
+    },
+    {
+      "path": "apps/api/tests/test_notifications.py",
+      "sha256": "4d81bbff6afb0ec043dd2e46475c8dd7f1c1c5d63162d891d2a96a3f83244744",
+      "lines": 178
+    },
+    {
+      "path": "apps/api/tests/test_operations.py",
+      "sha256": "748c0eb7e683e80f526d4bddd638ad47c0c6f16a19b8f0cd11da87705f1f013f",
+      "lines": 254
+    },
+    {
+      "path": "apps/api/tests/test_persistence_and_auth.py",
+      "sha256": "3f19f9adeb4d36825a5418c2f7b942f1cbdd33bd748eedee603c9faff1ea89a3",
+      "lines": 175
+    },
+    {
+      "path": "apps/api/tests/test_phase11_security_and_concurrency.py",
+      "sha256": "dc96049c34c5bc14dbb1eb69c8bf79d3bd67c02369a3936f15d072478aa1ce01",
+      "lines": 262
+    },
+    {
+      "path": "apps/api/tests/test_phase14_multimodal_and_reconciliation.py",
+      "sha256": "ffdc8e69e1703b888f86d59c70e3e8c31fbc2f74bc718d1c05af13bccb31ffad",
+      "lines": 200
+    },
+    {
+      "path": "apps/api/tests/test_receiving_and_returns.py",
+      "sha256": "45fc8c403ac38a6d23880431d26009e568acd26a4fe972cccbfdfc56caf5d9f2",
+      "lines": 151
+    },
+    {
+      "path": "apps/api/tests/test_retrieval.py",
+      "sha256": "d435606d12926f575b6a4cc2d4096054eae1ac7e1bbf7395086bc0b23d00a6bf",
+      "lines": 167
+    },
+    {
+      "path": "apps/api/tests/test_scenarios_workflow.py",
+      "sha256": "161e248d072afbb9f56584408ca7daec4142cf38bceab4cddb3330a6a5b54046",
+      "lines": 145
+    },
+    {
+      "path": "apps/api/tests/test_stock_and_reports.py",
+      "sha256": "69fe075bb61bab7362c9e455e13d162337de4bb87890814cc7424e81785c6868",
+      "lines": 406
+    },
+    {
+      "path": "apps/web/src/App.tsx",
+      "sha256": "a2bffd5f57bc301da896d02080a4dd0d2aafb7d6fc7fa3c7eedb500afb481bac",
+      "lines": 41
+    },
+    {
+      "path": "apps/web/src/components/ActionableInbox.tsx",
+      "sha256": "b1da43be68deb9f77daddb876c10bb0fd650875b25d190de39df8b14bd860070",
+      "lines": 222
+    },
+    {
+      "path": "apps/web/src/components/AgentTimeline.tsx",
+      "sha256": "695cc2b816c93a3c118f5a378a141433370d4b7fe2224068c0633821e0dd8d85",
+      "lines": 282
+    },
+    {
+      "path": "apps/web/src/components/Badge.tsx",
+      "sha256": "e44dc394a2e35542e725719231f94104e2f7075c6f89e7e6b8004752bd50f0ea",
+      "lines": 34
+    },
+    {
+      "path": "apps/web/src/components/BusinessHelpDesk.tsx",
+      "sha256": "1fbb0f6efbb1234cc5262b79ff0681f3e36bc722043b8d0ab2ae6c0910d88443",
+      "lines": 286
+    },
+    {
+      "path": "apps/web/src/components/Button.tsx",
+      "sha256": "d82687fe772e30a329d84d62eeeba56368a6f11d464ee80d75f4d3d7ebb5ddd9",
+      "lines": 59
+    },
+    {
+      "path": "apps/web/src/components/BuyingDesk.tsx",
+      "sha256": "388eccb55c55184eb76cc016136665f40f3c3f184de2a9e18ff4a0ea6c51a223",
+      "lines": 218
+    },
+    {
+      "path": "apps/web/src/components/Card.tsx",
+      "sha256": "5f77df50190551cf5748c2f718fa5857ed034e60e74020b42684f91e95a2e512",
+      "lines": 30
+    },
+    {
+      "path": "apps/web/src/components/ConfidenceBadge.tsx",
+      "sha256": "be51dbc3be14a01cc785abeca4a2317f61bc597b979897701978268472b463ff",
+      "lines": 195
+    },
+    {
+      "path": "apps/web/src/components/CopilotChat.tsx",
+      "sha256": "ae7e4bfca4e5884716e8fe6cb7c4b5b9fd45bbbc25126f9d1eba0a14255e29fd",
+      "lines": 331
+    },
+    {
+      "path": "apps/web/src/components/DemandTracker.tsx",
+      "sha256": "3dfea26e6d0b04dce2320ea4fa653248a4819cf45159b0cb2400d06aff0a7a74",
+      "lines": 215
+    },
+    {
+      "path": "apps/web/src/components/EmptyState.tsx",
+      "sha256": "b92e42810f6524f3c820cf759e9e1dbec4afa4541173a5402479923ca3869811",
+      "lines": 45
+    },
+    {
+      "path": "apps/web/src/components/Navbar.tsx",
+      "sha256": "ce0ebb8cf58ce540c3da2e9f8c046f58ace77fa7250680357d3326a7cd8ece1f",
+      "lines": 96
+    },
+    {
+      "path": "apps/web/src/components/OperationsHub.tsx",
+      "sha256": "bc1b6e77b2e4b60b3371af596c00c47e286395cf9829923c8890e074a141d1b5",
+      "lines": 375
+    },
+    {
+      "path": "apps/web/src/components/ReceivingTracker.tsx",
+      "sha256": "aa1a15030f6dca405ce91340e99b5499b92c1957cf55722b307d4c333d5d1b93",
+      "lines": 223
+    },
+    {
+      "path": "apps/web/src/components/Sidebar.tsx",
+      "sha256": "96debcf6bd6c66463456dead9c1a9c7e2c0864a97504f3589a485bcd4e33c96d",
+      "lines": 62
+    },
+    {
+      "path": "apps/web/src/i18n/LanguageContext.tsx",
+      "sha256": "9ffd4e353ebead96e0071753120566a6579a8b292478cfda99d24364bf9a1e21",
+      "lines": 61
+    },
+    {
+      "path": "apps/web/src/i18n/translations.ts",
+      "sha256": "e93eb71a6e732aefbf0a6f0575366f529271b7a7f3b95985bdbaf6827413c61f",
+      "lines": 410
+    },
+    {
+      "path": "apps/web/src/index.css",
+      "sha256": "0c10ff3fa207f647f5b777bde07e04df3a9a379289faca625a0fe8a4867e7ee8",
+      "lines": 85
+    },
+    {
+      "path": "apps/web/src/main.tsx",
+      "sha256": "f5297a6afed15af66b8fc1d11027acb37e88e3601ac703f7af43932f985ffd23",
+      "lines": 14
+    },
+    {
+      "path": "apps/web/src/pages/ConnectionsPage.tsx",
+      "sha256": "718b8cf42997646a4bad15c04978ae3ffc7208e216070c49f7d826e65504c322",
+      "lines": 168
+    },
+    {
+      "path": "apps/web/src/pages/CustomerPortalPage.tsx",
+      "sha256": "ffe01d877ad6d08f873cc25ae721eb5660cd30527090ba1404197352d66daa4e",
+      "lines": 211
+    },
+    {
+      "path": "apps/web/src/pages/DemoPage.tsx",
+      "sha256": "138dab7f11df77b3362183d22bdcffa5a532102aed5c6868c30ac43fe484f475",
+      "lines": 79
+    },
+    {
+      "path": "apps/web/src/pages/FuturePlannerPage.tsx",
+      "sha256": "ea2e36b8d8e33659b05aa9dd4bfab9d8af24f163254aafb76322f72544b3482e",
+      "lines": 347
+    },
+    {
+      "path": "apps/web/src/pages/LandingPage.tsx",
+      "sha256": "f4978b8d99b933fe834f1968e7ea98cb870e7798633817b4d7b9340ffad976c5",
+      "lines": 95
+    },
+    {
+      "path": "apps/web/src/pages/LoginPage.tsx",
+      "sha256": "f644be8a6dac14d9152cc3ce3edeb1422529e62247bc111f1573b27a2af2a0a0",
+      "lines": 99
+    },
+    {
+      "path": "apps/web/src/pages/MoneyPage.tsx",
+      "sha256": "f007430de3940715ea488f053445527ae5ac2b4e4ed9db708e7ec41e12b318e2",
+      "lines": 288
+    },
+    {
+      "path": "apps/web/src/pages/OnboardingPage.tsx",
+      "sha256": "1fd06c541364a982861a3a497cdfa269dd69844925ae7d176f0c4ee60f36f521",
+      "lines": 80
+    },
+    {
+      "path": "apps/web/src/pages/PeoplePage.tsx",
+      "sha256": "9b8ad9de833fd1ca78df314e148677eb12c9cb64f94342edd6a1f90ee71dc624",
+      "lines": 291
+    },
+    {
+      "path": "apps/web/src/pages/ReconciliationPage.tsx",
+      "sha256": "732934505042e040b949995ba847eb3b842cdf75e710969fcfb6415b34e3aa9e",
+      "lines": 230
+    },
+    {
+      "path": "apps/web/src/pages/ReportsPage.tsx",
+      "sha256": "135f363bad08555f0484a35ce0986035565189e31205f4974c098809a8569ef0",
+      "lines": 441
+    },
+    {
+      "path": "apps/web/src/pages/SalesPage.tsx",
+      "sha256": "a9279f4a57f3812aa4f9093444d60aeb260779d99f50dcc4e8164d71ca88780d",
+      "lines": 344
+    },
+    {
+      "path": "apps/web/src/pages/StockPage.tsx",
+      "sha256": "7769754f3e249025a80e0cd380ae611125cba7b84ff271900c0b7f349db8d8d1",
+      "lines": 501
+    },
+    {
+      "path": "apps/web/src/pages/TodayDashboard.tsx",
+      "sha256": "2ec6fdf0ac580c5ca9ecb198f889ea73038d83d1a33811878a1f35784c1f2b9a",
+      "lines": 183
+    },
+    {
+      "path": "apps/web/src/tests/ActionableInbox.test.tsx",
+      "sha256": "795273cf1709f73f9579d8ea6b9e853d669370126bfd320fb0d8e89706dfc6db",
+      "lines": 65
+    },
+    {
+      "path": "apps/web/src/tests/AgentTimeline.test.tsx",
+      "sha256": "8768416ff3d95c9b4d0fac483cbe224e787aafb5ce43d954ef78563e114f6095",
+      "lines": 82
+    },
+    {
+      "path": "apps/web/src/tests/App.test.tsx",
+      "sha256": "a63d85609fe02cadde43478fd2d60c64090dc425d10e2cda45be907c91f61bcf",
+      "lines": 45
+    },
+    {
+      "path": "apps/web/src/tests/BusinessHelpDesk.test.tsx",
+      "sha256": "bb9db393f3dd70a6759b954a820abe2ce60301960d70d5ff2ff71374513bdfc4",
+      "lines": 92
+    },
+    {
+      "path": "apps/web/src/tests/BuyingDesk.test.tsx",
+      "sha256": "896cd45b53bbca1ce4fd38b4e3ae7f3c9116565898d25ae07edf80dbe127a631",
+      "lines": 93
+    },
+    {
+      "path": "apps/web/src/tests/ConfidenceBadge.test.tsx",
+      "sha256": "cd08262fef270640be91267df580f51a82185ccc6a3e407fcf15528db0fac01d",
+      "lines": 70
+    },
+    {
+      "path": "apps/web/src/tests/CopilotChat.test.tsx",
+      "sha256": "c3a9d36a5324a53c191b73553c287b1cd08af53011db1badb7cfe6549762e909",
+      "lines": 69
+    },
+    {
+      "path": "apps/web/src/tests/DemandTracker.test.tsx",
+      "sha256": "369a451065d059040d44feb4e9b615d7374ec6892c2905aea646f76d1a2cea9e",
+      "lines": 59
+    },
+    {
+      "path": "apps/web/src/tests/OperationsHub.test.tsx",
+      "sha256": "aa1a62fb779210196fef66daf8358dbc9103695f62c78535f77a55bbe79576df",
+      "lines": 115
+    },
+    {
+      "path": "apps/web/src/tests/ReceivingTracker.test.tsx",
+      "sha256": "2ed0a1a1dec773865038204025c12b9043ffc58ad9cffe21def5cb32b257a600",
+      "lines": 70
+    },
+    {
+      "path": "apps/web/src/tests/Workflows.test.tsx",
+      "sha256": "ffa4fdc106e37194da0fc6fdbb9bf8151962df80f81106a7ccf965d899ccbc93",
+      "lines": 90
+    },
+    {
+      "path": "apps/web/src/tests/setup.ts",
+      "sha256": "a46d66851af2c056e805fdd574bf5ec3adb1181c43c5e41f0a1c592e338afe64",
+      "lines": 2
+    },
+    {
+      "path": "scripts/check-css.js",
+      "sha256": "d5ea6344a2a9f2d65ca8fca2eea140e1d878d9a9ab84e8e95c13a7a6f2fbe460",
+      "lines": 45
+    },
+    {
+      "path": "scripts/eval-agents.js",
+      "sha256": "62c7fe902dbedee533fd97ccaf30ef9200c8d492a5ac4ac50e1e66b03df39b7d",
+      "lines": 65
+    },
+    {
+      "path": "scripts/eval-ai.js",
+      "sha256": "2442e8917fc2a79a61b4d7f2324c096c40b8617d4c1957e70f5faceed5d29dd1",
+      "lines": 21
+    },
+    {
+      "path": "scripts/eval-confidence.js",
+      "sha256": "7f6f11f8908595f1e940e0c664fda37f4b1e7dddb0a0f86cfda9b51a2d435c33",
+      "lines": 58
+    },
+    {
+      "path": "scripts/eval-rag.js",
+      "sha256": "82b84c9aebfcc5a95745be9cdfccc9624be4df42424913d9da9ea8f91222afeb",
+      "lines": 92
+    },
+    {
+      "path": "scripts/eval-workflows.js",
+      "sha256": "2ac3f63d4e700c3d8f1ebe2a234d6047fd6efd701cfb35f352371c0627ab21a4",
+      "lines": 38
+    },
+    {
+      "path": "scripts/eval_ai.py",
+      "sha256": "d53d688c9279e5842da20551dbd2eb3210768cda0a9999bc7fa2fbbe17c810bb",
+      "lines": 143
+    },
+    {
+      "path": "scripts/generate_extension_benchmark.py",
+      "sha256": "bace5a8b03a608f5654c3cf9effd0c2ab24d37982e6c0bf2d7fa552c422f52d9",
+      "lines": 214
+    },
+    {
+      "path": "scripts/run-benchmark.js",
+      "sha256": "6f3510e889475115e5e922067d47d3a4a2241e95fd196cc3685568d85adb21b1",
+      "lines": 217
+    },
+    {
+      "path": "scripts/run-python.js",
+      "sha256": "8190d7b1099dd03e2909f8bb91d590a740418e71a7bc16e829949d8125074d37",
+      "lines": 38
+    },
+    {
+      "path": "scripts/runner-stub.js",
+      "sha256": "4d22bbffaa95cb7129a3c753423e509f3e49ca43899810c5a1fbfaa82f358bef",
+      "lines": 17
+    },
+    {
+      "path": "scripts/scan-secrets.js",
+      "sha256": "4c72ea8da854a6178253b33eb6007babcc5d64a0b5ec3fde9af36bd4cb7112de",
+      "lines": 68
+    },
+    {
+      "path": "scripts/smoke-test.js",
+      "sha256": "f2c03b1eedbb35b4d721530085eb7458574f6912f9a33107823a92208dd6b13d",
+      "lines": 77
+    },
+    {
+      "path": "scripts/smoke_test.py",
+      "sha256": "a6e8eecb9bb5ed84fb1c003f8893c1c218f3a72d041fdd3097c6b0b8aa473c5f",
+      "lines": 55
+    },
+    {
+      "path": "scripts/test-e2e.js",
+      "sha256": "53be5a8adb3aed8c3c45d0e0c77c7810f76c44ff3c9e6eb1c647678bd66463e3",
+      "lines": 35
+    },
+    {
+      "path": "scripts/verify-integrations.js",
+      "sha256": "8cd17cc62b60b51e62a3ce83839f69caf172ba899b0feb207a7517b76c1ac963",
+      "lines": 56
+    },
+    {
+      "path": "scripts/verify-offline.js",
+      "sha256": "3c83cce436fa04c0edc4012db26e6444b9bbdbfcfe70754f94180941dea88039",
+      "lines": 48
+    }
+  ]
+}

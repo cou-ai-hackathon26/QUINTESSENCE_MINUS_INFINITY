@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-23",
+  "branch": "main",
+  "owner_authorized_execution": true,
+  "preview_merge_sha": "436f4490fe523a060515c6db8d6a515d7bf8c705",
+  "current_phase": "UIR-00",
+  "phases": [
+    {
+      "id": "UIR-00",
+      "name": "Baseline and contracts",
+      "status": "verified_pending_publication"
+    },
+    {
+      "id": "UIR-01",
+      "name": "Design system, shells, auth and boundaries",
+      "status": "not_started"
+    },
+    {
+      "id": "UIR-02",
+      "name": "Landing, Today and case vertical slice",
+      "status": "not_started"
+    },
+    {
+      "id": "UIR-03",
+      "name": "Evidence, agent and voice copilot workspace",
+      "status": "not_started"
+    },
+    {
+      "id": "UIR-04",
+      "name": "Daily commerce and money",
+      "status": "not_started"
+    },
+    {
+      "id": "UIR-05",
+      "name": "Buying, receiving, stock and demand",
+      "status": "not_started"
+    },
+    {
+      "id": "UIR-06",
+      "name": "Planner, reports and explanations",
+      "status": "not_started"
+    },
+    {
+      "id": "UIR-07",
+      "name": "Inbox, voice brief and operations",
+      "status": "not_started"
+    },
+    {
+      "id": "UIR-08",
+      "name": "Help, connections, portal and settings",
+      "status": "not_started"
+    },
+    {
+      "id": "UIR-09",
+      "name": "Browser, accessibility, regression and handoff",
+      "status": "not_started"
+    }
+  ],
+  "capabilities": {
+    "provider_inference": "not_reverified",
+    "agent_transport": "synchronous_recorded_history",
+    "voice_capture": "to_implement",
+    "judge_mode": "explicit_synthetic_only"
+  },
+  "next_task": "Build shared React workbench, authentication and scoped data adapters."
+}

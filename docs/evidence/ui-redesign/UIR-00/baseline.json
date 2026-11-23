@@ -1,0 +1,13 @@
+{
+  "date":"2026-11-23",
+  "revision":"436f4490fe523a060515c6db8d6a515d7bf8c705",
+  "commands":[
+    {"command":"pnpm.cmd --filter @shongoti/web test","exit_code":0,"files":11,"tests_passed":27,"limits":"JSDOM component tests; Router future and DemandTracker act warnings observed"},
+    {"command":"pnpm.cmd --filter @shongoti/web build","exit_code":0,"modules":1595,"js_gzip_kb":85.24}
+  ],
+  "existing_routes":14,
+  "unmounted_feature_components":8,
+  "contracts":"docs/ui-redesign-2026-11-23/source-audit.json plus current API DTO source review",
+  "preserved_unrelated_change":"docs/DATABASE_SETUP.md",
+  "limitations":["No live model/payment/RAG or main-app browser verification in this baseline","Original phase completion claims not broadly recertified","No source binary viewing endpoint assumed"]
+}

@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-23",
+  "baseline": "87ec050f6c852da7a12560e9fa2057a75382ff61",
+  "currentHead": "87ec050f6c852da7a12560e9fa2057a75382ff61",
+  "scope": "Documentation consistency and source-snapshot stability only; not application acceptance.",
+  "phases": [
+    "UIR-00",
+    "UIR-01",
+    "UIR-02",
+    "UIR-03",
+    "UIR-04",
+    "UIR-05",
+    "UIR-06",
+    "UIR-07",
+    "UIR-08",
+    "UIR-09"
+  ],
+  "tasks": 40,
+  "uniqueTasks": 40,
+  "missingRoutes": [],
+  "missingComponents": [],
+  "changedSnapshot": [],
+  "brokenLinks": [],
+  "gitStatus": "M docs/DATABASE_SETUP.md\n?? FULL_UI_REDESIGN_PLAN.md\n?? docs/ui-redesign-2026-11-23/",
+  "unrelatedChangePreserved": "docs/DATABASE_SETUP.md changed during planning by another actor; not edited by this work.",
+  "implementationAuthorized": false,
+  "applicationChangedByPlanning": false,
+  "priorCheck": "Initial documentation check flagged five component names absent from the explicit integration map. Added the full eight-component mapping; no application edits.",
+  "passed": true
+}
