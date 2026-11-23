@@ -1,0 +1,19 @@
+{
+  "phase": "18",
+  "name": "copilot and compound voice transaction review",
+  "milestone_sha": "4063663c722ad3928904a07ff1e79101fae4701b",
+  "timestamp": "2026-11-23T15:59:15+06:00",
+  "remote": "origin",
+  "branch": "main",
+  "status": "published",
+  "verification": {
+    "typecheck": "pass",
+    "domain_contracts": "pass",
+    "api_tests": "pass",
+    "web_tests": "pass",
+    "build": "pass",
+    "css_scan": "pass",
+    "secrets_scan": "pass",
+    "benchmark": "pass"
+  }
+}
