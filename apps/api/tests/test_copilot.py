@@ -17,6 +17,7 @@ from sqlalchemy.pool import StaticPool
 
 from app.core.database import Base, get_db
 from app.main import app
+from app.core.config import settings
 from app.persistence.models import (
     AccountModel,
     ActionModel,
@@ -24,6 +25,11 @@ from app.persistence.models import (
     TenantModel,
     UserModel,
 )
+
+
+@pytest.fixture(autouse=True)
+def disable_live_groq_in_unit_tests(monkeypatch):
+    monkeypatch.setattr(settings, "AI_PROVIDER", "mock")
 
 
 @pytest.fixture(scope="module")

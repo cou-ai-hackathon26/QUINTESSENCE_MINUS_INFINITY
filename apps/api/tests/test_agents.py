@@ -47,7 +47,10 @@ def test_compound_calls_actual_boundary_and_exact_tool_with_persisted_sources(cl
     assert any(e['event_type']=='skeptic_critique' for e in events)
     sequences=[e['event_seq'] for e in events];assert sequences==sorted(set(sequences))
 
-def test_no_provider_never_returns_successful_canned_investigation(client):
+def test_no_provider_never_returns_successful_canned_investigation(client, monkeypatch):
+    from app.core.config import settings
+    monkeypatch.setattr(settings, 'GROQ_API_KEY', '')
+    monkeypatch.setattr(settings, 'GROQ_API_KEYS', '')
     c,_=client;judge(c)
     result=c.post('/api/v1/agents/runs',json={'query':'Investigate invoice'})
     assert result.status_code==503
