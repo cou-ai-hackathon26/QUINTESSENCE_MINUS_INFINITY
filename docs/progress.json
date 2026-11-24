@@ -259,11 +259,11 @@
       "tasks": [
         {
           "id": "P05-T01",
-          "status": "complete",
+          "status": "in_progress",
           "evidence": [
             "docs/evidence/phase-05/supplier-settlement-extension-report.md"
           ],
-          "notes": "Bill/payment evidence links, exact invoice allocation capacity, prior allocations and applicability are represented separately and verified locally."
+          "notes": "Lump-sum invoice capacity and settlement evidence links are verified locally. Full payment and return applicability integration is not requalified by this work."
         },
         {
           "id": "P05-T02",
@@ -276,12 +276,12 @@
         },
         {
           "id": "P05-T03",
-          "status": "complete",
+          "status": "in_progress",
           "evidence": [
             "docs/evidence/phase-05/supplier-settlement-extension-report.md",
             "docs/evidence/real-workflow/JR-03/REPORT.md"
           ],
-          "notes": "Missing/cropped fields and conflicting supplier messages stay unknown or block recording until a reviewer corrects or excludes a source."
+          "notes": "Lump-sum review blocks on unreadable required fields and contradictory reviewed amounts until resolved. The full original clarification journey was not requalified."
         },
         {
           "id": "P05-T04",
@@ -294,11 +294,13 @@
       ],
       "git_checkpoint": {
         "required": true,
-        "status": "not_started",
+        "status": "partial_published",
         "remote": "origin",
         "branch": "main",
         "milestone_sha": null,
-        "receipt_path": null
+        "receipt_path": null,
+        "partial_revision": "dd36a669ea0ed1972aac5a449516981c6da84144",
+        "partial_receipt_path": "docs/evidence/phase-05/git-checkpoint.json"
       },
       "blocker": "Local PostgreSQL database `shongoti` is absent and the CUA browser access host is unavailable; do not mark P05-T04 or the phase complete until those gates run and the milestone/receipt are published."
     },
@@ -1445,7 +1447,7 @@
     "allow_force_push": false,
     "allow_visibility_change": false
   },
-  "next_action": "P13-T01: audit actual source/tests/evidence/remote claims and reconcile the upgrade baseline under EXTENSION_PLAN.md. Preserve existing app and legacy P04/P05/P11 repairs; do not assume new features or confidence calibration are implemented.",
+  "next_action": "P05-T04: run migration 019 and the full regression against local PostgreSQL test infrastructure, then run the synthetic settlement journey at 360/768/1440 px through the browser and record the remaining original Phase 05 acceptance gaps before full checkpoint publication.",
   "latest_review": {
     "date": "2026-11-23",
     "mode": "source_and_web_research",

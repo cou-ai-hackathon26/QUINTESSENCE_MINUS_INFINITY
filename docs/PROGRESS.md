@@ -19,7 +19,7 @@ Source review at `8d4c122`: configured `AIModelAdapter` raises without a provide
 | 02 | Exact financial domain and golden cases | complete | Work verified; milestone `8b34a32`; see `evidence/phase-02/git-checkpoint.json` |
 | 03 | Database, authentication and tenant isolation | complete | Work verified; milestone `0c9cada`; see `evidence/phase-03/git-checkpoint.json` |
 | 04 | Evidence ingestion and real AI boundary | in_progress | Prior intake/review work retained; P04-T04 needs provider implementation, modality routing and genuine evaluation; live verification additionally requires configured access |
-| 05 | Supplier reconciliation and clarification | in_progress | P05-T01–T03 are implemented and locally verified, including reviewed multi-invoice settlement; P05-T04 still needs PostgreSQL regression and 360/768/1440 browser evidence before milestone publication |
+| 05 | Supplier reconciliation and clarification | in_progress | Multi-invoice settlement has a [published partial checkpoint](evidence/phase-05/git-checkpoint.json). Full original payment/return and clarification coverage, PostgreSQL regression, and responsive browser evidence remain separate acceptance gates. |
 | 06 | Connected daily merchant workflow | complete | Work verified; milestone `af708cb`; see `evidence/phase-06/git-checkpoint.json` |
 | 07 | Liquidity outlook and spending-impact scenarios | complete | Work verified; milestone `e4265e9`; see `evidence/phase-07/git-checkpoint.json` |
 | 08 | Action center, customer portal and one real connector | complete | Work verified; milestone `ba38e5f`; see `evidence/phase-08/git-checkpoint.json` |
@@ -42,7 +42,7 @@ Source review at `8d4c122`: configured `AIModelAdapter` raises without a provide
 | 25 | Fair evaluation, confidence validation and browser verification | complete | Work verified; 30 paired families (60 cases) extension benchmark, eval:rag, eval:confidence, eval:agents, test:workflows, fair evaluation report |
 | 26 | Release and resumable handover | complete | Work verified; production runbook, deployment smoke tests, full regression across all 27 phases, final release handover report |
 
-**Next action:** All 27 phases (Phases 00 through 26) fully implemented, verified, and published to GitHub.
+**Next action:** P05-T04 PostgreSQL and responsive browser verification for the settlement workflow, followed by reconciliation of the remaining original Phase 05 acceptance gates.
 
 **Next implementation task:** P13-T01, followed by the actual next unblocked task from the additive extension contract. Genuine inference still needs provider implementation, image/audio routing and actual evaluation; adding a key alone is insufficient. External blockers permit only section J's explicitly independent local tasks.
 
