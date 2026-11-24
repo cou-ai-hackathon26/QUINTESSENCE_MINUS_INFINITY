@@ -2,6 +2,7 @@ import {useEffect,useRef,useState,type ReactNode} from 'react';
 import {X,AlertCircle,FileText,Check,Loader2} from 'lucide-react';
 import {useLanguage} from '../i18n/LanguageContext';
 import {request} from './api';
+export function Field({label,hint,children}:{label:string;hint?:string;children:ReactNode}){return <label className="field"><span>{label}</span>{children}{hint&&<small>{hint}</small>}</label>;}
 export const useCopy=()=>{const {language}=useLanguage();return (bn:string,en:string)=>language==='bn'?bn:en;};
 export function PageHead({label,title,description,actions}:{label?:string;title:string;description?:string;actions?:ReactNode}){return <div className="page-head"><div>{label&&<span className="eyebrow">{label}</span>}<h1>{title}</h1>{description&&<p>{description}</p>}</div><div className="page-actions">{actions}</div></div>;}
 export function Badge({children,tone='neutral'}:{children:ReactNode;tone?:string}){return <span className={'status-tag '+tone}>{children}</span>;}

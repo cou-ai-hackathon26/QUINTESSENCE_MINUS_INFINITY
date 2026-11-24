@@ -250,7 +250,7 @@
     {
       "id": "05",
       "name": "Supplier reconciliation and clarification",
-      "status": "blocked",
+      "status": "in_progress",
       "depends_on": [
         "02",
         "03",
@@ -259,27 +259,37 @@
       "tasks": [
         {
           "id": "P05-T01",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-05/supplier-settlement-extension-report.md"
+          ],
+          "notes": "Bill/payment evidence links, exact invoice allocation capacity, prior allocations and applicability are represented separately and verified locally."
         },
         {
           "id": "P05-T02",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-05/supplier-settlement-extension-report.md",
+            "tests/fixtures/contracts/reconciliation.json"
+          ],
+          "notes": "Original deterministic reconciliation contracts remain passing; the new split engine does not weaken their expectations."
         },
         {
           "id": "P05-T03",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "complete",
+          "evidence": [
+            "docs/evidence/phase-05/supplier-settlement-extension-report.md",
+            "docs/evidence/real-workflow/JR-03/REPORT.md"
+          ],
+          "notes": "Missing/cropped fields and conflicting supplier messages stay unknown or block recording until a reviewer corrects or excludes a source."
         },
         {
           "id": "P05-T04",
-          "status": "not_started",
-          "evidence": [],
-          "notes": ""
+          "status": "in_progress",
+          "evidence": [
+            "docs/evidence/phase-05/supplier-settlement-extension-report.md"
+          ],
+          "notes": "API/UI and local deterministic gates pass. PostgreSQL regression and actual 360/768/1440 browser journey remain not run."
         }
       ],
       "git_checkpoint": {
@@ -290,7 +300,7 @@
         "milestone_sha": null,
         "receipt_path": null
       },
-      "blocker": "Original live inference/reconciliation prerequisite remains unverified; phase-13 audit and phase-14 repair must reconcile actual gates."
+      "blocker": "Local PostgreSQL database `shongoti` is absent and the CUA browser access host is unavailable; do not mark P05-T04 or the phase complete until those gates run and the milestone/receipt are published."
     },
     {
       "id": "06",

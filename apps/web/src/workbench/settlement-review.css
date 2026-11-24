@@ -1,0 +1,24 @@
+.review-corrections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 13px 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #f7f9f0;
+}
+
+.review-corrections .field {
+  font-size: 12px;
+}
+
+.review-corrections input {
+  width: 100%;
+}
+
+@media (max-width: 520px) {
+  .review-corrections {
+    grid-template-columns: 1fr;
+  }
+}

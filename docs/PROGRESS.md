@@ -19,7 +19,7 @@ Source review at `8d4c122`: configured `AIModelAdapter` raises without a provide
 | 02 | Exact financial domain and golden cases | complete | Work verified; milestone `8b34a32`; see `evidence/phase-02/git-checkpoint.json` |
 | 03 | Database, authentication and tenant isolation | complete | Work verified; milestone `0c9cada`; see `evidence/phase-03/git-checkpoint.json` |
 | 04 | Evidence ingestion and real AI boundary | in_progress | Prior intake/review work retained; P04-T04 needs provider implementation, modality routing and genuine evaluation; live verification additionally requires configured access |
-| 05 | Supplier reconciliation and clarification | blocked | Blocked on Phase 04 completion (live AI provider gate) |
+| 05 | Supplier reconciliation and clarification | in_progress | P05-T01–T03 are implemented and locally verified, including reviewed multi-invoice settlement; P05-T04 still needs PostgreSQL regression and 360/768/1440 browser evidence before milestone publication |
 | 06 | Connected daily merchant workflow | complete | Work verified; milestone `af708cb`; see `evidence/phase-06/git-checkpoint.json` |
 | 07 | Liquidity outlook and spending-impact scenarios | complete | Work verified; milestone `e4265e9`; see `evidence/phase-07/git-checkpoint.json` |
 | 08 | Action center, customer portal and one real connector | complete | Work verified; milestone `ba38e5f`; see `evidence/phase-08/git-checkpoint.json` |
@@ -49,6 +49,8 @@ Source review at `8d4c122`: configured `AIModelAdapter` raises without a provide
 **External unknowns:** model credentials/quota; payment sandbox/merchant access; hosting; optional OAuth/sender setup; repository public-release decision. See `INTEGRATIONS.md`. None are verified live.
 
 **Session log**
+
+- 24 November 2026: extended Phase 05 with merchant-side reviewed supplier settlements: multi-file original-source review, human corrections, conflict-safe registered-party aliases, contradictory-message blocking, deterministic oldest-first/manual multi-invoice allocation, and balanced idempotent internal posting. Six settlement tests, 39 web tests, typecheck, production build and clean SQLite migration 001–019 passed. Full backend regression was 193 passed / 1 environment failure because the local PostgreSQL `shongoti` database is absent. CUA browser host was unavailable, so responsive browser verification and the Phase 05 milestone remain incomplete. See `docs/evidence/phase-05/supplier-settlement-extension-report.md`.
 
 - 23 November 2026: Phase 26 completed and verified. Release and resumable handover: authored comprehensive docs/PRODUCTION_RUNBOOK.md and docs/evidence/phase-26/release-handover-report.md reconciling all 27 phases and 59 extension tasks, verified all 16 database migrations, passed full offline verification gate, deployment smoke tests, and final release acceptance. Milestone and receipt published to origin main.
 - 23 November 2026: Phase 25 completed and verified. Fair evaluation, confidence validation and browser verification: authored 30 new paired families (60 synthetic cases) extension benchmark fixture split across development (18 families / 36 cases) and held-out (12 families / 24 cases), eval:rag evaluating Keyword/Dense/Hybrid RRF (k=60) with exact-ID priority bonus, eval:confidence validating evidence-support-v1 policy with missing critical facts strictly capped at 59, eval:agents verifying multi-agent budget limits and fast-path query optimization, and test:workflows verifying the integrated operational journey. Offline verification gates passed.

@@ -31,6 +31,8 @@ const VoiceCopilot = lazy(() => import('./workbench/VoiceCopilot'));
 const ProposalReview = lazy(() => import('./workbench/ProposalReview'));
 const Evidence = lazy(() => import('./workbench/Evidence'));
 const Actions = lazy(() => import('./workbench/Actions'));
+const SupplierSettlements = lazy(() => import('./workbench/SupplierSettlements'));
+const SupplierSettlementDetail = lazy(() => import('./workbench/SupplierSettlements').then(module => ({ default: module.SupplierSettlementDetail })));
 class RouteError extends Component<{
     children: ReactNode;
 }, {
@@ -63,6 +65,8 @@ export default function App() {
         <Route path="/app/buying" element={<Buying />}/><Route path="/app/receiving" element={<Receiving />}/><Route path="/app/demand" element={<Demand />}/><Route path="/app/stock" element={<Stock />}/>
         <Route path="/app/reports" element={<Reports />}/>
         <Route path="/app/money" element={<Money />}/>
+        <Route path="/app/settlements" element={<SupplierSettlements />}/>
+        <Route path="/app/settlements/:settlementId" element={<SupplierSettlementDetail />}/>
         <Route path="/app/sales" element={<Sales />}/>
         <Route path="/app/reconciliation" element={<Navigate to="/app/cases" replace/>}/>
         <Route path="/app/planner" element={<Planner />}/>

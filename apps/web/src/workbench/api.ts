@@ -16,3 +16,10 @@ export async function request<T=Record<string,unknown>>(path:string,options:Requ
   if(response.status===204)return undefined as T;return response.json() as Promise<T>;
 }
 export const post=<T=Record<string,unknown>>(path:string,body:unknown={})=>request<T>(path,{method:'POST',body:body instanceof FormData?body:JSON.stringify(body)});
+export async function requestBlob(path:string,mimeType:string){
+  if(!path.startsWith('/api/v1/'))throw new Error('Only scoped application API paths are allowed');
+  const headers=new Headers();const token=localStorage.getItem('shongoti_token');if(token)headers.set('Authorization','Bearer '+token);
+  const response=await workspaceFetch(path,{headers});
+  if(!response.ok)throw new Error(`Original source is unavailable (${response.status})`);
+  return new Blob([await response.arrayBuffer()],{type:mimeType||'application/octet-stream'});
+}

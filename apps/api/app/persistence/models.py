@@ -155,6 +155,7 @@ class ObligationModel(Base):
 
     id = Column(String(36), primary_key=True, default=generate_uuid)
     tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False)
+    party_id = Column(String(36), ForeignKey("parties.id", ondelete="RESTRICT"), nullable=True, index=True)
     party_name = Column(String(255), nullable=False)
     invoice_ref = Column(String(64), nullable=True)
     amount_paisa = Column(Integer, nullable=False)
@@ -179,6 +180,83 @@ class AllocationModel(Base):
     created_at = Column(DateTime, nullable=False, default=now_utc)
 
     obligation = relationship("ObligationModel", back_populates="allocations")
+
+
+class PartyAliasModel(Base):
+    """A merchant-reviewed alias. Similar names are never aliases automatically."""
+    __tablename__ = "party_aliases"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    party_id = Column(String(36), ForeignKey("parties.id", ondelete="CASCADE"), nullable=False, index=True)
+    alias = Column(String(255), nullable=False)
+    normalized_alias = Column(String(255), nullable=False)
+    source_evidence_id = Column(String(36), ForeignKey("evidence.id", ondelete="SET NULL"), nullable=True)
+    reviewed_by_user_id = Column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+    __table_args__ = (
+        UniqueConstraint("tenant_id", "normalized_alias", name="uq_tenant_party_alias"),
+    )
+
+
+class SupplierSettlementModel(Base):
+    __tablename__ = "supplier_settlements"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    supplier_party_id = Column(String(36), ForeignKey("parties.id", ondelete="RESTRICT"), nullable=False, index=True)
+    amount_paisa = Column(BigInteger, nullable=False)
+    channel = Column(String(16), nullable=False, default="cash")
+    status = Column(String(32), nullable=False, default="collecting_evidence")
+    version = Column(Integer, nullable=False, default=1)
+    idempotency_key = Column(String(128), nullable=False)
+    journal_entry_id = Column(String(36), ForeignKey("journal_entries.id", ondelete="SET NULL"), nullable=True)
+    created_by_user_id = Column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+    updated_at = Column(DateTime, nullable=False, default=now_utc, onupdate=now_utc)
+    recorded_at = Column(DateTime, nullable=True)
+
+    __table_args__ = (
+        UniqueConstraint("tenant_id", "idempotency_key", name="uq_tenant_supplier_settlement_key"),
+    )
+
+
+class SupplierSettlementEvidenceModel(Base):
+    __tablename__ = "supplier_settlement_evidence"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    settlement_id = Column(String(36), ForeignKey("supplier_settlements.id", ondelete="CASCADE"), nullable=False, index=True)
+    evidence_id = Column(String(36), ForeignKey("evidence.id", ondelete="CASCADE"), nullable=False, index=True)
+    document_role = Column(String(32), nullable=False, default="other")
+    review_status = Column(String(32), nullable=False, default="needs_review")
+    extracted_party_name = Column(String(255), nullable=True)
+    party_match_status = Column(String(32), nullable=False, default="unknown")
+    reviewed_by_user_id = Column(String(36), ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    reviewed_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+    __table_args__ = (
+        UniqueConstraint("settlement_id", "evidence_id", name="uq_settlement_evidence"),
+    )
+
+
+class SupplierSettlementLineModel(Base):
+    __tablename__ = "supplier_settlement_lines"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    tenant_id = Column(String(36), ForeignKey("tenants.id", ondelete="CASCADE"), nullable=False, index=True)
+    settlement_id = Column(String(36), ForeignKey("supplier_settlements.id", ondelete="CASCADE"), nullable=False, index=True)
+    obligation_id = Column(String(36), ForeignKey("obligations.id", ondelete="RESTRICT"), nullable=False, index=True)
+    amount_paisa = Column(BigInteger, nullable=False)
+    allocation_rule = Column(String(32), nullable=False, default="oldest_due_first")
+    obligation_version = Column(Integer, nullable=False)
+    created_at = Column(DateTime, nullable=False, default=now_utc)
+
+    __table_args__ = (
+        UniqueConstraint("settlement_id", "obligation_id", name="uq_settlement_obligation"),
+    )
 
 
 class AuditLogModel(Base):

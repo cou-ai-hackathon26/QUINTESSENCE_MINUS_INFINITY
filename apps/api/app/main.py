@@ -30,6 +30,7 @@ from app.api.v1.helpdesk import helpdesk_router
 from app.api.v1.voice_speak import voice_router
 from app.api.v1.workbench_auth import workbench_auth_router
 from app.api.v1.workbench_data import workbench_router
+from app.api.v1.supplier_settlements import router as supplier_settlements_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -69,6 +70,7 @@ app.include_router(helpdesk_router)
 app.include_router(voice_router)
 app.include_router(workbench_auth_router)
 app.include_router(workbench_router)
+app.include_router(supplier_settlements_router)
 
 
 @app.get("/health", status_code=status.HTTP_200_OK, tags=["System"])

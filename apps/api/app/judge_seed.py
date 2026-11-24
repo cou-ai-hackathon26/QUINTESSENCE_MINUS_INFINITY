@@ -37,7 +37,9 @@ def seed_judge_workflows(db,tenant,case):
     db.add(m.CreditNoteModel(tenant_id=tenant.id,receipt_id=receipt.id,supplier_name='রহমান ট্রেডার্স',claim_reason='shortage_and_damaged',amount_paisa=360000,status='suspected',return_window_deadline=m.now_utc()+timedelta(days=7)))
     db.add(m.UnmetDemandModel(tenant_id=tenant.id,customer_name='উদাহরণের ক্রেতা',requested_product='মিনিকেট চাল ২৫ কেজি',sku='RICE-025',quantity=3,reason='stockout'))
     db.add(m.ActionModel(tenant_id=tenant.id,action_type='customer_reminder',recipient='করিম',status='draft',payload_json=json.dumps({'origin':'seeded_example','note':'Review due before contacting customer; nothing has been sent.'})))
-    db.add(m.ObligationModel(tenant_id=tenant.id,party_name='রহমান ট্রেডার্স',invoice_ref='OTHER-EXAMPLE-INVOICE',amount_paisa=500000,accepted_methods='cash',status='supported',due_at=m.now_utc()+timedelta(days=2)))
+    supplier=db.query(m.PartyModel).filter_by(tenant_id=tenant.id,party_type='supplier').one()
+    for reference,amount,days in [('INV-101',600000,1),('INV-102',400000,2),('INV-103',1500000,4)]:
+        db.add(m.ObligationModel(tenant_id=tenant.id,party_id=supplier.id,party_name=supplier.name,invoice_ref=reference,amount_paisa=amount,accepted_methods='cash',status='supported',due_at=m.now_utc()+timedelta(days=days)))
     db.add(m.RecurringCommitmentModel(tenant_id=tenant.id,title='দোকান ভাড়া',category='rent',amount_paisa=800000,frequency='monthly',due_day_of_month=28))
     for title,message,category,entity,entity_id in [
         ('Supplier payment inclusion যাচাই করুন','রসিদ আছে; current demand-এ আগে বাদ আছে কি না নিশ্চিত করুন।','unresolved_receipt','case',case.id),
