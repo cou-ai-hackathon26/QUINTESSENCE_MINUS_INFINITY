@@ -13,7 +13,7 @@ if settings.DATABASE_URL.startswith("sqlite"):
     if db_path and not db_path.startswith(":memory:"):
         os.makedirs(os.path.dirname(os.path.abspath(db_path)), exist_ok=True)
 
-connect_args = {"check_same_thread": False} if settings.DATABASE_URL.startswith("sqlite") else {}
+connect_args = {"check_same_thread": False, "timeout": 30.0} if settings.DATABASE_URL.startswith("sqlite") else {}
 
 engine = create_engine(
     settings.DATABASE_URL,

@@ -4,16 +4,18 @@ import hashlib
 import json
 import time
 from datetime import datetime, timedelta, timezone
-from threading import BoundedSemaphore
+from threading import BoundedSemaphore, Lock
 from copy import deepcopy
 from typing import TypeVar
 import httpx
-from pydantic import BaseModel,ValidationError
+from pydantic import BaseModel, ValidationError
 from app.core.config import settings
 from app.persistence.models import ProviderReceiptModel
 
 T=TypeVar('T',bound=BaseModel)
 _inference_slots = BoundedSemaphore(2)
+_key_lock = Lock()
+_key_cursor = 0
 
 class InferenceUnavailable(Exception):
     def __init__(self,code='provider_unavailable',status=503):
@@ -21,7 +23,22 @@ class InferenceUnavailable(Exception):
         super().__init__('Groq inference could not finish ('+code+'). Your source is retained; retry after checking the provider status.')
 
 def configured():
-    return bool(settings.GROQ_API_KEY.strip())
+    return bool(settings.groq_api_keys or settings.GROQ_API_KEY.strip())
+
+def get_current_key(offset: int = 0) -> str:
+    global _key_cursor
+    keys = settings.groq_api_keys
+    if not keys:
+        return settings.GROQ_API_KEY.strip()
+    with _key_lock:
+        return keys[(_key_cursor + offset) % len(keys)]
+
+def rotate_key():
+    global _key_cursor
+    keys = settings.groq_api_keys
+    if keys:
+        with _key_lock:
+            _key_cursor = (_key_cursor + 1) % len(keys)
 
 def strict_schema(model):
     schema=deepcopy(model.model_json_schema())
@@ -57,18 +74,36 @@ class GroqProvider:
         started=time.monotonic();status='failed';body={};error=None
         fingerprint_input={'payload':payload or data,'files':{name:hashlib.sha256(value[1]).hexdigest() for name,value in (files or {}).items()}}
         fingerprint=hashlib.sha256(json.dumps(fingerprint_input,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+        keys_pool = settings.groq_api_keys or [settings.GROQ_API_KEY.strip()]
+        max_attempts = max(3, len(keys_pool) * 2)
         try:
-            for attempt in range(3):
-                with httpx.Client(timeout=settings.AI_TIMEOUT_SECONDS,transport=self.transport) as client:
-                    response=client.post('https://api.groq.com/openai/v1/'+endpoint,headers={'Authorization':'Bearer '+settings.GROQ_API_KEY},json=payload,files=files,data=data)
-                    if response.status_code==429 and attempt<2:
-                        retry_after=float(response.headers.get('retry-after','5'))
-                        time.sleep(min(max(retry_after,3.0),10.0))
+            for attempt in range(max_attempts):
+                current_key = get_current_key(attempt)
+                with httpx.Client(timeout=settings.AI_TIMEOUT_SECONDS, transport=self.transport) as client:
+                    response = client.post(
+                        'https://api.groq.com/openai/v1/' + endpoint,
+                        headers={'Authorization': 'Bearer ' + current_key},
+                        json=payload,
+                        files=files,
+                        data=data,
+                    )
+                    if response.status_code == 429 and attempt < max_attempts - 1:
+                        rotate_key()
+                        header_val = response.headers.get('retry-after') or response.headers.get('x-ratelimit-reset-tokens') or '3'
+                        try:
+                            retry_after = float(str(header_val).rstrip('s'))
+                        except ValueError:
+                            retry_after = 3.0
+                        if len(keys_pool) > 1:
+                            time.sleep(0.5)
+                        else:
+                            time.sleep(min(max(retry_after, 3.0), 20.0))
                         continue
                     if not response.is_success:
-                        error='http_'+str(response.status_code)
-                        raise InferenceUnavailable(error,429 if response.status_code==429 else 503)
-                    body=response.json();status='succeeded'
+                        error = 'http_' + str(response.status_code)
+                        raise InferenceUnavailable(error, 429 if response.status_code == 429 else 503)
+                    body = response.json()
+                    status = 'succeeded'
                     return body
         except InferenceUnavailable:raise
         except (httpx.HTTPError,ValueError):

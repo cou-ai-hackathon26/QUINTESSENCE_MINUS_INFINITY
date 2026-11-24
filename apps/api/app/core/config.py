@@ -37,6 +37,15 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: str = ""
     AI_PROVIDER: str = "groq"
     GROQ_API_KEY: str = ""
+    GROQ_API_KEYS: str = ""
+
+    @property
+    def groq_api_keys(self) -> List[str]:
+        keys = [k.strip() for k in self.GROQ_API_KEYS.split(",") if k.strip()]
+        if not keys and self.GROQ_API_KEY.strip():
+            keys = [self.GROQ_API_KEY.strip()]
+        return keys
+
     GROQ_TEXT_MODEL: str = "openai/gpt-oss-120b"
     GROQ_VISION_MODEL: str = "qwen/qwen3.8-27b"
     GROQ_WHISPER_MODEL: str = "whisper-large-v3"
