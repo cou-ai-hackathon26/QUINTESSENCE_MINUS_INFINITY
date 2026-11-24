@@ -76,9 +76,12 @@ class CreateSettlementDTO(BaseModel):
     idempotency_key: str = Field(min_length=4, max_length=128)
 
 
+DocumentRole = Literal["invoice", "payment_receipt", "supplier_message", "return_credit", "other"]
+
+
 class AttachEvidenceDTO(BaseModel):
     evidence_id: str
-    document_role: Literal["invoice", "payment_receipt", "supplier_message", "return_credit", "other"] = "other"
+    document_role: DocumentRole = "other"
 
 
 class ReviewEvidenceDTO(BaseModel):
@@ -87,6 +90,7 @@ class ReviewEvidenceDTO(BaseModel):
     decision: Literal["confirmed", "ignored"] = "confirmed"
     verified_amount_paisa: StrictInt | None = Field(default=None, gt=0, le=99_999_999_999)
     verified_invoice_ref: str | None = Field(default=None, max_length=64)
+    document_role: DocumentRole | None = None
 
 
 class InvoiceDTO(BaseModel):
@@ -217,7 +221,7 @@ def get_settlement_detail(settlement_id: str, current_user: UserModel = Depends(
 
 @router.post("/{settlement_id}/evidence")
 def attach_evidence(settlement_id: str, req: AttachEvidenceDTO, current_user: UserModel = Depends(get_current_user), db: Session = Depends(get_db)):
-    row = get_settlement(db, current_user.tenant_id, settlement_id)
+    row = get_settlement(db, current_user.tenant_id, settlement_id, lock=True)
     if row.status == "recorded": raise HTTPException(409, "Recorded settlements cannot accept new evidence.")
     document = db.query(EvidenceModel).filter_by(id=req.evidence_id, tenant_id=current_user.tenant_id).first()
     if not document: raise HTTPException(404, "Evidence not found.")
@@ -236,7 +240,9 @@ def attach_evidence(settlement_id: str, req: AttachEvidenceDTO, current_user: Us
 
 @router.post("/{settlement_id}/evidence/{link_id}/review")
 def review_evidence(settlement_id: str, link_id: str, req: ReviewEvidenceDTO, current_user: UserModel = Depends(require_role(["owner", "accountant"])), db: Session = Depends(get_db)):
-    row = get_settlement(db, current_user.tenant_id, settlement_id)
+    row = get_settlement(db, current_user.tenant_id, settlement_id, lock=True)
+    if row.status == "recorded":
+        raise HTTPException(409, "Recorded settlements cannot change their evidence review.")
     link = db.query(SupplierSettlementEvidenceModel).filter_by(id=link_id, settlement_id=row.id, tenant_id=current_user.tenant_id).first()
     if not link: raise HTTPException(404, "Settlement evidence not found.")
     if req.confirmed_party_id != row.supplier_party_id:
@@ -250,11 +256,13 @@ def review_evidence(settlement_id: str, link_id: str, req: ReviewEvidenceDTO, cu
         raise HTTPException(409, "The extracted name exactly matches another registered supplier. Ignore this source or start a settlement for that supplier.")
     if req.decision == "confirmed" and not claim:
         raise HTTPException(422, "No extracted claim is available to review. Ignore this source or re-upload a readable copy.")
-    if claim and req.verified_amount_paisa is not None:
+    if req.decision == "confirmed" and req.document_role:
+        link.document_role = req.document_role
+    if req.decision == "confirmed" and claim and req.verified_amount_paisa is not None:
         claim.corrected_amount_paisa = req.verified_amount_paisa
         claim.reviewed_by_user_id = current_user.id
         claim.status = "corrected"
-    if claim and req.verified_invoice_ref is not None:
+    if req.decision == "confirmed" and claim and req.verified_invoice_ref is not None:
         claim.invoice_ref = req.verified_invoice_ref.strip() or None
         claim.reviewed_by_user_id = current_user.id
         claim.status = "corrected"
@@ -265,7 +273,7 @@ def review_evidence(settlement_id: str, link_id: str, req: ReviewEvidenceDTO, cu
     if req.decision == "confirmed" and link.document_role == "invoice":
         if not claim or not claim.invoice_ref or (claim.corrected_amount_paisa or claim.amount_paisa) is None:
             raise HTTPException(422, "Verify the invoice number and amount, or ignore the unreadable source.")
-    if req.remember_extracted_name_as_alias:
+    if req.decision == "confirmed" and req.remember_extracted_name_as_alias:
         if not link.extracted_party_name: raise HTTPException(422, "There is no extracted name to remember.")
         normalized = normalize_party_name(link.extracted_party_name)
         canonical_conflict = db.query(PartyModel).filter(PartyModel.tenant_id == current_user.tenant_id, PartyModel.party_type == "supplier", PartyModel.id != row.supplier_party_id).all()
@@ -279,6 +287,7 @@ def review_evidence(settlement_id: str, link_id: str, req: ReviewEvidenceDTO, cu
     link.review_status = req.decision
     link.party_match_status = "merchant_confirmed" if req.decision == "confirmed" else "ignored"
     link.reviewed_by_user_id = current_user.id; link.reviewed_at = now_utc()
+    row.status = "collecting_evidence"
     row.version += 1; db.commit()
     return settlement_payload(db, row)
 
@@ -286,8 +295,12 @@ def review_evidence(settlement_id: str, link_id: str, req: ReviewEvidenceDTO, cu
 @router.post("/{settlement_id}/invoices")
 def add_invoice(settlement_id: str, req: InvoiceDTO, current_user: UserModel = Depends(require_role(["owner", "accountant"])), db: Session = Depends(get_db)):
     row = get_settlement(db, current_user.tenant_id, settlement_id, lock=True)
+    if row.status == "recorded":
+        raise HTTPException(409, "Recorded settlements cannot add invoice details.")
     party = db.query(PartyModel).filter_by(id=row.supplier_party_id, tenant_id=current_user.tenant_id).with_for_update().one()
     ref = req.invoice_ref.strip()
+    if not ref:
+        raise HTTPException(422, "Enter a non-blank invoice reference.")
     if db.query(ObligationModel).filter_by(tenant_id=current_user.tenant_id, party_id=party.id, invoice_ref=ref).first():
         raise HTTPException(409, "This supplier invoice is already registered.")
     if req.evidence_id:

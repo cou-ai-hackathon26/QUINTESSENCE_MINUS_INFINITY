@@ -37,7 +37,7 @@ def test_reviewed_settlement_posts_once_and_allocates_invoice_capacity(client):
     assert preview.status_code == 200
     reviewed = preview.json()
     assert reviewed["status"] == "ready_for_review" and reviewed["allocated_paisa"] == 500000
-    assert reviewed["lines"][0]["amount_paisa"] == 500000
+    assert {line["amount_paisa"] for line in reviewed["lines"]} == {300000, 200000}
     confirmed = c.post(f"/api/v1/supplier-settlements/{settlement['id']}/confirm", json={"expected_version": reviewed["version"], "expected_party_due_paisa": 2500000, "expected_account_balance_paisa": 500000, "confirmed": True})
     assert confirmed.status_code == 200
     result = confirmed.json()
@@ -45,7 +45,7 @@ def test_reviewed_settlement_posts_once_and_allocates_invoice_capacity(client):
     replay = c.post(f"/api/v1/supplier-settlements/{settlement['id']}/confirm", json={"expected_version": reviewed["version"], "expected_party_due_paisa": 2500000, "expected_account_balance_paisa": 500000, "confirmed": True})
     assert replay.status_code == 200 and replay.json()["journal_entry_id"] == result["journal_entry_id"]
     with factory() as db:
-        assert db.query(AllocationModel).filter_by(tenant_id=identity["tenant_id"], source_payment_id=result["journal_entry_id"]).count() == 1
+        assert db.query(AllocationModel).filter_by(tenant_id=identity["tenant_id"], source_payment_id=result["journal_entry_id"]).count() == 2
         entry = db.query(JournalEntryModel).filter_by(id=result["journal_entry_id"]).one()
         postings = db.query(PostingModel).filter_by(journal_entry_id=entry.id).all()
         assert sum(p.amount_paisa for p in postings if p.direction == "debit") == 500000
@@ -138,3 +138,13 @@ def test_conflicting_supplier_messages_leave_one_material_question(client):
     assert preview.json()["status"] == "needs_clarification"
     assert preview.json()["needs_human_review"] is True
     assert preview.json()["contradictions"][0]["amounts_paisa"] == [10000, 12000]
+    conflict = preview.json()["contradictions"][0]
+    ignored = c.post(
+        f"/api/v1/supplier-settlements/{settlement['id']}/evidence/{conflict['link_ids'][0]}/review",
+        json={"confirmed_party_id": supplier["id"], "decision": "ignored", "remember_extracted_name_as_alias": True},
+    )
+    assert ignored.status_code == 200
+    assert ignored.json()["status"] == "collecting_evidence"
+    assert ignored.json()["contradictions"] == []
+    ready = c.post(f"/api/v1/supplier-settlements/{settlement['id']}/preview", json={"expected_version": ignored.json()["version"]})
+    assert ready.json()["status"] == "ready_for_review"

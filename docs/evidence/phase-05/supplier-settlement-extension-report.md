@@ -29,6 +29,8 @@ Scope: merchant-side, reviewed lump-sum supplier settlements; no external paymen
 
 No live provider inference or external payment call was made in this verification. Existing AJ-03 evidence remains the current provider verification; it is not re-labelled as a test of this new UI journey.
 
+Follow-up on working tree based on `dd36a66`, from the repository root. The backend command `node scripts/run-python.js -m pytest apps/api/tests -q -k 'not test_postgresql_live_connection_and_schema'` exited 0 with 193 passed and one deselected. It covers a posted two-invoice split and recovery after excluding a contradictory source. `pnpm test:web` exited 0 with 39 passing tests and `pnpm build` exited 0. GitHub Verify application run 45328698706 succeeded for `dd36a66` with its PostgreSQL 16 service and SQLite migrations. This CI job does not apply migration 019 on PostgreSQL or exercise the responsive settlement journey.
+
 ## Remaining gates
 
 P05-T04 and the Phase 05 publication gate remain in progress. Before marking the phase complete: run migration 019 against the configured PostgreSQL test database, exercise upload/review/allocation/recording through the actual browser at 360/768/1440 px, rerun the full regression with PostgreSQL available, then publish the required milestone and receipt.
