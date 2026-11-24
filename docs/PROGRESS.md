@@ -42,7 +42,7 @@ Source review at `8d4c122`: configured `AIModelAdapter` raises without a provide
 | 25 | Fair evaluation, confidence validation and browser verification | complete | Work verified; 30 paired families (60 cases) extension benchmark, eval:rag, eval:confidence, eval:agents, test:workflows, fair evaluation report |
 | 26 | Release and resumable handover | complete | Work verified; production runbook, deployment smoke tests, full regression across all 27 phases, final release handover report |
 
-**Next action:** P05-T04 PostgreSQL and responsive browser verification for the settlement workflow, followed by reconciliation of the remaining original Phase 05 acceptance gates.
+**Next action:** P05-T04 responsive browser verification with live extraction on synthetic evidence, followed by reconciliation of the remaining original Phase 05 acceptance gates. Fresh PostgreSQL 18.1 and SQLite migrations passed through 019 after fixing historical boolean defaults.
 
 **Next implementation task:** P13-T01, followed by the actual next unblocked task from the additive extension contract. Genuine inference still needs provider implementation, image/audio routing and actual evaluation; adding a key alone is insufficient. External blockers permit only section J's explicitly independent local tasks.
 

@@ -289,7 +289,7 @@
           "evidence": [
             "docs/evidence/phase-05/supplier-settlement-extension-report.md"
           ],
-          "notes": "API/UI and local deterministic gates pass. PostgreSQL regression and actual 360/768/1440 browser journey remain not run."
+          "notes": "API regression and SQLite/PostgreSQL 18.1 migrations pass. The local PostgreSQL 16-specific test and actual 360/768/1440 browser journey remain open."
         }
       ],
       "git_checkpoint": {
@@ -302,7 +302,7 @@
         "partial_revision": "dd36a669ea0ed1972aac5a449516981c6da84144",
         "partial_receipt_path": "docs/evidence/phase-05/git-checkpoint.json"
       },
-      "blocker": "Local PostgreSQL database `shongoti` is absent and the CUA browser access host is unavailable; do not mark P05-T04 or the phase complete until those gates run and the milestone/receipt are published."
+      "blocker": "The CUA browser access host is unavailable. The local PostgreSQL server is 18.1, while the existing local regression test requires 16 and database shongoti. Full original acceptance gates and milestone publication remain open."
     },
     {
       "id": "06",
@@ -1447,7 +1447,7 @@
     "allow_force_push": false,
     "allow_visibility_change": false
   },
-  "next_action": "P05-T04: run migration 019 and the full regression against local PostgreSQL test infrastructure, then run the synthetic settlement journey at 360/768/1440 px through the browser and record the remaining original Phase 05 acceptance gaps before full checkpoint publication.",
+  "next_action": "P05-T04: run the synthetic settlement journey with live extraction at 360/768/1440 px, verify the PostgreSQL 16-specific test in CI, and reconcile remaining original Phase 05 acceptance gates before full checkpoint publication.",
   "latest_review": {
     "date": "2026-11-23",
     "mode": "source_and_web_research",

@@ -33,4 +33,6 @@ Follow-up on working tree based on `dd36a66`, from the repository root. The back
 
 ## Remaining gates
 
-P05-T04 and the Phase 05 publication gate remain in progress. Before marking the phase complete: run migration 019 against the configured PostgreSQL test database, exercise upload/review/allocation/recording through the actual browser at 360/768/1440 px, rerun the full regression with PostgreSQL available, then publish the required milestone and receipt.
+From repository root at `e8cb9f4` plus the migration compatibility changes, `pnpm db:migrate` initially exited 1 on PostgreSQL 18.1 at migration 007 because a boolean column used an integer default. Migrations 007, 008 and 016 now express the same defaults with SQLAlchemy boolean literals. On retry, `pnpm db:migrate` and `pnpm db:check` both exited 0 on the isolated PostgreSQL 18.1 test database and on a fresh SQLite database, reaching migration 019 on both. The local hardcoded PostgreSQL 16 test still requires its own environment.
+
+P05-T04 and the full Phase 05 publication gate remain in progress. Upload/review/allocation/recording at 360/768/1440 px, including live extraction on synthetic files, still needs browser evidence. The partial implementation has a separately published receipt.

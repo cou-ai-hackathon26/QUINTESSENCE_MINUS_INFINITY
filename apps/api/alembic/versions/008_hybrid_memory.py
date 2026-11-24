@@ -28,7 +28,7 @@ def upgrade() -> None:
         sa.Column('metadata_json', sa.Text(), nullable=True),
         sa.Column('embedding_json', sa.Text(), nullable=True),
         sa.Column('model_version', sa.String(64), nullable=False, server_default='text-embedding-004'),
-        sa.Column('is_revoked', sa.Boolean(), nullable=False, server_default=sa.text('0')),
+        sa.Column('is_revoked', sa.Boolean(), nullable=False, server_default=sa.false()),
         sa.Column('created_at', sa.DateTime(), nullable=False),
     )
     op.create_index('ix_document_chunks_tenant_id', 'document_chunks', ['tenant_id'])

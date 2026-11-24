@@ -46,7 +46,7 @@ def upgrade() -> None:
         sa.Column('official_portal_url', sa.String(512), nullable=False),
         sa.Column('content_text', sa.Text(), nullable=False),
         sa.Column('applicability_rules_json', sa.Text(), nullable=False),
-        sa.Column('is_active', sa.Boolean(), nullable=False, server_default=sa.text('1')),
+        sa.Column('is_active', sa.Boolean(), nullable=False, server_default=sa.true()),
         sa.Column('created_at', sa.DateTime(), nullable=False),
     )
     op.create_index('ix_regulatory_corpus_topic', 'regulatory_corpus', ['topic'])
