@@ -19,7 +19,7 @@ export const MoneyPage: FC = () => {
   const [actualDrawerCash, setActualDrawerCash] = useState('4500');
   const [withdrawAmount, setWithdrawAmount] = useState('500');
 
-  const token = localStorage.getItem('shongoti_token');
+  const token: string | null = null;
 
   const fetchMoneyData = async () => {
     try {

@@ -10,7 +10,9 @@ from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from app.core.auth import get_current_user
+from app.core.config import settings
 from app.core.database import get_db
+from app.core.permissions import verify_tenant_ownership
 from app.domain.ledger import StandardAccount
 from app.domain.merchant import MerchantService
 from app.domain.money import Money
@@ -22,6 +24,8 @@ from app.persistence.models import (
     JournalEntryModel,
     PartyModel,
     PostingModel,
+    ProductItemModel,
+    PurchaseDraftModel,
     TenantModel,
     UserModel,
     generate_uuid,
@@ -181,6 +185,7 @@ def execute_action(
     )
     if not action:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Action not found.")
+    verify_tenant_ownership(action.tenant_id, current_user.tenant_id)
 
     if action.status != "approved":
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Action must be approved before execution. Current state: {action.status}")
@@ -193,7 +198,30 @@ def execute_action(
         raise HTTPException(status_code=status.HTTP_410_GONE, detail="Action has expired.")
 
     validate_action_source(action, db)
-    # No dispatcher or verified external receipt exists for this generic boundary.
+    payload = json.loads(action.payload_json) if action.payload_json else {}
+    if action.action_type == "stock_reorder" and payload.get("product_id") and payload.get("quantity"):
+        product = db.query(ProductItemModel).filter_by(id=payload["product_id"], tenant_id=current_user.tenant_id).first()
+        if product:
+            verify_tenant_ownership(product.tenant_id, current_user.tenant_id)
+            qty = int(payload["quantity"])
+            unit_cost = int(payload.get("unit_cost_paisa", product.cost_price_paisa or 0))
+            draft = PurchaseDraftModel(
+                tenant_id=current_user.tenant_id,
+                product_id=product.id,
+                quantity=qty,
+                unit_cost_paisa=unit_cost,
+                total_cost_paisa=qty * unit_cost,
+                status="draft",
+                notes=f"Created from approved action {action.id}",
+            )
+            db.add(draft)
+            db.flush()
+            action.status = "completed"
+            action.executed_at = now_utc()
+            action.outcome_json = json.dumps({"purchase_draft_id": draft.id})
+            db.commit()
+            return {"status": "completed", "action_id": action.id, "purchase_draft_id": draft.id}
+    # No dispatcher or verified external receipt exists for external payment/messaging boundary.
     raise HTTPException(status_code=503, detail="Execution adapter is not connected. Approval is recorded; no payment, message or stock movement was executed.")
 
 
@@ -210,6 +238,7 @@ def cancel_action(
     )
     if not action:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Action not found.")
+    verify_tenant_ownership(action.tenant_id, current_user.tenant_id)
 
     if action.status in ["completed", "cancelled"]:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Cannot cancel action in '{action.status}' state.")
@@ -271,7 +300,9 @@ def get_portal_view(
         raise HTTPException(status_code=status.HTTP_410_GONE, detail="This invoice link has expired.")
 
     tenant = db.query(TenantModel).filter(TenantModel.id == pt.tenant_id).first()
-    party = db.query(PartyModel).filter(PartyModel.id == pt.party_id).first()
+    party = db.query(PartyModel).filter(PartyModel.id == pt.party_id, PartyModel.tenant_id == pt.tenant_id).first()
+    if party:
+        verify_tenant_ownership(party.tenant_id, pt.tenant_id)
 
     return {
         "shop_name": tenant.name if tenant else "দোকান",

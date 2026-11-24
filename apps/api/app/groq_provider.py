@@ -13,7 +13,7 @@ from app.core.config import settings
 from app.persistence.models import ProviderReceiptModel
 
 T=TypeVar('T',bound=BaseModel)
-_inference_slots = BoundedSemaphore(2)
+_inference_slots = BoundedSemaphore(max(1, settings.AI_MAX_CONCURRENT_REQUESTS))
 _key_lock = Lock()
 _key_cursor = 0
 
@@ -69,8 +69,9 @@ class GroqProvider:
             recent = self.db.query(ProviderReceiptModel).filter(ProviderReceiptModel.created_at >= start)
             if recent.count() >= settings.AI_GLOBAL_DAILY_CALLS or recent.filter(ProviderReceiptModel.tenant_id == self.tenant_id).count() >= settings.AI_TENANT_DAILY_CALLS:
                 raise InferenceUnavailable('daily_call_limit', 429)
-        if not _inference_slots.acquire(blocking=False):
+        if not _inference_slots.acquire(timeout=max(0.0, settings.AI_SLOT_WAIT_SECONDS)):
             raise InferenceUnavailable('inference_busy', 429)
+        slot_held = True
         started=time.monotonic();status='failed';body={};error=None
         fingerprint_input={'payload':payload or data,'files':{name:hashlib.sha256(value[1]).hexdigest() for name,value in (files or {}).items()}}
         fingerprint=hashlib.sha256(json.dumps(fingerprint_input,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
@@ -92,12 +93,19 @@ class GroqProvider:
                         header_val = response.headers.get('retry-after') or response.headers.get('x-ratelimit-reset-tokens') or '3'
                         try:
                             retry_after = float(str(header_val).rstrip('s'))
-                        except ValueError:
+                        except (ValueError, TypeError):
                             retry_after = 3.0
-                        if len(keys_pool) > 1:
-                            time.sleep(0.5)
-                        else:
-                            time.sleep(min(max(retry_after, 3.0), 20.0))
+                        if not isinstance(self.transport, httpx.MockTransport) and settings.AI_RETRY_MIN_SECONDS > 0:
+                            if slot_held:
+                                _inference_slots.release()
+                                slot_held = False
+                            if len(keys_pool) > 1:
+                                time.sleep(0.5)
+                            else:
+                                time.sleep(min(max(retry_after, settings.AI_RETRY_MIN_SECONDS), 10.0))
+                            if not _inference_slots.acquire(timeout=max(0.0, settings.AI_SLOT_WAIT_SECONDS)):
+                                raise InferenceUnavailable('inference_busy', 429)
+                            slot_held = True
                         continue
                     if not response.is_success:
                         error = 'http_' + str(response.status_code)
@@ -109,7 +117,8 @@ class GroqProvider:
         except (httpx.HTTPError,ValueError):
             error='connection_or_response_error';raise InferenceUnavailable(error)
         finally:
-            _inference_slots.release()
+            if slot_held:
+                _inference_slots.release()
             receipt=ProviderReceiptModel(tenant_id=self.tenant_id,entity_type=self.entity_type,entity_id=self.entity_id,capability=capability,provider='groq',model=model,status=status,request_fingerprint=fingerprint,provider_request_id=body.get('id') or body.get('x_groq',{}).get('id'),input_tokens=body.get('usage',{}).get('prompt_tokens'),output_tokens=body.get('usage',{}).get('completion_tokens'),latency_ms=int((time.monotonic()-started)*1000),error_code=error)
             if self.db and self.tenant_id:self.db.add(receipt);self.db.flush()
             self.receipts.append(receipt)

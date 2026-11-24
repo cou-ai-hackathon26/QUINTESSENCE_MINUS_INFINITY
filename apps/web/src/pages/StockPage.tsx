@@ -61,7 +61,7 @@ export const StockPage: FC = () => {
   const [returnProdId, setReturnProdId] = useState('');
   const [returnQty, setReturnQty] = useState('1');
 
-  const token = localStorage.getItem('shongoti_token');
+  const token: string | null = null;
 
   const fetchStockData = async () => {
     try {

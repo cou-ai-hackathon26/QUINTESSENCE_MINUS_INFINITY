@@ -65,8 +65,30 @@ def record(db,tenant_id,kind,data,request_key=None):
             update=db.query(PartyModel).filter_by(id=party.id,tenant_id=tenant_id)
             if party_delta<0:update=update.filter(PartyModel.current_due_paisa>=-party_delta)
             if update.update({PartyModel.current_due_paisa:PartyModel.current_due_paisa+party_delta},synchronize_session=False)!=1:raise HTTPException(422,'Amount exceeds the verified party due.')
-        # Aggregate duplicate stock lines before a single conditional decrement.
+        # Aggregate duplicate stock lines before a single conditional decrement and compute perpetual COGS.
+        total_cogs = 0
+        product_rows = {}
         for product_id,quantity in sorted(items.items()):
+            prod=db.query(ProductItemModel).filter_by(id=product_id,tenant_id=tenant_id).with_for_update().first()
+            if not prod or prod.quantity_on_hand<quantity:raise HTTPException(422,'A stock item is missing or has insufficient quantity.')
+            product_rows[product_id]=(prod,quantity)
+            if prod.cost_price_paisa is not None and prod.cost_price_paisa>0:
+                total_cogs+=quantity*prod.cost_price_paisa
+        if total_cogs>0:
+            line(A.COGS,'debit',total_cogs)
+            line(A.INVENTORY,'credit',total_cogs)
+            for code in (A.COGS.value,A.INVENTORY.value):
+                if code not in accounts:
+                    account=db.query(AccountModel).filter_by(tenant_id=tenant_id,code=code).with_for_update().first()
+                    if not account:
+                        account=AccountModel(tenant_id=tenant_id,code=code,type=code.split(':')[0],name=code.split(':')[-1],current_balance_paisa=0);db.add(account);db.flush()
+                    accounts[code]=account
+            inv_acc=accounts[A.INVENTORY.value]
+            if inv_acc.current_balance_paisa<total_cogs:
+                # Synchronize unseeded inventory asset balance when physical stock with cost was directly inserted
+                db.query(AccountModel).filter_by(id=inv_acc.id,tenant_id=tenant_id).update({AccountModel.current_balance_paisa:total_cogs},synchronize_session=False)
+                inv_acc.current_balance_paisa=total_cogs
+        for product_id,(prod,quantity) in product_rows.items():
             changed=db.query(ProductItemModel).filter_by(id=product_id,tenant_id=tenant_id).filter(ProductItemModel.quantity_on_hand>=quantity).update({ProductItemModel.quantity_on_hand:ProductItemModel.quantity_on_hand-quantity},synchronize_session=False)
             if changed!=1:raise HTTPException(422,'A stock item is missing or has insufficient quantity.')
             db.add(StockMovementModel(tenant_id=tenant_id,product_id=product_id,movement_type='sale_deduction',quantity_change=-quantity,reference_id=entry.id))

@@ -21,11 +21,14 @@ from app.persistence.models import (
     TenantModel, UserModel, PartyModel, ProductItemModel,
     StockMovementModel, DailySnapshotModel, AccountModel,
     PurchaseDraftModel, RecurringCommitmentModel,
+    JournalEntryModel, PostingModel,
     now_utc, generate_uuid
 )
 from app.core.auth import get_current_user
+from app.core.permissions import verify_tenant_ownership
 from app.adapters.forecast import HistoryForecastAdapter
 from app.domain.ledger import StandardAccount
+from app.domain.merchant import MerchantService
 from app.domain.csv_io import csv_count, csv_paisa, spreadsheet_text
 
 stock_reports_router = APIRouter(tags=["Stock, Reports & Forecasting"])
@@ -169,6 +172,39 @@ def create_product(
         lead_time_days=req.lead_time_days,
     )
     db.add(product)
+    db.flush()
+    if req.quantity_on_hand > 0:
+        db.add(
+            StockMovementModel(
+                tenant_id=current_user.tenant_id,
+                product_id=product.id,
+                movement_type="opening_stock",
+                quantity_change=req.quantity_on_hand,
+                reference_id=f"stock-open:{product.id[:8]}",
+            )
+        )
+        if req.cost_price_paisa and req.cost_price_paisa > 0:
+            inv_val = req.quantity_on_hand * req.cost_price_paisa
+            inv_acc = MerchantService.get_or_create_account(
+                db, current_user.tenant_id, StandardAccount.INVENTORY.value, "Inventory", "asset"
+            )
+            cap_acc = MerchantService.get_or_create_account(
+                db, current_user.tenant_id, StandardAccount.OWNER_CAPITAL.value, "Owner capital", "equity"
+            )
+            entry = JournalEntryModel(
+                tenant_id=current_user.tenant_id,
+                entry_number="INV-OPEN-" + product.id[:8],
+                event_id="stock-product-opening:" + product.id,
+                description=f"Opening inventory for {product.name}"[:255],
+            )
+            db.add(entry)
+            db.flush()
+            db.add_all([
+                PostingModel(journal_entry_id=entry.id, account_id=inv_acc.id, direction="debit", amount_paisa=inv_val),
+                PostingModel(journal_entry_id=entry.id, account_id=cap_acc.id, direction="credit", amount_paisa=inv_val),
+            ])
+            inv_acc.current_balance_paisa += inv_val
+            cap_acc.current_balance_paisa += inv_val
     db.commit()
     db.refresh(product)
     return {"status": "created", "product_id": product.id, "name": product.name}
@@ -297,6 +333,7 @@ def receive_purchase_draft(
     db.add(movement)
 
     # If supplier exists, add to supplier payable
+    supplier = None
     if draft.supplier_id:
         supplier = db.query(PartyModel).filter(
             PartyModel.id == draft.supplier_id,
@@ -304,6 +341,31 @@ def receive_purchase_draft(
         ).first()
         if supplier:
             supplier.current_due_paisa += draft.total_cost_paisa
+
+    if draft.total_cost_paisa > 0:
+        inv_acc = MerchantService.get_or_create_account(
+            db, current_user.tenant_id, StandardAccount.INVENTORY.value, "Inventory", "asset"
+        )
+        credit_code = StandardAccount.PAYABLES.value if supplier else StandardAccount.OWNER_CAPITAL.value
+        credit_type = "liability" if supplier else "equity"
+        credit_name = "Accounts Payable" if supplier else "Owner capital"
+        credit_acc = MerchantService.get_or_create_account(
+            db, current_user.tenant_id, credit_code, credit_name, credit_type
+        )
+        entry = JournalEntryModel(
+            tenant_id=current_user.tenant_id,
+            entry_number="PUR-" + draft.id[:8].upper(),
+            event_id="purchase-receive:" + draft.id,
+            description=f"Received purchase draft for {product.name}"[:255],
+        )
+        db.add(entry)
+        db.flush()
+        db.add_all([
+            PostingModel(journal_entry_id=entry.id, account_id=inv_acc.id, direction="debit", amount_paisa=draft.total_cost_paisa),
+            PostingModel(journal_entry_id=entry.id, account_id=credit_acc.id, direction="credit", amount_paisa=draft.total_cost_paisa),
+        ])
+        inv_acc.current_balance_paisa += draft.total_cost_paisa
+        credit_acc.current_balance_paisa += draft.total_cost_paisa
 
     draft.status = "received"
     draft.received_at = now_utc()
@@ -620,8 +682,8 @@ def get_operating_summary(
     if uncosted_count > 0:
         cost_data_incomplete = True
 
-    # Current product cost is not historical sale cost. Suppress unverified profit.
-    if total_revenue_paisa > 0:
+    # Current product cost is not historical sale cost when sales were recorded without item lines.
+    if total_revenue_paisa > 0 and not sale_movements:
         cost_data_incomplete = True
 
     # If cost data is incomplete, suppress unsupported profit claim (D011)
@@ -819,6 +881,7 @@ def import_products_csv(
 
     prepared = []
     seen_skus = set()
+    seen_blank_sku_names = set()
     for row_idx, row in enumerate(reader, start=1):
         if row_idx > 5000:
             raise HTTPException(422, 'Import at most 5000 products per file.')
@@ -848,10 +911,18 @@ def import_products_csv(
             errors.append(f'Row {row_idx}: duplicate SKU in the same import.')
         if sku:
             seen_skus.add(sku)
+        else:
+            norm_name = name.casefold()
+            if norm_name in seen_blank_sku_names:
+                errors.append(f'Row {row_idx}: duplicate product name without SKU in the same import.')
+            seen_blank_sku_names.add(norm_name)
         prepared.append((name, sku, unit, qty, cost_paisa, selling_paisa, threshold, lead_time))
 
     if errors:
         raise HTTPException(422, 'No products were changed. ' + '; '.join(errors[:10]))
+
+    batch_ref = f"csv_import_{generate_uuid()[:8]}"
+    total_valuation_delta_paisa = 0
 
     for name, sku, unit, qty, cost_paisa, selling_paisa, threshold, lead_time in prepared:
         # Existing import remains an explicit owner-reviewed absolute stock count.
@@ -861,8 +932,22 @@ def import_products_csv(
                 ProductItemModel.tenant_id == current_user.tenant_id,
                 ProductItemModel.sku == sku
             ).with_for_update().first()
+        else:
+            existing = db.query(ProductItemModel).filter(
+                ProductItemModel.tenant_id == current_user.tenant_id,
+                ProductItemModel.sku.is_(None),
+                ProductItemModel.name == name,
+            ).with_for_update().first()
 
         if existing:
+            verify_tenant_ownership(existing.tenant_id, current_user.tenant_id)
+            old_qty = existing.quantity_on_hand or 0
+            old_cost = existing.cost_price_paisa or 0
+            old_val = old_qty * old_cost if existing.cost_price_paisa is not None else 0
+            new_val = qty * (cost_paisa or 0) if cost_paisa is not None else 0
+            total_valuation_delta_paisa += (new_val - old_val)
+            qty_delta = qty - old_qty
+
             existing.name = name
             existing.unit = unit
             existing.quantity_on_hand = qty
@@ -870,6 +955,16 @@ def import_products_csv(
             existing.selling_price_paisa = selling_paisa
             existing.reorder_threshold = threshold
             existing.lead_time_days = lead_time
+            if qty_delta != 0:
+                db.add(
+                    StockMovementModel(
+                        tenant_id=current_user.tenant_id,
+                        product_id=existing.id,
+                        movement_type="csv_import_adjustment",
+                        quantity_change=qty_delta,
+                        reference_id=batch_ref,
+                    )
+                )
             updated_count += 1
         else:
             new_prod = ProductItemModel(
@@ -884,7 +979,45 @@ def import_products_csv(
                 lead_time_days=lead_time,
             )
             db.add(new_prod)
+            db.flush()
+            if qty > 0:
+                db.add(
+                    StockMovementModel(
+                        tenant_id=current_user.tenant_id,
+                        product_id=new_prod.id,
+                        movement_type="csv_import_adjustment",
+                        quantity_change=qty,
+                        reference_id=batch_ref,
+                    )
+                )
+            if cost_paisa is not None and qty > 0:
+                total_valuation_delta_paisa += qty * cost_paisa
             created_count += 1
+
+    if total_valuation_delta_paisa != 0:
+        inv_acc = MerchantService.get_or_create_account(
+            db, current_user.tenant_id, StandardAccount.INVENTORY.value, "Inventory", "asset"
+        )
+        cap_acc = MerchantService.get_or_create_account(
+            db, current_user.tenant_id, StandardAccount.OWNER_CAPITAL.value, "Owner capital", "equity"
+        )
+        abs_delta = abs(total_valuation_delta_paisa)
+        inv_dir = "debit" if total_valuation_delta_paisa > 0 else "credit"
+        cap_dir = "credit" if total_valuation_delta_paisa > 0 else "debit"
+        entry = JournalEntryModel(
+            tenant_id=current_user.tenant_id,
+            entry_number="CSV-" + batch_ref[-8:].upper(),
+            event_id=f"csv-import:{batch_ref}",
+            description=f"CSV inventory valuation sync ({batch_ref})",
+        )
+        db.add(entry)
+        db.flush()
+        db.add_all([
+            PostingModel(journal_entry_id=entry.id, account_id=inv_acc.id, direction=inv_dir, amount_paisa=abs_delta),
+            PostingModel(journal_entry_id=entry.id, account_id=cap_acc.id, direction=cap_dir, amount_paisa=abs_delta),
+        ])
+        inv_acc.current_balance_paisa = max(0, inv_acc.current_balance_paisa + total_valuation_delta_paisa)
+        cap_acc.current_balance_paisa = cap_acc.current_balance_paisa + total_valuation_delta_paisa
 
     db.commit()
     return {

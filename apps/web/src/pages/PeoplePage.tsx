@@ -30,7 +30,7 @@ export const PeoplePage: FC = () => {
   const [payAmount, setPayAmount] = useState('1000');
   const [payChannel, setPayChannel] = useState('cash');
 
-  const token = localStorage.getItem('shongoti_token');
+  const token: string | null = null;
 
   const fetchParties = async () => {
     try {

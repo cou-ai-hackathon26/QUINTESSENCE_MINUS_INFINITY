@@ -94,3 +94,112 @@ def test_quote_guard_applies_to_structured_sources(client):
         finding = SpecialistFinding(summary='Synthetic', case_facts=None, findings=[CitedFinding(source_id='ledger/current', claim='Synthetic', quote='invented absent quote')])
         with pytest.raises(InferenceUnavailable, match='agent_quote_not_in_source'):
             run._validate_facts(finding, None, [], {'ledger/current': json.dumps({'balance_paisa': 500000})})
+
+
+def test_rate_limit_and_auth_throttler_resist_state_poisoning_dos(client):
+    from app.core.limits import admit, _windows, MAX_WINDOWS
+    from app.api.v1.workbench_auth import _attempts, MAX_ATTEMPT_BUCKETS
+    _windows.clear()
+    for i in range(MAX_WINDOWS + 50):
+        admit(f"synthetic-scope-{i}", limit=5, seconds=60)
+    assert len(_windows) <= MAX_WINDOWS
+    # Legitimate tenant scope still admitted without global 429 lockout
+    admit("legitimate-tenant-scope", limit=5, seconds=60)
+
+    c, _ = client
+    now = time.monotonic()
+    _attempts.clear()
+    for i in range(MAX_ATTEMPT_BUCKETS + 50):
+        _attempts[f"198.51.100.{i}"] = (now, 1)
+    # New login/judge session is not globally locked out by 2000+ spoofed IPs
+    res = c.post('/api/v1/auth/judge-session', json={})
+    assert res.status_code == 201
+
+
+def test_handover_enforces_ledger_cash_against_client_fabrication(client):
+    c, _ = client
+    _, headers = identity(c)
+    c.headers['Origin'] = 'http://testserver'
+    # Judge workspace has 500,000 paisa in asset:cash. Client tries to claim system_cash_paisa=100,000 to hide 400,000 shortage.
+    res = c.post(
+        '/api/v1/operations/handovers',
+        headers=headers,
+        json={
+            'shift_name': 'Evening',
+            'opened_by': 'Owner',
+            'closed_by': 'Cashier',
+            'declared_cash_paisa': 100000,
+            'system_cash_paisa': 100000,
+        },
+    )
+    assert res.status_code == 201
+    body = res.json()
+    assert body['system_cash_paisa'] == 500000
+    assert body['variance_paisa'] == -400000
+
+
+def test_orphaned_agent_runs_auto_recover_and_do_not_deadlock_tenant(client):
+    from datetime import datetime, timedelta, timezone
+    from app.persistence.models import AgentRunModel
+    from app.agents.real_orchestrator import _ACTIVE_RUNS
+    c, factory = client
+    who, headers = identity(c)
+    c.headers['Origin'] = 'http://testserver'
+    stale_time = datetime.now(timezone.utc) - timedelta(minutes=10)
+    with factory() as db:
+        for idx in range(2):
+            r = AgentRunModel(
+                id=f"orphaned-run-{idx}-{who['tenant_id'][:8]}",
+                tenant_id=who['tenant_id'],
+                status='running',
+                budget_calls_max=4,
+                budget_calls_used=1,
+                created_at=stale_time,
+            )
+            db.add(r)
+        db.commit()
+    _ACTIVE_RUNS.clear()
+    # Starting a new cash_query run must recover the orphaned runs instead of returning 429
+    res = c.post('/api/v1/agents/runs', headers=headers, json={'case_type': 'cash_query', 'query': 'Current cash'})
+    assert res.status_code == 202
+
+
+def test_asgi_body_limit_middleware_handles_streamed_oversized_body_cleanly():
+    import asyncio
+    from fastapi import FastAPI, Request
+    from app.core.limits import BodyLimitMiddleware
+    from app.core.permissions import verify_tenant_ownership
+    from fastapi import HTTPException
+
+    with pytest.raises(HTTPException) as exc_info:
+        verify_tenant_ownership("tenant-a", "tenant-b")
+    assert exc_info.value.status_code == 403
+
+    inner = FastAPI()
+
+    @inner.post("/stream")
+    async def _stream(request: Request):
+        await request.body()
+        return {"ok": True}
+
+    mw = BodyLimitMiddleware(inner, maximum=10)
+    sent = []
+
+    async def _run():
+        chunks = [
+            {"type": "http.request", "body": b"123456", "more_body": True},
+            {"type": "http.request", "body": b"789012", "more_body": False},
+        ]
+
+        async def receive():
+            return chunks.pop(0)
+
+        async def send(msg):
+            sent.append(msg)
+
+        scope = {"type": "http", "method": "POST", "path": "/stream", "query_string": b"", "headers": []}
+        await mw(scope, receive, send)
+
+    asyncio.run(_run())
+    assert sent[0]["type"] == "http.response.start"
+    assert sent[0]["status"] == 413

@@ -18,7 +18,7 @@ from app.persistence.models import (
     AgentTaskModel,
     UserModel,
 )
-from app.agents.real_orchestrator import AgentOrchestrator, DEFAULT_BUDGET_MAX,execute_background
+from app.agents.real_orchestrator import AgentOrchestrator, DEFAULT_BUDGET_MAX, execute_background, recover_orphaned_runs, _ACTIVE_RUNS, _ACTIVE_LOCK
 from app.groq_provider import configured,receipt_dict
 from app.persistence.models import ProviderReceiptModel,CaseModel,ConfidenceAssessmentModel
 
@@ -85,6 +85,7 @@ def start_agent_run(
     orchestrator = AgentOrchestrator(db=db, tenant_id=current_user.tenant_id)
     from app.core.limits import admit
     admit('agents:' + current_user.tenant_id, 10)
+    recover_orphaned_runs(db, current_user.tenant_id)
     active=db.query(AgentRunModel).filter(AgentRunModel.tenant_id==current_user.tenant_id,AgentRunModel.status.in_(['queued','running'])).count()
     if active>=2:raise HTTPException(429,'Two investigations are already active. Wait or cancel one before starting another.')
     if req.case_type not in ('stock_check','cash_query') and not configured():raise HTTPException(503,'Configure Groq inference before starting model specialists.')
@@ -95,6 +96,8 @@ def start_agent_run(
         budget_max=req.budget_max,
     )
     except ValueError:raise HTTPException(404,'Case not found.')
+    with _ACTIVE_LOCK:
+        _ACTIVE_RUNS.add(run.id)
     background_tasks.add_task(execute_background,db.get_bind(),current_user.tenant_id,run.id)
     return {'run_id':run.id,'status':'queued','mode':'actual_provider_and_tools'}
 

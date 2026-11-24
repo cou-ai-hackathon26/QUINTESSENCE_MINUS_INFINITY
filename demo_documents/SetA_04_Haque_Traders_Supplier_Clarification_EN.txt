@@ -1,0 +1,14 @@
+SUPPLIER CLARIFICATION MESSAGE (HAQUE TRADERS)
+Date: 18 November 2024
+From: Haque Traders Accounts Desk
+To: Rahim Store (Md. Rahim Uddin)
+
+"Hello Rahim Bhai. We verified and received your BDT 4,000 bank deposit, and we have already credited it towards your account. However, our warehouse supervisor has NOT yet verified or deducted the BDT 3,000 damaged goods return slip from our billing records.
+
+Therefore, out of our BDT 25,000 demand, after deducting your BDT 4,000 payment, please settle the net payable of BDT 21,000 immediately. Once the return credit note is processed, the remaining BDT 3,000 will be adjusted."
+
+---------------------------------------------------
+SHONGOTI AUTOMATED RECONCILIATION RESULT:
+Hypothesis Isolated: REC-003 (Payment Included: True, Return Included: False)
+Arithmetic: BDT 25,000 (Demand) - BDT 4,000 (Payment) = BDT 21,000.00
+Unresolved Fact: Return deduction pending warehouse verification.

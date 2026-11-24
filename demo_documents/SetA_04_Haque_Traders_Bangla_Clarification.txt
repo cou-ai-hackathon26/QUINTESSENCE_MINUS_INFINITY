@@ -1,0 +1,9 @@
+মেসার্স হক ট্রেডার্স (মহাজনের বার্তা):
+তারিখ: ১৮ নভেম্বর ২০২৪
+
+"রহিম ভাই, আপনার ৪,০০০ টাকার ব্যাংক জমা পাইছি এবং খাতায় জমা দিয়েছি। কিন্তু ৩,০০০ টাকার ফেরত মালপত্র এখনও আমার গোডাউন ম্যানেজার যাচাই করে খাতায় বাদ দেয় নাই। তাই মোট ২৫,০০০ থেকে ৪,০০০ বাদ দিয়ে আপাতত ২১,০০০ টাকা পাঠান। ফেরত মাল নিশ্চিত হলে বাকি ৩,০০০ সমন্বয় করব।"
+
+--- Shongoti AI Reconciliation Result ---
+Hypothesis Isolated: REC-003 (Payment Included, Return Excluded)
+Calculation: ৳25,000 (Demand) - ৳4,000 (Payment) = ৳21,000
+Remaining Question: 'whether accepted return of ৳3,000 is included in current demand'

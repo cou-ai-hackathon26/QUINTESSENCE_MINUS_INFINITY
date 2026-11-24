@@ -9,7 +9,10 @@ import json
 from sqlalchemy.orm import Session
 from sqlalchemy import select, func
 
+from app.core.permissions import verify_tenant_ownership
+from app.domain.ledger import StandardAccount
 from app.persistence.models import (
+    AccountModel,
     CustomerReservationModel,
     ReturnableContainerModel,
     ShiftHandoverModel,
@@ -89,10 +92,10 @@ class EverydayOperationsEngine:
         """Marks reserved items as physically picked and packed for customer pickup."""
         res = db.query(CustomerReservationModel).filter(
             CustomerReservationModel.id == reservation_id,
-            CustomerReservationModel.tenant_id == tenant_id,
         ).first()
         if not res:
             raise ValueError(f"Reservation {reservation_id} not found")
+        verify_tenant_ownership(res.tenant_id, tenant_id)
         if res.status != "reserved":
             raise ValueError(f"Cannot pick reservation in status '{res.status}'")
 
@@ -182,14 +185,30 @@ class EverydayOperationsEngine:
         opened_by: str,
         closed_by: str,
         declared_cash_paisa: int,
-        system_cash_paisa: int,
+        system_cash_paisa: Optional[int] = None,
         notes: Optional[str] = None,
     ) -> ShiftHandoverModel:
         """
         Creates evidence-linked shift handover. Inspects operational records to formulate
         factual hypotheses for cash variances without accusatory claims.
+        Authoritative system_cash_paisa is derived from the general ledger cash account
+        whenever present so clients cannot fabricate system cash balances.
         """
-        variance = declared_cash_paisa - system_cash_paisa
+        cash_acc = (
+            db.query(AccountModel)
+            .filter(
+                AccountModel.tenant_id == tenant_id,
+                AccountModel.code.in_([StandardAccount.CASH.value, "1001"]),
+            )
+            .first()
+        )
+        if cash_acc is not None:
+            verify_tenant_ownership(cash_acc.tenant_id, tenant_id)
+            authoritative_system_cash = cash_acc.current_balance_paisa
+        else:
+            authoritative_system_cash = system_cash_paisa if system_cash_paisa is not None else 0
+
+        variance = declared_cash_paisa - authoritative_system_cash
         hypotheses = []
 
         if variance != 0:
@@ -232,7 +251,7 @@ class EverydayOperationsEngine:
             opened_by=opened_by,
             closed_by=closed_by,
             declared_cash_paisa=declared_cash_paisa,
-            system_cash_paisa=system_cash_paisa,
+            system_cash_paisa=authoritative_system_cash,
             variance_paisa=variance,
             notes=notes,
             possible_reasons_json=json.dumps(hypotheses, ensure_ascii=False) if hypotheses else None,

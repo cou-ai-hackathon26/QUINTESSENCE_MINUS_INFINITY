@@ -1,0 +1,12 @@
+CHALLENGE 2: SUPPLIER CONTRADICTORY STATEMENTS
+
+Message 1 (20 November, 10:00 AM):
+"Rahim Bhai, we verified and received your BDT 20,000 payment. It is credited."
+
+Message 2 (22 November, 03:00 PM - Contradictory denial):
+"No no Rahim Bhai! I checked our bank book again and we never received that BDT 20,000! That payment was from another retail shop! You have zero payment deposited!"
+
+---------------------------------------------------
+SHONGOTI CONTRADICTION DETECTION:
+System State: CONFLICTED
+Action: Conflicting claim detected between Message 1 and Message 2. Blocks automatic settlement.

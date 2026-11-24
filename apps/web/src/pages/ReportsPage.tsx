@@ -81,7 +81,7 @@ export const ReportsPage: FC = () => {
   const [newAmount, setNewAmount] = useState('');
   const [newCategory, setNewCategory] = useState('rent');
 
-  const token = localStorage.getItem('shongoti_token');
+  const token: string | null = null;
 
   const fetchReportsData = async () => {
     try {

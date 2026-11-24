@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     APP_VERSION: str = "0.1.0"
     ENVIRONMENT: str = "development"
     ALLOW_LEGACY_TEST_AUTH:bool=False
+    ALLOW_JUDGE_SESSION: bool = True
+    MAX_DEMO_TENANTS: int = 25
     PORT: int = 8000
     HOST: str = "127.0.0.1"
     
@@ -63,6 +65,9 @@ class Settings(BaseSettings):
     ALLOWED_HOSTS: str = 'localhost,127.0.0.1,testserver'
     AI_TENANT_DAILY_CALLS: int = 200
     AI_GLOBAL_DAILY_CALLS: int = 1000
+    AI_MAX_CONCURRENT_REQUESTS: int = 8
+    AI_SLOT_WAIT_SECONDS: float = 2.0
+    AI_RETRY_MIN_SECONDS: float = 3.0
     SSLCOMMERZ_STORE_ID: str = ""
     SSLCOMMERZ_STORE_PASSWD: str = ""
     SSLCOMMERZ_IS_SANDBOX: bool = True

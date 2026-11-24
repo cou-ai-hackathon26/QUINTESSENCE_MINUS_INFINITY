@@ -1,0 +1,9 @@
+মেসেজ ১ (২০ নভেম্বর, সকাল ১০:০০):
+"রহিম ভাই, আপনার পাঠানো আগের ২০,০০০ টাকার পেমেন্ট পাইছি।"
+
+মেসেজ ২ (২২ নভেম্বর, বিকাল ০৩:০০ - দ্বন্দ্বমূলক বার্তা):
+"না না রহিম ভাই! খাতা চেক করে দেখলাম ওই ২০,০০০ টাকা তো পাই নাই! ওইটা অন্য কাস্টমারের পেমেন্ট ছিল। আপনার কোনো টাকা জমা হয় নাই!"
+
+--- Shongoti Detection ---
+Status: CONFLICTED / CONTRADICTION DETECTED
+Action: Previous confirmation contradicted by supplier. Requires owner review.

@@ -16,6 +16,7 @@ from app.persistence.models import (
     DailySnapshotModel,
     PartyModel,
     ProductItemModel,
+    StockMovementModel,
     UserModel,
     now_utc,
     JournalEntryModel,PostingModel,
@@ -340,5 +341,44 @@ def create_product(
         selling_price_paisa=req.selling_price_paisa,
     )
     db.add(prod)
+    db.flush()
+    if req.quantity_on_hand > 0:
+        db.add(
+            StockMovementModel(
+                tenant_id=current_user.tenant_id,
+                product_id=prod.id,
+                movement_type="opening_stock",
+                quantity_change=req.quantity_on_hand,
+                reference_id=f"prod-open:{prod.id[:8]}",
+            )
+        )
+        if req.cost_price_paisa and req.cost_price_paisa > 0:
+            inv_val = req.quantity_on_hand * req.cost_price_paisa
+            inv_acc = MerchantService.get_or_create_account(
+                db, current_user.tenant_id, StandardAccount.INVENTORY.value, "Inventory", "asset"
+            )
+            cap_acc = MerchantService.get_or_create_account(
+                db, current_user.tenant_id, StandardAccount.OWNER_CAPITAL.value, "Owner capital", "equity"
+            )
+            entry = JournalEntryModel(
+                tenant_id=current_user.tenant_id,
+                entry_number="INV-OPEN-" + prod.id[:8],
+                event_id="product-opening:" + prod.id,
+                description=f"Opening inventory for {prod.name}"[:255],
+            )
+            db.add(entry)
+            db.flush()
+            db.add_all([
+                PostingModel(journal_entry_id=entry.id, account_id=inv_acc.id, direction="debit", amount_paisa=inv_val),
+                PostingModel(journal_entry_id=entry.id, account_id=cap_acc.id, direction="credit", amount_paisa=inv_val),
+            ])
+            db.query(AccountModel).filter_by(id=inv_acc.id).update(
+                {AccountModel.current_balance_paisa: AccountModel.current_balance_paisa + inv_val},
+                synchronize_session=False,
+            )
+            db.query(AccountModel).filter_by(id=cap_acc.id).update(
+                {AccountModel.current_balance_paisa: AccountModel.current_balance_paisa + inv_val},
+                synchronize_session=False,
+            )
     db.commit()
     return {"id": prod.id, "name": prod.name, "quantity_on_hand": prod.quantity_on_hand}

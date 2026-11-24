@@ -33,7 +33,7 @@ export const SalesPage: FC = () => {
   const [portalPartyId, setPortalPartyId] = useState('');
   const [portalAmount, setPortalAmount] = useState('500');
 
-  const token = localStorage.getItem('shongoti_token');
+  const token: string | null = null;
 
   const fetchParties = async () => {
     try {

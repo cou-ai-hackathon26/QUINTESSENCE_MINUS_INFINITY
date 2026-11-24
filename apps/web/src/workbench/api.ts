@@ -10,7 +10,6 @@ export async function workspaceFetch(input:RequestInfo|URL,init:RequestInit={}):
 export async function request<T=Record<string,unknown>>(path:string,options:RequestInit={}):Promise<T>{
   if(!path.startsWith('/api/v1/'))throw new Error('Only scoped application API paths are allowed');
   const headers=new Headers(options.headers);if(options.body&&!(options.body instanceof FormData))headers.set('Content-Type','application/json');
-  const oldToken=localStorage.getItem('shongoti_token');if(oldToken&&!headers.has('Authorization'))headers.set('Authorization','Bearer '+oldToken);
   const response=await workspaceFetch(path,{...options,headers});
   if(!response.ok){let detail:unknown;try{detail=(await response.json()).detail;}catch{detail='Request failed';}if(response.status===401)window.dispatchEvent(new Event('shongoti-session-expired'));throw new Error(typeof detail==='string'?detail:Array.isArray(detail)?detail.map(x=>x.msg||'Invalid field').join('; '):`Request failed (${response.status})`);}
   if(response.status===204)return undefined as T;return response.json() as Promise<T>;
@@ -18,7 +17,7 @@ export async function request<T=Record<string,unknown>>(path:string,options:Requ
 export const post=<T=Record<string,unknown>>(path:string,body:unknown={})=>request<T>(path,{method:'POST',body:body instanceof FormData?body:JSON.stringify(body)});
 export async function requestBlob(path:string,mimeType:string){
   if(!path.startsWith('/api/v1/'))throw new Error('Only scoped application API paths are allowed');
-  const headers=new Headers();const token=localStorage.getItem('shongoti_token');if(token)headers.set('Authorization','Bearer '+token);
+  const headers=new Headers();
   const response=await workspaceFetch(path,{headers});
   if(!response.ok)throw new Error(`Original source is unavailable (${response.status})`);
   return new Blob([await response.arrayBuffer()],{type:mimeType||'application/octet-stream'});

@@ -23,11 +23,13 @@ class AccountType(str, Enum):
 class StandardAccount(str, Enum):
     CASH = "asset:cash"
     RECEIVABLES = "asset:accounts_receivable"
+    INVENTORY = "asset:inventory"
     PENDING_GATEWAY = "asset:pending_gateway_settlement"
     MOBILE_BKASH = "asset:wallet:bkash"
     MOBILE_NAGAD = "asset:wallet:nagad"
     PAYABLES = "liability:accounts_payable"
     SALES_REVENUE = "revenue:sales"
+    COGS = "expense:cogs"
     OPERATING_EXPENSE = "expense:operating"
     TRANSFER_FEE = "expense:transfer_fee"
     OWNER_DRAW = "equity:owner_draw"
