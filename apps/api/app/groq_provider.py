@@ -128,7 +128,7 @@ class GroqProvider:
             raise InferenceUnavailable('schema_validation_failed')
 
     def transcribe(self,audio,mime,filename='recording.webm'):
-        body=self._call('audio/transcriptions',settings.GROQ_WHISPER_MODEL,'audio_transcription',files={'file':(filename,audio,mime)},data={'model':settings.GROQ_WHISPER_MODEL,'response_format':'verbose_json','temperature':'0'})
+        body=self._call('audio/transcriptions',settings.GROQ_WHISPER_MODEL,'audio_transcription',files={'file':(filename,audio,mime)},data={'model':settings.GROQ_WHISPER_MODEL,'response_format':'verbose_json','temperature':'0','prompt':'Shongoti MSME accounting: Bangla or English voice note, e.g. বাকি আদায়, ক্যাশ বিক্রি, cash sale, debt collection, payment, BDT, invoice, Karim, Rahman Traders.'})
         text=body.get('text','').strip()
         if not text:
             self.receipts[-1].status='invalid_output';self.receipts[-1].error_code='no_speech_detected'
